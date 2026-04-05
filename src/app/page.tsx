@@ -31,7 +31,7 @@ export default function HomePage() {
           <Card className="grid gap-5 bg-stone-50">
             <div>
               <p className="text-sm text-stone-500">Built for Hostinger deployment</p>
-              <p className="mt-2 text-2xl font-semibold text-stone-900">Next.js + PostgreSQL + local uploads</p>
+              <p className="mt-2 text-2xl font-semibold text-stone-900">Next.js + MySQL + local uploads</p>
             </div>
             <div className="space-y-3 text-sm leading-7 text-stone-600">
               <p>Files are stored directly on the server filesystem inside structured upload folders.</p>

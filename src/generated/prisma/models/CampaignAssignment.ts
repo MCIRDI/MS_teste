@@ -203,6 +203,7 @@ export type CampaignAssignmentOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   campaign?: Prisma.CampaignOrderByWithRelationInput
   user?: Prisma.UserOrderByWithRelationInput
+  _relevance?: Prisma.CampaignAssignmentOrderByRelevanceInput
 }
 
 export type CampaignAssignmentWhereUniqueInput = Prisma.AtLeast<{
@@ -313,6 +314,12 @@ export type CampaignAssignmentListRelationFilter = {
 
 export type CampaignAssignmentOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
+}
+
+export type CampaignAssignmentOrderByRelevanceInput = {
+  fields: Prisma.CampaignAssignmentOrderByRelevanceFieldEnum | Prisma.CampaignAssignmentOrderByRelevanceFieldEnum[]
+  sort: Prisma.SortOrder
+  search: string
 }
 
 export type CampaignAssignmentCampaignIdUserIdAssignmentRoleCompoundUniqueInput = {
@@ -613,27 +620,7 @@ export type CampaignAssignmentSelect<ExtArgs extends runtime.Types.Extensions.In
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["campaignAssignment"]>
 
-export type CampaignAssignmentSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  id?: boolean
-  campaignId?: boolean
-  userId?: boolean
-  assignmentRole?: boolean
-  acceptedAt?: boolean
-  createdAt?: boolean
-  campaign?: boolean | Prisma.CampaignDefaultArgs<ExtArgs>
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-}, ExtArgs["result"]["campaignAssignment"]>
 
-export type CampaignAssignmentSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  id?: boolean
-  campaignId?: boolean
-  userId?: boolean
-  assignmentRole?: boolean
-  acceptedAt?: boolean
-  createdAt?: boolean
-  campaign?: boolean | Prisma.CampaignDefaultArgs<ExtArgs>
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-}, ExtArgs["result"]["campaignAssignment"]>
 
 export type CampaignAssignmentSelectScalar = {
   id?: boolean
@@ -646,14 +633,6 @@ export type CampaignAssignmentSelectScalar = {
 
 export type CampaignAssignmentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "campaignId" | "userId" | "assignmentRole" | "acceptedAt" | "createdAt", ExtArgs["result"]["campaignAssignment"]>
 export type CampaignAssignmentInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  campaign?: boolean | Prisma.CampaignDefaultArgs<ExtArgs>
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-}
-export type CampaignAssignmentIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  campaign?: boolean | Prisma.CampaignDefaultArgs<ExtArgs>
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-}
-export type CampaignAssignmentIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   campaign?: boolean | Prisma.CampaignDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
@@ -789,30 +768,6 @@ export interface CampaignAssignmentDelegate<ExtArgs extends runtime.Types.Extens
   createMany<T extends CampaignAssignmentCreateManyArgs>(args?: Prisma.SelectSubset<T, CampaignAssignmentCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
-   * Create many CampaignAssignments and returns the data saved in the database.
-   * @param {CampaignAssignmentCreateManyAndReturnArgs} args - Arguments to create many CampaignAssignments.
-   * @example
-   * // Create many CampaignAssignments
-   * const campaignAssignment = await prisma.campaignAssignment.createManyAndReturn({
-   *   data: [
-   *     // ... provide data here
-   *   ]
-   * })
-   * 
-   * // Create many CampaignAssignments and only return the `id`
-   * const campaignAssignmentWithIdOnly = await prisma.campaignAssignment.createManyAndReturn({
-   *   select: { id: true },
-   *   data: [
-   *     // ... provide data here
-   *   ]
-   * })
-   * Note, that providing `undefined` is treated as the value not being there.
-   * Read more here: https://pris.ly/d/null-undefined
-   * 
-   */
-  createManyAndReturn<T extends CampaignAssignmentCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, CampaignAssignmentCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CampaignAssignmentPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-  /**
    * Delete a CampaignAssignment.
    * @param {CampaignAssignmentDeleteArgs} args - Arguments to delete one CampaignAssignment.
    * @example
@@ -875,36 +830,6 @@ export interface CampaignAssignmentDelegate<ExtArgs extends runtime.Types.Extens
    * 
    */
   updateMany<T extends CampaignAssignmentUpdateManyArgs>(args: Prisma.SelectSubset<T, CampaignAssignmentUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
-
-  /**
-   * Update zero or more CampaignAssignments and returns the data updated in the database.
-   * @param {CampaignAssignmentUpdateManyAndReturnArgs} args - Arguments to update many CampaignAssignments.
-   * @example
-   * // Update many CampaignAssignments
-   * const campaignAssignment = await prisma.campaignAssignment.updateManyAndReturn({
-   *   where: {
-   *     // ... provide filter here
-   *   },
-   *   data: [
-   *     // ... provide data here
-   *   ]
-   * })
-   * 
-   * // Update zero or more CampaignAssignments and only return the `id`
-   * const campaignAssignmentWithIdOnly = await prisma.campaignAssignment.updateManyAndReturn({
-   *   select: { id: true },
-   *   where: {
-   *     // ... provide filter here
-   *   },
-   *   data: [
-   *     // ... provide data here
-   *   ]
-   * })
-   * Note, that providing `undefined` is treated as the value not being there.
-   * Read more here: https://pris.ly/d/null-undefined
-   * 
-   */
-  updateManyAndReturn<T extends CampaignAssignmentUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, CampaignAssignmentUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CampaignAssignmentPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one CampaignAssignment.
@@ -1340,29 +1265,6 @@ export type CampaignAssignmentCreateManyArgs<ExtArgs extends runtime.Types.Exten
 }
 
 /**
- * CampaignAssignment createManyAndReturn
- */
-export type CampaignAssignmentCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the CampaignAssignment
-   */
-  select?: Prisma.CampaignAssignmentSelectCreateManyAndReturn<ExtArgs> | null
-  /**
-   * Omit specific fields from the CampaignAssignment
-   */
-  omit?: Prisma.CampaignAssignmentOmit<ExtArgs> | null
-  /**
-   * The data used to create many CampaignAssignments.
-   */
-  data: Prisma.CampaignAssignmentCreateManyInput | Prisma.CampaignAssignmentCreateManyInput[]
-  skipDuplicates?: boolean
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.CampaignAssignmentIncludeCreateManyAndReturn<ExtArgs> | null
-}
-
-/**
  * CampaignAssignment update
  */
 export type CampaignAssignmentUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1404,36 +1306,6 @@ export type CampaignAssignmentUpdateManyArgs<ExtArgs extends runtime.Types.Exten
    * Limit how many CampaignAssignments to update.
    */
   limit?: number
-}
-
-/**
- * CampaignAssignment updateManyAndReturn
- */
-export type CampaignAssignmentUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the CampaignAssignment
-   */
-  select?: Prisma.CampaignAssignmentSelectUpdateManyAndReturn<ExtArgs> | null
-  /**
-   * Omit specific fields from the CampaignAssignment
-   */
-  omit?: Prisma.CampaignAssignmentOmit<ExtArgs> | null
-  /**
-   * The data used to update CampaignAssignments.
-   */
-  data: Prisma.XOR<Prisma.CampaignAssignmentUpdateManyMutationInput, Prisma.CampaignAssignmentUncheckedUpdateManyInput>
-  /**
-   * Filter which CampaignAssignments to update
-   */
-  where?: Prisma.CampaignAssignmentWhereInput
-  /**
-   * Limit how many CampaignAssignments to update.
-   */
-  limit?: number
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.CampaignAssignmentIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**

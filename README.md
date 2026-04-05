@@ -8,7 +8,7 @@ MS test is a full-stack crowdtesting platform built with Next.js App Router. Cli
 - React 19
 - TypeScript
 - Tailwind CSS v4
-- PostgreSQL
+- MySQL / MariaDB
 - Prisma 7
 - JWT cookie authentication
 - Local filesystem uploads in `/uploads`
@@ -38,7 +38,7 @@ npm install
 cp .env.example .env
 ```
 
-3. Update `DATABASE_URL` in `.env` to point at your PostgreSQL server.
+3. Update `DATABASE_URL` in `.env` to point at your MySQL or MariaDB server.
 
 4. Generate the Prisma client:
 
@@ -68,7 +68,7 @@ npm run dev
 
 See [.env.example](/C:/Users/10072/Documents/projects/MS_teste/.env.example).
 
-- `DATABASE_URL`: PostgreSQL connection string
+- `DATABASE_URL`: MySQL or MariaDB connection string
 - `JWT_SECRET`: secret used for signed JWT session cookies
 - `APP_URL`: base URL for links and deployment
 - `UPLOAD_DIR`: kept for config compatibility, but the app stores files under `/uploads`
@@ -109,7 +109,7 @@ Password for all demo accounts:
 
 - The app is configured with `output: "standalone"` in [next.config.ts](/C:/Users/10072/Documents/projects/MS_teste/next.config.ts).
 - Deploy it as a standard Node.js app, not an edge-only deployment.
-- Provision PostgreSQL separately and set `DATABASE_URL` on the server.
+- Provision MySQL or MariaDB on Hostinger and set `DATABASE_URL` on the server.
 - Ensure the `uploads` directory exists and remains writable by the Node.js process.
 - Persist the `uploads` directory between deployments if your Hostinger setup replaces the app directory on each release.
 - Run `npm run db:generate` during build and `npm run db:push` during provisioning or release automation.
@@ -127,4 +127,4 @@ Not verified locally:
 - `npm run db:push`
 - `npm run db:seed`
 
-Those two commands require a reachable PostgreSQL instance.
+Those two commands require a reachable MySQL or MariaDB instance.

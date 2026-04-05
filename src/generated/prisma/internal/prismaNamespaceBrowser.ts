@@ -250,14 +250,6 @@ export const SortOrder = {
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
-export const NullableJsonNullValueInput = {
-  DbNull: DbNull,
-  JsonNull: JsonNull
-} as const
-
-export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
-
-
 export const JsonNullValueInput = {
   JsonNull: JsonNull
 } as const
@@ -265,12 +257,12 @@ export const JsonNullValueInput = {
 export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
 
 
-export const QueryMode = {
-  default: 'default',
-  insensitive: 'insensitive'
+export const NullableJsonNullValueInput = {
+  DbNull: DbNull,
+  JsonNull: JsonNull
 } as const
 
-export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
+export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
 
 
 export const NullsOrder = {
@@ -281,6 +273,19 @@ export const NullsOrder = {
 export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 
 
+export const UserOrderByRelevanceFieldEnum = {
+  id: 'id',
+  name: 'name',
+  email: 'email',
+  passwordHash: 'passwordHash',
+  country: 'country',
+  language: 'language',
+  testingExperience: 'testingExperience'
+} as const
+
+export type UserOrderByRelevanceFieldEnum = (typeof UserOrderByRelevanceFieldEnum)[keyof typeof UserOrderByRelevanceFieldEnum]
+
+
 export const JsonNullValueFilter = {
   DbNull: DbNull,
   JsonNull: JsonNull,
@@ -288,4 +293,116 @@ export const JsonNullValueFilter = {
 } as const
 
 export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
+
+
+export const QueryMode = {
+  default: 'default',
+  insensitive: 'insensitive'
+} as const
+
+export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
+
+
+export const DeviceOrderByRelevanceFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  deviceName: 'deviceName',
+  osVersion: 'osVersion',
+  screenResolution: 'screenResolution'
+} as const
+
+export type DeviceOrderByRelevanceFieldEnum = (typeof DeviceOrderByRelevanceFieldEnum)[keyof typeof DeviceOrderByRelevanceFieldEnum]
+
+
+export const CampaignOrderByRelevanceFieldEnum = {
+  id: 'id',
+  clientId: 'clientId',
+  testManagerId: 'testManagerId',
+  projectName: 'projectName',
+  description: 'description',
+  websiteUrl: 'websiteUrl',
+  downloadPath: 'downloadPath'
+} as const
+
+export type CampaignOrderByRelevanceFieldEnum = (typeof CampaignOrderByRelevanceFieldEnum)[keyof typeof CampaignOrderByRelevanceFieldEnum]
+
+
+export const CampaignAssignmentOrderByRelevanceFieldEnum = {
+  id: 'id',
+  campaignId: 'campaignId',
+  userId: 'userId'
+} as const
+
+export type CampaignAssignmentOrderByRelevanceFieldEnum = (typeof CampaignAssignmentOrderByRelevanceFieldEnum)[keyof typeof CampaignAssignmentOrderByRelevanceFieldEnum]
+
+
+export const CampaignInvitationOrderByRelevanceFieldEnum = {
+  id: 'id',
+  campaignId: 'campaignId',
+  testerId: 'testerId'
+} as const
+
+export type CampaignInvitationOrderByRelevanceFieldEnum = (typeof CampaignInvitationOrderByRelevanceFieldEnum)[keyof typeof CampaignInvitationOrderByRelevanceFieldEnum]
+
+
+export const TestingTaskOrderByRelevanceFieldEnum = {
+  id: 'id',
+  campaignId: 'campaignId',
+  title: 'title',
+  description: 'description'
+} as const
+
+export type TestingTaskOrderByRelevanceFieldEnum = (typeof TestingTaskOrderByRelevanceFieldEnum)[keyof typeof TestingTaskOrderByRelevanceFieldEnum]
+
+
+export const BugReportOrderByRelevanceFieldEnum = {
+  id: 'id',
+  campaignId: 'campaignId',
+  testerId: 'testerId',
+  moderatorId: 'moderatorId',
+  validatedById: 'validatedById',
+  title: 'title',
+  description: 'description',
+  reproductionSteps: 'reproductionSteps',
+  expectedResult: 'expectedResult',
+  actualResult: 'actualResult',
+  moderationNotes: 'moderationNotes',
+  validationNotes: 'validationNotes',
+  duplicateOfId: 'duplicateOfId'
+} as const
+
+export type BugReportOrderByRelevanceFieldEnum = (typeof BugReportOrderByRelevanceFieldEnum)[keyof typeof BugReportOrderByRelevanceFieldEnum]
+
+
+export const BugAttachmentOrderByRelevanceFieldEnum = {
+  id: 'id',
+  bugReportId: 'bugReportId',
+  originalName: 'originalName',
+  storedName: 'storedName',
+  relativePath: 'relativePath',
+  mimeType: 'mimeType'
+} as const
+
+export type BugAttachmentOrderByRelevanceFieldEnum = (typeof BugAttachmentOrderByRelevanceFieldEnum)[keyof typeof BugAttachmentOrderByRelevanceFieldEnum]
+
+
+export const AuditLogOrderByRelevanceFieldEnum = {
+  id: 'id',
+  actorId: 'actorId',
+  campaignId: 'campaignId',
+  action: 'action',
+  entityType: 'entityType',
+  entityId: 'entityId'
+} as const
+
+export type AuditLogOrderByRelevanceFieldEnum = (typeof AuditLogOrderByRelevanceFieldEnum)[keyof typeof AuditLogOrderByRelevanceFieldEnum]
+
+
+export const EmailTokenOrderByRelevanceFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  token: 'token'
+} as const
+
+export type EmailTokenOrderByRelevanceFieldEnum = (typeof EmailTokenOrderByRelevanceFieldEnum)[keyof typeof EmailTokenOrderByRelevanceFieldEnum]
 

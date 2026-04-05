@@ -166,7 +166,7 @@ export type DeviceGroupByOutputType = {
   userId: string
   deviceName: string
   osVersion: string
-  browsers: string[]
+  browsers: runtime.JsonValue
   screenResolution: string
   createdAt: Date
   updatedAt: Date
@@ -198,7 +198,7 @@ export type DeviceWhereInput = {
   userId?: Prisma.StringFilter<"Device"> | string
   deviceName?: Prisma.StringFilter<"Device"> | string
   osVersion?: Prisma.StringFilter<"Device"> | string
-  browsers?: Prisma.StringNullableListFilter<"Device">
+  browsers?: Prisma.JsonFilter<"Device">
   screenResolution?: Prisma.StringFilter<"Device"> | string
   createdAt?: Prisma.DateTimeFilter<"Device"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Device"> | Date | string
@@ -215,6 +215,7 @@ export type DeviceOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
+  _relevance?: Prisma.DeviceOrderByRelevanceInput
 }
 
 export type DeviceWhereUniqueInput = Prisma.AtLeast<{
@@ -225,7 +226,7 @@ export type DeviceWhereUniqueInput = Prisma.AtLeast<{
   userId?: Prisma.StringFilter<"Device"> | string
   deviceName?: Prisma.StringFilter<"Device"> | string
   osVersion?: Prisma.StringFilter<"Device"> | string
-  browsers?: Prisma.StringNullableListFilter<"Device">
+  browsers?: Prisma.JsonFilter<"Device">
   screenResolution?: Prisma.StringFilter<"Device"> | string
   createdAt?: Prisma.DateTimeFilter<"Device"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Device"> | Date | string
@@ -254,7 +255,7 @@ export type DeviceScalarWhereWithAggregatesInput = {
   userId?: Prisma.StringWithAggregatesFilter<"Device"> | string
   deviceName?: Prisma.StringWithAggregatesFilter<"Device"> | string
   osVersion?: Prisma.StringWithAggregatesFilter<"Device"> | string
-  browsers?: Prisma.StringNullableListFilter<"Device">
+  browsers?: Prisma.JsonWithAggregatesFilter<"Device">
   screenResolution?: Prisma.StringWithAggregatesFilter<"Device"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Device"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Device"> | Date | string
@@ -264,7 +265,7 @@ export type DeviceCreateInput = {
   id?: string
   deviceName: string
   osVersion: string
-  browsers?: Prisma.DeviceCreatebrowsersInput | string[]
+  browsers: Prisma.JsonNullValueInput | runtime.InputJsonValue
   screenResolution: string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -276,7 +277,7 @@ export type DeviceUncheckedCreateInput = {
   userId: string
   deviceName: string
   osVersion: string
-  browsers?: Prisma.DeviceCreatebrowsersInput | string[]
+  browsers: Prisma.JsonNullValueInput | runtime.InputJsonValue
   screenResolution: string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -286,7 +287,7 @@ export type DeviceUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   deviceName?: Prisma.StringFieldUpdateOperationsInput | string
   osVersion?: Prisma.StringFieldUpdateOperationsInput | string
-  browsers?: Prisma.DeviceUpdatebrowsersInput | string[]
+  browsers?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   screenResolution?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -298,7 +299,7 @@ export type DeviceUncheckedUpdateInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   deviceName?: Prisma.StringFieldUpdateOperationsInput | string
   osVersion?: Prisma.StringFieldUpdateOperationsInput | string
-  browsers?: Prisma.DeviceUpdatebrowsersInput | string[]
+  browsers?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   screenResolution?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -309,7 +310,7 @@ export type DeviceCreateManyInput = {
   userId: string
   deviceName: string
   osVersion: string
-  browsers?: Prisma.DeviceCreatebrowsersInput | string[]
+  browsers: Prisma.JsonNullValueInput | runtime.InputJsonValue
   screenResolution: string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -319,7 +320,7 @@ export type DeviceUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   deviceName?: Prisma.StringFieldUpdateOperationsInput | string
   osVersion?: Prisma.StringFieldUpdateOperationsInput | string
-  browsers?: Prisma.DeviceUpdatebrowsersInput | string[]
+  browsers?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   screenResolution?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -330,7 +331,7 @@ export type DeviceUncheckedUpdateManyInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   deviceName?: Prisma.StringFieldUpdateOperationsInput | string
   osVersion?: Prisma.StringFieldUpdateOperationsInput | string
-  browsers?: Prisma.DeviceUpdatebrowsersInput | string[]
+  browsers?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   screenResolution?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -346,12 +347,10 @@ export type DeviceOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
-export type StringNullableListFilter<$PrismaModel = never> = {
-  equals?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel> | null
-  has?: string | Prisma.StringFieldRefInput<$PrismaModel> | null
-  hasEvery?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
-  hasSome?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
-  isEmpty?: boolean
+export type DeviceOrderByRelevanceInput = {
+  fields: Prisma.DeviceOrderByRelevanceFieldEnum | Prisma.DeviceOrderByRelevanceFieldEnum[]
+  sort: Prisma.SortOrder
+  search: string
 }
 
 export type DeviceCountOrderByAggregateInput = {
@@ -427,20 +426,11 @@ export type DeviceUncheckedUpdateManyWithoutUserNestedInput = {
   deleteMany?: Prisma.DeviceScalarWhereInput | Prisma.DeviceScalarWhereInput[]
 }
 
-export type DeviceCreatebrowsersInput = {
-  set: string[]
-}
-
-export type DeviceUpdatebrowsersInput = {
-  set?: string[]
-  push?: string | string[]
-}
-
 export type DeviceCreateWithoutUserInput = {
   id?: string
   deviceName: string
   osVersion: string
-  browsers?: Prisma.DeviceCreatebrowsersInput | string[]
+  browsers: Prisma.JsonNullValueInput | runtime.InputJsonValue
   screenResolution: string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -450,7 +440,7 @@ export type DeviceUncheckedCreateWithoutUserInput = {
   id?: string
   deviceName: string
   osVersion: string
-  browsers?: Prisma.DeviceCreatebrowsersInput | string[]
+  browsers: Prisma.JsonNullValueInput | runtime.InputJsonValue
   screenResolution: string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -490,7 +480,7 @@ export type DeviceScalarWhereInput = {
   userId?: Prisma.StringFilter<"Device"> | string
   deviceName?: Prisma.StringFilter<"Device"> | string
   osVersion?: Prisma.StringFilter<"Device"> | string
-  browsers?: Prisma.StringNullableListFilter<"Device">
+  browsers?: Prisma.JsonFilter<"Device">
   screenResolution?: Prisma.StringFilter<"Device"> | string
   createdAt?: Prisma.DateTimeFilter<"Device"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Device"> | Date | string
@@ -500,7 +490,7 @@ export type DeviceCreateManyUserInput = {
   id?: string
   deviceName: string
   osVersion: string
-  browsers?: Prisma.DeviceCreatebrowsersInput | string[]
+  browsers: Prisma.JsonNullValueInput | runtime.InputJsonValue
   screenResolution: string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -510,7 +500,7 @@ export type DeviceUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   deviceName?: Prisma.StringFieldUpdateOperationsInput | string
   osVersion?: Prisma.StringFieldUpdateOperationsInput | string
-  browsers?: Prisma.DeviceUpdatebrowsersInput | string[]
+  browsers?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   screenResolution?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -520,7 +510,7 @@ export type DeviceUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   deviceName?: Prisma.StringFieldUpdateOperationsInput | string
   osVersion?: Prisma.StringFieldUpdateOperationsInput | string
-  browsers?: Prisma.DeviceUpdatebrowsersInput | string[]
+  browsers?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   screenResolution?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -530,7 +520,7 @@ export type DeviceUncheckedUpdateManyWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   deviceName?: Prisma.StringFieldUpdateOperationsInput | string
   osVersion?: Prisma.StringFieldUpdateOperationsInput | string
-  browsers?: Prisma.DeviceUpdatebrowsersInput | string[]
+  browsers?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   screenResolution?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -550,29 +540,7 @@ export type DeviceSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["device"]>
 
-export type DeviceSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  id?: boolean
-  userId?: boolean
-  deviceName?: boolean
-  osVersion?: boolean
-  browsers?: boolean
-  screenResolution?: boolean
-  createdAt?: boolean
-  updatedAt?: boolean
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-}, ExtArgs["result"]["device"]>
 
-export type DeviceSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  id?: boolean
-  userId?: boolean
-  deviceName?: boolean
-  osVersion?: boolean
-  browsers?: boolean
-  screenResolution?: boolean
-  createdAt?: boolean
-  updatedAt?: boolean
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-}, ExtArgs["result"]["device"]>
 
 export type DeviceSelectScalar = {
   id?: boolean
@@ -589,12 +557,6 @@ export type DeviceOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
 export type DeviceInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
-export type DeviceIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-}
-export type DeviceIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-}
 
 export type $DevicePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Device"
@@ -606,7 +568,7 @@ export type $DevicePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     userId: string
     deviceName: string
     osVersion: string
-    browsers: string[]
+    browsers: runtime.JsonValue
     screenResolution: string
     createdAt: Date
     updatedAt: Date
@@ -728,30 +690,6 @@ export interface DeviceDelegate<ExtArgs extends runtime.Types.Extensions.Interna
   createMany<T extends DeviceCreateManyArgs>(args?: Prisma.SelectSubset<T, DeviceCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
-   * Create many Devices and returns the data saved in the database.
-   * @param {DeviceCreateManyAndReturnArgs} args - Arguments to create many Devices.
-   * @example
-   * // Create many Devices
-   * const device = await prisma.device.createManyAndReturn({
-   *   data: [
-   *     // ... provide data here
-   *   ]
-   * })
-   * 
-   * // Create many Devices and only return the `id`
-   * const deviceWithIdOnly = await prisma.device.createManyAndReturn({
-   *   select: { id: true },
-   *   data: [
-   *     // ... provide data here
-   *   ]
-   * })
-   * Note, that providing `undefined` is treated as the value not being there.
-   * Read more here: https://pris.ly/d/null-undefined
-   * 
-   */
-  createManyAndReturn<T extends DeviceCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, DeviceCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DevicePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-  /**
    * Delete a Device.
    * @param {DeviceDeleteArgs} args - Arguments to delete one Device.
    * @example
@@ -814,36 +752,6 @@ export interface DeviceDelegate<ExtArgs extends runtime.Types.Extensions.Interna
    * 
    */
   updateMany<T extends DeviceUpdateManyArgs>(args: Prisma.SelectSubset<T, DeviceUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
-
-  /**
-   * Update zero or more Devices and returns the data updated in the database.
-   * @param {DeviceUpdateManyAndReturnArgs} args - Arguments to update many Devices.
-   * @example
-   * // Update many Devices
-   * const device = await prisma.device.updateManyAndReturn({
-   *   where: {
-   *     // ... provide filter here
-   *   },
-   *   data: [
-   *     // ... provide data here
-   *   ]
-   * })
-   * 
-   * // Update zero or more Devices and only return the `id`
-   * const deviceWithIdOnly = await prisma.device.updateManyAndReturn({
-   *   select: { id: true },
-   *   where: {
-   *     // ... provide filter here
-   *   },
-   *   data: [
-   *     // ... provide data here
-   *   ]
-   * })
-   * Note, that providing `undefined` is treated as the value not being there.
-   * Read more here: https://pris.ly/d/null-undefined
-   * 
-   */
-  updateManyAndReturn<T extends DeviceUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, DeviceUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DevicePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one Device.
@@ -1038,7 +946,7 @@ export interface DeviceFieldRefs {
   readonly userId: Prisma.FieldRef<"Device", 'String'>
   readonly deviceName: Prisma.FieldRef<"Device", 'String'>
   readonly osVersion: Prisma.FieldRef<"Device", 'String'>
-  readonly browsers: Prisma.FieldRef<"Device", 'String[]'>
+  readonly browsers: Prisma.FieldRef<"Device", 'Json'>
   readonly screenResolution: Prisma.FieldRef<"Device", 'String'>
   readonly createdAt: Prisma.FieldRef<"Device", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Device", 'DateTime'>
@@ -1280,29 +1188,6 @@ export type DeviceCreateManyArgs<ExtArgs extends runtime.Types.Extensions.Intern
 }
 
 /**
- * Device createManyAndReturn
- */
-export type DeviceCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Device
-   */
-  select?: Prisma.DeviceSelectCreateManyAndReturn<ExtArgs> | null
-  /**
-   * Omit specific fields from the Device
-   */
-  omit?: Prisma.DeviceOmit<ExtArgs> | null
-  /**
-   * The data used to create many Devices.
-   */
-  data: Prisma.DeviceCreateManyInput | Prisma.DeviceCreateManyInput[]
-  skipDuplicates?: boolean
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.DeviceIncludeCreateManyAndReturn<ExtArgs> | null
-}
-
-/**
  * Device update
  */
 export type DeviceUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1344,36 +1229,6 @@ export type DeviceUpdateManyArgs<ExtArgs extends runtime.Types.Extensions.Intern
    * Limit how many Devices to update.
    */
   limit?: number
-}
-
-/**
- * Device updateManyAndReturn
- */
-export type DeviceUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Device
-   */
-  select?: Prisma.DeviceSelectUpdateManyAndReturn<ExtArgs> | null
-  /**
-   * Omit specific fields from the Device
-   */
-  omit?: Prisma.DeviceOmit<ExtArgs> | null
-  /**
-   * The data used to update Devices.
-   */
-  data: Prisma.XOR<Prisma.DeviceUpdateManyMutationInput, Prisma.DeviceUncheckedUpdateManyInput>
-  /**
-   * Filter which Devices to update
-   */
-  where?: Prisma.DeviceWhereInput
-  /**
-   * Limit how many Devices to update.
-   */
-  limit?: number
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.DeviceIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**

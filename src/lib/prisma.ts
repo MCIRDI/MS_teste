@@ -1,10 +1,10 @@
-import { PrismaPg } from "@prisma/adapter-pg";
+import { PrismaMariaDb } from "@prisma/adapter-mariadb";
 
 import { env } from "@/lib/env";
 import { PrismaClient } from "@/generated/prisma/client";
 
 const globalForPrisma = globalThis as unknown as { prisma?: PrismaClient };
-const adapter = new PrismaPg({ connectionString: env.DATABASE_URL });
+const adapter = new PrismaMariaDb(env.DATABASE_URL);
 
 export const prisma =
   globalForPrisma.prisma ??

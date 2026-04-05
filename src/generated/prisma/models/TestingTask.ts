@@ -235,6 +235,7 @@ export type TestingTaskOrderByWithRelationInput = {
   orderIndex?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   campaign?: Prisma.CampaignOrderByWithRelationInput
+  _relevance?: Prisma.TestingTaskOrderByRelevanceInput
 }
 
 export type TestingTaskWhereUniqueInput = Prisma.AtLeast<{
@@ -346,6 +347,12 @@ export type TestingTaskListRelationFilter = {
 
 export type TestingTaskOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
+}
+
+export type TestingTaskOrderByRelevanceInput = {
+  fields: Prisma.TestingTaskOrderByRelevanceFieldEnum | Prisma.TestingTaskOrderByRelevanceFieldEnum[]
+  sort: Prisma.SortOrder
+  search: string
 }
 
 export type TestingTaskCountOrderByAggregateInput = {
@@ -523,25 +530,7 @@ export type TestingTaskSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   campaign?: boolean | Prisma.CampaignDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["testingTask"]>
 
-export type TestingTaskSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  id?: boolean
-  campaignId?: boolean
-  title?: boolean
-  description?: boolean
-  orderIndex?: boolean
-  createdAt?: boolean
-  campaign?: boolean | Prisma.CampaignDefaultArgs<ExtArgs>
-}, ExtArgs["result"]["testingTask"]>
 
-export type TestingTaskSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  id?: boolean
-  campaignId?: boolean
-  title?: boolean
-  description?: boolean
-  orderIndex?: boolean
-  createdAt?: boolean
-  campaign?: boolean | Prisma.CampaignDefaultArgs<ExtArgs>
-}, ExtArgs["result"]["testingTask"]>
 
 export type TestingTaskSelectScalar = {
   id?: boolean
@@ -554,12 +543,6 @@ export type TestingTaskSelectScalar = {
 
 export type TestingTaskOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "campaignId" | "title" | "description" | "orderIndex" | "createdAt", ExtArgs["result"]["testingTask"]>
 export type TestingTaskInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  campaign?: boolean | Prisma.CampaignDefaultArgs<ExtArgs>
-}
-export type TestingTaskIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  campaign?: boolean | Prisma.CampaignDefaultArgs<ExtArgs>
-}
-export type TestingTaskIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   campaign?: boolean | Prisma.CampaignDefaultArgs<ExtArgs>
 }
 
@@ -693,30 +676,6 @@ export interface TestingTaskDelegate<ExtArgs extends runtime.Types.Extensions.In
   createMany<T extends TestingTaskCreateManyArgs>(args?: Prisma.SelectSubset<T, TestingTaskCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
-   * Create many TestingTasks and returns the data saved in the database.
-   * @param {TestingTaskCreateManyAndReturnArgs} args - Arguments to create many TestingTasks.
-   * @example
-   * // Create many TestingTasks
-   * const testingTask = await prisma.testingTask.createManyAndReturn({
-   *   data: [
-   *     // ... provide data here
-   *   ]
-   * })
-   * 
-   * // Create many TestingTasks and only return the `id`
-   * const testingTaskWithIdOnly = await prisma.testingTask.createManyAndReturn({
-   *   select: { id: true },
-   *   data: [
-   *     // ... provide data here
-   *   ]
-   * })
-   * Note, that providing `undefined` is treated as the value not being there.
-   * Read more here: https://pris.ly/d/null-undefined
-   * 
-   */
-  createManyAndReturn<T extends TestingTaskCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, TestingTaskCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TestingTaskPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-  /**
    * Delete a TestingTask.
    * @param {TestingTaskDeleteArgs} args - Arguments to delete one TestingTask.
    * @example
@@ -779,36 +738,6 @@ export interface TestingTaskDelegate<ExtArgs extends runtime.Types.Extensions.In
    * 
    */
   updateMany<T extends TestingTaskUpdateManyArgs>(args: Prisma.SelectSubset<T, TestingTaskUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
-
-  /**
-   * Update zero or more TestingTasks and returns the data updated in the database.
-   * @param {TestingTaskUpdateManyAndReturnArgs} args - Arguments to update many TestingTasks.
-   * @example
-   * // Update many TestingTasks
-   * const testingTask = await prisma.testingTask.updateManyAndReturn({
-   *   where: {
-   *     // ... provide filter here
-   *   },
-   *   data: [
-   *     // ... provide data here
-   *   ]
-   * })
-   * 
-   * // Update zero or more TestingTasks and only return the `id`
-   * const testingTaskWithIdOnly = await prisma.testingTask.updateManyAndReturn({
-   *   select: { id: true },
-   *   where: {
-   *     // ... provide filter here
-   *   },
-   *   data: [
-   *     // ... provide data here
-   *   ]
-   * })
-   * Note, that providing `undefined` is treated as the value not being there.
-   * Read more here: https://pris.ly/d/null-undefined
-   * 
-   */
-  updateManyAndReturn<T extends TestingTaskUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, TestingTaskUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TestingTaskPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one TestingTask.
@@ -1243,29 +1172,6 @@ export type TestingTaskCreateManyArgs<ExtArgs extends runtime.Types.Extensions.I
 }
 
 /**
- * TestingTask createManyAndReturn
- */
-export type TestingTaskCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the TestingTask
-   */
-  select?: Prisma.TestingTaskSelectCreateManyAndReturn<ExtArgs> | null
-  /**
-   * Omit specific fields from the TestingTask
-   */
-  omit?: Prisma.TestingTaskOmit<ExtArgs> | null
-  /**
-   * The data used to create many TestingTasks.
-   */
-  data: Prisma.TestingTaskCreateManyInput | Prisma.TestingTaskCreateManyInput[]
-  skipDuplicates?: boolean
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.TestingTaskIncludeCreateManyAndReturn<ExtArgs> | null
-}
-
-/**
  * TestingTask update
  */
 export type TestingTaskUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1307,36 +1213,6 @@ export type TestingTaskUpdateManyArgs<ExtArgs extends runtime.Types.Extensions.I
    * Limit how many TestingTasks to update.
    */
   limit?: number
-}
-
-/**
- * TestingTask updateManyAndReturn
- */
-export type TestingTaskUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the TestingTask
-   */
-  select?: Prisma.TestingTaskSelectUpdateManyAndReturn<ExtArgs> | null
-  /**
-   * Omit specific fields from the TestingTask
-   */
-  omit?: Prisma.TestingTaskOmit<ExtArgs> | null
-  /**
-   * The data used to update TestingTasks.
-   */
-  data: Prisma.XOR<Prisma.TestingTaskUpdateManyMutationInput, Prisma.TestingTaskUncheckedUpdateManyInput>
-  /**
-   * Filter which TestingTasks to update
-   */
-  where?: Prisma.TestingTaskWhereInput
-  /**
-   * Limit how many TestingTasks to update.
-   */
-  limit?: number
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.TestingTaskIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**

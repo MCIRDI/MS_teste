@@ -4,7 +4,7 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mysql"
 }
 
 enum Role {
@@ -114,7 +114,7 @@ model Device {
   userId           String
   deviceName       String
   osVersion        String
-  browsers         String[]
+  browsers         Json
   screenResolution String
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
@@ -136,9 +136,9 @@ model Campaign {
   stage                CampaignStage        @default(DRAFT)
   crowdTesterCount     Int                  @default(0)
   developerTesterCount Int                  @default(0)
-  selectedCountries    String[]
-  selectedPlatforms    String[]
-  selectedBrowsers     String[]
+  selectedCountries    Json
+  selectedPlatforms    Json
+  selectedBrowsers     Json
   estimatedCost        Float                @default(0)
   moderatorSlots       Int                  @default(0)
   requirements         Json?

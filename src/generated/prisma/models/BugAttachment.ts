@@ -262,6 +262,7 @@ export type BugAttachmentOrderByWithRelationInput = {
   sizeBytes?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   bugReport?: Prisma.BugReportOrderByWithRelationInput
+  _relevance?: Prisma.BugAttachmentOrderByRelevanceInput
 }
 
 export type BugAttachmentWhereUniqueInput = Prisma.AtLeast<{
@@ -403,6 +404,12 @@ export type BugAttachmentListRelationFilter = {
 
 export type BugAttachmentOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
+}
+
+export type BugAttachmentOrderByRelevanceInput = {
+  fields: Prisma.BugAttachmentOrderByRelevanceFieldEnum | Prisma.BugAttachmentOrderByRelevanceFieldEnum[]
+  sort: Prisma.SortOrder
+  search: string
 }
 
 export type BugAttachmentCountOrderByAggregateInput = {
@@ -617,31 +624,7 @@ export type BugAttachmentSelect<ExtArgs extends runtime.Types.Extensions.Interna
   bugReport?: boolean | Prisma.BugReportDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["bugAttachment"]>
 
-export type BugAttachmentSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  id?: boolean
-  bugReportId?: boolean
-  kind?: boolean
-  originalName?: boolean
-  storedName?: boolean
-  relativePath?: boolean
-  mimeType?: boolean
-  sizeBytes?: boolean
-  createdAt?: boolean
-  bugReport?: boolean | Prisma.BugReportDefaultArgs<ExtArgs>
-}, ExtArgs["result"]["bugAttachment"]>
 
-export type BugAttachmentSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  id?: boolean
-  bugReportId?: boolean
-  kind?: boolean
-  originalName?: boolean
-  storedName?: boolean
-  relativePath?: boolean
-  mimeType?: boolean
-  sizeBytes?: boolean
-  createdAt?: boolean
-  bugReport?: boolean | Prisma.BugReportDefaultArgs<ExtArgs>
-}, ExtArgs["result"]["bugAttachment"]>
 
 export type BugAttachmentSelectScalar = {
   id?: boolean
@@ -657,12 +640,6 @@ export type BugAttachmentSelectScalar = {
 
 export type BugAttachmentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "bugReportId" | "kind" | "originalName" | "storedName" | "relativePath" | "mimeType" | "sizeBytes" | "createdAt", ExtArgs["result"]["bugAttachment"]>
 export type BugAttachmentInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  bugReport?: boolean | Prisma.BugReportDefaultArgs<ExtArgs>
-}
-export type BugAttachmentIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  bugReport?: boolean | Prisma.BugReportDefaultArgs<ExtArgs>
-}
-export type BugAttachmentIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   bugReport?: boolean | Prisma.BugReportDefaultArgs<ExtArgs>
 }
 
@@ -799,30 +776,6 @@ export interface BugAttachmentDelegate<ExtArgs extends runtime.Types.Extensions.
   createMany<T extends BugAttachmentCreateManyArgs>(args?: Prisma.SelectSubset<T, BugAttachmentCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
-   * Create many BugAttachments and returns the data saved in the database.
-   * @param {BugAttachmentCreateManyAndReturnArgs} args - Arguments to create many BugAttachments.
-   * @example
-   * // Create many BugAttachments
-   * const bugAttachment = await prisma.bugAttachment.createManyAndReturn({
-   *   data: [
-   *     // ... provide data here
-   *   ]
-   * })
-   * 
-   * // Create many BugAttachments and only return the `id`
-   * const bugAttachmentWithIdOnly = await prisma.bugAttachment.createManyAndReturn({
-   *   select: { id: true },
-   *   data: [
-   *     // ... provide data here
-   *   ]
-   * })
-   * Note, that providing `undefined` is treated as the value not being there.
-   * Read more here: https://pris.ly/d/null-undefined
-   * 
-   */
-  createManyAndReturn<T extends BugAttachmentCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, BugAttachmentCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BugAttachmentPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-  /**
    * Delete a BugAttachment.
    * @param {BugAttachmentDeleteArgs} args - Arguments to delete one BugAttachment.
    * @example
@@ -885,36 +838,6 @@ export interface BugAttachmentDelegate<ExtArgs extends runtime.Types.Extensions.
    * 
    */
   updateMany<T extends BugAttachmentUpdateManyArgs>(args: Prisma.SelectSubset<T, BugAttachmentUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
-
-  /**
-   * Update zero or more BugAttachments and returns the data updated in the database.
-   * @param {BugAttachmentUpdateManyAndReturnArgs} args - Arguments to update many BugAttachments.
-   * @example
-   * // Update many BugAttachments
-   * const bugAttachment = await prisma.bugAttachment.updateManyAndReturn({
-   *   where: {
-   *     // ... provide filter here
-   *   },
-   *   data: [
-   *     // ... provide data here
-   *   ]
-   * })
-   * 
-   * // Update zero or more BugAttachments and only return the `id`
-   * const bugAttachmentWithIdOnly = await prisma.bugAttachment.updateManyAndReturn({
-   *   select: { id: true },
-   *   where: {
-   *     // ... provide filter here
-   *   },
-   *   data: [
-   *     // ... provide data here
-   *   ]
-   * })
-   * Note, that providing `undefined` is treated as the value not being there.
-   * Read more here: https://pris.ly/d/null-undefined
-   * 
-   */
-  updateManyAndReturn<T extends BugAttachmentUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, BugAttachmentUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BugAttachmentPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one BugAttachment.
@@ -1352,29 +1275,6 @@ export type BugAttachmentCreateManyArgs<ExtArgs extends runtime.Types.Extensions
 }
 
 /**
- * BugAttachment createManyAndReturn
- */
-export type BugAttachmentCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the BugAttachment
-   */
-  select?: Prisma.BugAttachmentSelectCreateManyAndReturn<ExtArgs> | null
-  /**
-   * Omit specific fields from the BugAttachment
-   */
-  omit?: Prisma.BugAttachmentOmit<ExtArgs> | null
-  /**
-   * The data used to create many BugAttachments.
-   */
-  data: Prisma.BugAttachmentCreateManyInput | Prisma.BugAttachmentCreateManyInput[]
-  skipDuplicates?: boolean
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.BugAttachmentIncludeCreateManyAndReturn<ExtArgs> | null
-}
-
-/**
  * BugAttachment update
  */
 export type BugAttachmentUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1416,36 +1316,6 @@ export type BugAttachmentUpdateManyArgs<ExtArgs extends runtime.Types.Extensions
    * Limit how many BugAttachments to update.
    */
   limit?: number
-}
-
-/**
- * BugAttachment updateManyAndReturn
- */
-export type BugAttachmentUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the BugAttachment
-   */
-  select?: Prisma.BugAttachmentSelectUpdateManyAndReturn<ExtArgs> | null
-  /**
-   * Omit specific fields from the BugAttachment
-   */
-  omit?: Prisma.BugAttachmentOmit<ExtArgs> | null
-  /**
-   * The data used to update BugAttachments.
-   */
-  data: Prisma.XOR<Prisma.BugAttachmentUpdateManyMutationInput, Prisma.BugAttachmentUncheckedUpdateManyInput>
-  /**
-   * Filter which BugAttachments to update
-   */
-  where?: Prisma.BugAttachmentWhereInput
-  /**
-   * Limit how many BugAttachments to update.
-   */
-  limit?: number
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.BugAttachmentIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**

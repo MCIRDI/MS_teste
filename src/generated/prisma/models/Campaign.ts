@@ -276,9 +276,9 @@ export type CampaignGroupByOutputType = {
   stage: $Enums.CampaignStage
   crowdTesterCount: number
   developerTesterCount: number
-  selectedCountries: string[]
-  selectedPlatforms: string[]
-  selectedBrowsers: string[]
+  selectedCountries: runtime.JsonValue
+  selectedPlatforms: runtime.JsonValue
+  selectedBrowsers: runtime.JsonValue
   estimatedCost: number
   moderatorSlots: number
   requirements: runtime.JsonValue | null
@@ -323,9 +323,9 @@ export type CampaignWhereInput = {
   stage?: Prisma.EnumCampaignStageFilter<"Campaign"> | $Enums.CampaignStage
   crowdTesterCount?: Prisma.IntFilter<"Campaign"> | number
   developerTesterCount?: Prisma.IntFilter<"Campaign"> | number
-  selectedCountries?: Prisma.StringNullableListFilter<"Campaign">
-  selectedPlatforms?: Prisma.StringNullableListFilter<"Campaign">
-  selectedBrowsers?: Prisma.StringNullableListFilter<"Campaign">
+  selectedCountries?: Prisma.JsonFilter<"Campaign">
+  selectedPlatforms?: Prisma.JsonFilter<"Campaign">
+  selectedBrowsers?: Prisma.JsonFilter<"Campaign">
   estimatedCost?: Prisma.FloatFilter<"Campaign"> | number
   moderatorSlots?: Prisma.IntFilter<"Campaign"> | number
   requirements?: Prisma.JsonNullableFilter<"Campaign">
@@ -370,6 +370,7 @@ export type CampaignOrderByWithRelationInput = {
   tasks?: Prisma.TestingTaskOrderByRelationAggregateInput
   bugReports?: Prisma.BugReportOrderByRelationAggregateInput
   auditLogs?: Prisma.AuditLogOrderByRelationAggregateInput
+  _relevance?: Prisma.CampaignOrderByRelevanceInput
 }
 
 export type CampaignWhereUniqueInput = Prisma.AtLeast<{
@@ -388,9 +389,9 @@ export type CampaignWhereUniqueInput = Prisma.AtLeast<{
   stage?: Prisma.EnumCampaignStageFilter<"Campaign"> | $Enums.CampaignStage
   crowdTesterCount?: Prisma.IntFilter<"Campaign"> | number
   developerTesterCount?: Prisma.IntFilter<"Campaign"> | number
-  selectedCountries?: Prisma.StringNullableListFilter<"Campaign">
-  selectedPlatforms?: Prisma.StringNullableListFilter<"Campaign">
-  selectedBrowsers?: Prisma.StringNullableListFilter<"Campaign">
+  selectedCountries?: Prisma.JsonFilter<"Campaign">
+  selectedPlatforms?: Prisma.JsonFilter<"Campaign">
+  selectedBrowsers?: Prisma.JsonFilter<"Campaign">
   estimatedCost?: Prisma.FloatFilter<"Campaign"> | number
   moderatorSlots?: Prisma.IntFilter<"Campaign"> | number
   requirements?: Prisma.JsonNullableFilter<"Campaign">
@@ -451,9 +452,9 @@ export type CampaignScalarWhereWithAggregatesInput = {
   stage?: Prisma.EnumCampaignStageWithAggregatesFilter<"Campaign"> | $Enums.CampaignStage
   crowdTesterCount?: Prisma.IntWithAggregatesFilter<"Campaign"> | number
   developerTesterCount?: Prisma.IntWithAggregatesFilter<"Campaign"> | number
-  selectedCountries?: Prisma.StringNullableListFilter<"Campaign">
-  selectedPlatforms?: Prisma.StringNullableListFilter<"Campaign">
-  selectedBrowsers?: Prisma.StringNullableListFilter<"Campaign">
+  selectedCountries?: Prisma.JsonWithAggregatesFilter<"Campaign">
+  selectedPlatforms?: Prisma.JsonWithAggregatesFilter<"Campaign">
+  selectedBrowsers?: Prisma.JsonWithAggregatesFilter<"Campaign">
   estimatedCost?: Prisma.FloatWithAggregatesFilter<"Campaign"> | number
   moderatorSlots?: Prisma.IntWithAggregatesFilter<"Campaign"> | number
   requirements?: Prisma.JsonNullableWithAggregatesFilter<"Campaign">
@@ -473,9 +474,9 @@ export type CampaignCreateInput = {
   stage?: $Enums.CampaignStage
   crowdTesterCount?: number
   developerTesterCount?: number
-  selectedCountries?: Prisma.CampaignCreateselectedCountriesInput | string[]
-  selectedPlatforms?: Prisma.CampaignCreateselectedPlatformsInput | string[]
-  selectedBrowsers?: Prisma.CampaignCreateselectedBrowsersInput | string[]
+  selectedCountries: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedPlatforms: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedBrowsers: Prisma.JsonNullValueInput | runtime.InputJsonValue
   estimatedCost?: number
   moderatorSlots?: number
   requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -504,9 +505,9 @@ export type CampaignUncheckedCreateInput = {
   stage?: $Enums.CampaignStage
   crowdTesterCount?: number
   developerTesterCount?: number
-  selectedCountries?: Prisma.CampaignCreateselectedCountriesInput | string[]
-  selectedPlatforms?: Prisma.CampaignCreateselectedPlatformsInput | string[]
-  selectedBrowsers?: Prisma.CampaignCreateselectedBrowsersInput | string[]
+  selectedCountries: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedPlatforms: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedBrowsers: Prisma.JsonNullValueInput | runtime.InputJsonValue
   estimatedCost?: number
   moderatorSlots?: number
   requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -531,9 +532,9 @@ export type CampaignUpdateInput = {
   stage?: Prisma.EnumCampaignStageFieldUpdateOperationsInput | $Enums.CampaignStage
   crowdTesterCount?: Prisma.IntFieldUpdateOperationsInput | number
   developerTesterCount?: Prisma.IntFieldUpdateOperationsInput | number
-  selectedCountries?: Prisma.CampaignUpdateselectedCountriesInput | string[]
-  selectedPlatforms?: Prisma.CampaignUpdateselectedPlatformsInput | string[]
-  selectedBrowsers?: Prisma.CampaignUpdateselectedBrowsersInput | string[]
+  selectedCountries?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedPlatforms?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedBrowsers?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   estimatedCost?: Prisma.FloatFieldUpdateOperationsInput | number
   moderatorSlots?: Prisma.IntFieldUpdateOperationsInput | number
   requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -562,9 +563,9 @@ export type CampaignUncheckedUpdateInput = {
   stage?: Prisma.EnumCampaignStageFieldUpdateOperationsInput | $Enums.CampaignStage
   crowdTesterCount?: Prisma.IntFieldUpdateOperationsInput | number
   developerTesterCount?: Prisma.IntFieldUpdateOperationsInput | number
-  selectedCountries?: Prisma.CampaignUpdateselectedCountriesInput | string[]
-  selectedPlatforms?: Prisma.CampaignUpdateselectedPlatformsInput | string[]
-  selectedBrowsers?: Prisma.CampaignUpdateselectedBrowsersInput | string[]
+  selectedCountries?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedPlatforms?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedBrowsers?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   estimatedCost?: Prisma.FloatFieldUpdateOperationsInput | number
   moderatorSlots?: Prisma.IntFieldUpdateOperationsInput | number
   requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -591,9 +592,9 @@ export type CampaignCreateManyInput = {
   stage?: $Enums.CampaignStage
   crowdTesterCount?: number
   developerTesterCount?: number
-  selectedCountries?: Prisma.CampaignCreateselectedCountriesInput | string[]
-  selectedPlatforms?: Prisma.CampaignCreateselectedPlatformsInput | string[]
-  selectedBrowsers?: Prisma.CampaignCreateselectedBrowsersInput | string[]
+  selectedCountries: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedPlatforms: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedBrowsers: Prisma.JsonNullValueInput | runtime.InputJsonValue
   estimatedCost?: number
   moderatorSlots?: number
   requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -613,9 +614,9 @@ export type CampaignUpdateManyMutationInput = {
   stage?: Prisma.EnumCampaignStageFieldUpdateOperationsInput | $Enums.CampaignStage
   crowdTesterCount?: Prisma.IntFieldUpdateOperationsInput | number
   developerTesterCount?: Prisma.IntFieldUpdateOperationsInput | number
-  selectedCountries?: Prisma.CampaignUpdateselectedCountriesInput | string[]
-  selectedPlatforms?: Prisma.CampaignUpdateselectedPlatformsInput | string[]
-  selectedBrowsers?: Prisma.CampaignUpdateselectedBrowsersInput | string[]
+  selectedCountries?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedPlatforms?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedBrowsers?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   estimatedCost?: Prisma.FloatFieldUpdateOperationsInput | number
   moderatorSlots?: Prisma.IntFieldUpdateOperationsInput | number
   requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -637,9 +638,9 @@ export type CampaignUncheckedUpdateManyInput = {
   stage?: Prisma.EnumCampaignStageFieldUpdateOperationsInput | $Enums.CampaignStage
   crowdTesterCount?: Prisma.IntFieldUpdateOperationsInput | number
   developerTesterCount?: Prisma.IntFieldUpdateOperationsInput | number
-  selectedCountries?: Prisma.CampaignUpdateselectedCountriesInput | string[]
-  selectedPlatforms?: Prisma.CampaignUpdateselectedPlatformsInput | string[]
-  selectedBrowsers?: Prisma.CampaignUpdateselectedBrowsersInput | string[]
+  selectedCountries?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedPlatforms?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedBrowsers?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   estimatedCost?: Prisma.FloatFieldUpdateOperationsInput | number
   moderatorSlots?: Prisma.IntFieldUpdateOperationsInput | number
   requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -656,6 +657,12 @@ export type CampaignListRelationFilter = {
 
 export type CampaignOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
+}
+
+export type CampaignOrderByRelevanceInput = {
+  fields: Prisma.CampaignOrderByRelevanceFieldEnum | Prisma.CampaignOrderByRelevanceFieldEnum[]
+  sort: Prisma.SortOrder
+  search: string
 }
 
 export type CampaignCountOrderByAggregateInput = {
@@ -826,18 +833,6 @@ export type CampaignUncheckedUpdateManyWithoutTestManagerNestedInput = {
   deleteMany?: Prisma.CampaignScalarWhereInput | Prisma.CampaignScalarWhereInput[]
 }
 
-export type CampaignCreateselectedCountriesInput = {
-  set: string[]
-}
-
-export type CampaignCreateselectedPlatformsInput = {
-  set: string[]
-}
-
-export type CampaignCreateselectedBrowsersInput = {
-  set: string[]
-}
-
 export type EnumSoftwareTypeFieldUpdateOperationsInput = {
   set?: $Enums.SoftwareType
 }
@@ -852,21 +847,6 @@ export type IntFieldUpdateOperationsInput = {
   decrement?: number
   multiply?: number
   divide?: number
-}
-
-export type CampaignUpdateselectedCountriesInput = {
-  set?: string[]
-  push?: string | string[]
-}
-
-export type CampaignUpdateselectedPlatformsInput = {
-  set?: string[]
-  push?: string | string[]
-}
-
-export type CampaignUpdateselectedBrowsersInput = {
-  set?: string[]
-  push?: string | string[]
 }
 
 export type FloatFieldUpdateOperationsInput = {
@@ -960,9 +940,9 @@ export type CampaignCreateWithoutClientInput = {
   stage?: $Enums.CampaignStage
   crowdTesterCount?: number
   developerTesterCount?: number
-  selectedCountries?: Prisma.CampaignCreateselectedCountriesInput | string[]
-  selectedPlatforms?: Prisma.CampaignCreateselectedPlatformsInput | string[]
-  selectedBrowsers?: Prisma.CampaignCreateselectedBrowsersInput | string[]
+  selectedCountries: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedPlatforms: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedBrowsers: Prisma.JsonNullValueInput | runtime.InputJsonValue
   estimatedCost?: number
   moderatorSlots?: number
   requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -989,9 +969,9 @@ export type CampaignUncheckedCreateWithoutClientInput = {
   stage?: $Enums.CampaignStage
   crowdTesterCount?: number
   developerTesterCount?: number
-  selectedCountries?: Prisma.CampaignCreateselectedCountriesInput | string[]
-  selectedPlatforms?: Prisma.CampaignCreateselectedPlatformsInput | string[]
-  selectedBrowsers?: Prisma.CampaignCreateselectedBrowsersInput | string[]
+  selectedCountries: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedPlatforms: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedBrowsers: Prisma.JsonNullValueInput | runtime.InputJsonValue
   estimatedCost?: number
   moderatorSlots?: number
   requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1026,9 +1006,9 @@ export type CampaignCreateWithoutTestManagerInput = {
   stage?: $Enums.CampaignStage
   crowdTesterCount?: number
   developerTesterCount?: number
-  selectedCountries?: Prisma.CampaignCreateselectedCountriesInput | string[]
-  selectedPlatforms?: Prisma.CampaignCreateselectedPlatformsInput | string[]
-  selectedBrowsers?: Prisma.CampaignCreateselectedBrowsersInput | string[]
+  selectedCountries: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedPlatforms: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedBrowsers: Prisma.JsonNullValueInput | runtime.InputJsonValue
   estimatedCost?: number
   moderatorSlots?: number
   requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1055,9 +1035,9 @@ export type CampaignUncheckedCreateWithoutTestManagerInput = {
   stage?: $Enums.CampaignStage
   crowdTesterCount?: number
   developerTesterCount?: number
-  selectedCountries?: Prisma.CampaignCreateselectedCountriesInput | string[]
-  selectedPlatforms?: Prisma.CampaignCreateselectedPlatformsInput | string[]
-  selectedBrowsers?: Prisma.CampaignCreateselectedBrowsersInput | string[]
+  selectedCountries: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedPlatforms: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedBrowsers: Prisma.JsonNullValueInput | runtime.InputJsonValue
   estimatedCost?: number
   moderatorSlots?: number
   requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1113,9 +1093,9 @@ export type CampaignScalarWhereInput = {
   stage?: Prisma.EnumCampaignStageFilter<"Campaign"> | $Enums.CampaignStage
   crowdTesterCount?: Prisma.IntFilter<"Campaign"> | number
   developerTesterCount?: Prisma.IntFilter<"Campaign"> | number
-  selectedCountries?: Prisma.StringNullableListFilter<"Campaign">
-  selectedPlatforms?: Prisma.StringNullableListFilter<"Campaign">
-  selectedBrowsers?: Prisma.StringNullableListFilter<"Campaign">
+  selectedCountries?: Prisma.JsonFilter<"Campaign">
+  selectedPlatforms?: Prisma.JsonFilter<"Campaign">
+  selectedBrowsers?: Prisma.JsonFilter<"Campaign">
   estimatedCost?: Prisma.FloatFilter<"Campaign"> | number
   moderatorSlots?: Prisma.IntFilter<"Campaign"> | number
   requirements?: Prisma.JsonNullableFilter<"Campaign">
@@ -1151,9 +1131,9 @@ export type CampaignCreateWithoutAssignmentsInput = {
   stage?: $Enums.CampaignStage
   crowdTesterCount?: number
   developerTesterCount?: number
-  selectedCountries?: Prisma.CampaignCreateselectedCountriesInput | string[]
-  selectedPlatforms?: Prisma.CampaignCreateselectedPlatformsInput | string[]
-  selectedBrowsers?: Prisma.CampaignCreateselectedBrowsersInput | string[]
+  selectedCountries: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedPlatforms: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedBrowsers: Prisma.JsonNullValueInput | runtime.InputJsonValue
   estimatedCost?: number
   moderatorSlots?: number
   requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1181,9 +1161,9 @@ export type CampaignUncheckedCreateWithoutAssignmentsInput = {
   stage?: $Enums.CampaignStage
   crowdTesterCount?: number
   developerTesterCount?: number
-  selectedCountries?: Prisma.CampaignCreateselectedCountriesInput | string[]
-  selectedPlatforms?: Prisma.CampaignCreateselectedPlatformsInput | string[]
-  selectedBrowsers?: Prisma.CampaignCreateselectedBrowsersInput | string[]
+  selectedCountries: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedPlatforms: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedBrowsers: Prisma.JsonNullValueInput | runtime.InputJsonValue
   estimatedCost?: number
   moderatorSlots?: number
   requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1223,9 +1203,9 @@ export type CampaignUpdateWithoutAssignmentsInput = {
   stage?: Prisma.EnumCampaignStageFieldUpdateOperationsInput | $Enums.CampaignStage
   crowdTesterCount?: Prisma.IntFieldUpdateOperationsInput | number
   developerTesterCount?: Prisma.IntFieldUpdateOperationsInput | number
-  selectedCountries?: Prisma.CampaignUpdateselectedCountriesInput | string[]
-  selectedPlatforms?: Prisma.CampaignUpdateselectedPlatformsInput | string[]
-  selectedBrowsers?: Prisma.CampaignUpdateselectedBrowsersInput | string[]
+  selectedCountries?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedPlatforms?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedBrowsers?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   estimatedCost?: Prisma.FloatFieldUpdateOperationsInput | number
   moderatorSlots?: Prisma.IntFieldUpdateOperationsInput | number
   requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1253,9 +1233,9 @@ export type CampaignUncheckedUpdateWithoutAssignmentsInput = {
   stage?: Prisma.EnumCampaignStageFieldUpdateOperationsInput | $Enums.CampaignStage
   crowdTesterCount?: Prisma.IntFieldUpdateOperationsInput | number
   developerTesterCount?: Prisma.IntFieldUpdateOperationsInput | number
-  selectedCountries?: Prisma.CampaignUpdateselectedCountriesInput | string[]
-  selectedPlatforms?: Prisma.CampaignUpdateselectedPlatformsInput | string[]
-  selectedBrowsers?: Prisma.CampaignUpdateselectedBrowsersInput | string[]
+  selectedCountries?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedPlatforms?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedBrowsers?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   estimatedCost?: Prisma.FloatFieldUpdateOperationsInput | number
   moderatorSlots?: Prisma.IntFieldUpdateOperationsInput | number
   requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1279,9 +1259,9 @@ export type CampaignCreateWithoutInvitationsInput = {
   stage?: $Enums.CampaignStage
   crowdTesterCount?: number
   developerTesterCount?: number
-  selectedCountries?: Prisma.CampaignCreateselectedCountriesInput | string[]
-  selectedPlatforms?: Prisma.CampaignCreateselectedPlatformsInput | string[]
-  selectedBrowsers?: Prisma.CampaignCreateselectedBrowsersInput | string[]
+  selectedCountries: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedPlatforms: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedBrowsers: Prisma.JsonNullValueInput | runtime.InputJsonValue
   estimatedCost?: number
   moderatorSlots?: number
   requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1309,9 +1289,9 @@ export type CampaignUncheckedCreateWithoutInvitationsInput = {
   stage?: $Enums.CampaignStage
   crowdTesterCount?: number
   developerTesterCount?: number
-  selectedCountries?: Prisma.CampaignCreateselectedCountriesInput | string[]
-  selectedPlatforms?: Prisma.CampaignCreateselectedPlatformsInput | string[]
-  selectedBrowsers?: Prisma.CampaignCreateselectedBrowsersInput | string[]
+  selectedCountries: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedPlatforms: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedBrowsers: Prisma.JsonNullValueInput | runtime.InputJsonValue
   estimatedCost?: number
   moderatorSlots?: number
   requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1351,9 +1331,9 @@ export type CampaignUpdateWithoutInvitationsInput = {
   stage?: Prisma.EnumCampaignStageFieldUpdateOperationsInput | $Enums.CampaignStage
   crowdTesterCount?: Prisma.IntFieldUpdateOperationsInput | number
   developerTesterCount?: Prisma.IntFieldUpdateOperationsInput | number
-  selectedCountries?: Prisma.CampaignUpdateselectedCountriesInput | string[]
-  selectedPlatforms?: Prisma.CampaignUpdateselectedPlatformsInput | string[]
-  selectedBrowsers?: Prisma.CampaignUpdateselectedBrowsersInput | string[]
+  selectedCountries?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedPlatforms?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedBrowsers?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   estimatedCost?: Prisma.FloatFieldUpdateOperationsInput | number
   moderatorSlots?: Prisma.IntFieldUpdateOperationsInput | number
   requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1381,9 +1361,9 @@ export type CampaignUncheckedUpdateWithoutInvitationsInput = {
   stage?: Prisma.EnumCampaignStageFieldUpdateOperationsInput | $Enums.CampaignStage
   crowdTesterCount?: Prisma.IntFieldUpdateOperationsInput | number
   developerTesterCount?: Prisma.IntFieldUpdateOperationsInput | number
-  selectedCountries?: Prisma.CampaignUpdateselectedCountriesInput | string[]
-  selectedPlatforms?: Prisma.CampaignUpdateselectedPlatformsInput | string[]
-  selectedBrowsers?: Prisma.CampaignUpdateselectedBrowsersInput | string[]
+  selectedCountries?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedPlatforms?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedBrowsers?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   estimatedCost?: Prisma.FloatFieldUpdateOperationsInput | number
   moderatorSlots?: Prisma.IntFieldUpdateOperationsInput | number
   requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1407,9 +1387,9 @@ export type CampaignCreateWithoutTasksInput = {
   stage?: $Enums.CampaignStage
   crowdTesterCount?: number
   developerTesterCount?: number
-  selectedCountries?: Prisma.CampaignCreateselectedCountriesInput | string[]
-  selectedPlatforms?: Prisma.CampaignCreateselectedPlatformsInput | string[]
-  selectedBrowsers?: Prisma.CampaignCreateselectedBrowsersInput | string[]
+  selectedCountries: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedPlatforms: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedBrowsers: Prisma.JsonNullValueInput | runtime.InputJsonValue
   estimatedCost?: number
   moderatorSlots?: number
   requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1437,9 +1417,9 @@ export type CampaignUncheckedCreateWithoutTasksInput = {
   stage?: $Enums.CampaignStage
   crowdTesterCount?: number
   developerTesterCount?: number
-  selectedCountries?: Prisma.CampaignCreateselectedCountriesInput | string[]
-  selectedPlatforms?: Prisma.CampaignCreateselectedPlatformsInput | string[]
-  selectedBrowsers?: Prisma.CampaignCreateselectedBrowsersInput | string[]
+  selectedCountries: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedPlatforms: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedBrowsers: Prisma.JsonNullValueInput | runtime.InputJsonValue
   estimatedCost?: number
   moderatorSlots?: number
   requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1479,9 +1459,9 @@ export type CampaignUpdateWithoutTasksInput = {
   stage?: Prisma.EnumCampaignStageFieldUpdateOperationsInput | $Enums.CampaignStage
   crowdTesterCount?: Prisma.IntFieldUpdateOperationsInput | number
   developerTesterCount?: Prisma.IntFieldUpdateOperationsInput | number
-  selectedCountries?: Prisma.CampaignUpdateselectedCountriesInput | string[]
-  selectedPlatforms?: Prisma.CampaignUpdateselectedPlatformsInput | string[]
-  selectedBrowsers?: Prisma.CampaignUpdateselectedBrowsersInput | string[]
+  selectedCountries?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedPlatforms?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedBrowsers?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   estimatedCost?: Prisma.FloatFieldUpdateOperationsInput | number
   moderatorSlots?: Prisma.IntFieldUpdateOperationsInput | number
   requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1509,9 +1489,9 @@ export type CampaignUncheckedUpdateWithoutTasksInput = {
   stage?: Prisma.EnumCampaignStageFieldUpdateOperationsInput | $Enums.CampaignStage
   crowdTesterCount?: Prisma.IntFieldUpdateOperationsInput | number
   developerTesterCount?: Prisma.IntFieldUpdateOperationsInput | number
-  selectedCountries?: Prisma.CampaignUpdateselectedCountriesInput | string[]
-  selectedPlatforms?: Prisma.CampaignUpdateselectedPlatformsInput | string[]
-  selectedBrowsers?: Prisma.CampaignUpdateselectedBrowsersInput | string[]
+  selectedCountries?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedPlatforms?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedBrowsers?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   estimatedCost?: Prisma.FloatFieldUpdateOperationsInput | number
   moderatorSlots?: Prisma.IntFieldUpdateOperationsInput | number
   requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1535,9 +1515,9 @@ export type CampaignCreateWithoutBugReportsInput = {
   stage?: $Enums.CampaignStage
   crowdTesterCount?: number
   developerTesterCount?: number
-  selectedCountries?: Prisma.CampaignCreateselectedCountriesInput | string[]
-  selectedPlatforms?: Prisma.CampaignCreateselectedPlatformsInput | string[]
-  selectedBrowsers?: Prisma.CampaignCreateselectedBrowsersInput | string[]
+  selectedCountries: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedPlatforms: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedBrowsers: Prisma.JsonNullValueInput | runtime.InputJsonValue
   estimatedCost?: number
   moderatorSlots?: number
   requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1565,9 +1545,9 @@ export type CampaignUncheckedCreateWithoutBugReportsInput = {
   stage?: $Enums.CampaignStage
   crowdTesterCount?: number
   developerTesterCount?: number
-  selectedCountries?: Prisma.CampaignCreateselectedCountriesInput | string[]
-  selectedPlatforms?: Prisma.CampaignCreateselectedPlatformsInput | string[]
-  selectedBrowsers?: Prisma.CampaignCreateselectedBrowsersInput | string[]
+  selectedCountries: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedPlatforms: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedBrowsers: Prisma.JsonNullValueInput | runtime.InputJsonValue
   estimatedCost?: number
   moderatorSlots?: number
   requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1607,9 +1587,9 @@ export type CampaignUpdateWithoutBugReportsInput = {
   stage?: Prisma.EnumCampaignStageFieldUpdateOperationsInput | $Enums.CampaignStage
   crowdTesterCount?: Prisma.IntFieldUpdateOperationsInput | number
   developerTesterCount?: Prisma.IntFieldUpdateOperationsInput | number
-  selectedCountries?: Prisma.CampaignUpdateselectedCountriesInput | string[]
-  selectedPlatforms?: Prisma.CampaignUpdateselectedPlatformsInput | string[]
-  selectedBrowsers?: Prisma.CampaignUpdateselectedBrowsersInput | string[]
+  selectedCountries?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedPlatforms?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedBrowsers?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   estimatedCost?: Prisma.FloatFieldUpdateOperationsInput | number
   moderatorSlots?: Prisma.IntFieldUpdateOperationsInput | number
   requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1637,9 +1617,9 @@ export type CampaignUncheckedUpdateWithoutBugReportsInput = {
   stage?: Prisma.EnumCampaignStageFieldUpdateOperationsInput | $Enums.CampaignStage
   crowdTesterCount?: Prisma.IntFieldUpdateOperationsInput | number
   developerTesterCount?: Prisma.IntFieldUpdateOperationsInput | number
-  selectedCountries?: Prisma.CampaignUpdateselectedCountriesInput | string[]
-  selectedPlatforms?: Prisma.CampaignUpdateselectedPlatformsInput | string[]
-  selectedBrowsers?: Prisma.CampaignUpdateselectedBrowsersInput | string[]
+  selectedCountries?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedPlatforms?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedBrowsers?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   estimatedCost?: Prisma.FloatFieldUpdateOperationsInput | number
   moderatorSlots?: Prisma.IntFieldUpdateOperationsInput | number
   requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1663,9 +1643,9 @@ export type CampaignCreateWithoutAuditLogsInput = {
   stage?: $Enums.CampaignStage
   crowdTesterCount?: number
   developerTesterCount?: number
-  selectedCountries?: Prisma.CampaignCreateselectedCountriesInput | string[]
-  selectedPlatforms?: Prisma.CampaignCreateselectedPlatformsInput | string[]
-  selectedBrowsers?: Prisma.CampaignCreateselectedBrowsersInput | string[]
+  selectedCountries: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedPlatforms: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedBrowsers: Prisma.JsonNullValueInput | runtime.InputJsonValue
   estimatedCost?: number
   moderatorSlots?: number
   requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1693,9 +1673,9 @@ export type CampaignUncheckedCreateWithoutAuditLogsInput = {
   stage?: $Enums.CampaignStage
   crowdTesterCount?: number
   developerTesterCount?: number
-  selectedCountries?: Prisma.CampaignCreateselectedCountriesInput | string[]
-  selectedPlatforms?: Prisma.CampaignCreateselectedPlatformsInput | string[]
-  selectedBrowsers?: Prisma.CampaignCreateselectedBrowsersInput | string[]
+  selectedCountries: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedPlatforms: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedBrowsers: Prisma.JsonNullValueInput | runtime.InputJsonValue
   estimatedCost?: number
   moderatorSlots?: number
   requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1735,9 +1715,9 @@ export type CampaignUpdateWithoutAuditLogsInput = {
   stage?: Prisma.EnumCampaignStageFieldUpdateOperationsInput | $Enums.CampaignStage
   crowdTesterCount?: Prisma.IntFieldUpdateOperationsInput | number
   developerTesterCount?: Prisma.IntFieldUpdateOperationsInput | number
-  selectedCountries?: Prisma.CampaignUpdateselectedCountriesInput | string[]
-  selectedPlatforms?: Prisma.CampaignUpdateselectedPlatformsInput | string[]
-  selectedBrowsers?: Prisma.CampaignUpdateselectedBrowsersInput | string[]
+  selectedCountries?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedPlatforms?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedBrowsers?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   estimatedCost?: Prisma.FloatFieldUpdateOperationsInput | number
   moderatorSlots?: Prisma.IntFieldUpdateOperationsInput | number
   requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1765,9 +1745,9 @@ export type CampaignUncheckedUpdateWithoutAuditLogsInput = {
   stage?: Prisma.EnumCampaignStageFieldUpdateOperationsInput | $Enums.CampaignStage
   crowdTesterCount?: Prisma.IntFieldUpdateOperationsInput | number
   developerTesterCount?: Prisma.IntFieldUpdateOperationsInput | number
-  selectedCountries?: Prisma.CampaignUpdateselectedCountriesInput | string[]
-  selectedPlatforms?: Prisma.CampaignUpdateselectedPlatformsInput | string[]
-  selectedBrowsers?: Prisma.CampaignUpdateselectedBrowsersInput | string[]
+  selectedCountries?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedPlatforms?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedBrowsers?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   estimatedCost?: Prisma.FloatFieldUpdateOperationsInput | number
   moderatorSlots?: Prisma.IntFieldUpdateOperationsInput | number
   requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1792,9 +1772,9 @@ export type CampaignCreateManyClientInput = {
   stage?: $Enums.CampaignStage
   crowdTesterCount?: number
   developerTesterCount?: number
-  selectedCountries?: Prisma.CampaignCreateselectedCountriesInput | string[]
-  selectedPlatforms?: Prisma.CampaignCreateselectedPlatformsInput | string[]
-  selectedBrowsers?: Prisma.CampaignCreateselectedBrowsersInput | string[]
+  selectedCountries: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedPlatforms: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedBrowsers: Prisma.JsonNullValueInput | runtime.InputJsonValue
   estimatedCost?: number
   moderatorSlots?: number
   requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1815,9 +1795,9 @@ export type CampaignCreateManyTestManagerInput = {
   stage?: $Enums.CampaignStage
   crowdTesterCount?: number
   developerTesterCount?: number
-  selectedCountries?: Prisma.CampaignCreateselectedCountriesInput | string[]
-  selectedPlatforms?: Prisma.CampaignCreateselectedPlatformsInput | string[]
-  selectedBrowsers?: Prisma.CampaignCreateselectedBrowsersInput | string[]
+  selectedCountries: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedPlatforms: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedBrowsers: Prisma.JsonNullValueInput | runtime.InputJsonValue
   estimatedCost?: number
   moderatorSlots?: number
   requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1837,9 +1817,9 @@ export type CampaignUpdateWithoutClientInput = {
   stage?: Prisma.EnumCampaignStageFieldUpdateOperationsInput | $Enums.CampaignStage
   crowdTesterCount?: Prisma.IntFieldUpdateOperationsInput | number
   developerTesterCount?: Prisma.IntFieldUpdateOperationsInput | number
-  selectedCountries?: Prisma.CampaignUpdateselectedCountriesInput | string[]
-  selectedPlatforms?: Prisma.CampaignUpdateselectedPlatformsInput | string[]
-  selectedBrowsers?: Prisma.CampaignUpdateselectedBrowsersInput | string[]
+  selectedCountries?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedPlatforms?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedBrowsers?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   estimatedCost?: Prisma.FloatFieldUpdateOperationsInput | number
   moderatorSlots?: Prisma.IntFieldUpdateOperationsInput | number
   requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1866,9 +1846,9 @@ export type CampaignUncheckedUpdateWithoutClientInput = {
   stage?: Prisma.EnumCampaignStageFieldUpdateOperationsInput | $Enums.CampaignStage
   crowdTesterCount?: Prisma.IntFieldUpdateOperationsInput | number
   developerTesterCount?: Prisma.IntFieldUpdateOperationsInput | number
-  selectedCountries?: Prisma.CampaignUpdateselectedCountriesInput | string[]
-  selectedPlatforms?: Prisma.CampaignUpdateselectedPlatformsInput | string[]
-  selectedBrowsers?: Prisma.CampaignUpdateselectedBrowsersInput | string[]
+  selectedCountries?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedPlatforms?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedBrowsers?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   estimatedCost?: Prisma.FloatFieldUpdateOperationsInput | number
   moderatorSlots?: Prisma.IntFieldUpdateOperationsInput | number
   requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1894,9 +1874,9 @@ export type CampaignUncheckedUpdateManyWithoutClientInput = {
   stage?: Prisma.EnumCampaignStageFieldUpdateOperationsInput | $Enums.CampaignStage
   crowdTesterCount?: Prisma.IntFieldUpdateOperationsInput | number
   developerTesterCount?: Prisma.IntFieldUpdateOperationsInput | number
-  selectedCountries?: Prisma.CampaignUpdateselectedCountriesInput | string[]
-  selectedPlatforms?: Prisma.CampaignUpdateselectedPlatformsInput | string[]
-  selectedBrowsers?: Prisma.CampaignUpdateselectedBrowsersInput | string[]
+  selectedCountries?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedPlatforms?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedBrowsers?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   estimatedCost?: Prisma.FloatFieldUpdateOperationsInput | number
   moderatorSlots?: Prisma.IntFieldUpdateOperationsInput | number
   requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1916,9 +1896,9 @@ export type CampaignUpdateWithoutTestManagerInput = {
   stage?: Prisma.EnumCampaignStageFieldUpdateOperationsInput | $Enums.CampaignStage
   crowdTesterCount?: Prisma.IntFieldUpdateOperationsInput | number
   developerTesterCount?: Prisma.IntFieldUpdateOperationsInput | number
-  selectedCountries?: Prisma.CampaignUpdateselectedCountriesInput | string[]
-  selectedPlatforms?: Prisma.CampaignUpdateselectedPlatformsInput | string[]
-  selectedBrowsers?: Prisma.CampaignUpdateselectedBrowsersInput | string[]
+  selectedCountries?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedPlatforms?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedBrowsers?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   estimatedCost?: Prisma.FloatFieldUpdateOperationsInput | number
   moderatorSlots?: Prisma.IntFieldUpdateOperationsInput | number
   requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1945,9 +1925,9 @@ export type CampaignUncheckedUpdateWithoutTestManagerInput = {
   stage?: Prisma.EnumCampaignStageFieldUpdateOperationsInput | $Enums.CampaignStage
   crowdTesterCount?: Prisma.IntFieldUpdateOperationsInput | number
   developerTesterCount?: Prisma.IntFieldUpdateOperationsInput | number
-  selectedCountries?: Prisma.CampaignUpdateselectedCountriesInput | string[]
-  selectedPlatforms?: Prisma.CampaignUpdateselectedPlatformsInput | string[]
-  selectedBrowsers?: Prisma.CampaignUpdateselectedBrowsersInput | string[]
+  selectedCountries?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedPlatforms?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedBrowsers?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   estimatedCost?: Prisma.FloatFieldUpdateOperationsInput | number
   moderatorSlots?: Prisma.IntFieldUpdateOperationsInput | number
   requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1973,9 +1953,9 @@ export type CampaignUncheckedUpdateManyWithoutTestManagerInput = {
   stage?: Prisma.EnumCampaignStageFieldUpdateOperationsInput | $Enums.CampaignStage
   crowdTesterCount?: Prisma.IntFieldUpdateOperationsInput | number
   developerTesterCount?: Prisma.IntFieldUpdateOperationsInput | number
-  selectedCountries?: Prisma.CampaignUpdateselectedCountriesInput | string[]
-  selectedPlatforms?: Prisma.CampaignUpdateselectedPlatformsInput | string[]
-  selectedBrowsers?: Prisma.CampaignUpdateselectedBrowsersInput | string[]
+  selectedCountries?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedPlatforms?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedBrowsers?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   estimatedCost?: Prisma.FloatFieldUpdateOperationsInput | number
   moderatorSlots?: Prisma.IntFieldUpdateOperationsInput | number
   requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -2083,57 +2063,7 @@ export type CampaignSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   _count?: boolean | Prisma.CampaignCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["campaign"]>
 
-export type CampaignSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  id?: boolean
-  clientId?: boolean
-  testManagerId?: boolean
-  projectName?: boolean
-  description?: boolean
-  softwareType?: boolean
-  websiteUrl?: boolean
-  downloadPath?: boolean
-  testerCredentials?: boolean
-  stage?: boolean
-  crowdTesterCount?: boolean
-  developerTesterCount?: boolean
-  selectedCountries?: boolean
-  selectedPlatforms?: boolean
-  selectedBrowsers?: boolean
-  estimatedCost?: boolean
-  moderatorSlots?: boolean
-  requirements?: boolean
-  analytics?: boolean
-  createdAt?: boolean
-  updatedAt?: boolean
-  client?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  testManager?: boolean | Prisma.Campaign$testManagerArgs<ExtArgs>
-}, ExtArgs["result"]["campaign"]>
 
-export type CampaignSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  id?: boolean
-  clientId?: boolean
-  testManagerId?: boolean
-  projectName?: boolean
-  description?: boolean
-  softwareType?: boolean
-  websiteUrl?: boolean
-  downloadPath?: boolean
-  testerCredentials?: boolean
-  stage?: boolean
-  crowdTesterCount?: boolean
-  developerTesterCount?: boolean
-  selectedCountries?: boolean
-  selectedPlatforms?: boolean
-  selectedBrowsers?: boolean
-  estimatedCost?: boolean
-  moderatorSlots?: boolean
-  requirements?: boolean
-  analytics?: boolean
-  createdAt?: boolean
-  updatedAt?: boolean
-  client?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  testManager?: boolean | Prisma.Campaign$testManagerArgs<ExtArgs>
-}, ExtArgs["result"]["campaign"]>
 
 export type CampaignSelectScalar = {
   id?: boolean
@@ -2170,14 +2100,6 @@ export type CampaignInclude<ExtArgs extends runtime.Types.Extensions.InternalArg
   auditLogs?: boolean | Prisma.Campaign$auditLogsArgs<ExtArgs>
   _count?: boolean | Prisma.CampaignCountOutputTypeDefaultArgs<ExtArgs>
 }
-export type CampaignIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  client?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  testManager?: boolean | Prisma.Campaign$testManagerArgs<ExtArgs>
-}
-export type CampaignIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  client?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  testManager?: boolean | Prisma.Campaign$testManagerArgs<ExtArgs>
-}
 
 export type $CampaignPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Campaign"
@@ -2203,9 +2125,9 @@ export type $CampaignPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     stage: $Enums.CampaignStage
     crowdTesterCount: number
     developerTesterCount: number
-    selectedCountries: string[]
-    selectedPlatforms: string[]
-    selectedBrowsers: string[]
+    selectedCountries: runtime.JsonValue
+    selectedPlatforms: runtime.JsonValue
+    selectedBrowsers: runtime.JsonValue
     estimatedCost: number
     moderatorSlots: number
     requirements: runtime.JsonValue | null
@@ -2330,30 +2252,6 @@ export interface CampaignDelegate<ExtArgs extends runtime.Types.Extensions.Inter
   createMany<T extends CampaignCreateManyArgs>(args?: Prisma.SelectSubset<T, CampaignCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
-   * Create many Campaigns and returns the data saved in the database.
-   * @param {CampaignCreateManyAndReturnArgs} args - Arguments to create many Campaigns.
-   * @example
-   * // Create many Campaigns
-   * const campaign = await prisma.campaign.createManyAndReturn({
-   *   data: [
-   *     // ... provide data here
-   *   ]
-   * })
-   * 
-   * // Create many Campaigns and only return the `id`
-   * const campaignWithIdOnly = await prisma.campaign.createManyAndReturn({
-   *   select: { id: true },
-   *   data: [
-   *     // ... provide data here
-   *   ]
-   * })
-   * Note, that providing `undefined` is treated as the value not being there.
-   * Read more here: https://pris.ly/d/null-undefined
-   * 
-   */
-  createManyAndReturn<T extends CampaignCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, CampaignCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CampaignPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-  /**
    * Delete a Campaign.
    * @param {CampaignDeleteArgs} args - Arguments to delete one Campaign.
    * @example
@@ -2416,36 +2314,6 @@ export interface CampaignDelegate<ExtArgs extends runtime.Types.Extensions.Inter
    * 
    */
   updateMany<T extends CampaignUpdateManyArgs>(args: Prisma.SelectSubset<T, CampaignUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
-
-  /**
-   * Update zero or more Campaigns and returns the data updated in the database.
-   * @param {CampaignUpdateManyAndReturnArgs} args - Arguments to update many Campaigns.
-   * @example
-   * // Update many Campaigns
-   * const campaign = await prisma.campaign.updateManyAndReturn({
-   *   where: {
-   *     // ... provide filter here
-   *   },
-   *   data: [
-   *     // ... provide data here
-   *   ]
-   * })
-   * 
-   * // Update zero or more Campaigns and only return the `id`
-   * const campaignWithIdOnly = await prisma.campaign.updateManyAndReturn({
-   *   select: { id: true },
-   *   where: {
-   *     // ... provide filter here
-   *   },
-   *   data: [
-   *     // ... provide data here
-   *   ]
-   * })
-   * Note, that providing `undefined` is treated as the value not being there.
-   * Read more here: https://pris.ly/d/null-undefined
-   * 
-   */
-  updateManyAndReturn<T extends CampaignUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, CampaignUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CampaignPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one Campaign.
@@ -2654,9 +2522,9 @@ export interface CampaignFieldRefs {
   readonly stage: Prisma.FieldRef<"Campaign", 'CampaignStage'>
   readonly crowdTesterCount: Prisma.FieldRef<"Campaign", 'Int'>
   readonly developerTesterCount: Prisma.FieldRef<"Campaign", 'Int'>
-  readonly selectedCountries: Prisma.FieldRef<"Campaign", 'String[]'>
-  readonly selectedPlatforms: Prisma.FieldRef<"Campaign", 'String[]'>
-  readonly selectedBrowsers: Prisma.FieldRef<"Campaign", 'String[]'>
+  readonly selectedCountries: Prisma.FieldRef<"Campaign", 'Json'>
+  readonly selectedPlatforms: Prisma.FieldRef<"Campaign", 'Json'>
+  readonly selectedBrowsers: Prisma.FieldRef<"Campaign", 'Json'>
   readonly estimatedCost: Prisma.FieldRef<"Campaign", 'Float'>
   readonly moderatorSlots: Prisma.FieldRef<"Campaign", 'Int'>
   readonly requirements: Prisma.FieldRef<"Campaign", 'Json'>
@@ -2901,29 +2769,6 @@ export type CampaignCreateManyArgs<ExtArgs extends runtime.Types.Extensions.Inte
 }
 
 /**
- * Campaign createManyAndReturn
- */
-export type CampaignCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Campaign
-   */
-  select?: Prisma.CampaignSelectCreateManyAndReturn<ExtArgs> | null
-  /**
-   * Omit specific fields from the Campaign
-   */
-  omit?: Prisma.CampaignOmit<ExtArgs> | null
-  /**
-   * The data used to create many Campaigns.
-   */
-  data: Prisma.CampaignCreateManyInput | Prisma.CampaignCreateManyInput[]
-  skipDuplicates?: boolean
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.CampaignIncludeCreateManyAndReturn<ExtArgs> | null
-}
-
-/**
  * Campaign update
  */
 export type CampaignUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2965,36 +2810,6 @@ export type CampaignUpdateManyArgs<ExtArgs extends runtime.Types.Extensions.Inte
    * Limit how many Campaigns to update.
    */
   limit?: number
-}
-
-/**
- * Campaign updateManyAndReturn
- */
-export type CampaignUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Campaign
-   */
-  select?: Prisma.CampaignSelectUpdateManyAndReturn<ExtArgs> | null
-  /**
-   * Omit specific fields from the Campaign
-   */
-  omit?: Prisma.CampaignOmit<ExtArgs> | null
-  /**
-   * The data used to update Campaigns.
-   */
-  data: Prisma.XOR<Prisma.CampaignUpdateManyMutationInput, Prisma.CampaignUncheckedUpdateManyInput>
-  /**
-   * Filter which Campaigns to update
-   */
-  where?: Prisma.CampaignWhereInput
-  /**
-   * Limit how many Campaigns to update.
-   */
-  limit?: number
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.CampaignIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**

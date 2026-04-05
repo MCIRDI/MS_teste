@@ -212,6 +212,7 @@ export type CampaignInvitationOrderByWithRelationInput = {
   expiresAt?: Prisma.SortOrderInput | Prisma.SortOrder
   campaign?: Prisma.CampaignOrderByWithRelationInput
   tester?: Prisma.UserOrderByWithRelationInput
+  _relevance?: Prisma.CampaignInvitationOrderByRelevanceInput
 }
 
 export type CampaignInvitationWhereUniqueInput = Prisma.AtLeast<{
@@ -332,6 +333,12 @@ export type CampaignInvitationListRelationFilter = {
 
 export type CampaignInvitationOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
+}
+
+export type CampaignInvitationOrderByRelevanceInput = {
+  fields: Prisma.CampaignInvitationOrderByRelevanceFieldEnum | Prisma.CampaignInvitationOrderByRelevanceFieldEnum[]
+  sort: Prisma.SortOrder
+  search: string
 }
 
 export type CampaignInvitationCampaignIdTesterIdCompoundUniqueInput = {
@@ -644,29 +651,7 @@ export type CampaignInvitationSelect<ExtArgs extends runtime.Types.Extensions.In
   tester?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["campaignInvitation"]>
 
-export type CampaignInvitationSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  id?: boolean
-  campaignId?: boolean
-  testerId?: boolean
-  status?: boolean
-  invitedAt?: boolean
-  acceptedAt?: boolean
-  expiresAt?: boolean
-  campaign?: boolean | Prisma.CampaignDefaultArgs<ExtArgs>
-  tester?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-}, ExtArgs["result"]["campaignInvitation"]>
 
-export type CampaignInvitationSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  id?: boolean
-  campaignId?: boolean
-  testerId?: boolean
-  status?: boolean
-  invitedAt?: boolean
-  acceptedAt?: boolean
-  expiresAt?: boolean
-  campaign?: boolean | Prisma.CampaignDefaultArgs<ExtArgs>
-  tester?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-}, ExtArgs["result"]["campaignInvitation"]>
 
 export type CampaignInvitationSelectScalar = {
   id?: boolean
@@ -680,14 +665,6 @@ export type CampaignInvitationSelectScalar = {
 
 export type CampaignInvitationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "campaignId" | "testerId" | "status" | "invitedAt" | "acceptedAt" | "expiresAt", ExtArgs["result"]["campaignInvitation"]>
 export type CampaignInvitationInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  campaign?: boolean | Prisma.CampaignDefaultArgs<ExtArgs>
-  tester?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-}
-export type CampaignInvitationIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  campaign?: boolean | Prisma.CampaignDefaultArgs<ExtArgs>
-  tester?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-}
-export type CampaignInvitationIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   campaign?: boolean | Prisma.CampaignDefaultArgs<ExtArgs>
   tester?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
@@ -824,30 +801,6 @@ export interface CampaignInvitationDelegate<ExtArgs extends runtime.Types.Extens
   createMany<T extends CampaignInvitationCreateManyArgs>(args?: Prisma.SelectSubset<T, CampaignInvitationCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
-   * Create many CampaignInvitations and returns the data saved in the database.
-   * @param {CampaignInvitationCreateManyAndReturnArgs} args - Arguments to create many CampaignInvitations.
-   * @example
-   * // Create many CampaignInvitations
-   * const campaignInvitation = await prisma.campaignInvitation.createManyAndReturn({
-   *   data: [
-   *     // ... provide data here
-   *   ]
-   * })
-   * 
-   * // Create many CampaignInvitations and only return the `id`
-   * const campaignInvitationWithIdOnly = await prisma.campaignInvitation.createManyAndReturn({
-   *   select: { id: true },
-   *   data: [
-   *     // ... provide data here
-   *   ]
-   * })
-   * Note, that providing `undefined` is treated as the value not being there.
-   * Read more here: https://pris.ly/d/null-undefined
-   * 
-   */
-  createManyAndReturn<T extends CampaignInvitationCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, CampaignInvitationCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CampaignInvitationPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-  /**
    * Delete a CampaignInvitation.
    * @param {CampaignInvitationDeleteArgs} args - Arguments to delete one CampaignInvitation.
    * @example
@@ -910,36 +863,6 @@ export interface CampaignInvitationDelegate<ExtArgs extends runtime.Types.Extens
    * 
    */
   updateMany<T extends CampaignInvitationUpdateManyArgs>(args: Prisma.SelectSubset<T, CampaignInvitationUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
-
-  /**
-   * Update zero or more CampaignInvitations and returns the data updated in the database.
-   * @param {CampaignInvitationUpdateManyAndReturnArgs} args - Arguments to update many CampaignInvitations.
-   * @example
-   * // Update many CampaignInvitations
-   * const campaignInvitation = await prisma.campaignInvitation.updateManyAndReturn({
-   *   where: {
-   *     // ... provide filter here
-   *   },
-   *   data: [
-   *     // ... provide data here
-   *   ]
-   * })
-   * 
-   * // Update zero or more CampaignInvitations and only return the `id`
-   * const campaignInvitationWithIdOnly = await prisma.campaignInvitation.updateManyAndReturn({
-   *   select: { id: true },
-   *   where: {
-   *     // ... provide filter here
-   *   },
-   *   data: [
-   *     // ... provide data here
-   *   ]
-   * })
-   * Note, that providing `undefined` is treated as the value not being there.
-   * Read more here: https://pris.ly/d/null-undefined
-   * 
-   */
-  updateManyAndReturn<T extends CampaignInvitationUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, CampaignInvitationUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CampaignInvitationPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one CampaignInvitation.
@@ -1376,29 +1299,6 @@ export type CampaignInvitationCreateManyArgs<ExtArgs extends runtime.Types.Exten
 }
 
 /**
- * CampaignInvitation createManyAndReturn
- */
-export type CampaignInvitationCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the CampaignInvitation
-   */
-  select?: Prisma.CampaignInvitationSelectCreateManyAndReturn<ExtArgs> | null
-  /**
-   * Omit specific fields from the CampaignInvitation
-   */
-  omit?: Prisma.CampaignInvitationOmit<ExtArgs> | null
-  /**
-   * The data used to create many CampaignInvitations.
-   */
-  data: Prisma.CampaignInvitationCreateManyInput | Prisma.CampaignInvitationCreateManyInput[]
-  skipDuplicates?: boolean
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.CampaignInvitationIncludeCreateManyAndReturn<ExtArgs> | null
-}
-
-/**
  * CampaignInvitation update
  */
 export type CampaignInvitationUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1440,36 +1340,6 @@ export type CampaignInvitationUpdateManyArgs<ExtArgs extends runtime.Types.Exten
    * Limit how many CampaignInvitations to update.
    */
   limit?: number
-}
-
-/**
- * CampaignInvitation updateManyAndReturn
- */
-export type CampaignInvitationUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the CampaignInvitation
-   */
-  select?: Prisma.CampaignInvitationSelectUpdateManyAndReturn<ExtArgs> | null
-  /**
-   * Omit specific fields from the CampaignInvitation
-   */
-  omit?: Prisma.CampaignInvitationOmit<ExtArgs> | null
-  /**
-   * The data used to update CampaignInvitations.
-   */
-  data: Prisma.XOR<Prisma.CampaignInvitationUpdateManyMutationInput, Prisma.CampaignInvitationUncheckedUpdateManyInput>
-  /**
-   * Filter which CampaignInvitations to update
-   */
-  where?: Prisma.CampaignInvitationWhereInput
-  /**
-   * Limit how many CampaignInvitations to update.
-   */
-  limit?: number
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.CampaignInvitationIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**

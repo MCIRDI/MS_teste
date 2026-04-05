@@ -4,7 +4,7 @@ const envSchema = z.object({
   DATABASE_URL: z
     .string()
     .min(1)
-    .default("postgresql://postgres:postgres@localhost:5432/ms_test?schema=public"),
+    .default("mysql://root:password@localhost:3306/ms_test"),
   JWT_SECRET: z.string().min(16).default("change-me-to-a-long-random-secret"),
   APP_URL: z.string().default("http://localhost:3000"),
   UPLOAD_DIR: z.string().default("uploads"),

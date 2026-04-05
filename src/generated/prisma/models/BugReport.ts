@@ -313,6 +313,7 @@ export type BugReportOrderByWithRelationInput = {
   moderator?: Prisma.UserOrderByWithRelationInput
   validatedBy?: Prisma.UserOrderByWithRelationInput
   attachments?: Prisma.BugAttachmentOrderByRelationAggregateInput
+  _relevance?: Prisma.BugReportOrderByRelevanceInput
 }
 
 export type BugReportWhereUniqueInput = Prisma.AtLeast<{
@@ -547,6 +548,12 @@ export type BugReportListRelationFilter = {
 
 export type BugReportOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
+}
+
+export type BugReportOrderByRelevanceInput = {
+  fields: Prisma.BugReportOrderByRelevanceFieldEnum | Prisma.BugReportOrderByRelevanceFieldEnum[]
+  sort: Prisma.SortOrder
+  search: string
 }
 
 export type BugReportCountOrderByAggregateInput = {
@@ -1587,55 +1594,7 @@ export type BugReportSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   _count?: boolean | Prisma.BugReportCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["bugReport"]>
 
-export type BugReportSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  id?: boolean
-  campaignId?: boolean
-  testerId?: boolean
-  moderatorId?: boolean
-  validatedById?: boolean
-  title?: boolean
-  description?: boolean
-  reproductionSteps?: boolean
-  expectedResult?: boolean
-  actualResult?: boolean
-  severity?: boolean
-  environment?: boolean
-  status?: boolean
-  moderationNotes?: boolean
-  validationNotes?: boolean
-  duplicateOfId?: boolean
-  createdAt?: boolean
-  updatedAt?: boolean
-  campaign?: boolean | Prisma.CampaignDefaultArgs<ExtArgs>
-  tester?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  moderator?: boolean | Prisma.BugReport$moderatorArgs<ExtArgs>
-  validatedBy?: boolean | Prisma.BugReport$validatedByArgs<ExtArgs>
-}, ExtArgs["result"]["bugReport"]>
 
-export type BugReportSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  id?: boolean
-  campaignId?: boolean
-  testerId?: boolean
-  moderatorId?: boolean
-  validatedById?: boolean
-  title?: boolean
-  description?: boolean
-  reproductionSteps?: boolean
-  expectedResult?: boolean
-  actualResult?: boolean
-  severity?: boolean
-  environment?: boolean
-  status?: boolean
-  moderationNotes?: boolean
-  validationNotes?: boolean
-  duplicateOfId?: boolean
-  createdAt?: boolean
-  updatedAt?: boolean
-  campaign?: boolean | Prisma.CampaignDefaultArgs<ExtArgs>
-  tester?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  moderator?: boolean | Prisma.BugReport$moderatorArgs<ExtArgs>
-  validatedBy?: boolean | Prisma.BugReport$validatedByArgs<ExtArgs>
-}, ExtArgs["result"]["bugReport"]>
 
 export type BugReportSelectScalar = {
   id?: boolean
@@ -1666,18 +1625,6 @@ export type BugReportInclude<ExtArgs extends runtime.Types.Extensions.InternalAr
   validatedBy?: boolean | Prisma.BugReport$validatedByArgs<ExtArgs>
   attachments?: boolean | Prisma.BugReport$attachmentsArgs<ExtArgs>
   _count?: boolean | Prisma.BugReportCountOutputTypeDefaultArgs<ExtArgs>
-}
-export type BugReportIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  campaign?: boolean | Prisma.CampaignDefaultArgs<ExtArgs>
-  tester?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  moderator?: boolean | Prisma.BugReport$moderatorArgs<ExtArgs>
-  validatedBy?: boolean | Prisma.BugReport$validatedByArgs<ExtArgs>
-}
-export type BugReportIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  campaign?: boolean | Prisma.CampaignDefaultArgs<ExtArgs>
-  tester?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  moderator?: boolean | Prisma.BugReport$moderatorArgs<ExtArgs>
-  validatedBy?: boolean | Prisma.BugReport$validatedByArgs<ExtArgs>
 }
 
 export type $BugReportPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1826,30 +1773,6 @@ export interface BugReportDelegate<ExtArgs extends runtime.Types.Extensions.Inte
   createMany<T extends BugReportCreateManyArgs>(args?: Prisma.SelectSubset<T, BugReportCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
-   * Create many BugReports and returns the data saved in the database.
-   * @param {BugReportCreateManyAndReturnArgs} args - Arguments to create many BugReports.
-   * @example
-   * // Create many BugReports
-   * const bugReport = await prisma.bugReport.createManyAndReturn({
-   *   data: [
-   *     // ... provide data here
-   *   ]
-   * })
-   * 
-   * // Create many BugReports and only return the `id`
-   * const bugReportWithIdOnly = await prisma.bugReport.createManyAndReturn({
-   *   select: { id: true },
-   *   data: [
-   *     // ... provide data here
-   *   ]
-   * })
-   * Note, that providing `undefined` is treated as the value not being there.
-   * Read more here: https://pris.ly/d/null-undefined
-   * 
-   */
-  createManyAndReturn<T extends BugReportCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, BugReportCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BugReportPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-  /**
    * Delete a BugReport.
    * @param {BugReportDeleteArgs} args - Arguments to delete one BugReport.
    * @example
@@ -1912,36 +1835,6 @@ export interface BugReportDelegate<ExtArgs extends runtime.Types.Extensions.Inte
    * 
    */
   updateMany<T extends BugReportUpdateManyArgs>(args: Prisma.SelectSubset<T, BugReportUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
-
-  /**
-   * Update zero or more BugReports and returns the data updated in the database.
-   * @param {BugReportUpdateManyAndReturnArgs} args - Arguments to update many BugReports.
-   * @example
-   * // Update many BugReports
-   * const bugReport = await prisma.bugReport.updateManyAndReturn({
-   *   where: {
-   *     // ... provide filter here
-   *   },
-   *   data: [
-   *     // ... provide data here
-   *   ]
-   * })
-   * 
-   * // Update zero or more BugReports and only return the `id`
-   * const bugReportWithIdOnly = await prisma.bugReport.updateManyAndReturn({
-   *   select: { id: true },
-   *   where: {
-   *     // ... provide filter here
-   *   },
-   *   data: [
-   *     // ... provide data here
-   *   ]
-   * })
-   * Note, that providing `undefined` is treated as the value not being there.
-   * Read more here: https://pris.ly/d/null-undefined
-   * 
-   */
-  updateManyAndReturn<T extends BugReportUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, BugReportUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BugReportPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one BugReport.
@@ -2392,29 +2285,6 @@ export type BugReportCreateManyArgs<ExtArgs extends runtime.Types.Extensions.Int
 }
 
 /**
- * BugReport createManyAndReturn
- */
-export type BugReportCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the BugReport
-   */
-  select?: Prisma.BugReportSelectCreateManyAndReturn<ExtArgs> | null
-  /**
-   * Omit specific fields from the BugReport
-   */
-  omit?: Prisma.BugReportOmit<ExtArgs> | null
-  /**
-   * The data used to create many BugReports.
-   */
-  data: Prisma.BugReportCreateManyInput | Prisma.BugReportCreateManyInput[]
-  skipDuplicates?: boolean
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.BugReportIncludeCreateManyAndReturn<ExtArgs> | null
-}
-
-/**
  * BugReport update
  */
 export type BugReportUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2456,36 +2326,6 @@ export type BugReportUpdateManyArgs<ExtArgs extends runtime.Types.Extensions.Int
    * Limit how many BugReports to update.
    */
   limit?: number
-}
-
-/**
- * BugReport updateManyAndReturn
- */
-export type BugReportUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the BugReport
-   */
-  select?: Prisma.BugReportSelectUpdateManyAndReturn<ExtArgs> | null
-  /**
-   * Omit specific fields from the BugReport
-   */
-  omit?: Prisma.BugReportOmit<ExtArgs> | null
-  /**
-   * The data used to update BugReports.
-   */
-  data: Prisma.XOR<Prisma.BugReportUpdateManyMutationInput, Prisma.BugReportUncheckedUpdateManyInput>
-  /**
-   * Filter which BugReports to update
-   */
-  where?: Prisma.BugReportWhereInput
-  /**
-   * Limit how many BugReports to update.
-   */
-  limit?: number
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.BugReportIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**

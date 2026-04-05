@@ -20,7 +20,7 @@ export default function AboutPage() {
         <Card className="space-y-4">
           <h2 className="font-serif text-3xl text-stone-900">Why the architecture is simple</h2>
           <p className="text-sm leading-7 text-stone-600">
-            Everything runs inside Next.js App Router with PostgreSQL through Prisma and standard Node.js route handlers, which keeps the deployment model friendly to shared and VPS-style environments like Hostinger.
+            Everything runs inside Next.js App Router with MySQL-compatible storage through Prisma and standard Node.js route handlers, which keeps the deployment model friendly to shared and VPS-style environments like Hostinger.
           </p>
         </Card>
       </section>

@@ -210,6 +210,7 @@ export type EmailTokenOrderByWithRelationInput = {
   usedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
+  _relevance?: Prisma.EmailTokenOrderByRelevanceInput
 }
 
 export type EmailTokenWhereUniqueInput = Prisma.AtLeast<{
@@ -329,6 +330,12 @@ export type EmailTokenListRelationFilter = {
 
 export type EmailTokenOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
+}
+
+export type EmailTokenOrderByRelevanceInput = {
+  fields: Prisma.EmailTokenOrderByRelevanceFieldEnum | Prisma.EmailTokenOrderByRelevanceFieldEnum[]
+  sort: Prisma.SortOrder
+  search: string
 }
 
 export type EmailTokenCountOrderByAggregateInput = {
@@ -513,27 +520,7 @@ export type EmailTokenSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["emailToken"]>
 
-export type EmailTokenSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  id?: boolean
-  userId?: boolean
-  token?: boolean
-  type?: boolean
-  expiresAt?: boolean
-  usedAt?: boolean
-  createdAt?: boolean
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-}, ExtArgs["result"]["emailToken"]>
 
-export type EmailTokenSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  id?: boolean
-  userId?: boolean
-  token?: boolean
-  type?: boolean
-  expiresAt?: boolean
-  usedAt?: boolean
-  createdAt?: boolean
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-}, ExtArgs["result"]["emailToken"]>
 
 export type EmailTokenSelectScalar = {
   id?: boolean
@@ -547,12 +534,6 @@ export type EmailTokenSelectScalar = {
 
 export type EmailTokenOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "token" | "type" | "expiresAt" | "usedAt" | "createdAt", ExtArgs["result"]["emailToken"]>
 export type EmailTokenInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-}
-export type EmailTokenIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-}
-export type EmailTokenIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 
@@ -687,30 +668,6 @@ export interface EmailTokenDelegate<ExtArgs extends runtime.Types.Extensions.Int
   createMany<T extends EmailTokenCreateManyArgs>(args?: Prisma.SelectSubset<T, EmailTokenCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
-   * Create many EmailTokens and returns the data saved in the database.
-   * @param {EmailTokenCreateManyAndReturnArgs} args - Arguments to create many EmailTokens.
-   * @example
-   * // Create many EmailTokens
-   * const emailToken = await prisma.emailToken.createManyAndReturn({
-   *   data: [
-   *     // ... provide data here
-   *   ]
-   * })
-   * 
-   * // Create many EmailTokens and only return the `id`
-   * const emailTokenWithIdOnly = await prisma.emailToken.createManyAndReturn({
-   *   select: { id: true },
-   *   data: [
-   *     // ... provide data here
-   *   ]
-   * })
-   * Note, that providing `undefined` is treated as the value not being there.
-   * Read more here: https://pris.ly/d/null-undefined
-   * 
-   */
-  createManyAndReturn<T extends EmailTokenCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, EmailTokenCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EmailTokenPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-  /**
    * Delete a EmailToken.
    * @param {EmailTokenDeleteArgs} args - Arguments to delete one EmailToken.
    * @example
@@ -773,36 +730,6 @@ export interface EmailTokenDelegate<ExtArgs extends runtime.Types.Extensions.Int
    * 
    */
   updateMany<T extends EmailTokenUpdateManyArgs>(args: Prisma.SelectSubset<T, EmailTokenUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
-
-  /**
-   * Update zero or more EmailTokens and returns the data updated in the database.
-   * @param {EmailTokenUpdateManyAndReturnArgs} args - Arguments to update many EmailTokens.
-   * @example
-   * // Update many EmailTokens
-   * const emailToken = await prisma.emailToken.updateManyAndReturn({
-   *   where: {
-   *     // ... provide filter here
-   *   },
-   *   data: [
-   *     // ... provide data here
-   *   ]
-   * })
-   * 
-   * // Update zero or more EmailTokens and only return the `id`
-   * const emailTokenWithIdOnly = await prisma.emailToken.updateManyAndReturn({
-   *   select: { id: true },
-   *   where: {
-   *     // ... provide filter here
-   *   },
-   *   data: [
-   *     // ... provide data here
-   *   ]
-   * })
-   * Note, that providing `undefined` is treated as the value not being there.
-   * Read more here: https://pris.ly/d/null-undefined
-   * 
-   */
-  updateManyAndReturn<T extends EmailTokenUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, EmailTokenUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EmailTokenPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one EmailToken.
@@ -1238,29 +1165,6 @@ export type EmailTokenCreateManyArgs<ExtArgs extends runtime.Types.Extensions.In
 }
 
 /**
- * EmailToken createManyAndReturn
- */
-export type EmailTokenCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the EmailToken
-   */
-  select?: Prisma.EmailTokenSelectCreateManyAndReturn<ExtArgs> | null
-  /**
-   * Omit specific fields from the EmailToken
-   */
-  omit?: Prisma.EmailTokenOmit<ExtArgs> | null
-  /**
-   * The data used to create many EmailTokens.
-   */
-  data: Prisma.EmailTokenCreateManyInput | Prisma.EmailTokenCreateManyInput[]
-  skipDuplicates?: boolean
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.EmailTokenIncludeCreateManyAndReturn<ExtArgs> | null
-}
-
-/**
  * EmailToken update
  */
 export type EmailTokenUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1302,36 +1206,6 @@ export type EmailTokenUpdateManyArgs<ExtArgs extends runtime.Types.Extensions.In
    * Limit how many EmailTokens to update.
    */
   limit?: number
-}
-
-/**
- * EmailToken updateManyAndReturn
- */
-export type EmailTokenUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the EmailToken
-   */
-  select?: Prisma.EmailTokenSelectUpdateManyAndReturn<ExtArgs> | null
-  /**
-   * Omit specific fields from the EmailToken
-   */
-  omit?: Prisma.EmailTokenOmit<ExtArgs> | null
-  /**
-   * The data used to update EmailTokens.
-   */
-  data: Prisma.XOR<Prisma.EmailTokenUpdateManyMutationInput, Prisma.EmailTokenUncheckedUpdateManyInput>
-  /**
-   * Filter which EmailTokens to update
-   */
-  where?: Prisma.EmailTokenWhereInput
-  /**
-   * Limit how many EmailTokens to update.
-   */
-  limit?: number
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.EmailTokenIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
