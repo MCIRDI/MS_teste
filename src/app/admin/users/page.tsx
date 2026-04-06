@@ -1,12 +1,14 @@
-import { adminSnapshot } from "@/lib/demo-data";
+import { getAdminDashboardData } from "@/lib/dashboard-data";
 import { Card } from "@/components/ui/card";
 import { SectionHeading } from "@/components/sections/section-heading";
 import { StatGrid } from "@/components/sections/stat-grid";
 
-export default function AdminUsersPage() {
+export default async function AdminUsersPage() {
+  const data = await getAdminDashboardData();
+
   return (
     <div className="space-y-6">
-      <StatGrid items={adminSnapshot.stats} />
+      <StatGrid items={data.stats} />
       <Card className="space-y-5">
         <SectionHeading
           eyebrow="Users"
@@ -24,12 +26,12 @@ export default function AdminUsersPage() {
               </tr>
             </thead>
             <tbody>
-              {adminSnapshot.users.map((user) => (
-                <tr key={user.name} className="border-t border-stone-200">
+              {data.users.map((user) => (
+                <tr key={user.id} className="border-t border-stone-200">
                   <td className="px-4 py-4 text-stone-900">{user.name}</td>
                   <td className="px-4 py-4 text-stone-600">{user.role}</td>
-                  <td className="px-4 py-4 text-stone-600">{user.status}</td>
-                  <td className="px-4 py-4 text-stone-600">{user.country}</td>
+                  <td className="px-4 py-4 text-stone-600">{user.accountStatus}</td>
+                  <td className="px-4 py-4 text-stone-600">{user.country ?? "Not set"}</td>
                 </tr>
               ))}
             </tbody>

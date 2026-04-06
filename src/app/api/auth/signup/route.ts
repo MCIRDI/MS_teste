@@ -39,12 +39,22 @@ export async function POST(request: Request) {
       role: parsed.data.role as Role,
       testerKind:
         parsed.data.role === "TESTER"
-          ? ((parsed.data.testerKind ?? "CROWD") as TesterKind)
+          ? (parsed.data.testerKind as TesterKind)
           : null,
       accountStatus: AccountStatus.ACTIVE,
-      country: parsed.data.country,
-      language: parsed.data.language,
-      testingExperience: parsed.data.testingExperience,
+      country: parsed.data.role === "TESTER" ? parsed.data.country : null,
+      language: parsed.data.role === "TESTER" ? parsed.data.language : null,
+      devices:
+        parsed.data.role === "TESTER"
+          ? {
+              create: {
+                deviceName: parsed.data.deviceName,
+                osVersion: "Not provided",
+                browsers: [],
+                screenResolution: "Not provided",
+              },
+            }
+          : undefined,
       emailTokens: {
         create: {
           token: randomUUID(),

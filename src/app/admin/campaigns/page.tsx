@@ -1,7 +1,10 @@
+import { getAdminDashboardData } from "@/lib/dashboard-data";
 import { Card } from "@/components/ui/card";
 import { SectionHeading } from "@/components/sections/section-heading";
 
-export default function AdminCampaignsPage() {
+export default async function AdminCampaignsPage() {
+  const data = await getAdminDashboardData();
+
   return (
     <div className="space-y-6">
       <SectionHeading
@@ -9,10 +12,15 @@ export default function AdminCampaignsPage() {
         title="Campaign monitoring"
         description="Admins track live campaigns, assignment balance, fraud signals, and moderation capacity across the platform."
       />
-      <Card className="space-y-4">
-        <h2 className="font-serif text-3xl text-stone-900">Platform-wide monitoring</h2>
-        <p className="text-sm leading-7 text-stone-600">This page is intended to consolidate campaign stages, tester volume, moderator ratios, and escalation signals into a single operational view.</p>
-      </Card>
+      <div className="grid gap-4">
+        {data.campaigns.map((campaign) => (
+          <Card key={campaign.id} className="space-y-2">
+            <h2 className="font-serif text-2xl text-stone-900">{campaign.projectName}</h2>
+            <p className="text-sm text-stone-600">{campaign.client.name} · {campaign.stage}</p>
+            <p className="text-sm text-stone-600">{campaign.assignments.length} assignments</p>
+          </Card>
+        ))}
+      </div>
     </div>
   );
 }

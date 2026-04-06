@@ -1,15 +1,23 @@
 import { z } from "zod";
 
-export const signupSchema = z.object({
+const baseSignupSchema = z.object({
   name: z.string().min(2),
   email: z.email(),
   password: z.string().min(8),
-  role: z.enum(["CLIENT", "TESTER"]),
-  testerKind: z.enum(["CROWD", "DEVELOPER"]).optional(),
-  country: z.string().min(2),
-  language: z.string().min(2),
-  testingExperience: z.string().optional(),
 });
+
+export const signupSchema = z.discriminatedUnion("role", [
+  baseSignupSchema.extend({
+    role: z.literal("CLIENT"),
+  }),
+  baseSignupSchema.extend({
+    role: z.literal("TESTER"),
+    testerKind: z.enum(["CROWD", "DEVELOPER"]),
+    country: z.string().min(2),
+    language: z.string().min(2),
+    deviceName: z.string().min(2),
+  }),
+]);
 
 export const loginSchema = z.object({
   email: z.email(),

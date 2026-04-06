@@ -6,6 +6,7 @@ import { redirect } from "next/navigation";
 
 import type { ActionState } from "@/app/actions/auth";
 import { requireSession } from "@/lib/auth";
+import { assignCampaignStaff, inviteMatchingTesters } from "@/lib/campaigns";
 import { estimateCampaignPrice } from "@/lib/pricing";
 import { prisma } from "@/lib/prisma";
 import { saveUpload } from "@/lib/upload";
@@ -50,11 +51,12 @@ export async function createCampaignAction(
     developerTesterCount: parsed.data.developerTesterCount,
     countries: parsed.data.selectedCountries,
     platforms: parsed.data.selectedPlatforms,
+    browsers: parsed.data.selectedBrowsers,
   });
 
   const uploaded = softwareFile ? await saveUpload(softwareFile, "attachments") : null;
 
-  await prisma.campaign.create({
+  const campaign = await prisma.campaign.create({
     data: {
       clientId: session.id,
       projectName: parsed.data.projectName,
@@ -65,7 +67,7 @@ export async function createCampaignAction(
       testerCredentials: parsed.data.testerLoginCredentials
         ? { value: parsed.data.testerLoginCredentials }
         : undefined,
-      stage: CampaignStage.PENDING_APPROVAL,
+      stage: CampaignStage.ACTIVE,
       crowdTesterCount: parsed.data.crowdTesterCount,
       developerTesterCount: parsed.data.developerTesterCount,
       selectedCountries: parsed.data.selectedCountries,
@@ -95,6 +97,67 @@ export async function createCampaignAction(
     },
   });
 
+  await assignCampaignStaff(
+    campaign.id,
+    parsed.data.crowdTesterCount + parsed.data.developerTesterCount,
+  );
+  await inviteMatchingTesters(campaign.id);
+
   revalidatePath("/client/dashboard");
+  revalidatePath("/tester/campaigns");
+  revalidatePath("/manager/dashboard");
+  revalidatePath("/moderator/review-queue");
   redirect("/client/dashboard");
+}
+
+export async function acceptInvitationAction(formData: FormData) {
+  const session = await requireSession([Role.TESTER]);
+  const invitationId = String(formData.get("invitationId") ?? "");
+
+  const invitation = await prisma.campaignInvitation.findUnique({
+    where: { id: invitationId },
+    include: {
+      campaign: true,
+    },
+  });
+
+  if (!invitation || invitation.testerId !== session.id) {
+    return;
+  }
+
+  await prisma.campaignInvitation.update({
+    where: { id: invitation.id },
+    data: {
+      status: "ACCEPTED",
+      acceptedAt: new Date(),
+    },
+  });
+
+  await prisma.campaignAssignment.upsert({
+    where: {
+      campaignId_userId_assignmentRole: {
+        campaignId: invitation.campaignId,
+        userId: session.id,
+        assignmentRole:
+          session.testerKind === "DEVELOPER"
+            ? "DEVELOPER_TESTER"
+            : "CROWD_TESTER",
+      },
+    },
+    update: {
+      acceptedAt: new Date(),
+    },
+    create: {
+      campaignId: invitation.campaignId,
+      userId: session.id,
+      assignmentRole:
+        session.testerKind === "DEVELOPER"
+          ? "DEVELOPER_TESTER"
+          : "CROWD_TESTER",
+      acceptedAt: new Date(),
+    },
+  });
+
+  revalidatePath("/tester/campaigns");
+  revalidatePath(`/tester/workspace/${invitation.campaignId}`);
 }

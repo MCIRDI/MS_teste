@@ -1,6 +1,6 @@
 "use server";
 
-import { AttachmentKind, BugSeverity, Role } from "@/generated/prisma/client";
+import { AttachmentKind, BugSeverity, BugStatus, Role } from "@/generated/prisma/client";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
@@ -68,6 +68,23 @@ export async function submitBugReportAction(
     };
   }
 
+  const assignment = await prisma.campaignAssignment.findFirst({
+    where: {
+      campaignId: parsed.data.campaignId,
+      userId: session.id,
+      assignmentRole: {
+        in: ["CROWD_TESTER", "DEVELOPER_TESTER"],
+      },
+    },
+  });
+
+  if (!assignment) {
+    return {
+      success: false,
+      message: "You need to accept the invitation before submitting bugs.",
+    };
+  }
+
   const files = formData
     .getAll("attachments")
     .filter((entry): entry is File => entry instanceof File && entry.size > 0);
@@ -111,5 +128,69 @@ export async function submitBugReportAction(
   });
 
   revalidatePath("/tester/campaigns");
+  revalidatePath("/moderator/review-queue");
+  revalidatePath("/client/dashboard");
   redirect(`/tester/workspace/${parsed.data.campaignId}`);
+}
+
+export async function moderateBugReportAction(formData: FormData) {
+  const session = await requireSession([Role.MODERATOR]);
+  const bugReportId = String(formData.get("bugReportId") ?? "");
+  const decision = String(formData.get("decision") ?? "");
+  const moderationNotes = String(formData.get("moderationNotes") ?? "");
+
+  if (!["APPROVED", "REJECTED", "DUPLICATE"].includes(decision)) {
+    return;
+  }
+
+  const nextStatus = decision as BugStatus;
+
+  const bugReport = await prisma.bugReport.findUnique({
+    where: { id: bugReportId },
+  });
+
+  if (!bugReport) {
+    return;
+  }
+
+  await prisma.bugReport.update({
+    where: { id: bugReportId },
+    data: {
+      status: nextStatus,
+      moderatorId: session.id,
+      moderationNotes: moderationNotes || null,
+    },
+  });
+
+  revalidatePath("/moderator/review-queue");
+  revalidatePath(`/moderator/campaigns/${bugReport.campaignId}`);
+  revalidatePath("/manager/validation");
+}
+
+export async function validateBugReportAction(formData: FormData) {
+  const session = await requireSession([Role.TEST_MANAGER]);
+  const bugReportId = String(formData.get("bugReportId") ?? "");
+  const validationNotes = String(formData.get("validationNotes") ?? "");
+
+  const bugReport = await prisma.bugReport.findUnique({
+    where: { id: bugReportId },
+  });
+
+  if (!bugReport) {
+    return;
+  }
+
+  await prisma.bugReport.update({
+    where: { id: bugReportId },
+    data: {
+      status: "VALIDATED",
+      validatedById: session.id,
+      validationNotes: validationNotes || null,
+    },
+  });
+
+  revalidatePath("/manager/validation");
+  revalidatePath("/manager/reports");
+  revalidatePath("/client/dashboard");
+  revalidatePath("/client/reports");
 }

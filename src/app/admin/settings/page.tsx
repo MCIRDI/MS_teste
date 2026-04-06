@@ -1,9 +1,15 @@
+import { env } from "@/lib/env";
+import { getAdminSettingsData } from "@/lib/dashboard-data";
 import { Card } from "@/components/ui/card";
 import { SectionHeading } from "@/components/sections/section-heading";
+import { StatGrid } from "@/components/sections/stat-grid";
 
-export default function AdminSettingsPage() {
+export default async function AdminSettingsPage() {
+  const data = await getAdminSettingsData();
+
   return (
     <div className="space-y-6">
+      <StatGrid items={data.stats} />
       <SectionHeading
         eyebrow="Settings"
         title="System settings"
@@ -16,7 +22,8 @@ export default function AdminSettingsPage() {
         </Card>
         <Card className="space-y-4">
           <h2 className="font-serif text-3xl text-stone-900">Pricing configuration</h2>
-          <p className="text-sm leading-7 text-stone-600">Base tester rates and campaign multiplier settings are driven by environment variables and can later be moved into persisted admin controls.</p>
+          <p className="text-sm leading-7 text-stone-600">Crowd tester base price: {env.CROWD_TESTER_BASE_PRICE}</p>
+          <p className="text-sm leading-7 text-stone-600">Developer tester base price: {env.DEVELOPER_TESTER_BASE_PRICE}</p>
         </Card>
       </div>
     </div>

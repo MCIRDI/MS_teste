@@ -28,9 +28,9 @@ export async function signupAction(
     password: formData.get("password"),
     role: formData.get("role"),
     testerKind: formData.get("testerKind") || undefined,
-    country: formData.get("country"),
-    language: formData.get("language"),
-    testingExperience: formData.get("testingExperience") || undefined,
+    country: formData.get("country") || undefined,
+    language: formData.get("language") || undefined,
+    deviceName: formData.get("deviceName") || undefined,
   });
 
   if (!parsed.success) {
@@ -61,13 +61,23 @@ export async function signupAction(
       role: parsed.data.role as Role,
       testerKind:
         parsed.data.role === "TESTER"
-          ? ((parsed.data.testerKind ?? "CROWD") as TesterKind)
+          ? (parsed.data.testerKind as TesterKind)
           : null,
       accountStatus: AccountStatus.ACTIVE,
       isEmailVerified: false,
-      country: parsed.data.country,
-      language: parsed.data.language,
-      testingExperience: parsed.data.testingExperience,
+      country: parsed.data.role === "TESTER" ? parsed.data.country : null,
+      language: parsed.data.role === "TESTER" ? parsed.data.language : null,
+      devices:
+        parsed.data.role === "TESTER"
+          ? {
+              create: {
+                deviceName: parsed.data.deviceName,
+                osVersion: "Not provided",
+                browsers: [],
+                screenResolution: "Not provided",
+              },
+            }
+          : undefined,
       emailTokens: {
         create: {
           token: randomUUID(),

@@ -39,3 +39,15 @@ export function safeJsonParse<T>(value: string | null | undefined, fallback: T):
 export function calculateModeratorSlots(totalTesters: number) {
   return Math.max(1, Math.ceil(totalTesters / 50));
 }
+
+export function toStringArray(value: unknown): string[] {
+  if (Array.isArray(value)) {
+    return value.filter((item): item is string => typeof item === "string");
+  }
+
+  if (typeof value === "string") {
+    return splitList(value);
+  }
+
+  return [];
+}
