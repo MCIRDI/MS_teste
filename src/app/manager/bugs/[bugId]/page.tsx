@@ -1,6 +1,5 @@
 import Link from "next/link";
 
-import { validateBugReportAction } from "@/app/actions/bugs";
 import { requireSession } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { Badge } from "@/components/ui/badge";
@@ -41,8 +40,8 @@ export default async function ManagerBugDetailPage({
           title="Access required"
           description="You are not assigned as the test manager for this campaign."
           action={
-            <Link href="/manager/validation">
-              <Button>Back to inbox</Button>
+            <Link href={`/manager/campaigns/${bug.campaignId}`}>
+              <Button>Back to campaign</Button>
             </Link>
           }
         />
@@ -73,8 +72,8 @@ export default async function ManagerBugDetailPage({
         title={bug.title}
         description={bug.campaign.projectName}
         action={
-          <Link href="/manager/validation">
-            <Button variant="secondary">Back to inbox</Button>
+          <Link href={`/manager/campaigns/${bug.campaignId}`}>
+            <Button variant="secondary">Back to campaign</Button>
           </Link>
         }
       />
@@ -141,27 +140,6 @@ export default async function ManagerBugDetailPage({
           </div>
         )}
       </Card>
-
-      {bug.status === "APPROVED" ? (
-        <Card className="space-y-3">
-          <SectionHeading
-            eyebrow="Action"
-            title="Validate"
-            description="Validated bugs become visible to the client in campaign reports."
-          />
-          <form action={validateBugReportAction} className="space-y-2">
-            <input type="hidden" name="bugReportId" value={bug.id} />
-            <textarea
-              name="validationNotes"
-              className="min-h-20 w-full rounded-2xl border border-stone-200 px-3 py-2 text-sm"
-              placeholder="Validation notes"
-            />
-            <button className="rounded-full bg-stone-900 px-4 py-2 text-sm text-white" type="submit">
-              Validate bug
-            </button>
-          </form>
-        </Card>
-      ) : null}
     </div>
   );
 }

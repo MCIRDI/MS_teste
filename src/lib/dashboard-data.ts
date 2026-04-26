@@ -28,7 +28,7 @@ export async function getClientDashboardData(clientId: string) {
   });
 
   const bugReports = campaigns.flatMap((campaign) => campaign.bugReports);
-  const validatedBugs = bugReports.filter((bug) => bug.status === BugStatus.VALIDATED);
+  const approvedBugs = bugReports.filter((bug) => bug.status === BugStatus.APPROVED);
   const totalTesters = campaigns.reduce(
     (sum, campaign) =>
       sum +
@@ -50,7 +50,7 @@ export async function getClientDashboardData(clientId: string) {
     stats: [
       { label: "Campaigns", value: campaigns.length },
       { label: "Active testers", value: totalTesters },
-      { label: "Validated bugs", value: validatedBugs.length },
+      { label: "Approved bugs", value: approvedBugs.length },
       { label: "Target countries", value: countries.size },
     ],
     campaigns: campaigns.map((campaign) => ({
@@ -70,10 +70,10 @@ export async function getClientDashboardData(clientId: string) {
       ).length,
     })),
     severity: {
-      critical: validatedBugs.filter((bug) => bug.severity === "CRITICAL").length,
-      high: validatedBugs.filter((bug) => bug.severity === "HIGH").length,
-      medium: validatedBugs.filter((bug) => bug.severity === "MEDIUM").length,
-      low: validatedBugs.filter((bug) => bug.severity === "LOW").length,
+      critical: approvedBugs.filter((bug) => bug.severity === "CRITICAL").length,
+      high: approvedBugs.filter((bug) => bug.severity === "HIGH").length,
+      medium: approvedBugs.filter((bug) => bug.severity === "MEDIUM").length,
+      low: approvedBugs.filter((bug) => bug.severity === "LOW").length,
     },
     coverage: {
       countries: Array.from(countries),
@@ -206,7 +206,7 @@ export async function getModeratorDashboardData(moderatorId: string) {
   for (const row of testerStats) {
     const current = testerRatingById.get(row.testerId) ?? 3;
     const count = row._count._all;
-    if (row.status === BugStatus.VALIDATED) {
+    if (row.status === BugStatus.APPROVED) {
       testerRatingById.set(row.testerId, Math.min(5, current + count * 0.1));
     } else if (row.status === BugStatus.REJECTED) {
       testerRatingById.set(row.testerId, Math.max(0, current - count * 0.05));
@@ -365,7 +365,6 @@ export async function getManagerDashboardData(managerId: string) {
       { label: "Pending invitations", value: pendingInvitations.length },
       { label: "Managed campaigns", value: campaigns.length },
       { label: "Approved bugs", value: bugReports.filter((bug) => bug.status === BugStatus.APPROVED).length },
-      { label: "Validated bugs", value: bugReports.filter((bug) => bug.status === BugStatus.VALIDATED).length },
     ],
     pendingInvitations,
     campaigns,
@@ -479,7 +478,7 @@ export async function getClientReportsData(clientId: string) {
     name: campaign.projectName,
     countries: toStringArray(campaign.selectedCountries),
     devices: toStringArray(campaign.selectedPlatforms),
-    bugs: campaign.bugReports.filter((bug) => bug.status === BugStatus.VALIDATED),
+    bugs: campaign.bugReports.filter((bug) => bug.status === BugStatus.APPROVED),
     finalReport: campaign.finalReports[0] ?? null,
     testers: campaign.assignments.filter(
       (assignment) =>

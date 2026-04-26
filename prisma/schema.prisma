@@ -69,7 +69,6 @@ enum BugStatus {
   APPROVED
   REJECTED
   DUPLICATE
-  VALIDATED
 }
 
 enum AttachmentKind {
@@ -105,7 +104,6 @@ model User {
   campaignInvitations CampaignInvitation[] @relation("CampaignInvitationRecipient")
   bugReports        BugReport[]          @relation("ReporterBugs")
   moderatedReports  BugReport[]          @relation("ModeratorBugs")
-  validatedReports  BugReport[]          @relation("ManagerBugs")
   uploadedFinalReports FinalReport[]
   auditLogs         AuditLog[]
   emailTokens       EmailToken[]
@@ -227,7 +225,6 @@ model BugReport {
   campaignId        String
   testerId          String
   moderatorId       String?
-  validatedById     String?
   title             String
   groupKey          String        @default("")
   pageUrl           String?
@@ -241,7 +238,6 @@ model BugReport {
   environment       Json
   status            BugStatus     @default(SUBMITTED)
   moderationNotes   String?
-  validationNotes   String?
   duplicateOfId     String?
   moderatedAt       DateTime?
   createdAt         DateTime      @default(now())
@@ -249,7 +245,6 @@ model BugReport {
   campaign          Campaign      @relation(fields: [campaignId], references: [id], onDelete: Cascade)
   tester            User          @relation("ReporterBugs", fields: [testerId], references: [id], onDelete: Cascade)
   moderator         User?         @relation("ModeratorBugs", fields: [moderatorId], references: [id], onDelete: SetNull)
-  validatedBy       User?         @relation("ManagerBugs", fields: [validatedById], references: [id], onDelete: SetNull)
   attachments       BugAttachment[]
 
   @@index([campaignId, status])

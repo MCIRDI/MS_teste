@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Tabs } from "@/components/ui/tabs";
 import { SectionHeading } from "@/components/sections/section-heading";
+import { BugAnalytics } from "@/components/charts/bug-analytics";
 
 const bugTypes = [
   "Functional Bugs",
@@ -286,6 +287,8 @@ export default async function ModeratorCampaignPage({
           </div>
         </div>
       </Card>
+
+      <BugAnalytics bugReports={campaign.bugReports} campaignName={campaign.projectName} />
 
       {filteredGroups.length === 0 ? (
         <Card>

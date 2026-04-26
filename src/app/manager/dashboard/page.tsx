@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import { acceptInvitationAction } from "@/app/actions/campaigns";
 import { requireSession } from "@/lib/auth";
 import { getManagerDashboardData } from "@/lib/dashboard-data";
@@ -58,28 +60,30 @@ export default async function ManagerDashboardPage() {
             <p className="text-sm text-stone-600">No campaigns are assigned to you yet.</p>
           ) : (
             data.campaigns.map((campaign) => (
-              <div key={campaign.id} className="rounded-2xl bg-stone-100 p-4 text-sm text-stone-700">
-                <p className="font-medium text-stone-900">{campaign.projectName}</p>
-                <p className="mt-2">
-                  Moderators: {campaign.assignments.filter((item) => item.assignmentRole === "MODERATOR").length}/
-                  {campaign.moderatorSlots}
-                </p>
-                <p>
-                  Crowd testers: {campaign.assignments.filter((item) => item.assignmentRole === "CROWD_TESTER").length}/
-                  {campaign.crowdTesterCount}
-                </p>
-                <p>
-                  Developer testers: {campaign.assignments.filter((item) => item.assignmentRole === "DEVELOPER_TESTER").length}/
-                  {campaign.developerTesterCount}
-                </p>
-                <p>
-                  Pending invitations: {campaign.invitations.filter((item) => item.status === "PENDING").length}
-                </p>
-                <p>
-                  Approved bugs: {campaign.bugReports.filter((bug) => bug.status === "APPROVED").length} · Validated bugs:{" "}
-                  {campaign.bugReports.filter((bug) => bug.status === "VALIDATED").length}
-                </p>
-              </div>
+              <Link key={campaign.id} href={`/manager/campaigns/${campaign.id}`}>
+                <div className="rounded-2xl bg-stone-100 p-4 text-sm text-stone-700 hover:bg-stone-200 cursor-pointer transition-colors">
+                  <p className="font-medium text-stone-900">{campaign.projectName}</p>
+                  <p className="mt-2">
+                    Moderators: {campaign.assignments.filter((item) => item.assignmentRole === "MODERATOR").length}/
+                    {campaign.moderatorSlots}
+                  </p>
+                  <p>
+                    Crowd testers: {campaign.assignments.filter((item) => item.assignmentRole === "CROWD_TESTER").length}/
+                    {campaign.crowdTesterCount}
+                  </p>
+                  <p>
+                    Developer testers: {campaign.assignments.filter((item) => item.assignmentRole === "DEVELOPER_TESTER").length}/
+                    {campaign.developerTesterCount}
+                  </p>
+                  <p>
+                    Pending invitations: {campaign.invitations.filter((item) => item.status === "PENDING").length}
+                  </p>
+                  <p>
+                    Approved bugs: {campaign.bugReports.filter((bug) => bug.status === "APPROVED").length} · Validated bugs:{" "}
+                    {campaign.bugReports.filter((bug) => bug.status === "VALIDATED").length}
+                  </p>
+                </div>
+              </Link>
             ))
           )}
         </div>

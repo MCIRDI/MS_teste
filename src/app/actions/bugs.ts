@@ -212,7 +212,6 @@ export async function moderateBugReportAction(formData: FormData) {
 
   revalidatePath("/moderator/review-queue");
   revalidatePath(`/moderator/campaigns/${bugReport.campaignId}`);
-  revalidatePath("/manager/validation");
 }
 
 export async function moderateBugGroupAction(formData: FormData) {
@@ -310,46 +309,6 @@ export async function markBugGroupDuplicatesAction(formData: FormData) {
   revalidatePath(`/moderator/bugs/${primaryId}`);
 }
 
-export async function validateBugReportAction(formData: FormData) {
-  const session = await requireSession([Role.TEST_MANAGER]);
-  const bugReportId = String(formData.get("bugReportId") ?? "");
-  const validationNotes = String(formData.get("validationNotes") ?? "");
-
-  const bugReport = await prisma.bugReport.findUnique({
-    where: { id: bugReportId },
-  });
-
-  if (!bugReport) {
-    return;
-  }
-
-  const assignment = await prisma.campaignAssignment.findFirst({
-    where: {
-      campaignId: bugReport.campaignId,
-      userId: session.id,
-      assignmentRole: "TEST_MANAGER",
-    },
-  });
-
-  if (!assignment) {
-    return;
-  }
-
-  await prisma.bugReport.update({
-    where: { id: bugReportId },
-    data: {
-      status: "VALIDATED",
-      validatedById: session.id,
-      validationNotes: validationNotes || null,
-    },
-  });
-
-  revalidatePath("/manager/validation");
-  revalidatePath("/manager/reports");
-  revalidatePath("/client/dashboard");
-  revalidatePath("/client/reports");
-}
-
 export async function submitModeratorBugReportAction(formData: FormData) {
   const session = await requireSession([Role.MODERATOR]);
 
@@ -425,6 +384,5 @@ export async function submitModeratorBugReportAction(formData: FormData) {
 
   revalidatePath("/moderator/review-queue");
   revalidatePath(`/moderator/campaigns/${campaignId}`);
-  revalidatePath("/manager/validation");
   redirect(`/moderator/campaigns/${campaignId}`);
 }

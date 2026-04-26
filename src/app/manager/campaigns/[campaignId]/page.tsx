@@ -2,12 +2,13 @@ import Link from "next/link";
 
 import { BugStatus } from "@/generated/prisma/client";
 import { requireSession } from "@/lib/auth";
-import { getManagerDashboardData } from "@/lib/dashboard-data";
+import { prisma } from "@/lib/prisma";
 import { makeGroupKey, severityRank } from "@/lib/moderation";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { SectionHeading } from "@/components/sections/section-heading";
+import { BugAnalytics } from "@/components/charts/bug-analytics";
 
 const bugTypes = [
   "Functional Bugs",
@@ -25,34 +26,64 @@ const bugTypes = [
   "Other",
 ] as const;
 
-export default async function ManagerValidationPage({
+export default async function ManagerCampaignPage({
+  params,
   searchParams,
 }: {
+  params: Promise<{ campaignId: string }>;
   searchParams: Promise<{ type?: string }>;
 }) {
   const session = await requireSession(["TEST_MANAGER"]);
+  const { campaignId } = await params;
   const { type } = await searchParams;
-  const data = await getManagerDashboardData(session.id);
+
+  const campaign = await prisma.campaign.findUnique({
+    where: { id: campaignId },
+    include: {
+      assignments: true,
+      invitations: true,
+      bugReports: {
+        include: {
+          tester: true,
+          attachments: true,
+        },
+      },
+    },
+  });
+
+  if (!campaign || campaign.testManagerId !== session.id) {
+    return (
+      <div className="space-y-6">
+        <SectionHeading
+          eyebrow="Campaign details"
+          title="Access required"
+          description="You don't have access to this campaign."
+          action={
+            <Link href="/manager/dashboard">
+              <Button>Back to dashboard</Button>
+            </Link>
+          }
+        />
+      </div>
+    );
+  }
 
   const allowedStatuses = new Set<BugStatus>([BugStatus.APPROVED]);
-  const bugReports = data.bugReports.filter((bug) => allowedStatuses.has(bug.status));
+  const bugReports = campaign.bugReports.filter((bug) => allowedStatuses.has(bug.status));
 
   const grouped = new Map<string, typeof bugReports>();
   for (const bug of bugReports) {
-    const key = `${bug.campaignId}:${bug.groupKey || makeGroupKey(bug)}`;
+    const key = bug.groupKey || makeGroupKey(bug);
     const list = grouped.get(key) ?? [];
     list.push(bug);
     grouped.set(key, list);
   }
 
-  const groups = Array.from(grouped.entries()).map(([compositeKey, items]) => {
-    const [campaignId, ...rest] = compositeKey.split(":");
-    const groupKey = rest.join(":");
+  const groups = Array.from(grouped.entries()).map(([groupKey, items]) => {
     const representative = [...items].sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime())[0];
     const latestAt = items.reduce((latest, bug) => (bug.createdAt > latest ? bug.createdAt : latest), representative.createdAt);
 
     return {
-      campaignId,
       groupKey,
       status: BugStatus.APPROVED,
       severity: representative.severity,
@@ -91,25 +122,32 @@ export default async function ManagerValidationPage({
   return (
     <div className="space-y-6">
       <SectionHeading
-        eyebrow="Validation"
-        title="Manager inbox"
-        description="Approved reports arrive here from moderators."
+        eyebrow="Campaign details"
+        title={campaign.projectName}
+        description="View statistics and bug reports for this campaign."
         action={
-          <Link href="/manager/reports">
-            <Button variant="secondary">Final reports</Button>
+          <Link href="/manager/dashboard">
+            <Button variant="secondary">Back to dashboard</Button>
           </Link>
         }
       />
 
+      <BugAnalytics bugReports={campaign.bugReports} campaignName={campaign.projectName} />
+
       <Card className="space-y-4">
+        <SectionHeading
+          eyebrow="Bug reports"
+          title="Campaign bugs"
+          description="Approved bug reports for this campaign."
+        />
         <div className="flex flex-wrap items-center gap-2">
           <span className="text-sm font-medium text-stone-700">Type</span>
           <div className="flex flex-wrap gap-2">
-            <Link href={`/manager/validation?type=all`}>
+            <Link href={`/manager/campaigns/${campaignId}?type=all`}>
               <Badge className={type === "all" || !type ? "bg-stone-900 text-white" : ""}>All</Badge>
             </Link>
             {bugTypes.map((label) => (
-              <Link key={label} href={`/manager/validation?type=${encodeURIComponent(label)}`}>
+              <Link key={label} href={`/manager/campaigns/${campaignId}?type=${encodeURIComponent(label)}`}>
                 <Badge className={type === label ? "bg-stone-900 text-white" : ""}>{label}</Badge>
               </Link>
             ))}
@@ -124,7 +162,7 @@ export default async function ManagerValidationPage({
       ) : (
         <div className="grid gap-4">
           {filteredGroups.map((group) => (
-            <Card key={`${group.campaignId}:${group.groupKey}`} className="grid gap-4 md:grid-cols-[1fr_auto] md:items-start">
+            <Card key={group.groupKey} className="grid gap-4 md:grid-cols-[1fr_auto] md:items-start">
               <div className="space-y-2">
                 <div className="flex flex-wrap items-center gap-2">
                   <Badge className={severityBadgeClass(group.severity)}>{group.severity}</Badge>

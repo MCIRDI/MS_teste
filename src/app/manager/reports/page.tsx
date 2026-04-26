@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { SectionHeading } from "@/components/sections/section-heading";
+import { BugAnalytics } from "@/components/charts/bug-analytics";
 
 export default async function ManagerReportsPage({
   searchParams,
@@ -21,8 +22,10 @@ export default async function ManagerReportsPage({
     include: {
       finalReports: { orderBy: { createdAt: "desc" } },
       bugReports: {
-        where: { status: "VALIDATED" },
-        select: { id: true },
+        where: { status: "APPROVED" },
+        include: {
+          tester: true,
+        },
       },
     },
     orderBy: { createdAt: "desc" },
@@ -55,8 +58,8 @@ export default async function ManagerReportsPage({
         title="Final reports"
         description="Upload a PDF final report for the client. The client can download it from their Campaign reports page."
         action={
-          <Link href="/manager/validation">
-            <Button variant="secondary">Manager inbox</Button>
+          <Link href="/manager/dashboard">
+            <Button variant="secondary">Dashboard</Button>
           </Link>
         }
       />
@@ -78,7 +81,7 @@ export default async function ManagerReportsPage({
         <SectionHeading
           eyebrow="Upload"
           title={`Upload PDF for ${selected.projectName}`}
-          description={`Validated bugs in this campaign: ${nextValidatedCount}.`}
+          description={`Approved bugs in this campaign: ${nextValidatedCount}.`}
         />
         <form action={uploadFinalReportAction} className="grid gap-3 md:grid-cols-[1fr_auto] md:items-end">
           <input type="hidden" name="campaignId" value={selected.id} />
@@ -91,6 +94,8 @@ export default async function ManagerReportsPage({
           <Button type="submit">Upload final report</Button>
         </form>
       </Card>
+
+      <BugAnalytics bugReports={selected.bugReports} campaignName={selected.projectName} />
 
       <Card className="space-y-4">
         <SectionHeading
