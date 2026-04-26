@@ -1,4 +1,4 @@
-import { InvitationStatus, Role } from "@/generated/prisma/client";
+import { AssignmentRole, InvitationStatus, Role } from "@/generated/prisma/client";
 import { NextResponse } from "next/server";
 
 import { getCurrentSession } from "@/lib/auth";
@@ -17,17 +17,27 @@ export async function POST(
     return NextResponse.json({ error: "Unauthorized." }, { status: 401 });
   }
 
-  const { testerIds } = await request.json();
+  const body = await request.json();
+  const recipientIds = Array.isArray(body.recipientIds) ? body.recipientIds : body.testerIds;
+  const assignmentRole = body.assignmentRole as AssignmentRole | undefined;
   const { campaignId } = await context.params;
 
-  if (!Array.isArray(testerIds) || testerIds.length === 0) {
-    return NextResponse.json({ error: "testerIds must be a non-empty array." }, { status: 400 });
+  if (!Array.isArray(recipientIds) || recipientIds.length === 0) {
+    return NextResponse.json({ error: "recipientIds must be a non-empty array." }, { status: 400 });
+  }
+
+  if (
+    !assignmentRole ||
+    !Object.values(AssignmentRole).includes(assignmentRole)
+  ) {
+    return NextResponse.json({ error: "assignmentRole is required." }, { status: 400 });
   }
 
   await prisma.campaignInvitation.createMany({
-    data: testerIds.map((testerId: string) => ({
+    data: recipientIds.map((recipientId: string) => ({
       campaignId,
-      testerId,
+      recipientId,
+      assignmentRole,
       status: InvitationStatus.PENDING,
     })),
     skipDuplicates: true,

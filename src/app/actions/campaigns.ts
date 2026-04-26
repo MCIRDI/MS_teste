@@ -6,7 +6,7 @@ import { redirect } from "next/navigation";
 
 import type { ActionState } from "@/app/actions/auth";
 import { requireSession } from "@/lib/auth";
-import { assignCampaignStaff, inviteMatchingTesters } from "@/lib/campaigns";
+import { acceptCampaignInvitation, inviteCampaignParticipants } from "@/lib/campaigns";
 import { estimateCampaignPrice } from "@/lib/pricing";
 import { prisma } from "@/lib/prisma";
 import { saveUpload } from "@/lib/upload";
@@ -97,67 +97,34 @@ export async function createCampaignAction(
     },
   });
 
-  await assignCampaignStaff(
-    campaign.id,
-    parsed.data.crowdTesterCount + parsed.data.developerTesterCount,
-  );
-  await inviteMatchingTesters(campaign.id);
+  await inviteCampaignParticipants(campaign.id);
 
   revalidatePath("/client/dashboard");
   revalidatePath("/tester/campaigns");
   revalidatePath("/manager/dashboard");
   revalidatePath("/moderator/review-queue");
+  revalidatePath("/admin/campaigns");
   redirect("/client/dashboard");
 }
 
 export async function acceptInvitationAction(formData: FormData) {
-  const session = await requireSession([Role.TESTER]);
+  const session = await requireSession([
+    Role.TESTER,
+    Role.MODERATOR,
+    Role.TEST_MANAGER,
+  ]);
   const invitationId = String(formData.get("invitationId") ?? "");
-
-  const invitation = await prisma.campaignInvitation.findUnique({
-    where: { id: invitationId },
-    include: {
-      campaign: true,
-    },
-  });
-
-  if (!invitation || invitation.testerId !== session.id) {
-    return;
-  }
-
-  await prisma.campaignInvitation.update({
-    where: { id: invitation.id },
-    data: {
-      status: "ACCEPTED",
-      acceptedAt: new Date(),
-    },
-  });
-
-  await prisma.campaignAssignment.upsert({
-    where: {
-      campaignId_userId_assignmentRole: {
-        campaignId: invitation.campaignId,
-        userId: session.id,
-        assignmentRole:
-          session.testerKind === "DEVELOPER"
-            ? "DEVELOPER_TESTER"
-            : "CROWD_TESTER",
-      },
-    },
-    update: {
-      acceptedAt: new Date(),
-    },
-    create: {
-      campaignId: invitation.campaignId,
-      userId: session.id,
-      assignmentRole:
-        session.testerKind === "DEVELOPER"
-          ? "DEVELOPER_TESTER"
-          : "CROWD_TESTER",
-      acceptedAt: new Date(),
-    },
-  });
+  const result = await acceptCampaignInvitation(invitationId, session);
 
   revalidatePath("/tester/campaigns");
-  revalidatePath(`/tester/workspace/${invitation.campaignId}`);
+  revalidatePath("/manager/dashboard");
+  revalidatePath("/moderator/review-queue");
+  revalidatePath("/admin/campaigns");
+  revalidatePath("/client/dashboard");
+  revalidatePath("/client/reports");
+
+  if (result.campaignId) {
+    revalidatePath(`/tester/workspace/${result.campaignId}`);
+    revalidatePath(`/moderator/campaigns/${result.campaignId}`);
+  }
 }

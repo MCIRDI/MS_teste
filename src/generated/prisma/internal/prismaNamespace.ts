@@ -389,9 +389,11 @@ export const ModelName = {
   Campaign: 'Campaign',
   CampaignAssignment: 'CampaignAssignment',
   CampaignInvitation: 'CampaignInvitation',
+  RoleUpgradeInvitation: 'RoleUpgradeInvitation',
   TestingTask: 'TestingTask',
   BugReport: 'BugReport',
   BugAttachment: 'BugAttachment',
+  FinalReport: 'FinalReport',
   AuditLog: 'AuditLog',
   EmailToken: 'EmailToken'
 } as const
@@ -409,7 +411,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "device" | "campaign" | "campaignAssignment" | "campaignInvitation" | "testingTask" | "bugReport" | "bugAttachment" | "auditLog" | "emailToken"
+    modelProps: "user" | "device" | "campaign" | "campaignAssignment" | "campaignInvitation" | "roleUpgradeInvitation" | "testingTask" | "bugReport" | "bugAttachment" | "finalReport" | "auditLog" | "emailToken"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -743,6 +745,72 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    RoleUpgradeInvitation: {
+      payload: Prisma.$RoleUpgradeInvitationPayload<ExtArgs>
+      fields: Prisma.RoleUpgradeInvitationFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.RoleUpgradeInvitationFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RoleUpgradeInvitationPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.RoleUpgradeInvitationFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RoleUpgradeInvitationPayload>
+        }
+        findFirst: {
+          args: Prisma.RoleUpgradeInvitationFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RoleUpgradeInvitationPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.RoleUpgradeInvitationFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RoleUpgradeInvitationPayload>
+        }
+        findMany: {
+          args: Prisma.RoleUpgradeInvitationFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RoleUpgradeInvitationPayload>[]
+        }
+        create: {
+          args: Prisma.RoleUpgradeInvitationCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RoleUpgradeInvitationPayload>
+        }
+        createMany: {
+          args: Prisma.RoleUpgradeInvitationCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        delete: {
+          args: Prisma.RoleUpgradeInvitationDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RoleUpgradeInvitationPayload>
+        }
+        update: {
+          args: Prisma.RoleUpgradeInvitationUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RoleUpgradeInvitationPayload>
+        }
+        deleteMany: {
+          args: Prisma.RoleUpgradeInvitationDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.RoleUpgradeInvitationUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        upsert: {
+          args: Prisma.RoleUpgradeInvitationUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RoleUpgradeInvitationPayload>
+        }
+        aggregate: {
+          args: Prisma.RoleUpgradeInvitationAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateRoleUpgradeInvitation>
+        }
+        groupBy: {
+          args: Prisma.RoleUpgradeInvitationGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.RoleUpgradeInvitationGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.RoleUpgradeInvitationCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.RoleUpgradeInvitationCountAggregateOutputType> | number
+        }
+      }
+    }
     TestingTask: {
       payload: Prisma.$TestingTaskPayload<ExtArgs>
       fields: Prisma.TestingTaskFieldRefs
@@ -938,6 +1006,72 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.BugAttachmentCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.BugAttachmentCountAggregateOutputType> | number
+        }
+      }
+    }
+    FinalReport: {
+      payload: Prisma.$FinalReportPayload<ExtArgs>
+      fields: Prisma.FinalReportFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.FinalReportFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FinalReportPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.FinalReportFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FinalReportPayload>
+        }
+        findFirst: {
+          args: Prisma.FinalReportFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FinalReportPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.FinalReportFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FinalReportPayload>
+        }
+        findMany: {
+          args: Prisma.FinalReportFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FinalReportPayload>[]
+        }
+        create: {
+          args: Prisma.FinalReportCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FinalReportPayload>
+        }
+        createMany: {
+          args: Prisma.FinalReportCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        delete: {
+          args: Prisma.FinalReportDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FinalReportPayload>
+        }
+        update: {
+          args: Prisma.FinalReportUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FinalReportPayload>
+        }
+        deleteMany: {
+          args: Prisma.FinalReportDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.FinalReportUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        upsert: {
+          args: Prisma.FinalReportUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FinalReportPayload>
+        }
+        aggregate: {
+          args: Prisma.FinalReportAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateFinalReport>
+        }
+        groupBy: {
+          args: Prisma.FinalReportGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.FinalReportGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.FinalReportCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.FinalReportCountAggregateOutputType> | number
         }
       }
     }
@@ -1187,7 +1321,8 @@ export type CampaignAssignmentScalarFieldEnum = (typeof CampaignAssignmentScalar
 export const CampaignInvitationScalarFieldEnum = {
   id: 'id',
   campaignId: 'campaignId',
-  testerId: 'testerId',
+  recipientId: 'recipientId',
+  assignmentRole: 'assignmentRole',
   status: 'status',
   invitedAt: 'invitedAt',
   acceptedAt: 'acceptedAt',
@@ -1195,6 +1330,21 @@ export const CampaignInvitationScalarFieldEnum = {
 } as const
 
 export type CampaignInvitationScalarFieldEnum = (typeof CampaignInvitationScalarFieldEnum)[keyof typeof CampaignInvitationScalarFieldEnum]
+
+
+export const RoleUpgradeInvitationScalarFieldEnum = {
+  id: 'id',
+  recipientId: 'recipientId',
+  invitedById: 'invitedById',
+  currentRole: 'currentRole',
+  targetRole: 'targetRole',
+  status: 'status',
+  invitedAt: 'invitedAt',
+  respondedAt: 'respondedAt',
+  expiresAt: 'expiresAt'
+} as const
+
+export type RoleUpgradeInvitationScalarFieldEnum = (typeof RoleUpgradeInvitationScalarFieldEnum)[keyof typeof RoleUpgradeInvitationScalarFieldEnum]
 
 
 export const TestingTaskScalarFieldEnum = {
@@ -1216,6 +1366,10 @@ export const BugReportScalarFieldEnum = {
   moderatorId: 'moderatorId',
   validatedById: 'validatedById',
   title: 'title',
+  groupKey: 'groupKey',
+  pageUrl: 'pageUrl',
+  feature: 'feature',
+  errorType: 'errorType',
   description: 'description',
   reproductionSteps: 'reproductionSteps',
   expectedResult: 'expectedResult',
@@ -1226,6 +1380,7 @@ export const BugReportScalarFieldEnum = {
   moderationNotes: 'moderationNotes',
   validationNotes: 'validationNotes',
   duplicateOfId: 'duplicateOfId',
+  moderatedAt: 'moderatedAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -1246,6 +1401,21 @@ export const BugAttachmentScalarFieldEnum = {
 } as const
 
 export type BugAttachmentScalarFieldEnum = (typeof BugAttachmentScalarFieldEnum)[keyof typeof BugAttachmentScalarFieldEnum]
+
+
+export const FinalReportScalarFieldEnum = {
+  id: 'id',
+  campaignId: 'campaignId',
+  uploadedById: 'uploadedById',
+  originalName: 'originalName',
+  storedName: 'storedName',
+  relativePath: 'relativePath',
+  mimeType: 'mimeType',
+  sizeBytes: 'sizeBytes',
+  createdAt: 'createdAt'
+} as const
+
+export type FinalReportScalarFieldEnum = (typeof FinalReportScalarFieldEnum)[keyof typeof FinalReportScalarFieldEnum]
 
 
 export const AuditLogScalarFieldEnum = {
@@ -1372,10 +1542,19 @@ export type CampaignAssignmentOrderByRelevanceFieldEnum = (typeof CampaignAssign
 export const CampaignInvitationOrderByRelevanceFieldEnum = {
   id: 'id',
   campaignId: 'campaignId',
-  testerId: 'testerId'
+  recipientId: 'recipientId'
 } as const
 
 export type CampaignInvitationOrderByRelevanceFieldEnum = (typeof CampaignInvitationOrderByRelevanceFieldEnum)[keyof typeof CampaignInvitationOrderByRelevanceFieldEnum]
+
+
+export const RoleUpgradeInvitationOrderByRelevanceFieldEnum = {
+  id: 'id',
+  recipientId: 'recipientId',
+  invitedById: 'invitedById'
+} as const
+
+export type RoleUpgradeInvitationOrderByRelevanceFieldEnum = (typeof RoleUpgradeInvitationOrderByRelevanceFieldEnum)[keyof typeof RoleUpgradeInvitationOrderByRelevanceFieldEnum]
 
 
 export const TestingTaskOrderByRelevanceFieldEnum = {
@@ -1395,6 +1574,10 @@ export const BugReportOrderByRelevanceFieldEnum = {
   moderatorId: 'moderatorId',
   validatedById: 'validatedById',
   title: 'title',
+  groupKey: 'groupKey',
+  pageUrl: 'pageUrl',
+  feature: 'feature',
+  errorType: 'errorType',
   description: 'description',
   reproductionSteps: 'reproductionSteps',
   expectedResult: 'expectedResult',
@@ -1417,6 +1600,19 @@ export const BugAttachmentOrderByRelevanceFieldEnum = {
 } as const
 
 export type BugAttachmentOrderByRelevanceFieldEnum = (typeof BugAttachmentOrderByRelevanceFieldEnum)[keyof typeof BugAttachmentOrderByRelevanceFieldEnum]
+
+
+export const FinalReportOrderByRelevanceFieldEnum = {
+  id: 'id',
+  campaignId: 'campaignId',
+  uploadedById: 'uploadedById',
+  originalName: 'originalName',
+  storedName: 'storedName',
+  relativePath: 'relativePath',
+  mimeType: 'mimeType'
+} as const
+
+export type FinalReportOrderByRelevanceFieldEnum = (typeof FinalReportOrderByRelevanceFieldEnum)[keyof typeof FinalReportOrderByRelevanceFieldEnum]
 
 
 export const AuditLogOrderByRelevanceFieldEnum = {
@@ -1671,9 +1867,11 @@ export type GlobalOmitConfig = {
   campaign?: Prisma.CampaignOmit
   campaignAssignment?: Prisma.CampaignAssignmentOmit
   campaignInvitation?: Prisma.CampaignInvitationOmit
+  roleUpgradeInvitation?: Prisma.RoleUpgradeInvitationOmit
   testingTask?: Prisma.TestingTaskOmit
   bugReport?: Prisma.BugReportOmit
   bugAttachment?: Prisma.BugAttachmentOmit
+  finalReport?: Prisma.FinalReportOmit
   auditLog?: Prisma.AuditLogOmit
   emailToken?: Prisma.EmailTokenOmit
 }

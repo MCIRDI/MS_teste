@@ -31,6 +31,10 @@ export type BugReportMinAggregateOutputType = {
   moderatorId: string | null
   validatedById: string | null
   title: string | null
+  groupKey: string | null
+  pageUrl: string | null
+  feature: string | null
+  errorType: string | null
   description: string | null
   reproductionSteps: string | null
   expectedResult: string | null
@@ -40,6 +44,7 @@ export type BugReportMinAggregateOutputType = {
   moderationNotes: string | null
   validationNotes: string | null
   duplicateOfId: string | null
+  moderatedAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -51,6 +56,10 @@ export type BugReportMaxAggregateOutputType = {
   moderatorId: string | null
   validatedById: string | null
   title: string | null
+  groupKey: string | null
+  pageUrl: string | null
+  feature: string | null
+  errorType: string | null
   description: string | null
   reproductionSteps: string | null
   expectedResult: string | null
@@ -60,6 +69,7 @@ export type BugReportMaxAggregateOutputType = {
   moderationNotes: string | null
   validationNotes: string | null
   duplicateOfId: string | null
+  moderatedAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -71,6 +81,10 @@ export type BugReportCountAggregateOutputType = {
   moderatorId: number
   validatedById: number
   title: number
+  groupKey: number
+  pageUrl: number
+  feature: number
+  errorType: number
   description: number
   reproductionSteps: number
   expectedResult: number
@@ -81,6 +95,7 @@ export type BugReportCountAggregateOutputType = {
   moderationNotes: number
   validationNotes: number
   duplicateOfId: number
+  moderatedAt: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -94,6 +109,10 @@ export type BugReportMinAggregateInputType = {
   moderatorId?: true
   validatedById?: true
   title?: true
+  groupKey?: true
+  pageUrl?: true
+  feature?: true
+  errorType?: true
   description?: true
   reproductionSteps?: true
   expectedResult?: true
@@ -103,6 +122,7 @@ export type BugReportMinAggregateInputType = {
   moderationNotes?: true
   validationNotes?: true
   duplicateOfId?: true
+  moderatedAt?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -114,6 +134,10 @@ export type BugReportMaxAggregateInputType = {
   moderatorId?: true
   validatedById?: true
   title?: true
+  groupKey?: true
+  pageUrl?: true
+  feature?: true
+  errorType?: true
   description?: true
   reproductionSteps?: true
   expectedResult?: true
@@ -123,6 +147,7 @@ export type BugReportMaxAggregateInputType = {
   moderationNotes?: true
   validationNotes?: true
   duplicateOfId?: true
+  moderatedAt?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -134,6 +159,10 @@ export type BugReportCountAggregateInputType = {
   moderatorId?: true
   validatedById?: true
   title?: true
+  groupKey?: true
+  pageUrl?: true
+  feature?: true
+  errorType?: true
   description?: true
   reproductionSteps?: true
   expectedResult?: true
@@ -144,6 +173,7 @@ export type BugReportCountAggregateInputType = {
   moderationNotes?: true
   validationNotes?: true
   duplicateOfId?: true
+  moderatedAt?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -228,6 +258,10 @@ export type BugReportGroupByOutputType = {
   moderatorId: string | null
   validatedById: string | null
   title: string
+  groupKey: string
+  pageUrl: string | null
+  feature: string | null
+  errorType: string | null
   description: string
   reproductionSteps: string
   expectedResult: string
@@ -238,6 +272,7 @@ export type BugReportGroupByOutputType = {
   moderationNotes: string | null
   validationNotes: string | null
   duplicateOfId: string | null
+  moderatedAt: Date | null
   createdAt: Date
   updatedAt: Date
   _count: BugReportCountAggregateOutputType | null
@@ -270,6 +305,10 @@ export type BugReportWhereInput = {
   moderatorId?: Prisma.StringNullableFilter<"BugReport"> | string | null
   validatedById?: Prisma.StringNullableFilter<"BugReport"> | string | null
   title?: Prisma.StringFilter<"BugReport"> | string
+  groupKey?: Prisma.StringFilter<"BugReport"> | string
+  pageUrl?: Prisma.StringNullableFilter<"BugReport"> | string | null
+  feature?: Prisma.StringNullableFilter<"BugReport"> | string | null
+  errorType?: Prisma.StringNullableFilter<"BugReport"> | string | null
   description?: Prisma.StringFilter<"BugReport"> | string
   reproductionSteps?: Prisma.StringFilter<"BugReport"> | string
   expectedResult?: Prisma.StringFilter<"BugReport"> | string
@@ -280,6 +319,7 @@ export type BugReportWhereInput = {
   moderationNotes?: Prisma.StringNullableFilter<"BugReport"> | string | null
   validationNotes?: Prisma.StringNullableFilter<"BugReport"> | string | null
   duplicateOfId?: Prisma.StringNullableFilter<"BugReport"> | string | null
+  moderatedAt?: Prisma.DateTimeNullableFilter<"BugReport"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"BugReport"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"BugReport"> | Date | string
   campaign?: Prisma.XOR<Prisma.CampaignScalarRelationFilter, Prisma.CampaignWhereInput>
@@ -296,6 +336,10 @@ export type BugReportOrderByWithRelationInput = {
   moderatorId?: Prisma.SortOrderInput | Prisma.SortOrder
   validatedById?: Prisma.SortOrderInput | Prisma.SortOrder
   title?: Prisma.SortOrder
+  groupKey?: Prisma.SortOrder
+  pageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  feature?: Prisma.SortOrderInput | Prisma.SortOrder
+  errorType?: Prisma.SortOrderInput | Prisma.SortOrder
   description?: Prisma.SortOrder
   reproductionSteps?: Prisma.SortOrder
   expectedResult?: Prisma.SortOrder
@@ -306,6 +350,7 @@ export type BugReportOrderByWithRelationInput = {
   moderationNotes?: Prisma.SortOrderInput | Prisma.SortOrder
   validationNotes?: Prisma.SortOrderInput | Prisma.SortOrder
   duplicateOfId?: Prisma.SortOrderInput | Prisma.SortOrder
+  moderatedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   campaign?: Prisma.CampaignOrderByWithRelationInput
@@ -326,6 +371,10 @@ export type BugReportWhereUniqueInput = Prisma.AtLeast<{
   moderatorId?: Prisma.StringNullableFilter<"BugReport"> | string | null
   validatedById?: Prisma.StringNullableFilter<"BugReport"> | string | null
   title?: Prisma.StringFilter<"BugReport"> | string
+  groupKey?: Prisma.StringFilter<"BugReport"> | string
+  pageUrl?: Prisma.StringNullableFilter<"BugReport"> | string | null
+  feature?: Prisma.StringNullableFilter<"BugReport"> | string | null
+  errorType?: Prisma.StringNullableFilter<"BugReport"> | string | null
   description?: Prisma.StringFilter<"BugReport"> | string
   reproductionSteps?: Prisma.StringFilter<"BugReport"> | string
   expectedResult?: Prisma.StringFilter<"BugReport"> | string
@@ -336,6 +385,7 @@ export type BugReportWhereUniqueInput = Prisma.AtLeast<{
   moderationNotes?: Prisma.StringNullableFilter<"BugReport"> | string | null
   validationNotes?: Prisma.StringNullableFilter<"BugReport"> | string | null
   duplicateOfId?: Prisma.StringNullableFilter<"BugReport"> | string | null
+  moderatedAt?: Prisma.DateTimeNullableFilter<"BugReport"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"BugReport"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"BugReport"> | Date | string
   campaign?: Prisma.XOR<Prisma.CampaignScalarRelationFilter, Prisma.CampaignWhereInput>
@@ -352,6 +402,10 @@ export type BugReportOrderByWithAggregationInput = {
   moderatorId?: Prisma.SortOrderInput | Prisma.SortOrder
   validatedById?: Prisma.SortOrderInput | Prisma.SortOrder
   title?: Prisma.SortOrder
+  groupKey?: Prisma.SortOrder
+  pageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  feature?: Prisma.SortOrderInput | Prisma.SortOrder
+  errorType?: Prisma.SortOrderInput | Prisma.SortOrder
   description?: Prisma.SortOrder
   reproductionSteps?: Prisma.SortOrder
   expectedResult?: Prisma.SortOrder
@@ -362,6 +416,7 @@ export type BugReportOrderByWithAggregationInput = {
   moderationNotes?: Prisma.SortOrderInput | Prisma.SortOrder
   validationNotes?: Prisma.SortOrderInput | Prisma.SortOrder
   duplicateOfId?: Prisma.SortOrderInput | Prisma.SortOrder
+  moderatedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.BugReportCountOrderByAggregateInput
@@ -379,6 +434,10 @@ export type BugReportScalarWhereWithAggregatesInput = {
   moderatorId?: Prisma.StringNullableWithAggregatesFilter<"BugReport"> | string | null
   validatedById?: Prisma.StringNullableWithAggregatesFilter<"BugReport"> | string | null
   title?: Prisma.StringWithAggregatesFilter<"BugReport"> | string
+  groupKey?: Prisma.StringWithAggregatesFilter<"BugReport"> | string
+  pageUrl?: Prisma.StringNullableWithAggregatesFilter<"BugReport"> | string | null
+  feature?: Prisma.StringNullableWithAggregatesFilter<"BugReport"> | string | null
+  errorType?: Prisma.StringNullableWithAggregatesFilter<"BugReport"> | string | null
   description?: Prisma.StringWithAggregatesFilter<"BugReport"> | string
   reproductionSteps?: Prisma.StringWithAggregatesFilter<"BugReport"> | string
   expectedResult?: Prisma.StringWithAggregatesFilter<"BugReport"> | string
@@ -389,6 +448,7 @@ export type BugReportScalarWhereWithAggregatesInput = {
   moderationNotes?: Prisma.StringNullableWithAggregatesFilter<"BugReport"> | string | null
   validationNotes?: Prisma.StringNullableWithAggregatesFilter<"BugReport"> | string | null
   duplicateOfId?: Prisma.StringNullableWithAggregatesFilter<"BugReport"> | string | null
+  moderatedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"BugReport"> | Date | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"BugReport"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"BugReport"> | Date | string
 }
@@ -396,6 +456,10 @@ export type BugReportScalarWhereWithAggregatesInput = {
 export type BugReportCreateInput = {
   id?: string
   title: string
+  groupKey?: string
+  pageUrl?: string | null
+  feature?: string | null
+  errorType?: string | null
   description: string
   reproductionSteps: string
   expectedResult: string
@@ -406,6 +470,7 @@ export type BugReportCreateInput = {
   moderationNotes?: string | null
   validationNotes?: string | null
   duplicateOfId?: string | null
+  moderatedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   campaign: Prisma.CampaignCreateNestedOneWithoutBugReportsInput
@@ -422,6 +487,10 @@ export type BugReportUncheckedCreateInput = {
   moderatorId?: string | null
   validatedById?: string | null
   title: string
+  groupKey?: string
+  pageUrl?: string | null
+  feature?: string | null
+  errorType?: string | null
   description: string
   reproductionSteps: string
   expectedResult: string
@@ -432,6 +501,7 @@ export type BugReportUncheckedCreateInput = {
   moderationNotes?: string | null
   validationNotes?: string | null
   duplicateOfId?: string | null
+  moderatedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   attachments?: Prisma.BugAttachmentUncheckedCreateNestedManyWithoutBugReportInput
@@ -440,6 +510,10 @@ export type BugReportUncheckedCreateInput = {
 export type BugReportUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  groupKey?: Prisma.StringFieldUpdateOperationsInput | string
+  pageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  feature?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  errorType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.StringFieldUpdateOperationsInput | string
   reproductionSteps?: Prisma.StringFieldUpdateOperationsInput | string
   expectedResult?: Prisma.StringFieldUpdateOperationsInput | string
@@ -450,6 +524,7 @@ export type BugReportUpdateInput = {
   moderationNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   validationNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   duplicateOfId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moderatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   campaign?: Prisma.CampaignUpdateOneRequiredWithoutBugReportsNestedInput
@@ -466,6 +541,10 @@ export type BugReportUncheckedUpdateInput = {
   moderatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   validatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  groupKey?: Prisma.StringFieldUpdateOperationsInput | string
+  pageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  feature?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  errorType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.StringFieldUpdateOperationsInput | string
   reproductionSteps?: Prisma.StringFieldUpdateOperationsInput | string
   expectedResult?: Prisma.StringFieldUpdateOperationsInput | string
@@ -476,6 +555,7 @@ export type BugReportUncheckedUpdateInput = {
   moderationNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   validationNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   duplicateOfId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moderatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   attachments?: Prisma.BugAttachmentUncheckedUpdateManyWithoutBugReportNestedInput
@@ -488,6 +568,10 @@ export type BugReportCreateManyInput = {
   moderatorId?: string | null
   validatedById?: string | null
   title: string
+  groupKey?: string
+  pageUrl?: string | null
+  feature?: string | null
+  errorType?: string | null
   description: string
   reproductionSteps: string
   expectedResult: string
@@ -498,6 +582,7 @@ export type BugReportCreateManyInput = {
   moderationNotes?: string | null
   validationNotes?: string | null
   duplicateOfId?: string | null
+  moderatedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -505,6 +590,10 @@ export type BugReportCreateManyInput = {
 export type BugReportUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  groupKey?: Prisma.StringFieldUpdateOperationsInput | string
+  pageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  feature?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  errorType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.StringFieldUpdateOperationsInput | string
   reproductionSteps?: Prisma.StringFieldUpdateOperationsInput | string
   expectedResult?: Prisma.StringFieldUpdateOperationsInput | string
@@ -515,6 +604,7 @@ export type BugReportUpdateManyMutationInput = {
   moderationNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   validationNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   duplicateOfId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moderatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -526,6 +616,10 @@ export type BugReportUncheckedUpdateManyInput = {
   moderatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   validatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  groupKey?: Prisma.StringFieldUpdateOperationsInput | string
+  pageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  feature?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  errorType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.StringFieldUpdateOperationsInput | string
   reproductionSteps?: Prisma.StringFieldUpdateOperationsInput | string
   expectedResult?: Prisma.StringFieldUpdateOperationsInput | string
@@ -536,6 +630,7 @@ export type BugReportUncheckedUpdateManyInput = {
   moderationNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   validationNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   duplicateOfId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moderatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -563,6 +658,10 @@ export type BugReportCountOrderByAggregateInput = {
   moderatorId?: Prisma.SortOrder
   validatedById?: Prisma.SortOrder
   title?: Prisma.SortOrder
+  groupKey?: Prisma.SortOrder
+  pageUrl?: Prisma.SortOrder
+  feature?: Prisma.SortOrder
+  errorType?: Prisma.SortOrder
   description?: Prisma.SortOrder
   reproductionSteps?: Prisma.SortOrder
   expectedResult?: Prisma.SortOrder
@@ -573,6 +672,7 @@ export type BugReportCountOrderByAggregateInput = {
   moderationNotes?: Prisma.SortOrder
   validationNotes?: Prisma.SortOrder
   duplicateOfId?: Prisma.SortOrder
+  moderatedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -584,6 +684,10 @@ export type BugReportMaxOrderByAggregateInput = {
   moderatorId?: Prisma.SortOrder
   validatedById?: Prisma.SortOrder
   title?: Prisma.SortOrder
+  groupKey?: Prisma.SortOrder
+  pageUrl?: Prisma.SortOrder
+  feature?: Prisma.SortOrder
+  errorType?: Prisma.SortOrder
   description?: Prisma.SortOrder
   reproductionSteps?: Prisma.SortOrder
   expectedResult?: Prisma.SortOrder
@@ -593,6 +697,7 @@ export type BugReportMaxOrderByAggregateInput = {
   moderationNotes?: Prisma.SortOrder
   validationNotes?: Prisma.SortOrder
   duplicateOfId?: Prisma.SortOrder
+  moderatedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -604,6 +709,10 @@ export type BugReportMinOrderByAggregateInput = {
   moderatorId?: Prisma.SortOrder
   validatedById?: Prisma.SortOrder
   title?: Prisma.SortOrder
+  groupKey?: Prisma.SortOrder
+  pageUrl?: Prisma.SortOrder
+  feature?: Prisma.SortOrder
+  errorType?: Prisma.SortOrder
   description?: Prisma.SortOrder
   reproductionSteps?: Prisma.SortOrder
   expectedResult?: Prisma.SortOrder
@@ -613,6 +722,7 @@ export type BugReportMinOrderByAggregateInput = {
   moderationNotes?: Prisma.SortOrder
   validationNotes?: Prisma.SortOrder
   duplicateOfId?: Prisma.SortOrder
+  moderatedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -815,6 +925,10 @@ export type BugReportUpdateOneRequiredWithoutAttachmentsNestedInput = {
 export type BugReportCreateWithoutTesterInput = {
   id?: string
   title: string
+  groupKey?: string
+  pageUrl?: string | null
+  feature?: string | null
+  errorType?: string | null
   description: string
   reproductionSteps: string
   expectedResult: string
@@ -825,6 +939,7 @@ export type BugReportCreateWithoutTesterInput = {
   moderationNotes?: string | null
   validationNotes?: string | null
   duplicateOfId?: string | null
+  moderatedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   campaign: Prisma.CampaignCreateNestedOneWithoutBugReportsInput
@@ -839,6 +954,10 @@ export type BugReportUncheckedCreateWithoutTesterInput = {
   moderatorId?: string | null
   validatedById?: string | null
   title: string
+  groupKey?: string
+  pageUrl?: string | null
+  feature?: string | null
+  errorType?: string | null
   description: string
   reproductionSteps: string
   expectedResult: string
@@ -849,6 +968,7 @@ export type BugReportUncheckedCreateWithoutTesterInput = {
   moderationNotes?: string | null
   validationNotes?: string | null
   duplicateOfId?: string | null
+  moderatedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   attachments?: Prisma.BugAttachmentUncheckedCreateNestedManyWithoutBugReportInput
@@ -867,6 +987,10 @@ export type BugReportCreateManyTesterInputEnvelope = {
 export type BugReportCreateWithoutModeratorInput = {
   id?: string
   title: string
+  groupKey?: string
+  pageUrl?: string | null
+  feature?: string | null
+  errorType?: string | null
   description: string
   reproductionSteps: string
   expectedResult: string
@@ -877,6 +1001,7 @@ export type BugReportCreateWithoutModeratorInput = {
   moderationNotes?: string | null
   validationNotes?: string | null
   duplicateOfId?: string | null
+  moderatedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   campaign: Prisma.CampaignCreateNestedOneWithoutBugReportsInput
@@ -891,6 +1016,10 @@ export type BugReportUncheckedCreateWithoutModeratorInput = {
   testerId: string
   validatedById?: string | null
   title: string
+  groupKey?: string
+  pageUrl?: string | null
+  feature?: string | null
+  errorType?: string | null
   description: string
   reproductionSteps: string
   expectedResult: string
@@ -901,6 +1030,7 @@ export type BugReportUncheckedCreateWithoutModeratorInput = {
   moderationNotes?: string | null
   validationNotes?: string | null
   duplicateOfId?: string | null
+  moderatedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   attachments?: Prisma.BugAttachmentUncheckedCreateNestedManyWithoutBugReportInput
@@ -919,6 +1049,10 @@ export type BugReportCreateManyModeratorInputEnvelope = {
 export type BugReportCreateWithoutValidatedByInput = {
   id?: string
   title: string
+  groupKey?: string
+  pageUrl?: string | null
+  feature?: string | null
+  errorType?: string | null
   description: string
   reproductionSteps: string
   expectedResult: string
@@ -929,6 +1063,7 @@ export type BugReportCreateWithoutValidatedByInput = {
   moderationNotes?: string | null
   validationNotes?: string | null
   duplicateOfId?: string | null
+  moderatedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   campaign: Prisma.CampaignCreateNestedOneWithoutBugReportsInput
@@ -943,6 +1078,10 @@ export type BugReportUncheckedCreateWithoutValidatedByInput = {
   testerId: string
   moderatorId?: string | null
   title: string
+  groupKey?: string
+  pageUrl?: string | null
+  feature?: string | null
+  errorType?: string | null
   description: string
   reproductionSteps: string
   expectedResult: string
@@ -953,6 +1092,7 @@ export type BugReportUncheckedCreateWithoutValidatedByInput = {
   moderationNotes?: string | null
   validationNotes?: string | null
   duplicateOfId?: string | null
+  moderatedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   attachments?: Prisma.BugAttachmentUncheckedCreateNestedManyWithoutBugReportInput
@@ -994,6 +1134,10 @@ export type BugReportScalarWhereInput = {
   moderatorId?: Prisma.StringNullableFilter<"BugReport"> | string | null
   validatedById?: Prisma.StringNullableFilter<"BugReport"> | string | null
   title?: Prisma.StringFilter<"BugReport"> | string
+  groupKey?: Prisma.StringFilter<"BugReport"> | string
+  pageUrl?: Prisma.StringNullableFilter<"BugReport"> | string | null
+  feature?: Prisma.StringNullableFilter<"BugReport"> | string | null
+  errorType?: Prisma.StringNullableFilter<"BugReport"> | string | null
   description?: Prisma.StringFilter<"BugReport"> | string
   reproductionSteps?: Prisma.StringFilter<"BugReport"> | string
   expectedResult?: Prisma.StringFilter<"BugReport"> | string
@@ -1004,6 +1148,7 @@ export type BugReportScalarWhereInput = {
   moderationNotes?: Prisma.StringNullableFilter<"BugReport"> | string | null
   validationNotes?: Prisma.StringNullableFilter<"BugReport"> | string | null
   duplicateOfId?: Prisma.StringNullableFilter<"BugReport"> | string | null
+  moderatedAt?: Prisma.DateTimeNullableFilter<"BugReport"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"BugReport"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"BugReport"> | Date | string
 }
@@ -1043,6 +1188,10 @@ export type BugReportUpdateManyWithWhereWithoutValidatedByInput = {
 export type BugReportCreateWithoutCampaignInput = {
   id?: string
   title: string
+  groupKey?: string
+  pageUrl?: string | null
+  feature?: string | null
+  errorType?: string | null
   description: string
   reproductionSteps: string
   expectedResult: string
@@ -1053,6 +1202,7 @@ export type BugReportCreateWithoutCampaignInput = {
   moderationNotes?: string | null
   validationNotes?: string | null
   duplicateOfId?: string | null
+  moderatedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   tester: Prisma.UserCreateNestedOneWithoutBugReportsInput
@@ -1067,6 +1217,10 @@ export type BugReportUncheckedCreateWithoutCampaignInput = {
   moderatorId?: string | null
   validatedById?: string | null
   title: string
+  groupKey?: string
+  pageUrl?: string | null
+  feature?: string | null
+  errorType?: string | null
   description: string
   reproductionSteps: string
   expectedResult: string
@@ -1077,6 +1231,7 @@ export type BugReportUncheckedCreateWithoutCampaignInput = {
   moderationNotes?: string | null
   validationNotes?: string | null
   duplicateOfId?: string | null
+  moderatedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   attachments?: Prisma.BugAttachmentUncheckedCreateNestedManyWithoutBugReportInput
@@ -1111,6 +1266,10 @@ export type BugReportUpdateManyWithWhereWithoutCampaignInput = {
 export type BugReportCreateWithoutAttachmentsInput = {
   id?: string
   title: string
+  groupKey?: string
+  pageUrl?: string | null
+  feature?: string | null
+  errorType?: string | null
   description: string
   reproductionSteps: string
   expectedResult: string
@@ -1121,6 +1280,7 @@ export type BugReportCreateWithoutAttachmentsInput = {
   moderationNotes?: string | null
   validationNotes?: string | null
   duplicateOfId?: string | null
+  moderatedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   campaign: Prisma.CampaignCreateNestedOneWithoutBugReportsInput
@@ -1136,6 +1296,10 @@ export type BugReportUncheckedCreateWithoutAttachmentsInput = {
   moderatorId?: string | null
   validatedById?: string | null
   title: string
+  groupKey?: string
+  pageUrl?: string | null
+  feature?: string | null
+  errorType?: string | null
   description: string
   reproductionSteps: string
   expectedResult: string
@@ -1146,6 +1310,7 @@ export type BugReportUncheckedCreateWithoutAttachmentsInput = {
   moderationNotes?: string | null
   validationNotes?: string | null
   duplicateOfId?: string | null
+  moderatedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -1169,6 +1334,10 @@ export type BugReportUpdateToOneWithWhereWithoutAttachmentsInput = {
 export type BugReportUpdateWithoutAttachmentsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  groupKey?: Prisma.StringFieldUpdateOperationsInput | string
+  pageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  feature?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  errorType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.StringFieldUpdateOperationsInput | string
   reproductionSteps?: Prisma.StringFieldUpdateOperationsInput | string
   expectedResult?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1179,6 +1348,7 @@ export type BugReportUpdateWithoutAttachmentsInput = {
   moderationNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   validationNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   duplicateOfId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moderatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   campaign?: Prisma.CampaignUpdateOneRequiredWithoutBugReportsNestedInput
@@ -1194,6 +1364,10 @@ export type BugReportUncheckedUpdateWithoutAttachmentsInput = {
   moderatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   validatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  groupKey?: Prisma.StringFieldUpdateOperationsInput | string
+  pageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  feature?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  errorType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.StringFieldUpdateOperationsInput | string
   reproductionSteps?: Prisma.StringFieldUpdateOperationsInput | string
   expectedResult?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1204,6 +1378,7 @@ export type BugReportUncheckedUpdateWithoutAttachmentsInput = {
   moderationNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   validationNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   duplicateOfId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moderatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -1214,6 +1389,10 @@ export type BugReportCreateManyTesterInput = {
   moderatorId?: string | null
   validatedById?: string | null
   title: string
+  groupKey?: string
+  pageUrl?: string | null
+  feature?: string | null
+  errorType?: string | null
   description: string
   reproductionSteps: string
   expectedResult: string
@@ -1224,6 +1403,7 @@ export type BugReportCreateManyTesterInput = {
   moderationNotes?: string | null
   validationNotes?: string | null
   duplicateOfId?: string | null
+  moderatedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -1234,6 +1414,10 @@ export type BugReportCreateManyModeratorInput = {
   testerId: string
   validatedById?: string | null
   title: string
+  groupKey?: string
+  pageUrl?: string | null
+  feature?: string | null
+  errorType?: string | null
   description: string
   reproductionSteps: string
   expectedResult: string
@@ -1244,6 +1428,7 @@ export type BugReportCreateManyModeratorInput = {
   moderationNotes?: string | null
   validationNotes?: string | null
   duplicateOfId?: string | null
+  moderatedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -1254,6 +1439,10 @@ export type BugReportCreateManyValidatedByInput = {
   testerId: string
   moderatorId?: string | null
   title: string
+  groupKey?: string
+  pageUrl?: string | null
+  feature?: string | null
+  errorType?: string | null
   description: string
   reproductionSteps: string
   expectedResult: string
@@ -1264,6 +1453,7 @@ export type BugReportCreateManyValidatedByInput = {
   moderationNotes?: string | null
   validationNotes?: string | null
   duplicateOfId?: string | null
+  moderatedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -1271,6 +1461,10 @@ export type BugReportCreateManyValidatedByInput = {
 export type BugReportUpdateWithoutTesterInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  groupKey?: Prisma.StringFieldUpdateOperationsInput | string
+  pageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  feature?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  errorType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.StringFieldUpdateOperationsInput | string
   reproductionSteps?: Prisma.StringFieldUpdateOperationsInput | string
   expectedResult?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1281,6 +1475,7 @@ export type BugReportUpdateWithoutTesterInput = {
   moderationNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   validationNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   duplicateOfId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moderatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   campaign?: Prisma.CampaignUpdateOneRequiredWithoutBugReportsNestedInput
@@ -1295,6 +1490,10 @@ export type BugReportUncheckedUpdateWithoutTesterInput = {
   moderatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   validatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  groupKey?: Prisma.StringFieldUpdateOperationsInput | string
+  pageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  feature?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  errorType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.StringFieldUpdateOperationsInput | string
   reproductionSteps?: Prisma.StringFieldUpdateOperationsInput | string
   expectedResult?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1305,6 +1504,7 @@ export type BugReportUncheckedUpdateWithoutTesterInput = {
   moderationNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   validationNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   duplicateOfId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moderatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   attachments?: Prisma.BugAttachmentUncheckedUpdateManyWithoutBugReportNestedInput
@@ -1316,6 +1516,10 @@ export type BugReportUncheckedUpdateManyWithoutTesterInput = {
   moderatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   validatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  groupKey?: Prisma.StringFieldUpdateOperationsInput | string
+  pageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  feature?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  errorType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.StringFieldUpdateOperationsInput | string
   reproductionSteps?: Prisma.StringFieldUpdateOperationsInput | string
   expectedResult?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1326,6 +1530,7 @@ export type BugReportUncheckedUpdateManyWithoutTesterInput = {
   moderationNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   validationNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   duplicateOfId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moderatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -1333,6 +1538,10 @@ export type BugReportUncheckedUpdateManyWithoutTesterInput = {
 export type BugReportUpdateWithoutModeratorInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  groupKey?: Prisma.StringFieldUpdateOperationsInput | string
+  pageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  feature?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  errorType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.StringFieldUpdateOperationsInput | string
   reproductionSteps?: Prisma.StringFieldUpdateOperationsInput | string
   expectedResult?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1343,6 +1552,7 @@ export type BugReportUpdateWithoutModeratorInput = {
   moderationNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   validationNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   duplicateOfId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moderatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   campaign?: Prisma.CampaignUpdateOneRequiredWithoutBugReportsNestedInput
@@ -1357,6 +1567,10 @@ export type BugReportUncheckedUpdateWithoutModeratorInput = {
   testerId?: Prisma.StringFieldUpdateOperationsInput | string
   validatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  groupKey?: Prisma.StringFieldUpdateOperationsInput | string
+  pageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  feature?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  errorType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.StringFieldUpdateOperationsInput | string
   reproductionSteps?: Prisma.StringFieldUpdateOperationsInput | string
   expectedResult?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1367,6 +1581,7 @@ export type BugReportUncheckedUpdateWithoutModeratorInput = {
   moderationNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   validationNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   duplicateOfId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moderatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   attachments?: Prisma.BugAttachmentUncheckedUpdateManyWithoutBugReportNestedInput
@@ -1378,6 +1593,10 @@ export type BugReportUncheckedUpdateManyWithoutModeratorInput = {
   testerId?: Prisma.StringFieldUpdateOperationsInput | string
   validatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  groupKey?: Prisma.StringFieldUpdateOperationsInput | string
+  pageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  feature?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  errorType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.StringFieldUpdateOperationsInput | string
   reproductionSteps?: Prisma.StringFieldUpdateOperationsInput | string
   expectedResult?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1388,6 +1607,7 @@ export type BugReportUncheckedUpdateManyWithoutModeratorInput = {
   moderationNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   validationNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   duplicateOfId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moderatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -1395,6 +1615,10 @@ export type BugReportUncheckedUpdateManyWithoutModeratorInput = {
 export type BugReportUpdateWithoutValidatedByInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  groupKey?: Prisma.StringFieldUpdateOperationsInput | string
+  pageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  feature?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  errorType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.StringFieldUpdateOperationsInput | string
   reproductionSteps?: Prisma.StringFieldUpdateOperationsInput | string
   expectedResult?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1405,6 +1629,7 @@ export type BugReportUpdateWithoutValidatedByInput = {
   moderationNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   validationNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   duplicateOfId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moderatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   campaign?: Prisma.CampaignUpdateOneRequiredWithoutBugReportsNestedInput
@@ -1419,6 +1644,10 @@ export type BugReportUncheckedUpdateWithoutValidatedByInput = {
   testerId?: Prisma.StringFieldUpdateOperationsInput | string
   moderatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  groupKey?: Prisma.StringFieldUpdateOperationsInput | string
+  pageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  feature?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  errorType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.StringFieldUpdateOperationsInput | string
   reproductionSteps?: Prisma.StringFieldUpdateOperationsInput | string
   expectedResult?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1429,6 +1658,7 @@ export type BugReportUncheckedUpdateWithoutValidatedByInput = {
   moderationNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   validationNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   duplicateOfId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moderatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   attachments?: Prisma.BugAttachmentUncheckedUpdateManyWithoutBugReportNestedInput
@@ -1440,6 +1670,10 @@ export type BugReportUncheckedUpdateManyWithoutValidatedByInput = {
   testerId?: Prisma.StringFieldUpdateOperationsInput | string
   moderatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  groupKey?: Prisma.StringFieldUpdateOperationsInput | string
+  pageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  feature?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  errorType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.StringFieldUpdateOperationsInput | string
   reproductionSteps?: Prisma.StringFieldUpdateOperationsInput | string
   expectedResult?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1450,6 +1684,7 @@ export type BugReportUncheckedUpdateManyWithoutValidatedByInput = {
   moderationNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   validationNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   duplicateOfId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moderatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -1460,6 +1695,10 @@ export type BugReportCreateManyCampaignInput = {
   moderatorId?: string | null
   validatedById?: string | null
   title: string
+  groupKey?: string
+  pageUrl?: string | null
+  feature?: string | null
+  errorType?: string | null
   description: string
   reproductionSteps: string
   expectedResult: string
@@ -1470,6 +1709,7 @@ export type BugReportCreateManyCampaignInput = {
   moderationNotes?: string | null
   validationNotes?: string | null
   duplicateOfId?: string | null
+  moderatedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -1477,6 +1717,10 @@ export type BugReportCreateManyCampaignInput = {
 export type BugReportUpdateWithoutCampaignInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  groupKey?: Prisma.StringFieldUpdateOperationsInput | string
+  pageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  feature?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  errorType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.StringFieldUpdateOperationsInput | string
   reproductionSteps?: Prisma.StringFieldUpdateOperationsInput | string
   expectedResult?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1487,6 +1731,7 @@ export type BugReportUpdateWithoutCampaignInput = {
   moderationNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   validationNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   duplicateOfId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moderatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tester?: Prisma.UserUpdateOneRequiredWithoutBugReportsNestedInput
@@ -1501,6 +1746,10 @@ export type BugReportUncheckedUpdateWithoutCampaignInput = {
   moderatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   validatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  groupKey?: Prisma.StringFieldUpdateOperationsInput | string
+  pageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  feature?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  errorType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.StringFieldUpdateOperationsInput | string
   reproductionSteps?: Prisma.StringFieldUpdateOperationsInput | string
   expectedResult?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1511,6 +1760,7 @@ export type BugReportUncheckedUpdateWithoutCampaignInput = {
   moderationNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   validationNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   duplicateOfId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moderatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   attachments?: Prisma.BugAttachmentUncheckedUpdateManyWithoutBugReportNestedInput
@@ -1522,6 +1772,10 @@ export type BugReportUncheckedUpdateManyWithoutCampaignInput = {
   moderatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   validatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  groupKey?: Prisma.StringFieldUpdateOperationsInput | string
+  pageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  feature?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  errorType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.StringFieldUpdateOperationsInput | string
   reproductionSteps?: Prisma.StringFieldUpdateOperationsInput | string
   expectedResult?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1532,6 +1786,7 @@ export type BugReportUncheckedUpdateManyWithoutCampaignInput = {
   moderationNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   validationNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   duplicateOfId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moderatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -1574,6 +1829,10 @@ export type BugReportSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   moderatorId?: boolean
   validatedById?: boolean
   title?: boolean
+  groupKey?: boolean
+  pageUrl?: boolean
+  feature?: boolean
+  errorType?: boolean
   description?: boolean
   reproductionSteps?: boolean
   expectedResult?: boolean
@@ -1584,6 +1843,7 @@ export type BugReportSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   moderationNotes?: boolean
   validationNotes?: boolean
   duplicateOfId?: boolean
+  moderatedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   campaign?: boolean | Prisma.CampaignDefaultArgs<ExtArgs>
@@ -1603,6 +1863,10 @@ export type BugReportSelectScalar = {
   moderatorId?: boolean
   validatedById?: boolean
   title?: boolean
+  groupKey?: boolean
+  pageUrl?: boolean
+  feature?: boolean
+  errorType?: boolean
   description?: boolean
   reproductionSteps?: boolean
   expectedResult?: boolean
@@ -1613,11 +1877,12 @@ export type BugReportSelectScalar = {
   moderationNotes?: boolean
   validationNotes?: boolean
   duplicateOfId?: boolean
+  moderatedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type BugReportOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "campaignId" | "testerId" | "moderatorId" | "validatedById" | "title" | "description" | "reproductionSteps" | "expectedResult" | "actualResult" | "severity" | "environment" | "status" | "moderationNotes" | "validationNotes" | "duplicateOfId" | "createdAt" | "updatedAt", ExtArgs["result"]["bugReport"]>
+export type BugReportOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "campaignId" | "testerId" | "moderatorId" | "validatedById" | "title" | "groupKey" | "pageUrl" | "feature" | "errorType" | "description" | "reproductionSteps" | "expectedResult" | "actualResult" | "severity" | "environment" | "status" | "moderationNotes" | "validationNotes" | "duplicateOfId" | "moderatedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["bugReport"]>
 export type BugReportInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   campaign?: boolean | Prisma.CampaignDefaultArgs<ExtArgs>
   tester?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -1643,6 +1908,10 @@ export type $BugReportPayload<ExtArgs extends runtime.Types.Extensions.InternalA
     moderatorId: string | null
     validatedById: string | null
     title: string
+    groupKey: string
+    pageUrl: string | null
+    feature: string | null
+    errorType: string | null
     description: string
     reproductionSteps: string
     expectedResult: string
@@ -1653,6 +1922,7 @@ export type $BugReportPayload<ExtArgs extends runtime.Types.Extensions.InternalA
     moderationNotes: string | null
     validationNotes: string | null
     duplicateOfId: string | null
+    moderatedAt: Date | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["bugReport"]>
@@ -2035,6 +2305,10 @@ export interface BugReportFieldRefs {
   readonly moderatorId: Prisma.FieldRef<"BugReport", 'String'>
   readonly validatedById: Prisma.FieldRef<"BugReport", 'String'>
   readonly title: Prisma.FieldRef<"BugReport", 'String'>
+  readonly groupKey: Prisma.FieldRef<"BugReport", 'String'>
+  readonly pageUrl: Prisma.FieldRef<"BugReport", 'String'>
+  readonly feature: Prisma.FieldRef<"BugReport", 'String'>
+  readonly errorType: Prisma.FieldRef<"BugReport", 'String'>
   readonly description: Prisma.FieldRef<"BugReport", 'String'>
   readonly reproductionSteps: Prisma.FieldRef<"BugReport", 'String'>
   readonly expectedResult: Prisma.FieldRef<"BugReport", 'String'>
@@ -2045,6 +2319,7 @@ export interface BugReportFieldRefs {
   readonly moderationNotes: Prisma.FieldRef<"BugReport", 'String'>
   readonly validationNotes: Prisma.FieldRef<"BugReport", 'String'>
   readonly duplicateOfId: Prisma.FieldRef<"BugReport", 'String'>
+  readonly moderatedAt: Prisma.FieldRef<"BugReport", 'DateTime'>
   readonly createdAt: Prisma.FieldRef<"BugReport", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"BugReport", 'DateTime'>
 }

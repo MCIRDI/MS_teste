@@ -61,12 +61,14 @@ export const roleNavigation: Record<Role, { href: string; label: string }[]> = {
   ],
   TESTER: [
     { href: "/tester/profile", label: "Profile" },
+    { href: "/tester/setup", label: "Testing info" },
     { href: "/tester/campaigns", label: "Available campaigns" },
     { href: "/tester/bugs/new", label: "Submit bug" },
   ],
   MODERATOR: [
-    { href: "/moderator/review-queue", label: "Review queue" },
-    { href: "/moderator/campaigns/seed-campaign", label: "Campaign moderation" },
+    { href: "/moderator/review-queue", label: "Inbox" },
+    { href: "/moderator/campaigns", label: "Campaigns" },
+    { href: "/moderator/reports/new", label: "Send report" },
   ],
   TEST_MANAGER: [
     { href: "/manager/dashboard", label: "Project dashboard" },

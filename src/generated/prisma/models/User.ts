@@ -250,12 +250,15 @@ export type UserWhereInput = {
   clientCampaigns?: Prisma.CampaignListRelationFilter
   managerCampaigns?: Prisma.CampaignListRelationFilter
   assignments?: Prisma.CampaignAssignmentListRelationFilter
-  invitations?: Prisma.CampaignInvitationListRelationFilter
+  campaignInvitations?: Prisma.CampaignInvitationListRelationFilter
   bugReports?: Prisma.BugReportListRelationFilter
   moderatedReports?: Prisma.BugReportListRelationFilter
   validatedReports?: Prisma.BugReportListRelationFilter
+  uploadedFinalReports?: Prisma.FinalReportListRelationFilter
   auditLogs?: Prisma.AuditLogListRelationFilter
   emailTokens?: Prisma.EmailTokenListRelationFilter
+  receivedRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationListRelationFilter
+  sentRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -276,12 +279,15 @@ export type UserOrderByWithRelationInput = {
   clientCampaigns?: Prisma.CampaignOrderByRelationAggregateInput
   managerCampaigns?: Prisma.CampaignOrderByRelationAggregateInput
   assignments?: Prisma.CampaignAssignmentOrderByRelationAggregateInput
-  invitations?: Prisma.CampaignInvitationOrderByRelationAggregateInput
+  campaignInvitations?: Prisma.CampaignInvitationOrderByRelationAggregateInput
   bugReports?: Prisma.BugReportOrderByRelationAggregateInput
   moderatedReports?: Prisma.BugReportOrderByRelationAggregateInput
   validatedReports?: Prisma.BugReportOrderByRelationAggregateInput
+  uploadedFinalReports?: Prisma.FinalReportOrderByRelationAggregateInput
   auditLogs?: Prisma.AuditLogOrderByRelationAggregateInput
   emailTokens?: Prisma.EmailTokenOrderByRelationAggregateInput
+  receivedRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationOrderByRelationAggregateInput
+  sentRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationOrderByRelationAggregateInput
   _relevance?: Prisma.UserOrderByRelevanceInput
 }
 
@@ -306,12 +312,15 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   clientCampaigns?: Prisma.CampaignListRelationFilter
   managerCampaigns?: Prisma.CampaignListRelationFilter
   assignments?: Prisma.CampaignAssignmentListRelationFilter
-  invitations?: Prisma.CampaignInvitationListRelationFilter
+  campaignInvitations?: Prisma.CampaignInvitationListRelationFilter
   bugReports?: Prisma.BugReportListRelationFilter
   moderatedReports?: Prisma.BugReportListRelationFilter
   validatedReports?: Prisma.BugReportListRelationFilter
+  uploadedFinalReports?: Prisma.FinalReportListRelationFilter
   auditLogs?: Prisma.AuditLogListRelationFilter
   emailTokens?: Prisma.EmailTokenListRelationFilter
+  receivedRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationListRelationFilter
+  sentRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationListRelationFilter
 }, "id" | "email">
 
 export type UserOrderByWithAggregationInput = {
@@ -370,12 +379,15 @@ export type UserCreateInput = {
   clientCampaigns?: Prisma.CampaignCreateNestedManyWithoutClientInput
   managerCampaigns?: Prisma.CampaignCreateNestedManyWithoutTestManagerInput
   assignments?: Prisma.CampaignAssignmentCreateNestedManyWithoutUserInput
-  invitations?: Prisma.CampaignInvitationCreateNestedManyWithoutTesterInput
+  campaignInvitations?: Prisma.CampaignInvitationCreateNestedManyWithoutRecipientInput
   bugReports?: Prisma.BugReportCreateNestedManyWithoutTesterInput
   moderatedReports?: Prisma.BugReportCreateNestedManyWithoutModeratorInput
   validatedReports?: Prisma.BugReportCreateNestedManyWithoutValidatedByInput
+  uploadedFinalReports?: Prisma.FinalReportCreateNestedManyWithoutUploadedByInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutActorInput
   emailTokens?: Prisma.EmailTokenCreateNestedManyWithoutUserInput
+  receivedRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationCreateNestedManyWithoutRecipientInput
+  sentRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationCreateNestedManyWithoutInvitedByInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -396,12 +408,15 @@ export type UserUncheckedCreateInput = {
   clientCampaigns?: Prisma.CampaignUncheckedCreateNestedManyWithoutClientInput
   managerCampaigns?: Prisma.CampaignUncheckedCreateNestedManyWithoutTestManagerInput
   assignments?: Prisma.CampaignAssignmentUncheckedCreateNestedManyWithoutUserInput
-  invitations?: Prisma.CampaignInvitationUncheckedCreateNestedManyWithoutTesterInput
+  campaignInvitations?: Prisma.CampaignInvitationUncheckedCreateNestedManyWithoutRecipientInput
   bugReports?: Prisma.BugReportUncheckedCreateNestedManyWithoutTesterInput
   moderatedReports?: Prisma.BugReportUncheckedCreateNestedManyWithoutModeratorInput
   validatedReports?: Prisma.BugReportUncheckedCreateNestedManyWithoutValidatedByInput
+  uploadedFinalReports?: Prisma.FinalReportUncheckedCreateNestedManyWithoutUploadedByInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
   emailTokens?: Prisma.EmailTokenUncheckedCreateNestedManyWithoutUserInput
+  receivedRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationUncheckedCreateNestedManyWithoutRecipientInput
+  sentRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationUncheckedCreateNestedManyWithoutInvitedByInput
 }
 
 export type UserUpdateInput = {
@@ -422,12 +437,15 @@ export type UserUpdateInput = {
   clientCampaigns?: Prisma.CampaignUpdateManyWithoutClientNestedInput
   managerCampaigns?: Prisma.CampaignUpdateManyWithoutTestManagerNestedInput
   assignments?: Prisma.CampaignAssignmentUpdateManyWithoutUserNestedInput
-  invitations?: Prisma.CampaignInvitationUpdateManyWithoutTesterNestedInput
+  campaignInvitations?: Prisma.CampaignInvitationUpdateManyWithoutRecipientNestedInput
   bugReports?: Prisma.BugReportUpdateManyWithoutTesterNestedInput
   moderatedReports?: Prisma.BugReportUpdateManyWithoutModeratorNestedInput
   validatedReports?: Prisma.BugReportUpdateManyWithoutValidatedByNestedInput
+  uploadedFinalReports?: Prisma.FinalReportUpdateManyWithoutUploadedByNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
   emailTokens?: Prisma.EmailTokenUpdateManyWithoutUserNestedInput
+  receivedRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationUpdateManyWithoutRecipientNestedInput
+  sentRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationUpdateManyWithoutInvitedByNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -448,12 +466,15 @@ export type UserUncheckedUpdateInput = {
   clientCampaigns?: Prisma.CampaignUncheckedUpdateManyWithoutClientNestedInput
   managerCampaigns?: Prisma.CampaignUncheckedUpdateManyWithoutTestManagerNestedInput
   assignments?: Prisma.CampaignAssignmentUncheckedUpdateManyWithoutUserNestedInput
-  invitations?: Prisma.CampaignInvitationUncheckedUpdateManyWithoutTesterNestedInput
+  campaignInvitations?: Prisma.CampaignInvitationUncheckedUpdateManyWithoutRecipientNestedInput
   bugReports?: Prisma.BugReportUncheckedUpdateManyWithoutTesterNestedInput
   moderatedReports?: Prisma.BugReportUncheckedUpdateManyWithoutModeratorNestedInput
   validatedReports?: Prisma.BugReportUncheckedUpdateManyWithoutValidatedByNestedInput
+  uploadedFinalReports?: Prisma.FinalReportUncheckedUpdateManyWithoutUploadedByNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
   emailTokens?: Prisma.EmailTokenUncheckedUpdateManyWithoutUserNestedInput
+  receivedRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationUncheckedUpdateManyWithoutRecipientNestedInput
+  sentRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationUncheckedUpdateManyWithoutInvitedByNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -654,18 +675,46 @@ export type UserUpdateOneRequiredWithoutAssignmentsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutAssignmentsInput, Prisma.UserUpdateWithoutAssignmentsInput>, Prisma.UserUncheckedUpdateWithoutAssignmentsInput>
 }
 
-export type UserCreateNestedOneWithoutInvitationsInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutInvitationsInput, Prisma.UserUncheckedCreateWithoutInvitationsInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutInvitationsInput
+export type UserCreateNestedOneWithoutCampaignInvitationsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutCampaignInvitationsInput, Prisma.UserUncheckedCreateWithoutCampaignInvitationsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCampaignInvitationsInput
   connect?: Prisma.UserWhereUniqueInput
 }
 
-export type UserUpdateOneRequiredWithoutInvitationsNestedInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutInvitationsInput, Prisma.UserUncheckedCreateWithoutInvitationsInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutInvitationsInput
-  upsert?: Prisma.UserUpsertWithoutInvitationsInput
+export type UserUpdateOneRequiredWithoutCampaignInvitationsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutCampaignInvitationsInput, Prisma.UserUncheckedCreateWithoutCampaignInvitationsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCampaignInvitationsInput
+  upsert?: Prisma.UserUpsertWithoutCampaignInvitationsInput
   connect?: Prisma.UserWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutInvitationsInput, Prisma.UserUpdateWithoutInvitationsInput>, Prisma.UserUncheckedUpdateWithoutInvitationsInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutCampaignInvitationsInput, Prisma.UserUpdateWithoutCampaignInvitationsInput>, Prisma.UserUncheckedUpdateWithoutCampaignInvitationsInput>
+}
+
+export type UserCreateNestedOneWithoutReceivedRoleUpgradeInvitationsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutReceivedRoleUpgradeInvitationsInput, Prisma.UserUncheckedCreateWithoutReceivedRoleUpgradeInvitationsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutReceivedRoleUpgradeInvitationsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserCreateNestedOneWithoutSentRoleUpgradeInvitationsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutSentRoleUpgradeInvitationsInput, Prisma.UserUncheckedCreateWithoutSentRoleUpgradeInvitationsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutSentRoleUpgradeInvitationsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutReceivedRoleUpgradeInvitationsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutReceivedRoleUpgradeInvitationsInput, Prisma.UserUncheckedCreateWithoutReceivedRoleUpgradeInvitationsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutReceivedRoleUpgradeInvitationsInput
+  upsert?: Prisma.UserUpsertWithoutReceivedRoleUpgradeInvitationsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutReceivedRoleUpgradeInvitationsInput, Prisma.UserUpdateWithoutReceivedRoleUpgradeInvitationsInput>, Prisma.UserUncheckedUpdateWithoutReceivedRoleUpgradeInvitationsInput>
+}
+
+export type UserUpdateOneRequiredWithoutSentRoleUpgradeInvitationsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutSentRoleUpgradeInvitationsInput, Prisma.UserUncheckedCreateWithoutSentRoleUpgradeInvitationsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutSentRoleUpgradeInvitationsInput
+  upsert?: Prisma.UserUpsertWithoutSentRoleUpgradeInvitationsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutSentRoleUpgradeInvitationsInput, Prisma.UserUpdateWithoutSentRoleUpgradeInvitationsInput>, Prisma.UserUncheckedUpdateWithoutSentRoleUpgradeInvitationsInput>
 }
 
 export type UserCreateNestedOneWithoutBugReportsInput = {
@@ -712,6 +761,20 @@ export type UserUpdateOneWithoutValidatedReportsNestedInput = {
   delete?: Prisma.UserWhereInput | boolean
   connect?: Prisma.UserWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutValidatedReportsInput, Prisma.UserUpdateWithoutValidatedReportsInput>, Prisma.UserUncheckedUpdateWithoutValidatedReportsInput>
+}
+
+export type UserCreateNestedOneWithoutUploadedFinalReportsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutUploadedFinalReportsInput, Prisma.UserUncheckedCreateWithoutUploadedFinalReportsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutUploadedFinalReportsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutUploadedFinalReportsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutUploadedFinalReportsInput, Prisma.UserUncheckedCreateWithoutUploadedFinalReportsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutUploadedFinalReportsInput
+  upsert?: Prisma.UserUpsertWithoutUploadedFinalReportsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutUploadedFinalReportsInput, Prisma.UserUpdateWithoutUploadedFinalReportsInput>, Prisma.UserUncheckedUpdateWithoutUploadedFinalReportsInput>
 }
 
 export type UserCreateNestedOneWithoutAuditLogsInput = {
@@ -761,12 +824,15 @@ export type UserCreateWithoutDevicesInput = {
   clientCampaigns?: Prisma.CampaignCreateNestedManyWithoutClientInput
   managerCampaigns?: Prisma.CampaignCreateNestedManyWithoutTestManagerInput
   assignments?: Prisma.CampaignAssignmentCreateNestedManyWithoutUserInput
-  invitations?: Prisma.CampaignInvitationCreateNestedManyWithoutTesterInput
+  campaignInvitations?: Prisma.CampaignInvitationCreateNestedManyWithoutRecipientInput
   bugReports?: Prisma.BugReportCreateNestedManyWithoutTesterInput
   moderatedReports?: Prisma.BugReportCreateNestedManyWithoutModeratorInput
   validatedReports?: Prisma.BugReportCreateNestedManyWithoutValidatedByInput
+  uploadedFinalReports?: Prisma.FinalReportCreateNestedManyWithoutUploadedByInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutActorInput
   emailTokens?: Prisma.EmailTokenCreateNestedManyWithoutUserInput
+  receivedRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationCreateNestedManyWithoutRecipientInput
+  sentRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationCreateNestedManyWithoutInvitedByInput
 }
 
 export type UserUncheckedCreateWithoutDevicesInput = {
@@ -786,12 +852,15 @@ export type UserUncheckedCreateWithoutDevicesInput = {
   clientCampaigns?: Prisma.CampaignUncheckedCreateNestedManyWithoutClientInput
   managerCampaigns?: Prisma.CampaignUncheckedCreateNestedManyWithoutTestManagerInput
   assignments?: Prisma.CampaignAssignmentUncheckedCreateNestedManyWithoutUserInput
-  invitations?: Prisma.CampaignInvitationUncheckedCreateNestedManyWithoutTesterInput
+  campaignInvitations?: Prisma.CampaignInvitationUncheckedCreateNestedManyWithoutRecipientInput
   bugReports?: Prisma.BugReportUncheckedCreateNestedManyWithoutTesterInput
   moderatedReports?: Prisma.BugReportUncheckedCreateNestedManyWithoutModeratorInput
   validatedReports?: Prisma.BugReportUncheckedCreateNestedManyWithoutValidatedByInput
+  uploadedFinalReports?: Prisma.FinalReportUncheckedCreateNestedManyWithoutUploadedByInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
   emailTokens?: Prisma.EmailTokenUncheckedCreateNestedManyWithoutUserInput
+  receivedRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationUncheckedCreateNestedManyWithoutRecipientInput
+  sentRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationUncheckedCreateNestedManyWithoutInvitedByInput
 }
 
 export type UserCreateOrConnectWithoutDevicesInput = {
@@ -827,12 +896,15 @@ export type UserUpdateWithoutDevicesInput = {
   clientCampaigns?: Prisma.CampaignUpdateManyWithoutClientNestedInput
   managerCampaigns?: Prisma.CampaignUpdateManyWithoutTestManagerNestedInput
   assignments?: Prisma.CampaignAssignmentUpdateManyWithoutUserNestedInput
-  invitations?: Prisma.CampaignInvitationUpdateManyWithoutTesterNestedInput
+  campaignInvitations?: Prisma.CampaignInvitationUpdateManyWithoutRecipientNestedInput
   bugReports?: Prisma.BugReportUpdateManyWithoutTesterNestedInput
   moderatedReports?: Prisma.BugReportUpdateManyWithoutModeratorNestedInput
   validatedReports?: Prisma.BugReportUpdateManyWithoutValidatedByNestedInput
+  uploadedFinalReports?: Prisma.FinalReportUpdateManyWithoutUploadedByNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
   emailTokens?: Prisma.EmailTokenUpdateManyWithoutUserNestedInput
+  receivedRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationUpdateManyWithoutRecipientNestedInput
+  sentRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationUpdateManyWithoutInvitedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutDevicesInput = {
@@ -852,12 +924,15 @@ export type UserUncheckedUpdateWithoutDevicesInput = {
   clientCampaigns?: Prisma.CampaignUncheckedUpdateManyWithoutClientNestedInput
   managerCampaigns?: Prisma.CampaignUncheckedUpdateManyWithoutTestManagerNestedInput
   assignments?: Prisma.CampaignAssignmentUncheckedUpdateManyWithoutUserNestedInput
-  invitations?: Prisma.CampaignInvitationUncheckedUpdateManyWithoutTesterNestedInput
+  campaignInvitations?: Prisma.CampaignInvitationUncheckedUpdateManyWithoutRecipientNestedInput
   bugReports?: Prisma.BugReportUncheckedUpdateManyWithoutTesterNestedInput
   moderatedReports?: Prisma.BugReportUncheckedUpdateManyWithoutModeratorNestedInput
   validatedReports?: Prisma.BugReportUncheckedUpdateManyWithoutValidatedByNestedInput
+  uploadedFinalReports?: Prisma.FinalReportUncheckedUpdateManyWithoutUploadedByNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
   emailTokens?: Prisma.EmailTokenUncheckedUpdateManyWithoutUserNestedInput
+  receivedRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationUncheckedUpdateManyWithoutRecipientNestedInput
+  sentRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationUncheckedUpdateManyWithoutInvitedByNestedInput
 }
 
 export type UserCreateWithoutClientCampaignsInput = {
@@ -877,12 +952,15 @@ export type UserCreateWithoutClientCampaignsInput = {
   devices?: Prisma.DeviceCreateNestedManyWithoutUserInput
   managerCampaigns?: Prisma.CampaignCreateNestedManyWithoutTestManagerInput
   assignments?: Prisma.CampaignAssignmentCreateNestedManyWithoutUserInput
-  invitations?: Prisma.CampaignInvitationCreateNestedManyWithoutTesterInput
+  campaignInvitations?: Prisma.CampaignInvitationCreateNestedManyWithoutRecipientInput
   bugReports?: Prisma.BugReportCreateNestedManyWithoutTesterInput
   moderatedReports?: Prisma.BugReportCreateNestedManyWithoutModeratorInput
   validatedReports?: Prisma.BugReportCreateNestedManyWithoutValidatedByInput
+  uploadedFinalReports?: Prisma.FinalReportCreateNestedManyWithoutUploadedByInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutActorInput
   emailTokens?: Prisma.EmailTokenCreateNestedManyWithoutUserInput
+  receivedRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationCreateNestedManyWithoutRecipientInput
+  sentRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationCreateNestedManyWithoutInvitedByInput
 }
 
 export type UserUncheckedCreateWithoutClientCampaignsInput = {
@@ -902,12 +980,15 @@ export type UserUncheckedCreateWithoutClientCampaignsInput = {
   devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutUserInput
   managerCampaigns?: Prisma.CampaignUncheckedCreateNestedManyWithoutTestManagerInput
   assignments?: Prisma.CampaignAssignmentUncheckedCreateNestedManyWithoutUserInput
-  invitations?: Prisma.CampaignInvitationUncheckedCreateNestedManyWithoutTesterInput
+  campaignInvitations?: Prisma.CampaignInvitationUncheckedCreateNestedManyWithoutRecipientInput
   bugReports?: Prisma.BugReportUncheckedCreateNestedManyWithoutTesterInput
   moderatedReports?: Prisma.BugReportUncheckedCreateNestedManyWithoutModeratorInput
   validatedReports?: Prisma.BugReportUncheckedCreateNestedManyWithoutValidatedByInput
+  uploadedFinalReports?: Prisma.FinalReportUncheckedCreateNestedManyWithoutUploadedByInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
   emailTokens?: Prisma.EmailTokenUncheckedCreateNestedManyWithoutUserInput
+  receivedRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationUncheckedCreateNestedManyWithoutRecipientInput
+  sentRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationUncheckedCreateNestedManyWithoutInvitedByInput
 }
 
 export type UserCreateOrConnectWithoutClientCampaignsInput = {
@@ -932,12 +1013,15 @@ export type UserCreateWithoutManagerCampaignsInput = {
   devices?: Prisma.DeviceCreateNestedManyWithoutUserInput
   clientCampaigns?: Prisma.CampaignCreateNestedManyWithoutClientInput
   assignments?: Prisma.CampaignAssignmentCreateNestedManyWithoutUserInput
-  invitations?: Prisma.CampaignInvitationCreateNestedManyWithoutTesterInput
+  campaignInvitations?: Prisma.CampaignInvitationCreateNestedManyWithoutRecipientInput
   bugReports?: Prisma.BugReportCreateNestedManyWithoutTesterInput
   moderatedReports?: Prisma.BugReportCreateNestedManyWithoutModeratorInput
   validatedReports?: Prisma.BugReportCreateNestedManyWithoutValidatedByInput
+  uploadedFinalReports?: Prisma.FinalReportCreateNestedManyWithoutUploadedByInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutActorInput
   emailTokens?: Prisma.EmailTokenCreateNestedManyWithoutUserInput
+  receivedRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationCreateNestedManyWithoutRecipientInput
+  sentRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationCreateNestedManyWithoutInvitedByInput
 }
 
 export type UserUncheckedCreateWithoutManagerCampaignsInput = {
@@ -957,12 +1041,15 @@ export type UserUncheckedCreateWithoutManagerCampaignsInput = {
   devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutUserInput
   clientCampaigns?: Prisma.CampaignUncheckedCreateNestedManyWithoutClientInput
   assignments?: Prisma.CampaignAssignmentUncheckedCreateNestedManyWithoutUserInput
-  invitations?: Prisma.CampaignInvitationUncheckedCreateNestedManyWithoutTesterInput
+  campaignInvitations?: Prisma.CampaignInvitationUncheckedCreateNestedManyWithoutRecipientInput
   bugReports?: Prisma.BugReportUncheckedCreateNestedManyWithoutTesterInput
   moderatedReports?: Prisma.BugReportUncheckedCreateNestedManyWithoutModeratorInput
   validatedReports?: Prisma.BugReportUncheckedCreateNestedManyWithoutValidatedByInput
+  uploadedFinalReports?: Prisma.FinalReportUncheckedCreateNestedManyWithoutUploadedByInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
   emailTokens?: Prisma.EmailTokenUncheckedCreateNestedManyWithoutUserInput
+  receivedRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationUncheckedCreateNestedManyWithoutRecipientInput
+  sentRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationUncheckedCreateNestedManyWithoutInvitedByInput
 }
 
 export type UserCreateOrConnectWithoutManagerCampaignsInput = {
@@ -998,12 +1085,15 @@ export type UserUpdateWithoutClientCampaignsInput = {
   devices?: Prisma.DeviceUpdateManyWithoutUserNestedInput
   managerCampaigns?: Prisma.CampaignUpdateManyWithoutTestManagerNestedInput
   assignments?: Prisma.CampaignAssignmentUpdateManyWithoutUserNestedInput
-  invitations?: Prisma.CampaignInvitationUpdateManyWithoutTesterNestedInput
+  campaignInvitations?: Prisma.CampaignInvitationUpdateManyWithoutRecipientNestedInput
   bugReports?: Prisma.BugReportUpdateManyWithoutTesterNestedInput
   moderatedReports?: Prisma.BugReportUpdateManyWithoutModeratorNestedInput
   validatedReports?: Prisma.BugReportUpdateManyWithoutValidatedByNestedInput
+  uploadedFinalReports?: Prisma.FinalReportUpdateManyWithoutUploadedByNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
   emailTokens?: Prisma.EmailTokenUpdateManyWithoutUserNestedInput
+  receivedRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationUpdateManyWithoutRecipientNestedInput
+  sentRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationUpdateManyWithoutInvitedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutClientCampaignsInput = {
@@ -1023,12 +1113,15 @@ export type UserUncheckedUpdateWithoutClientCampaignsInput = {
   devices?: Prisma.DeviceUncheckedUpdateManyWithoutUserNestedInput
   managerCampaigns?: Prisma.CampaignUncheckedUpdateManyWithoutTestManagerNestedInput
   assignments?: Prisma.CampaignAssignmentUncheckedUpdateManyWithoutUserNestedInput
-  invitations?: Prisma.CampaignInvitationUncheckedUpdateManyWithoutTesterNestedInput
+  campaignInvitations?: Prisma.CampaignInvitationUncheckedUpdateManyWithoutRecipientNestedInput
   bugReports?: Prisma.BugReportUncheckedUpdateManyWithoutTesterNestedInput
   moderatedReports?: Prisma.BugReportUncheckedUpdateManyWithoutModeratorNestedInput
   validatedReports?: Prisma.BugReportUncheckedUpdateManyWithoutValidatedByNestedInput
+  uploadedFinalReports?: Prisma.FinalReportUncheckedUpdateManyWithoutUploadedByNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
   emailTokens?: Prisma.EmailTokenUncheckedUpdateManyWithoutUserNestedInput
+  receivedRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationUncheckedUpdateManyWithoutRecipientNestedInput
+  sentRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationUncheckedUpdateManyWithoutInvitedByNestedInput
 }
 
 export type UserUpsertWithoutManagerCampaignsInput = {
@@ -1059,12 +1152,15 @@ export type UserUpdateWithoutManagerCampaignsInput = {
   devices?: Prisma.DeviceUpdateManyWithoutUserNestedInput
   clientCampaigns?: Prisma.CampaignUpdateManyWithoutClientNestedInput
   assignments?: Prisma.CampaignAssignmentUpdateManyWithoutUserNestedInput
-  invitations?: Prisma.CampaignInvitationUpdateManyWithoutTesterNestedInput
+  campaignInvitations?: Prisma.CampaignInvitationUpdateManyWithoutRecipientNestedInput
   bugReports?: Prisma.BugReportUpdateManyWithoutTesterNestedInput
   moderatedReports?: Prisma.BugReportUpdateManyWithoutModeratorNestedInput
   validatedReports?: Prisma.BugReportUpdateManyWithoutValidatedByNestedInput
+  uploadedFinalReports?: Prisma.FinalReportUpdateManyWithoutUploadedByNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
   emailTokens?: Prisma.EmailTokenUpdateManyWithoutUserNestedInput
+  receivedRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationUpdateManyWithoutRecipientNestedInput
+  sentRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationUpdateManyWithoutInvitedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutManagerCampaignsInput = {
@@ -1084,12 +1180,15 @@ export type UserUncheckedUpdateWithoutManagerCampaignsInput = {
   devices?: Prisma.DeviceUncheckedUpdateManyWithoutUserNestedInput
   clientCampaigns?: Prisma.CampaignUncheckedUpdateManyWithoutClientNestedInput
   assignments?: Prisma.CampaignAssignmentUncheckedUpdateManyWithoutUserNestedInput
-  invitations?: Prisma.CampaignInvitationUncheckedUpdateManyWithoutTesterNestedInput
+  campaignInvitations?: Prisma.CampaignInvitationUncheckedUpdateManyWithoutRecipientNestedInput
   bugReports?: Prisma.BugReportUncheckedUpdateManyWithoutTesterNestedInput
   moderatedReports?: Prisma.BugReportUncheckedUpdateManyWithoutModeratorNestedInput
   validatedReports?: Prisma.BugReportUncheckedUpdateManyWithoutValidatedByNestedInput
+  uploadedFinalReports?: Prisma.FinalReportUncheckedUpdateManyWithoutUploadedByNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
   emailTokens?: Prisma.EmailTokenUncheckedUpdateManyWithoutUserNestedInput
+  receivedRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationUncheckedUpdateManyWithoutRecipientNestedInput
+  sentRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationUncheckedUpdateManyWithoutInvitedByNestedInput
 }
 
 export type UserCreateWithoutAssignmentsInput = {
@@ -1109,12 +1208,15 @@ export type UserCreateWithoutAssignmentsInput = {
   devices?: Prisma.DeviceCreateNestedManyWithoutUserInput
   clientCampaigns?: Prisma.CampaignCreateNestedManyWithoutClientInput
   managerCampaigns?: Prisma.CampaignCreateNestedManyWithoutTestManagerInput
-  invitations?: Prisma.CampaignInvitationCreateNestedManyWithoutTesterInput
+  campaignInvitations?: Prisma.CampaignInvitationCreateNestedManyWithoutRecipientInput
   bugReports?: Prisma.BugReportCreateNestedManyWithoutTesterInput
   moderatedReports?: Prisma.BugReportCreateNestedManyWithoutModeratorInput
   validatedReports?: Prisma.BugReportCreateNestedManyWithoutValidatedByInput
+  uploadedFinalReports?: Prisma.FinalReportCreateNestedManyWithoutUploadedByInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutActorInput
   emailTokens?: Prisma.EmailTokenCreateNestedManyWithoutUserInput
+  receivedRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationCreateNestedManyWithoutRecipientInput
+  sentRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationCreateNestedManyWithoutInvitedByInput
 }
 
 export type UserUncheckedCreateWithoutAssignmentsInput = {
@@ -1134,12 +1236,15 @@ export type UserUncheckedCreateWithoutAssignmentsInput = {
   devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutUserInput
   clientCampaigns?: Prisma.CampaignUncheckedCreateNestedManyWithoutClientInput
   managerCampaigns?: Prisma.CampaignUncheckedCreateNestedManyWithoutTestManagerInput
-  invitations?: Prisma.CampaignInvitationUncheckedCreateNestedManyWithoutTesterInput
+  campaignInvitations?: Prisma.CampaignInvitationUncheckedCreateNestedManyWithoutRecipientInput
   bugReports?: Prisma.BugReportUncheckedCreateNestedManyWithoutTesterInput
   moderatedReports?: Prisma.BugReportUncheckedCreateNestedManyWithoutModeratorInput
   validatedReports?: Prisma.BugReportUncheckedCreateNestedManyWithoutValidatedByInput
+  uploadedFinalReports?: Prisma.FinalReportUncheckedCreateNestedManyWithoutUploadedByInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
   emailTokens?: Prisma.EmailTokenUncheckedCreateNestedManyWithoutUserInput
+  receivedRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationUncheckedCreateNestedManyWithoutRecipientInput
+  sentRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationUncheckedCreateNestedManyWithoutInvitedByInput
 }
 
 export type UserCreateOrConnectWithoutAssignmentsInput = {
@@ -1175,12 +1280,15 @@ export type UserUpdateWithoutAssignmentsInput = {
   devices?: Prisma.DeviceUpdateManyWithoutUserNestedInput
   clientCampaigns?: Prisma.CampaignUpdateManyWithoutClientNestedInput
   managerCampaigns?: Prisma.CampaignUpdateManyWithoutTestManagerNestedInput
-  invitations?: Prisma.CampaignInvitationUpdateManyWithoutTesterNestedInput
+  campaignInvitations?: Prisma.CampaignInvitationUpdateManyWithoutRecipientNestedInput
   bugReports?: Prisma.BugReportUpdateManyWithoutTesterNestedInput
   moderatedReports?: Prisma.BugReportUpdateManyWithoutModeratorNestedInput
   validatedReports?: Prisma.BugReportUpdateManyWithoutValidatedByNestedInput
+  uploadedFinalReports?: Prisma.FinalReportUpdateManyWithoutUploadedByNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
   emailTokens?: Prisma.EmailTokenUpdateManyWithoutUserNestedInput
+  receivedRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationUpdateManyWithoutRecipientNestedInput
+  sentRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationUpdateManyWithoutInvitedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAssignmentsInput = {
@@ -1200,15 +1308,18 @@ export type UserUncheckedUpdateWithoutAssignmentsInput = {
   devices?: Prisma.DeviceUncheckedUpdateManyWithoutUserNestedInput
   clientCampaigns?: Prisma.CampaignUncheckedUpdateManyWithoutClientNestedInput
   managerCampaigns?: Prisma.CampaignUncheckedUpdateManyWithoutTestManagerNestedInput
-  invitations?: Prisma.CampaignInvitationUncheckedUpdateManyWithoutTesterNestedInput
+  campaignInvitations?: Prisma.CampaignInvitationUncheckedUpdateManyWithoutRecipientNestedInput
   bugReports?: Prisma.BugReportUncheckedUpdateManyWithoutTesterNestedInput
   moderatedReports?: Prisma.BugReportUncheckedUpdateManyWithoutModeratorNestedInput
   validatedReports?: Prisma.BugReportUncheckedUpdateManyWithoutValidatedByNestedInput
+  uploadedFinalReports?: Prisma.FinalReportUncheckedUpdateManyWithoutUploadedByNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
   emailTokens?: Prisma.EmailTokenUncheckedUpdateManyWithoutUserNestedInput
+  receivedRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationUncheckedUpdateManyWithoutRecipientNestedInput
+  sentRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationUncheckedUpdateManyWithoutInvitedByNestedInput
 }
 
-export type UserCreateWithoutInvitationsInput = {
+export type UserCreateWithoutCampaignInvitationsInput = {
   id?: string
   name: string
   email: string
@@ -1229,11 +1340,14 @@ export type UserCreateWithoutInvitationsInput = {
   bugReports?: Prisma.BugReportCreateNestedManyWithoutTesterInput
   moderatedReports?: Prisma.BugReportCreateNestedManyWithoutModeratorInput
   validatedReports?: Prisma.BugReportCreateNestedManyWithoutValidatedByInput
+  uploadedFinalReports?: Prisma.FinalReportCreateNestedManyWithoutUploadedByInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutActorInput
   emailTokens?: Prisma.EmailTokenCreateNestedManyWithoutUserInput
+  receivedRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationCreateNestedManyWithoutRecipientInput
+  sentRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationCreateNestedManyWithoutInvitedByInput
 }
 
-export type UserUncheckedCreateWithoutInvitationsInput = {
+export type UserUncheckedCreateWithoutCampaignInvitationsInput = {
   id?: string
   name: string
   email: string
@@ -1254,27 +1368,30 @@ export type UserUncheckedCreateWithoutInvitationsInput = {
   bugReports?: Prisma.BugReportUncheckedCreateNestedManyWithoutTesterInput
   moderatedReports?: Prisma.BugReportUncheckedCreateNestedManyWithoutModeratorInput
   validatedReports?: Prisma.BugReportUncheckedCreateNestedManyWithoutValidatedByInput
+  uploadedFinalReports?: Prisma.FinalReportUncheckedCreateNestedManyWithoutUploadedByInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
   emailTokens?: Prisma.EmailTokenUncheckedCreateNestedManyWithoutUserInput
+  receivedRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationUncheckedCreateNestedManyWithoutRecipientInput
+  sentRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationUncheckedCreateNestedManyWithoutInvitedByInput
 }
 
-export type UserCreateOrConnectWithoutInvitationsInput = {
+export type UserCreateOrConnectWithoutCampaignInvitationsInput = {
   where: Prisma.UserWhereUniqueInput
-  create: Prisma.XOR<Prisma.UserCreateWithoutInvitationsInput, Prisma.UserUncheckedCreateWithoutInvitationsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutCampaignInvitationsInput, Prisma.UserUncheckedCreateWithoutCampaignInvitationsInput>
 }
 
-export type UserUpsertWithoutInvitationsInput = {
-  update: Prisma.XOR<Prisma.UserUpdateWithoutInvitationsInput, Prisma.UserUncheckedUpdateWithoutInvitationsInput>
-  create: Prisma.XOR<Prisma.UserCreateWithoutInvitationsInput, Prisma.UserUncheckedCreateWithoutInvitationsInput>
+export type UserUpsertWithoutCampaignInvitationsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutCampaignInvitationsInput, Prisma.UserUncheckedUpdateWithoutCampaignInvitationsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutCampaignInvitationsInput, Prisma.UserUncheckedCreateWithoutCampaignInvitationsInput>
   where?: Prisma.UserWhereInput
 }
 
-export type UserUpdateToOneWithWhereWithoutInvitationsInput = {
+export type UserUpdateToOneWithWhereWithoutCampaignInvitationsInput = {
   where?: Prisma.UserWhereInput
-  data: Prisma.XOR<Prisma.UserUpdateWithoutInvitationsInput, Prisma.UserUncheckedUpdateWithoutInvitationsInput>
+  data: Prisma.XOR<Prisma.UserUpdateWithoutCampaignInvitationsInput, Prisma.UserUncheckedUpdateWithoutCampaignInvitationsInput>
 }
 
-export type UserUpdateWithoutInvitationsInput = {
+export type UserUpdateWithoutCampaignInvitationsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1295,11 +1412,14 @@ export type UserUpdateWithoutInvitationsInput = {
   bugReports?: Prisma.BugReportUpdateManyWithoutTesterNestedInput
   moderatedReports?: Prisma.BugReportUpdateManyWithoutModeratorNestedInput
   validatedReports?: Prisma.BugReportUpdateManyWithoutValidatedByNestedInput
+  uploadedFinalReports?: Prisma.FinalReportUpdateManyWithoutUploadedByNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
   emailTokens?: Prisma.EmailTokenUpdateManyWithoutUserNestedInput
+  receivedRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationUpdateManyWithoutRecipientNestedInput
+  sentRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationUpdateManyWithoutInvitedByNestedInput
 }
 
-export type UserUncheckedUpdateWithoutInvitationsInput = {
+export type UserUncheckedUpdateWithoutCampaignInvitationsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1320,8 +1440,267 @@ export type UserUncheckedUpdateWithoutInvitationsInput = {
   bugReports?: Prisma.BugReportUncheckedUpdateManyWithoutTesterNestedInput
   moderatedReports?: Prisma.BugReportUncheckedUpdateManyWithoutModeratorNestedInput
   validatedReports?: Prisma.BugReportUncheckedUpdateManyWithoutValidatedByNestedInput
+  uploadedFinalReports?: Prisma.FinalReportUncheckedUpdateManyWithoutUploadedByNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
   emailTokens?: Prisma.EmailTokenUncheckedUpdateManyWithoutUserNestedInput
+  receivedRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationUncheckedUpdateManyWithoutRecipientNestedInput
+  sentRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationUncheckedUpdateManyWithoutInvitedByNestedInput
+}
+
+export type UserCreateWithoutReceivedRoleUpgradeInvitationsInput = {
+  id?: string
+  name: string
+  email: string
+  passwordHash: string
+  role: $Enums.Role
+  testerKind?: $Enums.TesterKind | null
+  accountStatus?: $Enums.AccountStatus
+  isEmailVerified?: boolean
+  country?: string | null
+  language?: string | null
+  testingExperience?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  devices?: Prisma.DeviceCreateNestedManyWithoutUserInput
+  clientCampaigns?: Prisma.CampaignCreateNestedManyWithoutClientInput
+  managerCampaigns?: Prisma.CampaignCreateNestedManyWithoutTestManagerInput
+  assignments?: Prisma.CampaignAssignmentCreateNestedManyWithoutUserInput
+  campaignInvitations?: Prisma.CampaignInvitationCreateNestedManyWithoutRecipientInput
+  bugReports?: Prisma.BugReportCreateNestedManyWithoutTesterInput
+  moderatedReports?: Prisma.BugReportCreateNestedManyWithoutModeratorInput
+  validatedReports?: Prisma.BugReportCreateNestedManyWithoutValidatedByInput
+  uploadedFinalReports?: Prisma.FinalReportCreateNestedManyWithoutUploadedByInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutActorInput
+  emailTokens?: Prisma.EmailTokenCreateNestedManyWithoutUserInput
+  sentRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationCreateNestedManyWithoutInvitedByInput
+}
+
+export type UserUncheckedCreateWithoutReceivedRoleUpgradeInvitationsInput = {
+  id?: string
+  name: string
+  email: string
+  passwordHash: string
+  role: $Enums.Role
+  testerKind?: $Enums.TesterKind | null
+  accountStatus?: $Enums.AccountStatus
+  isEmailVerified?: boolean
+  country?: string | null
+  language?: string | null
+  testingExperience?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutUserInput
+  clientCampaigns?: Prisma.CampaignUncheckedCreateNestedManyWithoutClientInput
+  managerCampaigns?: Prisma.CampaignUncheckedCreateNestedManyWithoutTestManagerInput
+  assignments?: Prisma.CampaignAssignmentUncheckedCreateNestedManyWithoutUserInput
+  campaignInvitations?: Prisma.CampaignInvitationUncheckedCreateNestedManyWithoutRecipientInput
+  bugReports?: Prisma.BugReportUncheckedCreateNestedManyWithoutTesterInput
+  moderatedReports?: Prisma.BugReportUncheckedCreateNestedManyWithoutModeratorInput
+  validatedReports?: Prisma.BugReportUncheckedCreateNestedManyWithoutValidatedByInput
+  uploadedFinalReports?: Prisma.FinalReportUncheckedCreateNestedManyWithoutUploadedByInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
+  emailTokens?: Prisma.EmailTokenUncheckedCreateNestedManyWithoutUserInput
+  sentRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationUncheckedCreateNestedManyWithoutInvitedByInput
+}
+
+export type UserCreateOrConnectWithoutReceivedRoleUpgradeInvitationsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutReceivedRoleUpgradeInvitationsInput, Prisma.UserUncheckedCreateWithoutReceivedRoleUpgradeInvitationsInput>
+}
+
+export type UserCreateWithoutSentRoleUpgradeInvitationsInput = {
+  id?: string
+  name: string
+  email: string
+  passwordHash: string
+  role: $Enums.Role
+  testerKind?: $Enums.TesterKind | null
+  accountStatus?: $Enums.AccountStatus
+  isEmailVerified?: boolean
+  country?: string | null
+  language?: string | null
+  testingExperience?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  devices?: Prisma.DeviceCreateNestedManyWithoutUserInput
+  clientCampaigns?: Prisma.CampaignCreateNestedManyWithoutClientInput
+  managerCampaigns?: Prisma.CampaignCreateNestedManyWithoutTestManagerInput
+  assignments?: Prisma.CampaignAssignmentCreateNestedManyWithoutUserInput
+  campaignInvitations?: Prisma.CampaignInvitationCreateNestedManyWithoutRecipientInput
+  bugReports?: Prisma.BugReportCreateNestedManyWithoutTesterInput
+  moderatedReports?: Prisma.BugReportCreateNestedManyWithoutModeratorInput
+  validatedReports?: Prisma.BugReportCreateNestedManyWithoutValidatedByInput
+  uploadedFinalReports?: Prisma.FinalReportCreateNestedManyWithoutUploadedByInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutActorInput
+  emailTokens?: Prisma.EmailTokenCreateNestedManyWithoutUserInput
+  receivedRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationCreateNestedManyWithoutRecipientInput
+}
+
+export type UserUncheckedCreateWithoutSentRoleUpgradeInvitationsInput = {
+  id?: string
+  name: string
+  email: string
+  passwordHash: string
+  role: $Enums.Role
+  testerKind?: $Enums.TesterKind | null
+  accountStatus?: $Enums.AccountStatus
+  isEmailVerified?: boolean
+  country?: string | null
+  language?: string | null
+  testingExperience?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutUserInput
+  clientCampaigns?: Prisma.CampaignUncheckedCreateNestedManyWithoutClientInput
+  managerCampaigns?: Prisma.CampaignUncheckedCreateNestedManyWithoutTestManagerInput
+  assignments?: Prisma.CampaignAssignmentUncheckedCreateNestedManyWithoutUserInput
+  campaignInvitations?: Prisma.CampaignInvitationUncheckedCreateNestedManyWithoutRecipientInput
+  bugReports?: Prisma.BugReportUncheckedCreateNestedManyWithoutTesterInput
+  moderatedReports?: Prisma.BugReportUncheckedCreateNestedManyWithoutModeratorInput
+  validatedReports?: Prisma.BugReportUncheckedCreateNestedManyWithoutValidatedByInput
+  uploadedFinalReports?: Prisma.FinalReportUncheckedCreateNestedManyWithoutUploadedByInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
+  emailTokens?: Prisma.EmailTokenUncheckedCreateNestedManyWithoutUserInput
+  receivedRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationUncheckedCreateNestedManyWithoutRecipientInput
+}
+
+export type UserCreateOrConnectWithoutSentRoleUpgradeInvitationsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutSentRoleUpgradeInvitationsInput, Prisma.UserUncheckedCreateWithoutSentRoleUpgradeInvitationsInput>
+}
+
+export type UserUpsertWithoutReceivedRoleUpgradeInvitationsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutReceivedRoleUpgradeInvitationsInput, Prisma.UserUncheckedUpdateWithoutReceivedRoleUpgradeInvitationsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutReceivedRoleUpgradeInvitationsInput, Prisma.UserUncheckedCreateWithoutReceivedRoleUpgradeInvitationsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutReceivedRoleUpgradeInvitationsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutReceivedRoleUpgradeInvitationsInput, Prisma.UserUncheckedUpdateWithoutReceivedRoleUpgradeInvitationsInput>
+}
+
+export type UserUpdateWithoutReceivedRoleUpgradeInvitationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  testerKind?: Prisma.NullableEnumTesterKindFieldUpdateOperationsInput | $Enums.TesterKind | null
+  accountStatus?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  language?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  testingExperience?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  devices?: Prisma.DeviceUpdateManyWithoutUserNestedInput
+  clientCampaigns?: Prisma.CampaignUpdateManyWithoutClientNestedInput
+  managerCampaigns?: Prisma.CampaignUpdateManyWithoutTestManagerNestedInput
+  assignments?: Prisma.CampaignAssignmentUpdateManyWithoutUserNestedInput
+  campaignInvitations?: Prisma.CampaignInvitationUpdateManyWithoutRecipientNestedInput
+  bugReports?: Prisma.BugReportUpdateManyWithoutTesterNestedInput
+  moderatedReports?: Prisma.BugReportUpdateManyWithoutModeratorNestedInput
+  validatedReports?: Prisma.BugReportUpdateManyWithoutValidatedByNestedInput
+  uploadedFinalReports?: Prisma.FinalReportUpdateManyWithoutUploadedByNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
+  emailTokens?: Prisma.EmailTokenUpdateManyWithoutUserNestedInput
+  sentRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationUpdateManyWithoutInvitedByNestedInput
+}
+
+export type UserUncheckedUpdateWithoutReceivedRoleUpgradeInvitationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  testerKind?: Prisma.NullableEnumTesterKindFieldUpdateOperationsInput | $Enums.TesterKind | null
+  accountStatus?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  language?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  testingExperience?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  devices?: Prisma.DeviceUncheckedUpdateManyWithoutUserNestedInput
+  clientCampaigns?: Prisma.CampaignUncheckedUpdateManyWithoutClientNestedInput
+  managerCampaigns?: Prisma.CampaignUncheckedUpdateManyWithoutTestManagerNestedInput
+  assignments?: Prisma.CampaignAssignmentUncheckedUpdateManyWithoutUserNestedInput
+  campaignInvitations?: Prisma.CampaignInvitationUncheckedUpdateManyWithoutRecipientNestedInput
+  bugReports?: Prisma.BugReportUncheckedUpdateManyWithoutTesterNestedInput
+  moderatedReports?: Prisma.BugReportUncheckedUpdateManyWithoutModeratorNestedInput
+  validatedReports?: Prisma.BugReportUncheckedUpdateManyWithoutValidatedByNestedInput
+  uploadedFinalReports?: Prisma.FinalReportUncheckedUpdateManyWithoutUploadedByNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
+  emailTokens?: Prisma.EmailTokenUncheckedUpdateManyWithoutUserNestedInput
+  sentRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationUncheckedUpdateManyWithoutInvitedByNestedInput
+}
+
+export type UserUpsertWithoutSentRoleUpgradeInvitationsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutSentRoleUpgradeInvitationsInput, Prisma.UserUncheckedUpdateWithoutSentRoleUpgradeInvitationsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutSentRoleUpgradeInvitationsInput, Prisma.UserUncheckedCreateWithoutSentRoleUpgradeInvitationsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutSentRoleUpgradeInvitationsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutSentRoleUpgradeInvitationsInput, Prisma.UserUncheckedUpdateWithoutSentRoleUpgradeInvitationsInput>
+}
+
+export type UserUpdateWithoutSentRoleUpgradeInvitationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  testerKind?: Prisma.NullableEnumTesterKindFieldUpdateOperationsInput | $Enums.TesterKind | null
+  accountStatus?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  language?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  testingExperience?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  devices?: Prisma.DeviceUpdateManyWithoutUserNestedInput
+  clientCampaigns?: Prisma.CampaignUpdateManyWithoutClientNestedInput
+  managerCampaigns?: Prisma.CampaignUpdateManyWithoutTestManagerNestedInput
+  assignments?: Prisma.CampaignAssignmentUpdateManyWithoutUserNestedInput
+  campaignInvitations?: Prisma.CampaignInvitationUpdateManyWithoutRecipientNestedInput
+  bugReports?: Prisma.BugReportUpdateManyWithoutTesterNestedInput
+  moderatedReports?: Prisma.BugReportUpdateManyWithoutModeratorNestedInput
+  validatedReports?: Prisma.BugReportUpdateManyWithoutValidatedByNestedInput
+  uploadedFinalReports?: Prisma.FinalReportUpdateManyWithoutUploadedByNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
+  emailTokens?: Prisma.EmailTokenUpdateManyWithoutUserNestedInput
+  receivedRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationUpdateManyWithoutRecipientNestedInput
+}
+
+export type UserUncheckedUpdateWithoutSentRoleUpgradeInvitationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  testerKind?: Prisma.NullableEnumTesterKindFieldUpdateOperationsInput | $Enums.TesterKind | null
+  accountStatus?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  language?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  testingExperience?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  devices?: Prisma.DeviceUncheckedUpdateManyWithoutUserNestedInput
+  clientCampaigns?: Prisma.CampaignUncheckedUpdateManyWithoutClientNestedInput
+  managerCampaigns?: Prisma.CampaignUncheckedUpdateManyWithoutTestManagerNestedInput
+  assignments?: Prisma.CampaignAssignmentUncheckedUpdateManyWithoutUserNestedInput
+  campaignInvitations?: Prisma.CampaignInvitationUncheckedUpdateManyWithoutRecipientNestedInput
+  bugReports?: Prisma.BugReportUncheckedUpdateManyWithoutTesterNestedInput
+  moderatedReports?: Prisma.BugReportUncheckedUpdateManyWithoutModeratorNestedInput
+  validatedReports?: Prisma.BugReportUncheckedUpdateManyWithoutValidatedByNestedInput
+  uploadedFinalReports?: Prisma.FinalReportUncheckedUpdateManyWithoutUploadedByNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
+  emailTokens?: Prisma.EmailTokenUncheckedUpdateManyWithoutUserNestedInput
+  receivedRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationUncheckedUpdateManyWithoutRecipientNestedInput
 }
 
 export type UserCreateWithoutBugReportsInput = {
@@ -1342,11 +1721,14 @@ export type UserCreateWithoutBugReportsInput = {
   clientCampaigns?: Prisma.CampaignCreateNestedManyWithoutClientInput
   managerCampaigns?: Prisma.CampaignCreateNestedManyWithoutTestManagerInput
   assignments?: Prisma.CampaignAssignmentCreateNestedManyWithoutUserInput
-  invitations?: Prisma.CampaignInvitationCreateNestedManyWithoutTesterInput
+  campaignInvitations?: Prisma.CampaignInvitationCreateNestedManyWithoutRecipientInput
   moderatedReports?: Prisma.BugReportCreateNestedManyWithoutModeratorInput
   validatedReports?: Prisma.BugReportCreateNestedManyWithoutValidatedByInput
+  uploadedFinalReports?: Prisma.FinalReportCreateNestedManyWithoutUploadedByInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutActorInput
   emailTokens?: Prisma.EmailTokenCreateNestedManyWithoutUserInput
+  receivedRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationCreateNestedManyWithoutRecipientInput
+  sentRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationCreateNestedManyWithoutInvitedByInput
 }
 
 export type UserUncheckedCreateWithoutBugReportsInput = {
@@ -1367,11 +1749,14 @@ export type UserUncheckedCreateWithoutBugReportsInput = {
   clientCampaigns?: Prisma.CampaignUncheckedCreateNestedManyWithoutClientInput
   managerCampaigns?: Prisma.CampaignUncheckedCreateNestedManyWithoutTestManagerInput
   assignments?: Prisma.CampaignAssignmentUncheckedCreateNestedManyWithoutUserInput
-  invitations?: Prisma.CampaignInvitationUncheckedCreateNestedManyWithoutTesterInput
+  campaignInvitations?: Prisma.CampaignInvitationUncheckedCreateNestedManyWithoutRecipientInput
   moderatedReports?: Prisma.BugReportUncheckedCreateNestedManyWithoutModeratorInput
   validatedReports?: Prisma.BugReportUncheckedCreateNestedManyWithoutValidatedByInput
+  uploadedFinalReports?: Prisma.FinalReportUncheckedCreateNestedManyWithoutUploadedByInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
   emailTokens?: Prisma.EmailTokenUncheckedCreateNestedManyWithoutUserInput
+  receivedRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationUncheckedCreateNestedManyWithoutRecipientInput
+  sentRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationUncheckedCreateNestedManyWithoutInvitedByInput
 }
 
 export type UserCreateOrConnectWithoutBugReportsInput = {
@@ -1397,11 +1782,14 @@ export type UserCreateWithoutModeratedReportsInput = {
   clientCampaigns?: Prisma.CampaignCreateNestedManyWithoutClientInput
   managerCampaigns?: Prisma.CampaignCreateNestedManyWithoutTestManagerInput
   assignments?: Prisma.CampaignAssignmentCreateNestedManyWithoutUserInput
-  invitations?: Prisma.CampaignInvitationCreateNestedManyWithoutTesterInput
+  campaignInvitations?: Prisma.CampaignInvitationCreateNestedManyWithoutRecipientInput
   bugReports?: Prisma.BugReportCreateNestedManyWithoutTesterInput
   validatedReports?: Prisma.BugReportCreateNestedManyWithoutValidatedByInput
+  uploadedFinalReports?: Prisma.FinalReportCreateNestedManyWithoutUploadedByInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutActorInput
   emailTokens?: Prisma.EmailTokenCreateNestedManyWithoutUserInput
+  receivedRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationCreateNestedManyWithoutRecipientInput
+  sentRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationCreateNestedManyWithoutInvitedByInput
 }
 
 export type UserUncheckedCreateWithoutModeratedReportsInput = {
@@ -1422,11 +1810,14 @@ export type UserUncheckedCreateWithoutModeratedReportsInput = {
   clientCampaigns?: Prisma.CampaignUncheckedCreateNestedManyWithoutClientInput
   managerCampaigns?: Prisma.CampaignUncheckedCreateNestedManyWithoutTestManagerInput
   assignments?: Prisma.CampaignAssignmentUncheckedCreateNestedManyWithoutUserInput
-  invitations?: Prisma.CampaignInvitationUncheckedCreateNestedManyWithoutTesterInput
+  campaignInvitations?: Prisma.CampaignInvitationUncheckedCreateNestedManyWithoutRecipientInput
   bugReports?: Prisma.BugReportUncheckedCreateNestedManyWithoutTesterInput
   validatedReports?: Prisma.BugReportUncheckedCreateNestedManyWithoutValidatedByInput
+  uploadedFinalReports?: Prisma.FinalReportUncheckedCreateNestedManyWithoutUploadedByInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
   emailTokens?: Prisma.EmailTokenUncheckedCreateNestedManyWithoutUserInput
+  receivedRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationUncheckedCreateNestedManyWithoutRecipientInput
+  sentRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationUncheckedCreateNestedManyWithoutInvitedByInput
 }
 
 export type UserCreateOrConnectWithoutModeratedReportsInput = {
@@ -1452,11 +1843,14 @@ export type UserCreateWithoutValidatedReportsInput = {
   clientCampaigns?: Prisma.CampaignCreateNestedManyWithoutClientInput
   managerCampaigns?: Prisma.CampaignCreateNestedManyWithoutTestManagerInput
   assignments?: Prisma.CampaignAssignmentCreateNestedManyWithoutUserInput
-  invitations?: Prisma.CampaignInvitationCreateNestedManyWithoutTesterInput
+  campaignInvitations?: Prisma.CampaignInvitationCreateNestedManyWithoutRecipientInput
   bugReports?: Prisma.BugReportCreateNestedManyWithoutTesterInput
   moderatedReports?: Prisma.BugReportCreateNestedManyWithoutModeratorInput
+  uploadedFinalReports?: Prisma.FinalReportCreateNestedManyWithoutUploadedByInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutActorInput
   emailTokens?: Prisma.EmailTokenCreateNestedManyWithoutUserInput
+  receivedRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationCreateNestedManyWithoutRecipientInput
+  sentRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationCreateNestedManyWithoutInvitedByInput
 }
 
 export type UserUncheckedCreateWithoutValidatedReportsInput = {
@@ -1477,11 +1871,14 @@ export type UserUncheckedCreateWithoutValidatedReportsInput = {
   clientCampaigns?: Prisma.CampaignUncheckedCreateNestedManyWithoutClientInput
   managerCampaigns?: Prisma.CampaignUncheckedCreateNestedManyWithoutTestManagerInput
   assignments?: Prisma.CampaignAssignmentUncheckedCreateNestedManyWithoutUserInput
-  invitations?: Prisma.CampaignInvitationUncheckedCreateNestedManyWithoutTesterInput
+  campaignInvitations?: Prisma.CampaignInvitationUncheckedCreateNestedManyWithoutRecipientInput
   bugReports?: Prisma.BugReportUncheckedCreateNestedManyWithoutTesterInput
   moderatedReports?: Prisma.BugReportUncheckedCreateNestedManyWithoutModeratorInput
+  uploadedFinalReports?: Prisma.FinalReportUncheckedCreateNestedManyWithoutUploadedByInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
   emailTokens?: Prisma.EmailTokenUncheckedCreateNestedManyWithoutUserInput
+  receivedRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationUncheckedCreateNestedManyWithoutRecipientInput
+  sentRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationUncheckedCreateNestedManyWithoutInvitedByInput
 }
 
 export type UserCreateOrConnectWithoutValidatedReportsInput = {
@@ -1518,11 +1915,14 @@ export type UserUpdateWithoutBugReportsInput = {
   clientCampaigns?: Prisma.CampaignUpdateManyWithoutClientNestedInput
   managerCampaigns?: Prisma.CampaignUpdateManyWithoutTestManagerNestedInput
   assignments?: Prisma.CampaignAssignmentUpdateManyWithoutUserNestedInput
-  invitations?: Prisma.CampaignInvitationUpdateManyWithoutTesterNestedInput
+  campaignInvitations?: Prisma.CampaignInvitationUpdateManyWithoutRecipientNestedInput
   moderatedReports?: Prisma.BugReportUpdateManyWithoutModeratorNestedInput
   validatedReports?: Prisma.BugReportUpdateManyWithoutValidatedByNestedInput
+  uploadedFinalReports?: Prisma.FinalReportUpdateManyWithoutUploadedByNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
   emailTokens?: Prisma.EmailTokenUpdateManyWithoutUserNestedInput
+  receivedRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationUpdateManyWithoutRecipientNestedInput
+  sentRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationUpdateManyWithoutInvitedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutBugReportsInput = {
@@ -1543,11 +1943,14 @@ export type UserUncheckedUpdateWithoutBugReportsInput = {
   clientCampaigns?: Prisma.CampaignUncheckedUpdateManyWithoutClientNestedInput
   managerCampaigns?: Prisma.CampaignUncheckedUpdateManyWithoutTestManagerNestedInput
   assignments?: Prisma.CampaignAssignmentUncheckedUpdateManyWithoutUserNestedInput
-  invitations?: Prisma.CampaignInvitationUncheckedUpdateManyWithoutTesterNestedInput
+  campaignInvitations?: Prisma.CampaignInvitationUncheckedUpdateManyWithoutRecipientNestedInput
   moderatedReports?: Prisma.BugReportUncheckedUpdateManyWithoutModeratorNestedInput
   validatedReports?: Prisma.BugReportUncheckedUpdateManyWithoutValidatedByNestedInput
+  uploadedFinalReports?: Prisma.FinalReportUncheckedUpdateManyWithoutUploadedByNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
   emailTokens?: Prisma.EmailTokenUncheckedUpdateManyWithoutUserNestedInput
+  receivedRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationUncheckedUpdateManyWithoutRecipientNestedInput
+  sentRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationUncheckedUpdateManyWithoutInvitedByNestedInput
 }
 
 export type UserUpsertWithoutModeratedReportsInput = {
@@ -1579,11 +1982,14 @@ export type UserUpdateWithoutModeratedReportsInput = {
   clientCampaigns?: Prisma.CampaignUpdateManyWithoutClientNestedInput
   managerCampaigns?: Prisma.CampaignUpdateManyWithoutTestManagerNestedInput
   assignments?: Prisma.CampaignAssignmentUpdateManyWithoutUserNestedInput
-  invitations?: Prisma.CampaignInvitationUpdateManyWithoutTesterNestedInput
+  campaignInvitations?: Prisma.CampaignInvitationUpdateManyWithoutRecipientNestedInput
   bugReports?: Prisma.BugReportUpdateManyWithoutTesterNestedInput
   validatedReports?: Prisma.BugReportUpdateManyWithoutValidatedByNestedInput
+  uploadedFinalReports?: Prisma.FinalReportUpdateManyWithoutUploadedByNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
   emailTokens?: Prisma.EmailTokenUpdateManyWithoutUserNestedInput
+  receivedRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationUpdateManyWithoutRecipientNestedInput
+  sentRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationUpdateManyWithoutInvitedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutModeratedReportsInput = {
@@ -1604,11 +2010,14 @@ export type UserUncheckedUpdateWithoutModeratedReportsInput = {
   clientCampaigns?: Prisma.CampaignUncheckedUpdateManyWithoutClientNestedInput
   managerCampaigns?: Prisma.CampaignUncheckedUpdateManyWithoutTestManagerNestedInput
   assignments?: Prisma.CampaignAssignmentUncheckedUpdateManyWithoutUserNestedInput
-  invitations?: Prisma.CampaignInvitationUncheckedUpdateManyWithoutTesterNestedInput
+  campaignInvitations?: Prisma.CampaignInvitationUncheckedUpdateManyWithoutRecipientNestedInput
   bugReports?: Prisma.BugReportUncheckedUpdateManyWithoutTesterNestedInput
   validatedReports?: Prisma.BugReportUncheckedUpdateManyWithoutValidatedByNestedInput
+  uploadedFinalReports?: Prisma.FinalReportUncheckedUpdateManyWithoutUploadedByNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
   emailTokens?: Prisma.EmailTokenUncheckedUpdateManyWithoutUserNestedInput
+  receivedRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationUncheckedUpdateManyWithoutRecipientNestedInput
+  sentRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationUncheckedUpdateManyWithoutInvitedByNestedInput
 }
 
 export type UserUpsertWithoutValidatedReportsInput = {
@@ -1640,11 +2049,14 @@ export type UserUpdateWithoutValidatedReportsInput = {
   clientCampaigns?: Prisma.CampaignUpdateManyWithoutClientNestedInput
   managerCampaigns?: Prisma.CampaignUpdateManyWithoutTestManagerNestedInput
   assignments?: Prisma.CampaignAssignmentUpdateManyWithoutUserNestedInput
-  invitations?: Prisma.CampaignInvitationUpdateManyWithoutTesterNestedInput
+  campaignInvitations?: Prisma.CampaignInvitationUpdateManyWithoutRecipientNestedInput
   bugReports?: Prisma.BugReportUpdateManyWithoutTesterNestedInput
   moderatedReports?: Prisma.BugReportUpdateManyWithoutModeratorNestedInput
+  uploadedFinalReports?: Prisma.FinalReportUpdateManyWithoutUploadedByNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
   emailTokens?: Prisma.EmailTokenUpdateManyWithoutUserNestedInput
+  receivedRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationUpdateManyWithoutRecipientNestedInput
+  sentRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationUpdateManyWithoutInvitedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutValidatedReportsInput = {
@@ -1665,11 +2077,142 @@ export type UserUncheckedUpdateWithoutValidatedReportsInput = {
   clientCampaigns?: Prisma.CampaignUncheckedUpdateManyWithoutClientNestedInput
   managerCampaigns?: Prisma.CampaignUncheckedUpdateManyWithoutTestManagerNestedInput
   assignments?: Prisma.CampaignAssignmentUncheckedUpdateManyWithoutUserNestedInput
-  invitations?: Prisma.CampaignInvitationUncheckedUpdateManyWithoutTesterNestedInput
+  campaignInvitations?: Prisma.CampaignInvitationUncheckedUpdateManyWithoutRecipientNestedInput
   bugReports?: Prisma.BugReportUncheckedUpdateManyWithoutTesterNestedInput
   moderatedReports?: Prisma.BugReportUncheckedUpdateManyWithoutModeratorNestedInput
+  uploadedFinalReports?: Prisma.FinalReportUncheckedUpdateManyWithoutUploadedByNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
   emailTokens?: Prisma.EmailTokenUncheckedUpdateManyWithoutUserNestedInput
+  receivedRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationUncheckedUpdateManyWithoutRecipientNestedInput
+  sentRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationUncheckedUpdateManyWithoutInvitedByNestedInput
+}
+
+export type UserCreateWithoutUploadedFinalReportsInput = {
+  id?: string
+  name: string
+  email: string
+  passwordHash: string
+  role: $Enums.Role
+  testerKind?: $Enums.TesterKind | null
+  accountStatus?: $Enums.AccountStatus
+  isEmailVerified?: boolean
+  country?: string | null
+  language?: string | null
+  testingExperience?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  devices?: Prisma.DeviceCreateNestedManyWithoutUserInput
+  clientCampaigns?: Prisma.CampaignCreateNestedManyWithoutClientInput
+  managerCampaigns?: Prisma.CampaignCreateNestedManyWithoutTestManagerInput
+  assignments?: Prisma.CampaignAssignmentCreateNestedManyWithoutUserInput
+  campaignInvitations?: Prisma.CampaignInvitationCreateNestedManyWithoutRecipientInput
+  bugReports?: Prisma.BugReportCreateNestedManyWithoutTesterInput
+  moderatedReports?: Prisma.BugReportCreateNestedManyWithoutModeratorInput
+  validatedReports?: Prisma.BugReportCreateNestedManyWithoutValidatedByInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutActorInput
+  emailTokens?: Prisma.EmailTokenCreateNestedManyWithoutUserInput
+  receivedRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationCreateNestedManyWithoutRecipientInput
+  sentRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationCreateNestedManyWithoutInvitedByInput
+}
+
+export type UserUncheckedCreateWithoutUploadedFinalReportsInput = {
+  id?: string
+  name: string
+  email: string
+  passwordHash: string
+  role: $Enums.Role
+  testerKind?: $Enums.TesterKind | null
+  accountStatus?: $Enums.AccountStatus
+  isEmailVerified?: boolean
+  country?: string | null
+  language?: string | null
+  testingExperience?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutUserInput
+  clientCampaigns?: Prisma.CampaignUncheckedCreateNestedManyWithoutClientInput
+  managerCampaigns?: Prisma.CampaignUncheckedCreateNestedManyWithoutTestManagerInput
+  assignments?: Prisma.CampaignAssignmentUncheckedCreateNestedManyWithoutUserInput
+  campaignInvitations?: Prisma.CampaignInvitationUncheckedCreateNestedManyWithoutRecipientInput
+  bugReports?: Prisma.BugReportUncheckedCreateNestedManyWithoutTesterInput
+  moderatedReports?: Prisma.BugReportUncheckedCreateNestedManyWithoutModeratorInput
+  validatedReports?: Prisma.BugReportUncheckedCreateNestedManyWithoutValidatedByInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
+  emailTokens?: Prisma.EmailTokenUncheckedCreateNestedManyWithoutUserInput
+  receivedRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationUncheckedCreateNestedManyWithoutRecipientInput
+  sentRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationUncheckedCreateNestedManyWithoutInvitedByInput
+}
+
+export type UserCreateOrConnectWithoutUploadedFinalReportsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutUploadedFinalReportsInput, Prisma.UserUncheckedCreateWithoutUploadedFinalReportsInput>
+}
+
+export type UserUpsertWithoutUploadedFinalReportsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutUploadedFinalReportsInput, Prisma.UserUncheckedUpdateWithoutUploadedFinalReportsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutUploadedFinalReportsInput, Prisma.UserUncheckedCreateWithoutUploadedFinalReportsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutUploadedFinalReportsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutUploadedFinalReportsInput, Prisma.UserUncheckedUpdateWithoutUploadedFinalReportsInput>
+}
+
+export type UserUpdateWithoutUploadedFinalReportsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  testerKind?: Prisma.NullableEnumTesterKindFieldUpdateOperationsInput | $Enums.TesterKind | null
+  accountStatus?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  language?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  testingExperience?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  devices?: Prisma.DeviceUpdateManyWithoutUserNestedInput
+  clientCampaigns?: Prisma.CampaignUpdateManyWithoutClientNestedInput
+  managerCampaigns?: Prisma.CampaignUpdateManyWithoutTestManagerNestedInput
+  assignments?: Prisma.CampaignAssignmentUpdateManyWithoutUserNestedInput
+  campaignInvitations?: Prisma.CampaignInvitationUpdateManyWithoutRecipientNestedInput
+  bugReports?: Prisma.BugReportUpdateManyWithoutTesterNestedInput
+  moderatedReports?: Prisma.BugReportUpdateManyWithoutModeratorNestedInput
+  validatedReports?: Prisma.BugReportUpdateManyWithoutValidatedByNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
+  emailTokens?: Prisma.EmailTokenUpdateManyWithoutUserNestedInput
+  receivedRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationUpdateManyWithoutRecipientNestedInput
+  sentRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationUpdateManyWithoutInvitedByNestedInput
+}
+
+export type UserUncheckedUpdateWithoutUploadedFinalReportsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  testerKind?: Prisma.NullableEnumTesterKindFieldUpdateOperationsInput | $Enums.TesterKind | null
+  accountStatus?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  language?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  testingExperience?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  devices?: Prisma.DeviceUncheckedUpdateManyWithoutUserNestedInput
+  clientCampaigns?: Prisma.CampaignUncheckedUpdateManyWithoutClientNestedInput
+  managerCampaigns?: Prisma.CampaignUncheckedUpdateManyWithoutTestManagerNestedInput
+  assignments?: Prisma.CampaignAssignmentUncheckedUpdateManyWithoutUserNestedInput
+  campaignInvitations?: Prisma.CampaignInvitationUncheckedUpdateManyWithoutRecipientNestedInput
+  bugReports?: Prisma.BugReportUncheckedUpdateManyWithoutTesterNestedInput
+  moderatedReports?: Prisma.BugReportUncheckedUpdateManyWithoutModeratorNestedInput
+  validatedReports?: Prisma.BugReportUncheckedUpdateManyWithoutValidatedByNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
+  emailTokens?: Prisma.EmailTokenUncheckedUpdateManyWithoutUserNestedInput
+  receivedRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationUncheckedUpdateManyWithoutRecipientNestedInput
+  sentRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationUncheckedUpdateManyWithoutInvitedByNestedInput
 }
 
 export type UserCreateWithoutAuditLogsInput = {
@@ -1690,11 +2233,14 @@ export type UserCreateWithoutAuditLogsInput = {
   clientCampaigns?: Prisma.CampaignCreateNestedManyWithoutClientInput
   managerCampaigns?: Prisma.CampaignCreateNestedManyWithoutTestManagerInput
   assignments?: Prisma.CampaignAssignmentCreateNestedManyWithoutUserInput
-  invitations?: Prisma.CampaignInvitationCreateNestedManyWithoutTesterInput
+  campaignInvitations?: Prisma.CampaignInvitationCreateNestedManyWithoutRecipientInput
   bugReports?: Prisma.BugReportCreateNestedManyWithoutTesterInput
   moderatedReports?: Prisma.BugReportCreateNestedManyWithoutModeratorInput
   validatedReports?: Prisma.BugReportCreateNestedManyWithoutValidatedByInput
+  uploadedFinalReports?: Prisma.FinalReportCreateNestedManyWithoutUploadedByInput
   emailTokens?: Prisma.EmailTokenCreateNestedManyWithoutUserInput
+  receivedRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationCreateNestedManyWithoutRecipientInput
+  sentRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationCreateNestedManyWithoutInvitedByInput
 }
 
 export type UserUncheckedCreateWithoutAuditLogsInput = {
@@ -1715,11 +2261,14 @@ export type UserUncheckedCreateWithoutAuditLogsInput = {
   clientCampaigns?: Prisma.CampaignUncheckedCreateNestedManyWithoutClientInput
   managerCampaigns?: Prisma.CampaignUncheckedCreateNestedManyWithoutTestManagerInput
   assignments?: Prisma.CampaignAssignmentUncheckedCreateNestedManyWithoutUserInput
-  invitations?: Prisma.CampaignInvitationUncheckedCreateNestedManyWithoutTesterInput
+  campaignInvitations?: Prisma.CampaignInvitationUncheckedCreateNestedManyWithoutRecipientInput
   bugReports?: Prisma.BugReportUncheckedCreateNestedManyWithoutTesterInput
   moderatedReports?: Prisma.BugReportUncheckedCreateNestedManyWithoutModeratorInput
   validatedReports?: Prisma.BugReportUncheckedCreateNestedManyWithoutValidatedByInput
+  uploadedFinalReports?: Prisma.FinalReportUncheckedCreateNestedManyWithoutUploadedByInput
   emailTokens?: Prisma.EmailTokenUncheckedCreateNestedManyWithoutUserInput
+  receivedRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationUncheckedCreateNestedManyWithoutRecipientInput
+  sentRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationUncheckedCreateNestedManyWithoutInvitedByInput
 }
 
 export type UserCreateOrConnectWithoutAuditLogsInput = {
@@ -1756,11 +2305,14 @@ export type UserUpdateWithoutAuditLogsInput = {
   clientCampaigns?: Prisma.CampaignUpdateManyWithoutClientNestedInput
   managerCampaigns?: Prisma.CampaignUpdateManyWithoutTestManagerNestedInput
   assignments?: Prisma.CampaignAssignmentUpdateManyWithoutUserNestedInput
-  invitations?: Prisma.CampaignInvitationUpdateManyWithoutTesterNestedInput
+  campaignInvitations?: Prisma.CampaignInvitationUpdateManyWithoutRecipientNestedInput
   bugReports?: Prisma.BugReportUpdateManyWithoutTesterNestedInput
   moderatedReports?: Prisma.BugReportUpdateManyWithoutModeratorNestedInput
   validatedReports?: Prisma.BugReportUpdateManyWithoutValidatedByNestedInput
+  uploadedFinalReports?: Prisma.FinalReportUpdateManyWithoutUploadedByNestedInput
   emailTokens?: Prisma.EmailTokenUpdateManyWithoutUserNestedInput
+  receivedRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationUpdateManyWithoutRecipientNestedInput
+  sentRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationUpdateManyWithoutInvitedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAuditLogsInput = {
@@ -1781,11 +2333,14 @@ export type UserUncheckedUpdateWithoutAuditLogsInput = {
   clientCampaigns?: Prisma.CampaignUncheckedUpdateManyWithoutClientNestedInput
   managerCampaigns?: Prisma.CampaignUncheckedUpdateManyWithoutTestManagerNestedInput
   assignments?: Prisma.CampaignAssignmentUncheckedUpdateManyWithoutUserNestedInput
-  invitations?: Prisma.CampaignInvitationUncheckedUpdateManyWithoutTesterNestedInput
+  campaignInvitations?: Prisma.CampaignInvitationUncheckedUpdateManyWithoutRecipientNestedInput
   bugReports?: Prisma.BugReportUncheckedUpdateManyWithoutTesterNestedInput
   moderatedReports?: Prisma.BugReportUncheckedUpdateManyWithoutModeratorNestedInput
   validatedReports?: Prisma.BugReportUncheckedUpdateManyWithoutValidatedByNestedInput
+  uploadedFinalReports?: Prisma.FinalReportUncheckedUpdateManyWithoutUploadedByNestedInput
   emailTokens?: Prisma.EmailTokenUncheckedUpdateManyWithoutUserNestedInput
+  receivedRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationUncheckedUpdateManyWithoutRecipientNestedInput
+  sentRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationUncheckedUpdateManyWithoutInvitedByNestedInput
 }
 
 export type UserCreateWithoutEmailTokensInput = {
@@ -1806,11 +2361,14 @@ export type UserCreateWithoutEmailTokensInput = {
   clientCampaigns?: Prisma.CampaignCreateNestedManyWithoutClientInput
   managerCampaigns?: Prisma.CampaignCreateNestedManyWithoutTestManagerInput
   assignments?: Prisma.CampaignAssignmentCreateNestedManyWithoutUserInput
-  invitations?: Prisma.CampaignInvitationCreateNestedManyWithoutTesterInput
+  campaignInvitations?: Prisma.CampaignInvitationCreateNestedManyWithoutRecipientInput
   bugReports?: Prisma.BugReportCreateNestedManyWithoutTesterInput
   moderatedReports?: Prisma.BugReportCreateNestedManyWithoutModeratorInput
   validatedReports?: Prisma.BugReportCreateNestedManyWithoutValidatedByInput
+  uploadedFinalReports?: Prisma.FinalReportCreateNestedManyWithoutUploadedByInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutActorInput
+  receivedRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationCreateNestedManyWithoutRecipientInput
+  sentRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationCreateNestedManyWithoutInvitedByInput
 }
 
 export type UserUncheckedCreateWithoutEmailTokensInput = {
@@ -1831,11 +2389,14 @@ export type UserUncheckedCreateWithoutEmailTokensInput = {
   clientCampaigns?: Prisma.CampaignUncheckedCreateNestedManyWithoutClientInput
   managerCampaigns?: Prisma.CampaignUncheckedCreateNestedManyWithoutTestManagerInput
   assignments?: Prisma.CampaignAssignmentUncheckedCreateNestedManyWithoutUserInput
-  invitations?: Prisma.CampaignInvitationUncheckedCreateNestedManyWithoutTesterInput
+  campaignInvitations?: Prisma.CampaignInvitationUncheckedCreateNestedManyWithoutRecipientInput
   bugReports?: Prisma.BugReportUncheckedCreateNestedManyWithoutTesterInput
   moderatedReports?: Prisma.BugReportUncheckedCreateNestedManyWithoutModeratorInput
   validatedReports?: Prisma.BugReportUncheckedCreateNestedManyWithoutValidatedByInput
+  uploadedFinalReports?: Prisma.FinalReportUncheckedCreateNestedManyWithoutUploadedByInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
+  receivedRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationUncheckedCreateNestedManyWithoutRecipientInput
+  sentRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationUncheckedCreateNestedManyWithoutInvitedByInput
 }
 
 export type UserCreateOrConnectWithoutEmailTokensInput = {
@@ -1872,11 +2433,14 @@ export type UserUpdateWithoutEmailTokensInput = {
   clientCampaigns?: Prisma.CampaignUpdateManyWithoutClientNestedInput
   managerCampaigns?: Prisma.CampaignUpdateManyWithoutTestManagerNestedInput
   assignments?: Prisma.CampaignAssignmentUpdateManyWithoutUserNestedInput
-  invitations?: Prisma.CampaignInvitationUpdateManyWithoutTesterNestedInput
+  campaignInvitations?: Prisma.CampaignInvitationUpdateManyWithoutRecipientNestedInput
   bugReports?: Prisma.BugReportUpdateManyWithoutTesterNestedInput
   moderatedReports?: Prisma.BugReportUpdateManyWithoutModeratorNestedInput
   validatedReports?: Prisma.BugReportUpdateManyWithoutValidatedByNestedInput
+  uploadedFinalReports?: Prisma.FinalReportUpdateManyWithoutUploadedByNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
+  receivedRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationUpdateManyWithoutRecipientNestedInput
+  sentRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationUpdateManyWithoutInvitedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutEmailTokensInput = {
@@ -1897,11 +2461,14 @@ export type UserUncheckedUpdateWithoutEmailTokensInput = {
   clientCampaigns?: Prisma.CampaignUncheckedUpdateManyWithoutClientNestedInput
   managerCampaigns?: Prisma.CampaignUncheckedUpdateManyWithoutTestManagerNestedInput
   assignments?: Prisma.CampaignAssignmentUncheckedUpdateManyWithoutUserNestedInput
-  invitations?: Prisma.CampaignInvitationUncheckedUpdateManyWithoutTesterNestedInput
+  campaignInvitations?: Prisma.CampaignInvitationUncheckedUpdateManyWithoutRecipientNestedInput
   bugReports?: Prisma.BugReportUncheckedUpdateManyWithoutTesterNestedInput
   moderatedReports?: Prisma.BugReportUncheckedUpdateManyWithoutModeratorNestedInput
   validatedReports?: Prisma.BugReportUncheckedUpdateManyWithoutValidatedByNestedInput
+  uploadedFinalReports?: Prisma.FinalReportUncheckedUpdateManyWithoutUploadedByNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
+  receivedRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationUncheckedUpdateManyWithoutRecipientNestedInput
+  sentRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationUncheckedUpdateManyWithoutInvitedByNestedInput
 }
 
 
@@ -1914,12 +2481,15 @@ export type UserCountOutputType = {
   clientCampaigns: number
   managerCampaigns: number
   assignments: number
-  invitations: number
+  campaignInvitations: number
   bugReports: number
   moderatedReports: number
   validatedReports: number
+  uploadedFinalReports: number
   auditLogs: number
   emailTokens: number
+  receivedRoleUpgradeInvitations: number
+  sentRoleUpgradeInvitations: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1927,12 +2497,15 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   clientCampaigns?: boolean | UserCountOutputTypeCountClientCampaignsArgs
   managerCampaigns?: boolean | UserCountOutputTypeCountManagerCampaignsArgs
   assignments?: boolean | UserCountOutputTypeCountAssignmentsArgs
-  invitations?: boolean | UserCountOutputTypeCountInvitationsArgs
+  campaignInvitations?: boolean | UserCountOutputTypeCountCampaignInvitationsArgs
   bugReports?: boolean | UserCountOutputTypeCountBugReportsArgs
   moderatedReports?: boolean | UserCountOutputTypeCountModeratedReportsArgs
   validatedReports?: boolean | UserCountOutputTypeCountValidatedReportsArgs
+  uploadedFinalReports?: boolean | UserCountOutputTypeCountUploadedFinalReportsArgs
   auditLogs?: boolean | UserCountOutputTypeCountAuditLogsArgs
   emailTokens?: boolean | UserCountOutputTypeCountEmailTokensArgs
+  receivedRoleUpgradeInvitations?: boolean | UserCountOutputTypeCountReceivedRoleUpgradeInvitationsArgs
+  sentRoleUpgradeInvitations?: boolean | UserCountOutputTypeCountSentRoleUpgradeInvitationsArgs
 }
 
 /**
@@ -1976,7 +2549,7 @@ export type UserCountOutputTypeCountAssignmentsArgs<ExtArgs extends runtime.Type
 /**
  * UserCountOutputType without action
  */
-export type UserCountOutputTypeCountInvitationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type UserCountOutputTypeCountCampaignInvitationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.CampaignInvitationWhereInput
 }
 
@@ -2004,6 +2577,13 @@ export type UserCountOutputTypeCountValidatedReportsArgs<ExtArgs extends runtime
 /**
  * UserCountOutputType without action
  */
+export type UserCountOutputTypeCountUploadedFinalReportsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.FinalReportWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
 export type UserCountOutputTypeCountAuditLogsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.AuditLogWhereInput
 }
@@ -2013,6 +2593,20 @@ export type UserCountOutputTypeCountAuditLogsArgs<ExtArgs extends runtime.Types.
  */
 export type UserCountOutputTypeCountEmailTokensArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.EmailTokenWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountReceivedRoleUpgradeInvitationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.RoleUpgradeInvitationWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountSentRoleUpgradeInvitationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.RoleUpgradeInvitationWhereInput
 }
 
 
@@ -2034,12 +2628,15 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   clientCampaigns?: boolean | Prisma.User$clientCampaignsArgs<ExtArgs>
   managerCampaigns?: boolean | Prisma.User$managerCampaignsArgs<ExtArgs>
   assignments?: boolean | Prisma.User$assignmentsArgs<ExtArgs>
-  invitations?: boolean | Prisma.User$invitationsArgs<ExtArgs>
+  campaignInvitations?: boolean | Prisma.User$campaignInvitationsArgs<ExtArgs>
   bugReports?: boolean | Prisma.User$bugReportsArgs<ExtArgs>
   moderatedReports?: boolean | Prisma.User$moderatedReportsArgs<ExtArgs>
   validatedReports?: boolean | Prisma.User$validatedReportsArgs<ExtArgs>
+  uploadedFinalReports?: boolean | Prisma.User$uploadedFinalReportsArgs<ExtArgs>
   auditLogs?: boolean | Prisma.User$auditLogsArgs<ExtArgs>
   emailTokens?: boolean | Prisma.User$emailTokensArgs<ExtArgs>
+  receivedRoleUpgradeInvitations?: boolean | Prisma.User$receivedRoleUpgradeInvitationsArgs<ExtArgs>
+  sentRoleUpgradeInvitations?: boolean | Prisma.User$sentRoleUpgradeInvitationsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -2067,12 +2664,15 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   clientCampaigns?: boolean | Prisma.User$clientCampaignsArgs<ExtArgs>
   managerCampaigns?: boolean | Prisma.User$managerCampaignsArgs<ExtArgs>
   assignments?: boolean | Prisma.User$assignmentsArgs<ExtArgs>
-  invitations?: boolean | Prisma.User$invitationsArgs<ExtArgs>
+  campaignInvitations?: boolean | Prisma.User$campaignInvitationsArgs<ExtArgs>
   bugReports?: boolean | Prisma.User$bugReportsArgs<ExtArgs>
   moderatedReports?: boolean | Prisma.User$moderatedReportsArgs<ExtArgs>
   validatedReports?: boolean | Prisma.User$validatedReportsArgs<ExtArgs>
+  uploadedFinalReports?: boolean | Prisma.User$uploadedFinalReportsArgs<ExtArgs>
   auditLogs?: boolean | Prisma.User$auditLogsArgs<ExtArgs>
   emailTokens?: boolean | Prisma.User$emailTokensArgs<ExtArgs>
+  receivedRoleUpgradeInvitations?: boolean | Prisma.User$receivedRoleUpgradeInvitationsArgs<ExtArgs>
+  sentRoleUpgradeInvitations?: boolean | Prisma.User$sentRoleUpgradeInvitationsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 
@@ -2083,12 +2683,15 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     clientCampaigns: Prisma.$CampaignPayload<ExtArgs>[]
     managerCampaigns: Prisma.$CampaignPayload<ExtArgs>[]
     assignments: Prisma.$CampaignAssignmentPayload<ExtArgs>[]
-    invitations: Prisma.$CampaignInvitationPayload<ExtArgs>[]
+    campaignInvitations: Prisma.$CampaignInvitationPayload<ExtArgs>[]
     bugReports: Prisma.$BugReportPayload<ExtArgs>[]
     moderatedReports: Prisma.$BugReportPayload<ExtArgs>[]
     validatedReports: Prisma.$BugReportPayload<ExtArgs>[]
+    uploadedFinalReports: Prisma.$FinalReportPayload<ExtArgs>[]
     auditLogs: Prisma.$AuditLogPayload<ExtArgs>[]
     emailTokens: Prisma.$EmailTokenPayload<ExtArgs>[]
+    receivedRoleUpgradeInvitations: Prisma.$RoleUpgradeInvitationPayload<ExtArgs>[]
+    sentRoleUpgradeInvitations: Prisma.$RoleUpgradeInvitationPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -2448,12 +3051,15 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   clientCampaigns<T extends Prisma.User$clientCampaignsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$clientCampaignsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CampaignPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   managerCampaigns<T extends Prisma.User$managerCampaignsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$managerCampaignsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CampaignPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   assignments<T extends Prisma.User$assignmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$assignmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CampaignAssignmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  invitations<T extends Prisma.User$invitationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$invitationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CampaignInvitationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  campaignInvitations<T extends Prisma.User$campaignInvitationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$campaignInvitationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CampaignInvitationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   bugReports<T extends Prisma.User$bugReportsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$bugReportsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BugReportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   moderatedReports<T extends Prisma.User$moderatedReportsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$moderatedReportsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BugReportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   validatedReports<T extends Prisma.User$validatedReportsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$validatedReportsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BugReportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  uploadedFinalReports<T extends Prisma.User$uploadedFinalReportsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$uploadedFinalReportsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FinalReportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   auditLogs<T extends Prisma.User$auditLogsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$auditLogsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AuditLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   emailTokens<T extends Prisma.User$emailTokensArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$emailTokensArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EmailTokenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  receivedRoleUpgradeInvitations<T extends Prisma.User$receivedRoleUpgradeInvitationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$receivedRoleUpgradeInvitationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RoleUpgradeInvitationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  sentRoleUpgradeInvitations<T extends Prisma.User$sentRoleUpgradeInvitationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$sentRoleUpgradeInvitationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RoleUpgradeInvitationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2940,9 +3546,9 @@ export type User$assignmentsArgs<ExtArgs extends runtime.Types.Extensions.Intern
 }
 
 /**
- * User.invitations
+ * User.campaignInvitations
  */
-export type User$invitationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type User$campaignInvitationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the CampaignInvitation
    */
@@ -3036,6 +3642,30 @@ export type User$validatedReportsArgs<ExtArgs extends runtime.Types.Extensions.I
 }
 
 /**
+ * User.uploadedFinalReports
+ */
+export type User$uploadedFinalReportsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the FinalReport
+   */
+  select?: Prisma.FinalReportSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the FinalReport
+   */
+  omit?: Prisma.FinalReportOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.FinalReportInclude<ExtArgs> | null
+  where?: Prisma.FinalReportWhereInput
+  orderBy?: Prisma.FinalReportOrderByWithRelationInput | Prisma.FinalReportOrderByWithRelationInput[]
+  cursor?: Prisma.FinalReportWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.FinalReportScalarFieldEnum | Prisma.FinalReportScalarFieldEnum[]
+}
+
+/**
  * User.auditLogs
  */
 export type User$auditLogsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -3081,6 +3711,54 @@ export type User$emailTokensArgs<ExtArgs extends runtime.Types.Extensions.Intern
   take?: number
   skip?: number
   distinct?: Prisma.EmailTokenScalarFieldEnum | Prisma.EmailTokenScalarFieldEnum[]
+}
+
+/**
+ * User.receivedRoleUpgradeInvitations
+ */
+export type User$receivedRoleUpgradeInvitationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the RoleUpgradeInvitation
+   */
+  select?: Prisma.RoleUpgradeInvitationSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the RoleUpgradeInvitation
+   */
+  omit?: Prisma.RoleUpgradeInvitationOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.RoleUpgradeInvitationInclude<ExtArgs> | null
+  where?: Prisma.RoleUpgradeInvitationWhereInput
+  orderBy?: Prisma.RoleUpgradeInvitationOrderByWithRelationInput | Prisma.RoleUpgradeInvitationOrderByWithRelationInput[]
+  cursor?: Prisma.RoleUpgradeInvitationWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.RoleUpgradeInvitationScalarFieldEnum | Prisma.RoleUpgradeInvitationScalarFieldEnum[]
+}
+
+/**
+ * User.sentRoleUpgradeInvitations
+ */
+export type User$sentRoleUpgradeInvitationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the RoleUpgradeInvitation
+   */
+  select?: Prisma.RoleUpgradeInvitationSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the RoleUpgradeInvitation
+   */
+  omit?: Prisma.RoleUpgradeInvitationOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.RoleUpgradeInvitationInclude<ExtArgs> | null
+  where?: Prisma.RoleUpgradeInvitationWhereInput
+  orderBy?: Prisma.RoleUpgradeInvitationOrderByWithRelationInput | Prisma.RoleUpgradeInvitationOrderByWithRelationInput[]
+  cursor?: Prisma.RoleUpgradeInvitationWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.RoleUpgradeInvitationScalarFieldEnum | Prisma.RoleUpgradeInvitationScalarFieldEnum[]
 }
 
 /**

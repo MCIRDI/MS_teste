@@ -5,6 +5,7 @@ import { getCurrentSession } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { saveUpload } from "@/lib/upload";
 import { bugReportSchema } from "@/lib/validation";
+import { makeGroupKey } from "@/lib/moderation";
 
 function toAttachmentKind(file: File): AttachmentKind {
   if (file.type.startsWith("image/")) {
@@ -61,20 +62,41 @@ export async function POST(request: Request) {
   const formData = await request.formData();
   const parsed = bugReportSchema.safeParse({
     campaignId: formData.get("campaignId"),
+    bugType: formData.get("bugType"),
     title: formData.get("title"),
+    pageUrl: formData.get("pageUrl"),
     description: formData.get("description"),
     reproductionSteps: formData.get("reproductionSteps"),
-    expectedResult: formData.get("expectedResult"),
-    actualResult: formData.get("actualResult"),
     severity: formData.get("severity"),
-    device: formData.get("device"),
-    osVersion: formData.get("osVersion"),
-    browser: formData.get("browser"),
-    screenResolution: formData.get("screenResolution"),
   });
 
   if (!parsed.success) {
     return NextResponse.json({ error: parsed.error.flatten() }, { status: 400 });
+  }
+
+  const tester = await prisma.user.findUnique({
+    where: { id: session.id },
+    include: { devices: { orderBy: { createdAt: "desc" }, take: 1 } },
+  });
+
+  const device = tester?.devices[0] ?? null;
+  const browser = Array.isArray(device?.browsers) ? String(device?.browsers[0] ?? "") : "";
+
+  const setupMissing =
+    !tester?.country ||
+    !device ||
+    !device.deviceName ||
+    !device.osVersion ||
+    device.osVersion === "Not provided" ||
+    !device.screenResolution ||
+    device.screenResolution === "Not provided" ||
+    !browser;
+
+  if (setupMissing) {
+    return NextResponse.json(
+      { error: "Tester info is incomplete. Add your country and device details before submitting bugs." },
+      { status: 400 },
+    );
   }
 
   const files = formData
@@ -101,16 +123,26 @@ export async function POST(request: Request) {
       campaignId: parsed.data.campaignId,
       testerId: session.id,
       title: parsed.data.title,
+      pageUrl: parsed.data.pageUrl || null,
+      feature: null,
+      errorType: parsed.data.bugType,
+      groupKey: makeGroupKey({
+        title: parsed.data.title,
+        pageUrl: parsed.data.pageUrl || null,
+        feature: null,
+        errorType: parsed.data.bugType,
+      }),
       description: parsed.data.description,
       reproductionSteps: parsed.data.reproductionSteps,
-      expectedResult: parsed.data.expectedResult,
-      actualResult: parsed.data.actualResult,
+      expectedResult: "Not provided",
+      actualResult: "Not provided",
       severity: parsed.data.severity as BugSeverity,
       environment: {
-        device: parsed.data.device,
-        osVersion: parsed.data.osVersion,
-        browser: parsed.data.browser,
-        screenResolution: parsed.data.screenResolution,
+        country: tester.country,
+        device: device.deviceName,
+        osVersion: device.osVersion,
+        browser,
+        screenResolution: device.screenResolution,
       },
       attachments: {
         create: attachments,

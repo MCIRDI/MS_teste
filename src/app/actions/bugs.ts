@@ -9,6 +9,7 @@ import { requireSession } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { saveUpload } from "@/lib/upload";
 import { bugReportSchema } from "@/lib/validation";
+import { makeGroupKey } from "@/lib/moderation";
 
 function getAttachmentKind(file: File): AttachmentKind {
   if (file.type.startsWith("image/")) {
@@ -48,16 +49,12 @@ export async function submitBugReportAction(
 
   const parsed = bugReportSchema.safeParse({
     campaignId: formData.get("campaignId"),
+    bugType: formData.get("bugType"),
     title: formData.get("title"),
+    pageUrl: formData.get("pageUrl"),
     description: formData.get("description"),
     reproductionSteps: formData.get("reproductionSteps"),
-    expectedResult: formData.get("expectedResult"),
-    actualResult: formData.get("actualResult"),
     severity: formData.get("severity"),
-    device: formData.get("device"),
-    osVersion: formData.get("osVersion"),
-    browser: formData.get("browser"),
-    screenResolution: formData.get("screenResolution"),
   });
 
   if (!parsed.success) {
@@ -82,6 +79,31 @@ export async function submitBugReportAction(
     return {
       success: false,
       message: "You need to accept the invitation before submitting bugs.",
+    };
+  }
+
+  const tester = await prisma.user.findUnique({
+    where: { id: session.id },
+    include: { devices: { orderBy: { createdAt: "desc" }, take: 1 } },
+  });
+
+  const device = tester?.devices[0] ?? null;
+  const browser = Array.isArray(device?.browsers) ? String(device?.browsers[0] ?? "") : "";
+
+  const setupMissing =
+    !tester?.country ||
+    !device ||
+    !device.deviceName ||
+    !device.osVersion ||
+    device.osVersion === "Not provided" ||
+    !device.screenResolution ||
+    device.screenResolution === "Not provided" ||
+    !browser;
+
+  if (setupMissing) {
+    return {
+      success: false,
+      message: "Please complete your tester info (country + device details) before submitting bugs.",
     };
   }
 
@@ -110,16 +132,27 @@ export async function submitBugReportAction(
       campaignId: parsed.data.campaignId,
       testerId: session.id,
       title: parsed.data.title,
+      pageUrl: parsed.data.pageUrl || null,
+      feature: null,
+      // We store the user-selected bug type in `errorType` to avoid a schema migration.
+      errorType: parsed.data.bugType,
+      groupKey: makeGroupKey({
+        title: parsed.data.title,
+        pageUrl: parsed.data.pageUrl || null,
+        feature: null,
+        errorType: parsed.data.bugType,
+      }),
       description: parsed.data.description,
       reproductionSteps: parsed.data.reproductionSteps,
-      expectedResult: parsed.data.expectedResult,
-      actualResult: parsed.data.actualResult,
+      expectedResult: "Not provided",
+      actualResult: "Not provided",
       severity: parsed.data.severity as BugSeverity,
       environment: {
-        device: parsed.data.device,
-        osVersion: parsed.data.osVersion,
-        browser: parsed.data.browser,
-        screenResolution: parsed.data.screenResolution,
+        country: tester.country,
+        device: device.deviceName,
+        osVersion: device.osVersion,
+        browser,
+        screenResolution: device.screenResolution,
       },
       attachments: {
         create: uploadedAttachments,
@@ -138,8 +171,9 @@ export async function moderateBugReportAction(formData: FormData) {
   const bugReportId = String(formData.get("bugReportId") ?? "");
   const decision = String(formData.get("decision") ?? "");
   const moderationNotes = String(formData.get("moderationNotes") ?? "");
+  const duplicateOfId = String(formData.get("duplicateOfId") ?? "");
 
-  if (!["APPROVED", "REJECTED", "DUPLICATE"].includes(decision)) {
+  if (!["APPROVED", "REJECTED", "DUPLICATE", "NEEDS_INFO"].includes(decision)) {
     return;
   }
 
@@ -153,18 +187,127 @@ export async function moderateBugReportAction(formData: FormData) {
     return;
   }
 
+  const assignment = await prisma.campaignAssignment.findFirst({
+    where: {
+      campaignId: bugReport.campaignId,
+      userId: session.id,
+      assignmentRole: "MODERATOR",
+    },
+  });
+
+  if (!assignment) {
+    return;
+  }
+
   await prisma.bugReport.update({
     where: { id: bugReportId },
     data: {
       status: nextStatus,
       moderatorId: session.id,
       moderationNotes: moderationNotes || null,
+      duplicateOfId: nextStatus === BugStatus.DUPLICATE && duplicateOfId ? duplicateOfId : null,
+      moderatedAt: new Date(),
     },
   });
 
   revalidatePath("/moderator/review-queue");
   revalidatePath(`/moderator/campaigns/${bugReport.campaignId}`);
   revalidatePath("/manager/validation");
+}
+
+export async function moderateBugGroupAction(formData: FormData) {
+  const session = await requireSession([Role.MODERATOR]);
+  const campaignId = String(formData.get("campaignId") ?? "");
+  const groupKey = String(formData.get("groupKey") ?? "");
+  const decision = String(formData.get("decision") ?? "");
+  const moderationNotes = String(formData.get("moderationNotes") ?? "");
+
+  if (!campaignId || !groupKey) return;
+  if (!["APPROVED", "REJECTED", "NEEDS_INFO"].includes(decision)) return;
+
+  const assignment = await prisma.campaignAssignment.findFirst({
+    where: {
+      campaignId,
+      userId: session.id,
+      assignmentRole: "MODERATOR",
+    },
+  });
+
+  if (!assignment) {
+    return;
+  }
+
+  const nextStatus = decision as BugStatus;
+  await prisma.bugReport.updateMany({
+    where: {
+      campaignId,
+      status: {
+        in: [BugStatus.SUBMITTED, BugStatus.NEEDS_INFO],
+      },
+      groupKey,
+    },
+    data: {
+      status: nextStatus,
+      moderatorId: session.id,
+      moderationNotes: moderationNotes || null,
+      moderatedAt: new Date(),
+    },
+  });
+
+  revalidatePath("/moderator/review-queue");
+  revalidatePath(`/moderator/campaigns/${campaignId}`);
+}
+
+export async function markBugGroupDuplicatesAction(formData: FormData) {
+  const session = await requireSession([Role.MODERATOR]);
+  const campaignId = String(formData.get("campaignId") ?? "");
+  const groupKey = String(formData.get("groupKey") ?? "");
+
+  if (!campaignId || !groupKey) return;
+
+  const assignment = await prisma.campaignAssignment.findFirst({
+    where: {
+      campaignId,
+      userId: session.id,
+      assignmentRole: "MODERATOR",
+    },
+  });
+
+  if (!assignment) return;
+
+  const bugs = await prisma.bugReport.findMany({
+    where: {
+      campaignId,
+      groupKey,
+    },
+    orderBy: { createdAt: "asc" },
+    select: { id: true, status: true },
+  });
+
+  if (bugs.length < 2) return;
+
+  const primaryId = bugs[0].id;
+
+  await prisma.bugReport.updateMany({
+    where: {
+      campaignId,
+      groupKey,
+      id: { not: primaryId },
+      status: {
+        in: [BugStatus.SUBMITTED, BugStatus.NEEDS_INFO],
+      },
+    },
+    data: {
+      status: BugStatus.DUPLICATE,
+      duplicateOfId: primaryId,
+      moderatorId: session.id,
+      moderatedAt: new Date(),
+    },
+  });
+
+  revalidatePath("/moderator/review-queue");
+  revalidatePath(`/moderator/campaigns/${campaignId}`);
+  revalidatePath(`/moderator/bugs/${primaryId}`);
 }
 
 export async function validateBugReportAction(formData: FormData) {
@@ -177,6 +320,18 @@ export async function validateBugReportAction(formData: FormData) {
   });
 
   if (!bugReport) {
+    return;
+  }
+
+  const assignment = await prisma.campaignAssignment.findFirst({
+    where: {
+      campaignId: bugReport.campaignId,
+      userId: session.id,
+      assignmentRole: "TEST_MANAGER",
+    },
+  });
+
+  if (!assignment) {
     return;
   }
 
@@ -193,4 +348,83 @@ export async function validateBugReportAction(formData: FormData) {
   revalidatePath("/manager/reports");
   revalidatePath("/client/dashboard");
   revalidatePath("/client/reports");
+}
+
+export async function submitModeratorBugReportAction(formData: FormData) {
+  const session = await requireSession([Role.MODERATOR]);
+
+  const campaignId = String(formData.get("campaignId") ?? "");
+  const bugType = String(formData.get("bugType") ?? "");
+  const title = String(formData.get("title") ?? "");
+  const pageUrl = String(formData.get("pageUrl") ?? "");
+  const description = String(formData.get("description") ?? "");
+  const reproductionSteps = String(formData.get("reproductionSteps") ?? "");
+  const severity = String(formData.get("severity") ?? "");
+  const commonOccurrence = String(formData.get("commonOccurrence") ?? "");
+
+  if (!campaignId || !bugType || !title || !description || !reproductionSteps || !severity) return;
+
+  const assignment = await prisma.campaignAssignment.findFirst({
+    where: {
+      campaignId,
+      userId: session.id,
+      assignmentRole: "MODERATOR",
+    },
+  });
+
+  if (!assignment) return;
+
+  const files = formData
+    .getAll("attachments")
+    .filter((entry): entry is File => entry instanceof File && entry.size > 0);
+
+  const uploadedAttachments = await Promise.all(
+    files.map(async (file) => {
+      const kind = getAttachmentKind(file);
+      const uploaded = await saveUpload(file, getUploadCategory(kind));
+
+      return {
+        kind,
+        originalName: uploaded.originalName,
+        storedName: uploaded.storedName,
+        relativePath: uploaded.relativePath,
+        mimeType: uploaded.mimeType,
+        sizeBytes: uploaded.sizeBytes,
+      };
+    }),
+  );
+
+  await prisma.bugReport.create({
+    data: {
+      campaignId,
+      testerId: session.id,
+      moderatorId: session.id,
+      title,
+      pageUrl: pageUrl || null,
+      feature: null,
+      errorType: bugType,
+      groupKey: makeGroupKey({
+        title,
+        pageUrl: pageUrl || null,
+        feature: null,
+        errorType: bugType,
+      }),
+      description,
+      reproductionSteps,
+      expectedResult: "Not provided",
+      actualResult: "Not provided",
+      severity: severity as BugSeverity,
+      status: BugStatus.APPROVED,
+      moderationNotes: commonOccurrence ? `Common occurrence: ${commonOccurrence}` : null,
+      environment: {},
+      attachments: {
+        create: uploadedAttachments,
+      },
+    },
+  });
+
+  revalidatePath("/moderator/review-queue");
+  revalidatePath(`/moderator/campaigns/${campaignId}`);
+  revalidatePath("/manager/validation");
+  redirect(`/moderator/campaigns/${campaignId}`);
 }

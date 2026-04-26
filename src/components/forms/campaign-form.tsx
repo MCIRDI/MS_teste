@@ -195,7 +195,7 @@ export function CampaignForm() {
           </div>
         </div>
         {state.message ? <p className="text-sm text-red-700">{state.message}</p> : null}
-        <SubmitButton label="Launch for approval" pendingLabel="Saving campaign..." />
+        <SubmitButton label="Launch campaign" pendingLabel="Launching campaign..." />
       </form>
 
       <aside className="space-y-5 rounded-[28px] border border-stone-200 bg-white p-6">

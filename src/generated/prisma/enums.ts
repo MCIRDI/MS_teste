@@ -91,6 +91,7 @@ export type BugSeverity = (typeof BugSeverity)[keyof typeof BugSeverity]
 
 export const BugStatus = {
   SUBMITTED: 'SUBMITTED',
+  NEEDS_INFO: 'NEEDS_INFO',
   APPROVED: 'APPROVED',
   REJECTED: 'REJECTED',
   DUPLICATE: 'DUPLICATE',

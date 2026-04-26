@@ -27,7 +27,8 @@ export type AggregateCampaignInvitation = {
 export type CampaignInvitationMinAggregateOutputType = {
   id: string | null
   campaignId: string | null
-  testerId: string | null
+  recipientId: string | null
+  assignmentRole: $Enums.AssignmentRole | null
   status: $Enums.InvitationStatus | null
   invitedAt: Date | null
   acceptedAt: Date | null
@@ -37,7 +38,8 @@ export type CampaignInvitationMinAggregateOutputType = {
 export type CampaignInvitationMaxAggregateOutputType = {
   id: string | null
   campaignId: string | null
-  testerId: string | null
+  recipientId: string | null
+  assignmentRole: $Enums.AssignmentRole | null
   status: $Enums.InvitationStatus | null
   invitedAt: Date | null
   acceptedAt: Date | null
@@ -47,7 +49,8 @@ export type CampaignInvitationMaxAggregateOutputType = {
 export type CampaignInvitationCountAggregateOutputType = {
   id: number
   campaignId: number
-  testerId: number
+  recipientId: number
+  assignmentRole: number
   status: number
   invitedAt: number
   acceptedAt: number
@@ -59,7 +62,8 @@ export type CampaignInvitationCountAggregateOutputType = {
 export type CampaignInvitationMinAggregateInputType = {
   id?: true
   campaignId?: true
-  testerId?: true
+  recipientId?: true
+  assignmentRole?: true
   status?: true
   invitedAt?: true
   acceptedAt?: true
@@ -69,7 +73,8 @@ export type CampaignInvitationMinAggregateInputType = {
 export type CampaignInvitationMaxAggregateInputType = {
   id?: true
   campaignId?: true
-  testerId?: true
+  recipientId?: true
+  assignmentRole?: true
   status?: true
   invitedAt?: true
   acceptedAt?: true
@@ -79,7 +84,8 @@ export type CampaignInvitationMaxAggregateInputType = {
 export type CampaignInvitationCountAggregateInputType = {
   id?: true
   campaignId?: true
-  testerId?: true
+  recipientId?: true
+  assignmentRole?: true
   status?: true
   invitedAt?: true
   acceptedAt?: true
@@ -162,7 +168,8 @@ export type CampaignInvitationGroupByArgs<ExtArgs extends runtime.Types.Extensio
 export type CampaignInvitationGroupByOutputType = {
   id: string
   campaignId: string
-  testerId: string
+  recipientId: string
+  assignmentRole: $Enums.AssignmentRole
   status: $Enums.InvitationStatus
   invitedAt: Date
   acceptedAt: Date | null
@@ -193,48 +200,52 @@ export type CampaignInvitationWhereInput = {
   NOT?: Prisma.CampaignInvitationWhereInput | Prisma.CampaignInvitationWhereInput[]
   id?: Prisma.StringFilter<"CampaignInvitation"> | string
   campaignId?: Prisma.StringFilter<"CampaignInvitation"> | string
-  testerId?: Prisma.StringFilter<"CampaignInvitation"> | string
+  recipientId?: Prisma.StringFilter<"CampaignInvitation"> | string
+  assignmentRole?: Prisma.EnumAssignmentRoleFilter<"CampaignInvitation"> | $Enums.AssignmentRole
   status?: Prisma.EnumInvitationStatusFilter<"CampaignInvitation"> | $Enums.InvitationStatus
   invitedAt?: Prisma.DateTimeFilter<"CampaignInvitation"> | Date | string
   acceptedAt?: Prisma.DateTimeNullableFilter<"CampaignInvitation"> | Date | string | null
   expiresAt?: Prisma.DateTimeNullableFilter<"CampaignInvitation"> | Date | string | null
   campaign?: Prisma.XOR<Prisma.CampaignScalarRelationFilter, Prisma.CampaignWhereInput>
-  tester?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  recipient?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }
 
 export type CampaignInvitationOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   campaignId?: Prisma.SortOrder
-  testerId?: Prisma.SortOrder
+  recipientId?: Prisma.SortOrder
+  assignmentRole?: Prisma.SortOrder
   status?: Prisma.SortOrder
   invitedAt?: Prisma.SortOrder
   acceptedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   expiresAt?: Prisma.SortOrderInput | Prisma.SortOrder
   campaign?: Prisma.CampaignOrderByWithRelationInput
-  tester?: Prisma.UserOrderByWithRelationInput
+  recipient?: Prisma.UserOrderByWithRelationInput
   _relevance?: Prisma.CampaignInvitationOrderByRelevanceInput
 }
 
 export type CampaignInvitationWhereUniqueInput = Prisma.AtLeast<{
   id?: string
-  campaignId_testerId?: Prisma.CampaignInvitationCampaignIdTesterIdCompoundUniqueInput
+  campaignId_recipientId?: Prisma.CampaignInvitationCampaignIdRecipientIdCompoundUniqueInput
   AND?: Prisma.CampaignInvitationWhereInput | Prisma.CampaignInvitationWhereInput[]
   OR?: Prisma.CampaignInvitationWhereInput[]
   NOT?: Prisma.CampaignInvitationWhereInput | Prisma.CampaignInvitationWhereInput[]
   campaignId?: Prisma.StringFilter<"CampaignInvitation"> | string
-  testerId?: Prisma.StringFilter<"CampaignInvitation"> | string
+  recipientId?: Prisma.StringFilter<"CampaignInvitation"> | string
+  assignmentRole?: Prisma.EnumAssignmentRoleFilter<"CampaignInvitation"> | $Enums.AssignmentRole
   status?: Prisma.EnumInvitationStatusFilter<"CampaignInvitation"> | $Enums.InvitationStatus
   invitedAt?: Prisma.DateTimeFilter<"CampaignInvitation"> | Date | string
   acceptedAt?: Prisma.DateTimeNullableFilter<"CampaignInvitation"> | Date | string | null
   expiresAt?: Prisma.DateTimeNullableFilter<"CampaignInvitation"> | Date | string | null
   campaign?: Prisma.XOR<Prisma.CampaignScalarRelationFilter, Prisma.CampaignWhereInput>
-  tester?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-}, "id" | "campaignId_testerId">
+  recipient?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+}, "id" | "campaignId_recipientId">
 
 export type CampaignInvitationOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   campaignId?: Prisma.SortOrder
-  testerId?: Prisma.SortOrder
+  recipientId?: Prisma.SortOrder
+  assignmentRole?: Prisma.SortOrder
   status?: Prisma.SortOrder
   invitedAt?: Prisma.SortOrder
   acceptedAt?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -250,7 +261,8 @@ export type CampaignInvitationScalarWhereWithAggregatesInput = {
   NOT?: Prisma.CampaignInvitationScalarWhereWithAggregatesInput | Prisma.CampaignInvitationScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"CampaignInvitation"> | string
   campaignId?: Prisma.StringWithAggregatesFilter<"CampaignInvitation"> | string
-  testerId?: Prisma.StringWithAggregatesFilter<"CampaignInvitation"> | string
+  recipientId?: Prisma.StringWithAggregatesFilter<"CampaignInvitation"> | string
+  assignmentRole?: Prisma.EnumAssignmentRoleWithAggregatesFilter<"CampaignInvitation"> | $Enums.AssignmentRole
   status?: Prisma.EnumInvitationStatusWithAggregatesFilter<"CampaignInvitation"> | $Enums.InvitationStatus
   invitedAt?: Prisma.DateTimeWithAggregatesFilter<"CampaignInvitation"> | Date | string
   acceptedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"CampaignInvitation"> | Date | string | null
@@ -259,18 +271,20 @@ export type CampaignInvitationScalarWhereWithAggregatesInput = {
 
 export type CampaignInvitationCreateInput = {
   id?: string
+  assignmentRole?: $Enums.AssignmentRole
   status?: $Enums.InvitationStatus
   invitedAt?: Date | string
   acceptedAt?: Date | string | null
   expiresAt?: Date | string | null
   campaign: Prisma.CampaignCreateNestedOneWithoutInvitationsInput
-  tester: Prisma.UserCreateNestedOneWithoutInvitationsInput
+  recipient: Prisma.UserCreateNestedOneWithoutCampaignInvitationsInput
 }
 
 export type CampaignInvitationUncheckedCreateInput = {
   id?: string
   campaignId: string
-  testerId: string
+  recipientId: string
+  assignmentRole?: $Enums.AssignmentRole
   status?: $Enums.InvitationStatus
   invitedAt?: Date | string
   acceptedAt?: Date | string | null
@@ -279,18 +293,20 @@ export type CampaignInvitationUncheckedCreateInput = {
 
 export type CampaignInvitationUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  assignmentRole?: Prisma.EnumAssignmentRoleFieldUpdateOperationsInput | $Enums.AssignmentRole
   status?: Prisma.EnumInvitationStatusFieldUpdateOperationsInput | $Enums.InvitationStatus
   invitedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   acceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   campaign?: Prisma.CampaignUpdateOneRequiredWithoutInvitationsNestedInput
-  tester?: Prisma.UserUpdateOneRequiredWithoutInvitationsNestedInput
+  recipient?: Prisma.UserUpdateOneRequiredWithoutCampaignInvitationsNestedInput
 }
 
 export type CampaignInvitationUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   campaignId?: Prisma.StringFieldUpdateOperationsInput | string
-  testerId?: Prisma.StringFieldUpdateOperationsInput | string
+  recipientId?: Prisma.StringFieldUpdateOperationsInput | string
+  assignmentRole?: Prisma.EnumAssignmentRoleFieldUpdateOperationsInput | $Enums.AssignmentRole
   status?: Prisma.EnumInvitationStatusFieldUpdateOperationsInput | $Enums.InvitationStatus
   invitedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   acceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -300,7 +316,8 @@ export type CampaignInvitationUncheckedUpdateInput = {
 export type CampaignInvitationCreateManyInput = {
   id?: string
   campaignId: string
-  testerId: string
+  recipientId: string
+  assignmentRole?: $Enums.AssignmentRole
   status?: $Enums.InvitationStatus
   invitedAt?: Date | string
   acceptedAt?: Date | string | null
@@ -309,6 +326,7 @@ export type CampaignInvitationCreateManyInput = {
 
 export type CampaignInvitationUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  assignmentRole?: Prisma.EnumAssignmentRoleFieldUpdateOperationsInput | $Enums.AssignmentRole
   status?: Prisma.EnumInvitationStatusFieldUpdateOperationsInput | $Enums.InvitationStatus
   invitedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   acceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -318,7 +336,8 @@ export type CampaignInvitationUpdateManyMutationInput = {
 export type CampaignInvitationUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   campaignId?: Prisma.StringFieldUpdateOperationsInput | string
-  testerId?: Prisma.StringFieldUpdateOperationsInput | string
+  recipientId?: Prisma.StringFieldUpdateOperationsInput | string
+  assignmentRole?: Prisma.EnumAssignmentRoleFieldUpdateOperationsInput | $Enums.AssignmentRole
   status?: Prisma.EnumInvitationStatusFieldUpdateOperationsInput | $Enums.InvitationStatus
   invitedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   acceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -341,15 +360,16 @@ export type CampaignInvitationOrderByRelevanceInput = {
   search: string
 }
 
-export type CampaignInvitationCampaignIdTesterIdCompoundUniqueInput = {
+export type CampaignInvitationCampaignIdRecipientIdCompoundUniqueInput = {
   campaignId: string
-  testerId: string
+  recipientId: string
 }
 
 export type CampaignInvitationCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   campaignId?: Prisma.SortOrder
-  testerId?: Prisma.SortOrder
+  recipientId?: Prisma.SortOrder
+  assignmentRole?: Prisma.SortOrder
   status?: Prisma.SortOrder
   invitedAt?: Prisma.SortOrder
   acceptedAt?: Prisma.SortOrder
@@ -359,7 +379,8 @@ export type CampaignInvitationCountOrderByAggregateInput = {
 export type CampaignInvitationMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   campaignId?: Prisma.SortOrder
-  testerId?: Prisma.SortOrder
+  recipientId?: Prisma.SortOrder
+  assignmentRole?: Prisma.SortOrder
   status?: Prisma.SortOrder
   invitedAt?: Prisma.SortOrder
   acceptedAt?: Prisma.SortOrder
@@ -369,52 +390,53 @@ export type CampaignInvitationMaxOrderByAggregateInput = {
 export type CampaignInvitationMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   campaignId?: Prisma.SortOrder
-  testerId?: Prisma.SortOrder
+  recipientId?: Prisma.SortOrder
+  assignmentRole?: Prisma.SortOrder
   status?: Prisma.SortOrder
   invitedAt?: Prisma.SortOrder
   acceptedAt?: Prisma.SortOrder
   expiresAt?: Prisma.SortOrder
 }
 
-export type CampaignInvitationCreateNestedManyWithoutTesterInput = {
-  create?: Prisma.XOR<Prisma.CampaignInvitationCreateWithoutTesterInput, Prisma.CampaignInvitationUncheckedCreateWithoutTesterInput> | Prisma.CampaignInvitationCreateWithoutTesterInput[] | Prisma.CampaignInvitationUncheckedCreateWithoutTesterInput[]
-  connectOrCreate?: Prisma.CampaignInvitationCreateOrConnectWithoutTesterInput | Prisma.CampaignInvitationCreateOrConnectWithoutTesterInput[]
-  createMany?: Prisma.CampaignInvitationCreateManyTesterInputEnvelope
+export type CampaignInvitationCreateNestedManyWithoutRecipientInput = {
+  create?: Prisma.XOR<Prisma.CampaignInvitationCreateWithoutRecipientInput, Prisma.CampaignInvitationUncheckedCreateWithoutRecipientInput> | Prisma.CampaignInvitationCreateWithoutRecipientInput[] | Prisma.CampaignInvitationUncheckedCreateWithoutRecipientInput[]
+  connectOrCreate?: Prisma.CampaignInvitationCreateOrConnectWithoutRecipientInput | Prisma.CampaignInvitationCreateOrConnectWithoutRecipientInput[]
+  createMany?: Prisma.CampaignInvitationCreateManyRecipientInputEnvelope
   connect?: Prisma.CampaignInvitationWhereUniqueInput | Prisma.CampaignInvitationWhereUniqueInput[]
 }
 
-export type CampaignInvitationUncheckedCreateNestedManyWithoutTesterInput = {
-  create?: Prisma.XOR<Prisma.CampaignInvitationCreateWithoutTesterInput, Prisma.CampaignInvitationUncheckedCreateWithoutTesterInput> | Prisma.CampaignInvitationCreateWithoutTesterInput[] | Prisma.CampaignInvitationUncheckedCreateWithoutTesterInput[]
-  connectOrCreate?: Prisma.CampaignInvitationCreateOrConnectWithoutTesterInput | Prisma.CampaignInvitationCreateOrConnectWithoutTesterInput[]
-  createMany?: Prisma.CampaignInvitationCreateManyTesterInputEnvelope
+export type CampaignInvitationUncheckedCreateNestedManyWithoutRecipientInput = {
+  create?: Prisma.XOR<Prisma.CampaignInvitationCreateWithoutRecipientInput, Prisma.CampaignInvitationUncheckedCreateWithoutRecipientInput> | Prisma.CampaignInvitationCreateWithoutRecipientInput[] | Prisma.CampaignInvitationUncheckedCreateWithoutRecipientInput[]
+  connectOrCreate?: Prisma.CampaignInvitationCreateOrConnectWithoutRecipientInput | Prisma.CampaignInvitationCreateOrConnectWithoutRecipientInput[]
+  createMany?: Prisma.CampaignInvitationCreateManyRecipientInputEnvelope
   connect?: Prisma.CampaignInvitationWhereUniqueInput | Prisma.CampaignInvitationWhereUniqueInput[]
 }
 
-export type CampaignInvitationUpdateManyWithoutTesterNestedInput = {
-  create?: Prisma.XOR<Prisma.CampaignInvitationCreateWithoutTesterInput, Prisma.CampaignInvitationUncheckedCreateWithoutTesterInput> | Prisma.CampaignInvitationCreateWithoutTesterInput[] | Prisma.CampaignInvitationUncheckedCreateWithoutTesterInput[]
-  connectOrCreate?: Prisma.CampaignInvitationCreateOrConnectWithoutTesterInput | Prisma.CampaignInvitationCreateOrConnectWithoutTesterInput[]
-  upsert?: Prisma.CampaignInvitationUpsertWithWhereUniqueWithoutTesterInput | Prisma.CampaignInvitationUpsertWithWhereUniqueWithoutTesterInput[]
-  createMany?: Prisma.CampaignInvitationCreateManyTesterInputEnvelope
+export type CampaignInvitationUpdateManyWithoutRecipientNestedInput = {
+  create?: Prisma.XOR<Prisma.CampaignInvitationCreateWithoutRecipientInput, Prisma.CampaignInvitationUncheckedCreateWithoutRecipientInput> | Prisma.CampaignInvitationCreateWithoutRecipientInput[] | Prisma.CampaignInvitationUncheckedCreateWithoutRecipientInput[]
+  connectOrCreate?: Prisma.CampaignInvitationCreateOrConnectWithoutRecipientInput | Prisma.CampaignInvitationCreateOrConnectWithoutRecipientInput[]
+  upsert?: Prisma.CampaignInvitationUpsertWithWhereUniqueWithoutRecipientInput | Prisma.CampaignInvitationUpsertWithWhereUniqueWithoutRecipientInput[]
+  createMany?: Prisma.CampaignInvitationCreateManyRecipientInputEnvelope
   set?: Prisma.CampaignInvitationWhereUniqueInput | Prisma.CampaignInvitationWhereUniqueInput[]
   disconnect?: Prisma.CampaignInvitationWhereUniqueInput | Prisma.CampaignInvitationWhereUniqueInput[]
   delete?: Prisma.CampaignInvitationWhereUniqueInput | Prisma.CampaignInvitationWhereUniqueInput[]
   connect?: Prisma.CampaignInvitationWhereUniqueInput | Prisma.CampaignInvitationWhereUniqueInput[]
-  update?: Prisma.CampaignInvitationUpdateWithWhereUniqueWithoutTesterInput | Prisma.CampaignInvitationUpdateWithWhereUniqueWithoutTesterInput[]
-  updateMany?: Prisma.CampaignInvitationUpdateManyWithWhereWithoutTesterInput | Prisma.CampaignInvitationUpdateManyWithWhereWithoutTesterInput[]
+  update?: Prisma.CampaignInvitationUpdateWithWhereUniqueWithoutRecipientInput | Prisma.CampaignInvitationUpdateWithWhereUniqueWithoutRecipientInput[]
+  updateMany?: Prisma.CampaignInvitationUpdateManyWithWhereWithoutRecipientInput | Prisma.CampaignInvitationUpdateManyWithWhereWithoutRecipientInput[]
   deleteMany?: Prisma.CampaignInvitationScalarWhereInput | Prisma.CampaignInvitationScalarWhereInput[]
 }
 
-export type CampaignInvitationUncheckedUpdateManyWithoutTesterNestedInput = {
-  create?: Prisma.XOR<Prisma.CampaignInvitationCreateWithoutTesterInput, Prisma.CampaignInvitationUncheckedCreateWithoutTesterInput> | Prisma.CampaignInvitationCreateWithoutTesterInput[] | Prisma.CampaignInvitationUncheckedCreateWithoutTesterInput[]
-  connectOrCreate?: Prisma.CampaignInvitationCreateOrConnectWithoutTesterInput | Prisma.CampaignInvitationCreateOrConnectWithoutTesterInput[]
-  upsert?: Prisma.CampaignInvitationUpsertWithWhereUniqueWithoutTesterInput | Prisma.CampaignInvitationUpsertWithWhereUniqueWithoutTesterInput[]
-  createMany?: Prisma.CampaignInvitationCreateManyTesterInputEnvelope
+export type CampaignInvitationUncheckedUpdateManyWithoutRecipientNestedInput = {
+  create?: Prisma.XOR<Prisma.CampaignInvitationCreateWithoutRecipientInput, Prisma.CampaignInvitationUncheckedCreateWithoutRecipientInput> | Prisma.CampaignInvitationCreateWithoutRecipientInput[] | Prisma.CampaignInvitationUncheckedCreateWithoutRecipientInput[]
+  connectOrCreate?: Prisma.CampaignInvitationCreateOrConnectWithoutRecipientInput | Prisma.CampaignInvitationCreateOrConnectWithoutRecipientInput[]
+  upsert?: Prisma.CampaignInvitationUpsertWithWhereUniqueWithoutRecipientInput | Prisma.CampaignInvitationUpsertWithWhereUniqueWithoutRecipientInput[]
+  createMany?: Prisma.CampaignInvitationCreateManyRecipientInputEnvelope
   set?: Prisma.CampaignInvitationWhereUniqueInput | Prisma.CampaignInvitationWhereUniqueInput[]
   disconnect?: Prisma.CampaignInvitationWhereUniqueInput | Prisma.CampaignInvitationWhereUniqueInput[]
   delete?: Prisma.CampaignInvitationWhereUniqueInput | Prisma.CampaignInvitationWhereUniqueInput[]
   connect?: Prisma.CampaignInvitationWhereUniqueInput | Prisma.CampaignInvitationWhereUniqueInput[]
-  update?: Prisma.CampaignInvitationUpdateWithWhereUniqueWithoutTesterInput | Prisma.CampaignInvitationUpdateWithWhereUniqueWithoutTesterInput[]
-  updateMany?: Prisma.CampaignInvitationUpdateManyWithWhereWithoutTesterInput | Prisma.CampaignInvitationUpdateManyWithWhereWithoutTesterInput[]
+  update?: Prisma.CampaignInvitationUpdateWithWhereUniqueWithoutRecipientInput | Prisma.CampaignInvitationUpdateWithWhereUniqueWithoutRecipientInput[]
+  updateMany?: Prisma.CampaignInvitationUpdateManyWithWhereWithoutRecipientInput | Prisma.CampaignInvitationUpdateManyWithWhereWithoutRecipientInput[]
   deleteMany?: Prisma.CampaignInvitationScalarWhereInput | Prisma.CampaignInvitationScalarWhereInput[]
 }
 
@@ -464,8 +486,9 @@ export type EnumInvitationStatusFieldUpdateOperationsInput = {
   set?: $Enums.InvitationStatus
 }
 
-export type CampaignInvitationCreateWithoutTesterInput = {
+export type CampaignInvitationCreateWithoutRecipientInput = {
   id?: string
+  assignmentRole?: $Enums.AssignmentRole
   status?: $Enums.InvitationStatus
   invitedAt?: Date | string
   acceptedAt?: Date | string | null
@@ -473,39 +496,40 @@ export type CampaignInvitationCreateWithoutTesterInput = {
   campaign: Prisma.CampaignCreateNestedOneWithoutInvitationsInput
 }
 
-export type CampaignInvitationUncheckedCreateWithoutTesterInput = {
+export type CampaignInvitationUncheckedCreateWithoutRecipientInput = {
   id?: string
   campaignId: string
+  assignmentRole?: $Enums.AssignmentRole
   status?: $Enums.InvitationStatus
   invitedAt?: Date | string
   acceptedAt?: Date | string | null
   expiresAt?: Date | string | null
 }
 
-export type CampaignInvitationCreateOrConnectWithoutTesterInput = {
+export type CampaignInvitationCreateOrConnectWithoutRecipientInput = {
   where: Prisma.CampaignInvitationWhereUniqueInput
-  create: Prisma.XOR<Prisma.CampaignInvitationCreateWithoutTesterInput, Prisma.CampaignInvitationUncheckedCreateWithoutTesterInput>
+  create: Prisma.XOR<Prisma.CampaignInvitationCreateWithoutRecipientInput, Prisma.CampaignInvitationUncheckedCreateWithoutRecipientInput>
 }
 
-export type CampaignInvitationCreateManyTesterInputEnvelope = {
-  data: Prisma.CampaignInvitationCreateManyTesterInput | Prisma.CampaignInvitationCreateManyTesterInput[]
+export type CampaignInvitationCreateManyRecipientInputEnvelope = {
+  data: Prisma.CampaignInvitationCreateManyRecipientInput | Prisma.CampaignInvitationCreateManyRecipientInput[]
   skipDuplicates?: boolean
 }
 
-export type CampaignInvitationUpsertWithWhereUniqueWithoutTesterInput = {
+export type CampaignInvitationUpsertWithWhereUniqueWithoutRecipientInput = {
   where: Prisma.CampaignInvitationWhereUniqueInput
-  update: Prisma.XOR<Prisma.CampaignInvitationUpdateWithoutTesterInput, Prisma.CampaignInvitationUncheckedUpdateWithoutTesterInput>
-  create: Prisma.XOR<Prisma.CampaignInvitationCreateWithoutTesterInput, Prisma.CampaignInvitationUncheckedCreateWithoutTesterInput>
+  update: Prisma.XOR<Prisma.CampaignInvitationUpdateWithoutRecipientInput, Prisma.CampaignInvitationUncheckedUpdateWithoutRecipientInput>
+  create: Prisma.XOR<Prisma.CampaignInvitationCreateWithoutRecipientInput, Prisma.CampaignInvitationUncheckedCreateWithoutRecipientInput>
 }
 
-export type CampaignInvitationUpdateWithWhereUniqueWithoutTesterInput = {
+export type CampaignInvitationUpdateWithWhereUniqueWithoutRecipientInput = {
   where: Prisma.CampaignInvitationWhereUniqueInput
-  data: Prisma.XOR<Prisma.CampaignInvitationUpdateWithoutTesterInput, Prisma.CampaignInvitationUncheckedUpdateWithoutTesterInput>
+  data: Prisma.XOR<Prisma.CampaignInvitationUpdateWithoutRecipientInput, Prisma.CampaignInvitationUncheckedUpdateWithoutRecipientInput>
 }
 
-export type CampaignInvitationUpdateManyWithWhereWithoutTesterInput = {
+export type CampaignInvitationUpdateManyWithWhereWithoutRecipientInput = {
   where: Prisma.CampaignInvitationScalarWhereInput
-  data: Prisma.XOR<Prisma.CampaignInvitationUpdateManyMutationInput, Prisma.CampaignInvitationUncheckedUpdateManyWithoutTesterInput>
+  data: Prisma.XOR<Prisma.CampaignInvitationUpdateManyMutationInput, Prisma.CampaignInvitationUncheckedUpdateManyWithoutRecipientInput>
 }
 
 export type CampaignInvitationScalarWhereInput = {
@@ -514,7 +538,8 @@ export type CampaignInvitationScalarWhereInput = {
   NOT?: Prisma.CampaignInvitationScalarWhereInput | Prisma.CampaignInvitationScalarWhereInput[]
   id?: Prisma.StringFilter<"CampaignInvitation"> | string
   campaignId?: Prisma.StringFilter<"CampaignInvitation"> | string
-  testerId?: Prisma.StringFilter<"CampaignInvitation"> | string
+  recipientId?: Prisma.StringFilter<"CampaignInvitation"> | string
+  assignmentRole?: Prisma.EnumAssignmentRoleFilter<"CampaignInvitation"> | $Enums.AssignmentRole
   status?: Prisma.EnumInvitationStatusFilter<"CampaignInvitation"> | $Enums.InvitationStatus
   invitedAt?: Prisma.DateTimeFilter<"CampaignInvitation"> | Date | string
   acceptedAt?: Prisma.DateTimeNullableFilter<"CampaignInvitation"> | Date | string | null
@@ -523,16 +548,18 @@ export type CampaignInvitationScalarWhereInput = {
 
 export type CampaignInvitationCreateWithoutCampaignInput = {
   id?: string
+  assignmentRole?: $Enums.AssignmentRole
   status?: $Enums.InvitationStatus
   invitedAt?: Date | string
   acceptedAt?: Date | string | null
   expiresAt?: Date | string | null
-  tester: Prisma.UserCreateNestedOneWithoutInvitationsInput
+  recipient: Prisma.UserCreateNestedOneWithoutCampaignInvitationsInput
 }
 
 export type CampaignInvitationUncheckedCreateWithoutCampaignInput = {
   id?: string
-  testerId: string
+  recipientId: string
+  assignmentRole?: $Enums.AssignmentRole
   status?: $Enums.InvitationStatus
   invitedAt?: Date | string
   acceptedAt?: Date | string | null
@@ -565,17 +592,19 @@ export type CampaignInvitationUpdateManyWithWhereWithoutCampaignInput = {
   data: Prisma.XOR<Prisma.CampaignInvitationUpdateManyMutationInput, Prisma.CampaignInvitationUncheckedUpdateManyWithoutCampaignInput>
 }
 
-export type CampaignInvitationCreateManyTesterInput = {
+export type CampaignInvitationCreateManyRecipientInput = {
   id?: string
   campaignId: string
+  assignmentRole?: $Enums.AssignmentRole
   status?: $Enums.InvitationStatus
   invitedAt?: Date | string
   acceptedAt?: Date | string | null
   expiresAt?: Date | string | null
 }
 
-export type CampaignInvitationUpdateWithoutTesterInput = {
+export type CampaignInvitationUpdateWithoutRecipientInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  assignmentRole?: Prisma.EnumAssignmentRoleFieldUpdateOperationsInput | $Enums.AssignmentRole
   status?: Prisma.EnumInvitationStatusFieldUpdateOperationsInput | $Enums.InvitationStatus
   invitedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   acceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -583,18 +612,20 @@ export type CampaignInvitationUpdateWithoutTesterInput = {
   campaign?: Prisma.CampaignUpdateOneRequiredWithoutInvitationsNestedInput
 }
 
-export type CampaignInvitationUncheckedUpdateWithoutTesterInput = {
+export type CampaignInvitationUncheckedUpdateWithoutRecipientInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   campaignId?: Prisma.StringFieldUpdateOperationsInput | string
+  assignmentRole?: Prisma.EnumAssignmentRoleFieldUpdateOperationsInput | $Enums.AssignmentRole
   status?: Prisma.EnumInvitationStatusFieldUpdateOperationsInput | $Enums.InvitationStatus
   invitedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   acceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
-export type CampaignInvitationUncheckedUpdateManyWithoutTesterInput = {
+export type CampaignInvitationUncheckedUpdateManyWithoutRecipientInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   campaignId?: Prisma.StringFieldUpdateOperationsInput | string
+  assignmentRole?: Prisma.EnumAssignmentRoleFieldUpdateOperationsInput | $Enums.AssignmentRole
   status?: Prisma.EnumInvitationStatusFieldUpdateOperationsInput | $Enums.InvitationStatus
   invitedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   acceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -603,7 +634,8 @@ export type CampaignInvitationUncheckedUpdateManyWithoutTesterInput = {
 
 export type CampaignInvitationCreateManyCampaignInput = {
   id?: string
-  testerId: string
+  recipientId: string
+  assignmentRole?: $Enums.AssignmentRole
   status?: $Enums.InvitationStatus
   invitedAt?: Date | string
   acceptedAt?: Date | string | null
@@ -612,16 +644,18 @@ export type CampaignInvitationCreateManyCampaignInput = {
 
 export type CampaignInvitationUpdateWithoutCampaignInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  assignmentRole?: Prisma.EnumAssignmentRoleFieldUpdateOperationsInput | $Enums.AssignmentRole
   status?: Prisma.EnumInvitationStatusFieldUpdateOperationsInput | $Enums.InvitationStatus
   invitedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   acceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  tester?: Prisma.UserUpdateOneRequiredWithoutInvitationsNestedInput
+  recipient?: Prisma.UserUpdateOneRequiredWithoutCampaignInvitationsNestedInput
 }
 
 export type CampaignInvitationUncheckedUpdateWithoutCampaignInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  testerId?: Prisma.StringFieldUpdateOperationsInput | string
+  recipientId?: Prisma.StringFieldUpdateOperationsInput | string
+  assignmentRole?: Prisma.EnumAssignmentRoleFieldUpdateOperationsInput | $Enums.AssignmentRole
   status?: Prisma.EnumInvitationStatusFieldUpdateOperationsInput | $Enums.InvitationStatus
   invitedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   acceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -630,7 +664,8 @@ export type CampaignInvitationUncheckedUpdateWithoutCampaignInput = {
 
 export type CampaignInvitationUncheckedUpdateManyWithoutCampaignInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  testerId?: Prisma.StringFieldUpdateOperationsInput | string
+  recipientId?: Prisma.StringFieldUpdateOperationsInput | string
+  assignmentRole?: Prisma.EnumAssignmentRoleFieldUpdateOperationsInput | $Enums.AssignmentRole
   status?: Prisma.EnumInvitationStatusFieldUpdateOperationsInput | $Enums.InvitationStatus
   invitedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   acceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -642,13 +677,14 @@ export type CampaignInvitationUncheckedUpdateManyWithoutCampaignInput = {
 export type CampaignInvitationSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   campaignId?: boolean
-  testerId?: boolean
+  recipientId?: boolean
+  assignmentRole?: boolean
   status?: boolean
   invitedAt?: boolean
   acceptedAt?: boolean
   expiresAt?: boolean
   campaign?: boolean | Prisma.CampaignDefaultArgs<ExtArgs>
-  tester?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  recipient?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["campaignInvitation"]>
 
 
@@ -656,29 +692,31 @@ export type CampaignInvitationSelect<ExtArgs extends runtime.Types.Extensions.In
 export type CampaignInvitationSelectScalar = {
   id?: boolean
   campaignId?: boolean
-  testerId?: boolean
+  recipientId?: boolean
+  assignmentRole?: boolean
   status?: boolean
   invitedAt?: boolean
   acceptedAt?: boolean
   expiresAt?: boolean
 }
 
-export type CampaignInvitationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "campaignId" | "testerId" | "status" | "invitedAt" | "acceptedAt" | "expiresAt", ExtArgs["result"]["campaignInvitation"]>
+export type CampaignInvitationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "campaignId" | "recipientId" | "assignmentRole" | "status" | "invitedAt" | "acceptedAt" | "expiresAt", ExtArgs["result"]["campaignInvitation"]>
 export type CampaignInvitationInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   campaign?: boolean | Prisma.CampaignDefaultArgs<ExtArgs>
-  tester?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  recipient?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 
 export type $CampaignInvitationPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "CampaignInvitation"
   objects: {
     campaign: Prisma.$CampaignPayload<ExtArgs>
-    tester: Prisma.$UserPayload<ExtArgs>
+    recipient: Prisma.$UserPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     campaignId: string
-    testerId: string
+    recipientId: string
+    assignmentRole: $Enums.AssignmentRole
     status: $Enums.InvitationStatus
     invitedAt: Date
     acceptedAt: Date | null
@@ -1024,7 +1062,7 @@ readonly fields: CampaignInvitationFieldRefs;
 export interface Prisma__CampaignInvitationClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   campaign<T extends Prisma.CampaignDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CampaignDefaultArgs<ExtArgs>>): Prisma.Prisma__CampaignClient<runtime.Types.Result.GetResult<Prisma.$CampaignPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  tester<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  recipient<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1056,7 +1094,8 @@ export interface Prisma__CampaignInvitationClient<T, Null = never, ExtArgs exten
 export interface CampaignInvitationFieldRefs {
   readonly id: Prisma.FieldRef<"CampaignInvitation", 'String'>
   readonly campaignId: Prisma.FieldRef<"CampaignInvitation", 'String'>
-  readonly testerId: Prisma.FieldRef<"CampaignInvitation", 'String'>
+  readonly recipientId: Prisma.FieldRef<"CampaignInvitation", 'String'>
+  readonly assignmentRole: Prisma.FieldRef<"CampaignInvitation", 'AssignmentRole'>
   readonly status: Prisma.FieldRef<"CampaignInvitation", 'InvitationStatus'>
   readonly invitedAt: Prisma.FieldRef<"CampaignInvitation", 'DateTime'>
   readonly acceptedAt: Prisma.FieldRef<"CampaignInvitation", 'DateTime'>

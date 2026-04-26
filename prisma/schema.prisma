@@ -65,6 +65,7 @@ enum BugSeverity {
 
 enum BugStatus {
   SUBMITTED
+  NEEDS_INFO
   APPROVED
   REJECTED
   DUPLICATE
@@ -101,12 +102,15 @@ model User {
   clientCampaigns   Campaign[]           @relation("ClientCampaigns")
   managerCampaigns  Campaign[]           @relation("ManagerCampaigns")
   assignments       CampaignAssignment[]
-  invitations       CampaignInvitation[]
+  campaignInvitations CampaignInvitation[] @relation("CampaignInvitationRecipient")
   bugReports        BugReport[]          @relation("ReporterBugs")
   moderatedReports  BugReport[]          @relation("ModeratorBugs")
   validatedReports  BugReport[]          @relation("ManagerBugs")
+  uploadedFinalReports FinalReport[]
   auditLogs         AuditLog[]
   emailTokens       EmailToken[]
+  receivedRoleUpgradeInvitations RoleUpgradeInvitation[] @relation("RoleUpgradeInvitationRecipient")
+  sentRoleUpgradeInvitations     RoleUpgradeInvitation[] @relation("RoleUpgradeInvitationSender")
 }
 
 model Device {
@@ -151,6 +155,7 @@ model Campaign {
   invitations          CampaignInvitation[]
   tasks                TestingTask[]
   bugReports           BugReport[]
+  finalReports         FinalReport[]
   auditLogs            AuditLog[]
 
   @@index([clientId, stage])
@@ -174,16 +179,35 @@ model CampaignAssignment {
 model CampaignInvitation {
   id         String           @id @default(cuid())
   campaignId String
-  testerId   String
+  recipientId String          @map("testerId")
+  assignmentRole AssignmentRole   @default(CROWD_TESTER)
   status     InvitationStatus @default(PENDING)
   invitedAt  DateTime         @default(now())
   acceptedAt DateTime?
   expiresAt  DateTime?
   campaign   Campaign         @relation(fields: [campaignId], references: [id], onDelete: Cascade)
-  tester     User             @relation(fields: [testerId], references: [id], onDelete: Cascade)
+  recipient  User             @relation("CampaignInvitationRecipient", fields: [recipientId], references: [id], onDelete: Cascade)
 
-  @@unique([campaignId, testerId])
-  @@index([testerId, status])
+  @@unique([campaignId, recipientId])
+  @@index([recipientId, status])
+  @@index([campaignId, assignmentRole, status])
+}
+
+model RoleUpgradeInvitation {
+  id         String           @id @default(cuid())
+  recipientId String
+  invitedById String
+  currentRole Role
+  targetRole Role
+  status     InvitationStatus @default(PENDING)
+  invitedAt  DateTime         @default(now())
+  respondedAt DateTime?
+  expiresAt  DateTime?
+  recipient  User             @relation("RoleUpgradeInvitationRecipient", fields: [recipientId], references: [id], onDelete: Cascade)
+  invitedBy  User             @relation("RoleUpgradeInvitationSender", fields: [invitedById], references: [id], onDelete: Cascade)
+
+  @@index([recipientId, status, invitedAt])
+  @@index([invitedById, invitedAt])
 }
 
 model TestingTask {
@@ -205,6 +229,10 @@ model BugReport {
   moderatorId       String?
   validatedById     String?
   title             String
+  groupKey          String        @default("")
+  pageUrl           String?
+  feature           String?
+  errorType         String?
   description       String
   reproductionSteps String
   expectedResult    String
@@ -215,6 +243,7 @@ model BugReport {
   moderationNotes   String?
   validationNotes   String?
   duplicateOfId     String?
+  moderatedAt       DateTime?
   createdAt         DateTime      @default(now())
   updatedAt         DateTime      @updatedAt
   campaign          Campaign      @relation(fields: [campaignId], references: [id], onDelete: Cascade)
@@ -225,6 +254,9 @@ model BugReport {
 
   @@index([campaignId, status])
   @@index([testerId, severity])
+  @@index([campaignId, feature])
+  @@index([campaignId, errorType])
+  @@index([campaignId, groupKey])
 }
 
 model BugAttachment {
@@ -240,6 +272,24 @@ model BugAttachment {
   bugReport    BugReport      @relation(fields: [bugReportId], references: [id], onDelete: Cascade)
 
   @@index([bugReportId])
+}
+
+model FinalReport {
+  id           String   @id @default(cuid())
+  campaignId   String
+  uploadedById String
+  originalName String
+  storedName   String
+  relativePath String
+  mimeType     String
+  sizeBytes    Int
+  createdAt    DateTime @default(now())
+
+  campaign     Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  uploadedBy   User     @relation(fields: [uploadedById], references: [id], onDelete: Cascade)
+
+  @@index([campaignId, createdAt])
+  @@index([uploadedById, createdAt])
 }
 
 model AuditLog {

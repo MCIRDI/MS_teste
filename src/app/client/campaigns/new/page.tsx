@@ -7,7 +7,7 @@ export default function ClientCampaignNewPage() {
       <SectionHeading
         eyebrow="New campaign"
         title="Create a testing campaign"
-        description="Define the scope, target countries, tester counts, required devices, and task list. Pricing is estimated before the campaign is sent into the approval workflow."
+        description="Define the scope, target countries, tester counts, required devices, and task list. Pricing is estimated before invitations go live to managers, moderators, and matching testers."
       />
       <CampaignForm />
     </div>

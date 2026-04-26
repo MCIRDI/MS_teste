@@ -41,16 +41,26 @@ export const createCampaignSchema = z.object({
 
 export const bugReportSchema = z.object({
   campaignId: z.string().min(1),
+  bugType: z.enum([
+    "Functional Bugs",
+    "UI / Visual Issues",
+    "Performance Issues",
+    "Crash / Critical Errors",
+    "Compatibility Issues",
+    "Usability Problems",
+    "Security Issues",
+    "Data Issues",
+    "Network / API Issues",
+    "Localization / Language Issues",
+    "Installation / Setup Issues",
+    "Edge Case Bugs",
+    "Other",
+  ]),
   title: z.string().min(4),
+  pageUrl: z.string().url().optional().or(z.literal("")),
   description: z.string().min(20),
   reproductionSteps: z.string().min(10),
-  expectedResult: z.string().min(5),
-  actualResult: z.string().min(5),
   severity: z.enum(["CRITICAL", "HIGH", "MEDIUM", "LOW"]),
-  device: z.string().min(2),
-  osVersion: z.string().min(2),
-  browser: z.string().min(2),
-  screenResolution: z.string().min(2),
 });
 
 export const passwordResetRequestSchema = z.object({

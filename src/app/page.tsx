@@ -30,13 +30,13 @@ export default function HomePage() {
           </div>
           <Card className="grid gap-5 bg-stone-50">
             <div>
-              <p className="text-sm text-stone-500">Built for Hostinger deployment</p>
-              <p className="mt-2 text-2xl font-semibold text-stone-900">Next.js + MySQL + local uploads</p>
+              <p className="text-sm text-stone-500">Every great product starts with an idea—but making it truly work for users takes more.</p>
+              <p className="mt-2 text-2xl font-semibold text-stone-900">That’s where MS Test comes in</p>
             </div>
             <div className="space-y-3 text-sm leading-7 text-stone-600">
-              <p>Files are stored directly on the server filesystem inside structured upload folders.</p>
-              <p>Authentication uses JWT cookies and role-based access across five actor types.</p>
-              <p>Campaigns move through draft, approval, testing, review, and final delivery stages.</p>
+              <p>We connect you with real people who test your website or app in everyday situations, uncovering bugs and sharing honest feedback.</p>
+              <p>With their insights, you can refine your product and launch with confidence.</p>
+              <p>MS Test helps you build better—together.</p>
             </div>
           </Card>
         </div>

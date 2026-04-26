@@ -14,9 +14,9 @@ export const publicFeatures = [
       "Every bug passes through moderators and a test manager before it reaches the client dashboard.",
   },
   {
-    title: "Hostinger-friendly deployment",
+    title: "Real User Testing",
     description:
-      "The platform runs as a standard Node.js app and stores screenshots, videos, and logs on the local server filesystem.",
+      "Get feedback from a diverse group of real users who test your product in real-world scenarios, helping you understand how people truly interact with it.",
   },
   {
     title: "Targeted tester matching",

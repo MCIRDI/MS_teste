@@ -2,6 +2,7 @@ import { CampaignStage, Role, SoftwareType } from "@/generated/prisma/client";
 import { NextResponse } from "next/server";
 
 import { getCurrentSession } from "@/lib/auth";
+import { inviteCampaignParticipants } from "@/lib/campaigns";
 import { estimateCampaignPrice } from "@/lib/pricing";
 import { prisma } from "@/lib/prisma";
 import { createCampaignSchema } from "@/lib/validation";
@@ -47,6 +48,7 @@ export async function POST(request: Request) {
     developerTesterCount: parsed.data.developerTesterCount,
     countries: parsed.data.selectedCountries,
     platforms: parsed.data.selectedPlatforms,
+    browsers: parsed.data.selectedBrowsers,
   });
 
   const campaign = await prisma.campaign.create({
@@ -60,7 +62,7 @@ export async function POST(request: Request) {
       testerCredentials: parsed.data.testerLoginCredentials
         ? { value: parsed.data.testerLoginCredentials }
         : undefined,
-      stage: CampaignStage.PENDING_APPROVAL,
+      stage: CampaignStage.ACTIVE,
       crowdTesterCount: parsed.data.crowdTesterCount,
       developerTesterCount: parsed.data.developerTesterCount,
       selectedCountries: parsed.data.selectedCountries,
@@ -77,6 +79,8 @@ export async function POST(request: Request) {
       },
     },
   });
+
+  await inviteCampaignParticipants(campaign.id);
 
   return NextResponse.json({ campaign }, { status: 201 });
 }

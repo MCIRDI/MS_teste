@@ -4,13 +4,14 @@ import path from "node:path";
 
 import { env } from "@/lib/env";
 
-export type UploadCategory = "screenshots" | "videos" | "logs" | "attachments";
+export type UploadCategory = "screenshots" | "videos" | "logs" | "attachments" | "reports";
 
 const categoryMimeChecks: Record<UploadCategory, RegExp[]> = {
   screenshots: [/^image\//],
   videos: [/^video\//],
   logs: [/^text\//, /^application\/json$/, /^application\/zip$/],
   attachments: [/^image\//, /^video\//, /^text\//, /^application\//],
+  reports: [/^application\/pdf$/],
 };
 
 function getUploadRoot() {
@@ -20,7 +21,7 @@ function getUploadRoot() {
 export async function ensureUploadDirectories() {
   const root = getUploadRoot();
   await Promise.all(
-    (["screenshots", "videos", "logs", "attachments"] as const).map((segment) =>
+    (["screenshots", "videos", "logs", "attachments", "reports"] as const).map((segment) =>
       mkdir(path.join(root, segment), { recursive: true }),
     ),
   );

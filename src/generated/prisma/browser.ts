@@ -43,6 +43,11 @@ export type CampaignAssignment = Prisma.CampaignAssignmentModel
  */
 export type CampaignInvitation = Prisma.CampaignInvitationModel
 /**
+ * Model RoleUpgradeInvitation
+ * 
+ */
+export type RoleUpgradeInvitation = Prisma.RoleUpgradeInvitationModel
+/**
  * Model TestingTask
  * 
  */
@@ -57,6 +62,11 @@ export type BugReport = Prisma.BugReportModel
  * 
  */
 export type BugAttachment = Prisma.BugAttachmentModel
+/**
+ * Model FinalReport
+ * 
+ */
+export type FinalReport = Prisma.FinalReportModel
 /**
  * Model AuditLog
  * 

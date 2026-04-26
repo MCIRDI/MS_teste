@@ -56,9 +56,11 @@ export const ModelName = {
   Campaign: 'Campaign',
   CampaignAssignment: 'CampaignAssignment',
   CampaignInvitation: 'CampaignInvitation',
+  RoleUpgradeInvitation: 'RoleUpgradeInvitation',
   TestingTask: 'TestingTask',
   BugReport: 'BugReport',
   BugAttachment: 'BugAttachment',
+  FinalReport: 'FinalReport',
   AuditLog: 'AuditLog',
   EmailToken: 'EmailToken'
 } as const
@@ -154,7 +156,8 @@ export type CampaignAssignmentScalarFieldEnum = (typeof CampaignAssignmentScalar
 export const CampaignInvitationScalarFieldEnum = {
   id: 'id',
   campaignId: 'campaignId',
-  testerId: 'testerId',
+  recipientId: 'recipientId',
+  assignmentRole: 'assignmentRole',
   status: 'status',
   invitedAt: 'invitedAt',
   acceptedAt: 'acceptedAt',
@@ -162,6 +165,21 @@ export const CampaignInvitationScalarFieldEnum = {
 } as const
 
 export type CampaignInvitationScalarFieldEnum = (typeof CampaignInvitationScalarFieldEnum)[keyof typeof CampaignInvitationScalarFieldEnum]
+
+
+export const RoleUpgradeInvitationScalarFieldEnum = {
+  id: 'id',
+  recipientId: 'recipientId',
+  invitedById: 'invitedById',
+  currentRole: 'currentRole',
+  targetRole: 'targetRole',
+  status: 'status',
+  invitedAt: 'invitedAt',
+  respondedAt: 'respondedAt',
+  expiresAt: 'expiresAt'
+} as const
+
+export type RoleUpgradeInvitationScalarFieldEnum = (typeof RoleUpgradeInvitationScalarFieldEnum)[keyof typeof RoleUpgradeInvitationScalarFieldEnum]
 
 
 export const TestingTaskScalarFieldEnum = {
@@ -183,6 +201,10 @@ export const BugReportScalarFieldEnum = {
   moderatorId: 'moderatorId',
   validatedById: 'validatedById',
   title: 'title',
+  groupKey: 'groupKey',
+  pageUrl: 'pageUrl',
+  feature: 'feature',
+  errorType: 'errorType',
   description: 'description',
   reproductionSteps: 'reproductionSteps',
   expectedResult: 'expectedResult',
@@ -193,6 +215,7 @@ export const BugReportScalarFieldEnum = {
   moderationNotes: 'moderationNotes',
   validationNotes: 'validationNotes',
   duplicateOfId: 'duplicateOfId',
+  moderatedAt: 'moderatedAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -213,6 +236,21 @@ export const BugAttachmentScalarFieldEnum = {
 } as const
 
 export type BugAttachmentScalarFieldEnum = (typeof BugAttachmentScalarFieldEnum)[keyof typeof BugAttachmentScalarFieldEnum]
+
+
+export const FinalReportScalarFieldEnum = {
+  id: 'id',
+  campaignId: 'campaignId',
+  uploadedById: 'uploadedById',
+  originalName: 'originalName',
+  storedName: 'storedName',
+  relativePath: 'relativePath',
+  mimeType: 'mimeType',
+  sizeBytes: 'sizeBytes',
+  createdAt: 'createdAt'
+} as const
+
+export type FinalReportScalarFieldEnum = (typeof FinalReportScalarFieldEnum)[keyof typeof FinalReportScalarFieldEnum]
 
 
 export const AuditLogScalarFieldEnum = {
@@ -339,10 +377,19 @@ export type CampaignAssignmentOrderByRelevanceFieldEnum = (typeof CampaignAssign
 export const CampaignInvitationOrderByRelevanceFieldEnum = {
   id: 'id',
   campaignId: 'campaignId',
-  testerId: 'testerId'
+  recipientId: 'recipientId'
 } as const
 
 export type CampaignInvitationOrderByRelevanceFieldEnum = (typeof CampaignInvitationOrderByRelevanceFieldEnum)[keyof typeof CampaignInvitationOrderByRelevanceFieldEnum]
+
+
+export const RoleUpgradeInvitationOrderByRelevanceFieldEnum = {
+  id: 'id',
+  recipientId: 'recipientId',
+  invitedById: 'invitedById'
+} as const
+
+export type RoleUpgradeInvitationOrderByRelevanceFieldEnum = (typeof RoleUpgradeInvitationOrderByRelevanceFieldEnum)[keyof typeof RoleUpgradeInvitationOrderByRelevanceFieldEnum]
 
 
 export const TestingTaskOrderByRelevanceFieldEnum = {
@@ -362,6 +409,10 @@ export const BugReportOrderByRelevanceFieldEnum = {
   moderatorId: 'moderatorId',
   validatedById: 'validatedById',
   title: 'title',
+  groupKey: 'groupKey',
+  pageUrl: 'pageUrl',
+  feature: 'feature',
+  errorType: 'errorType',
   description: 'description',
   reproductionSteps: 'reproductionSteps',
   expectedResult: 'expectedResult',
@@ -384,6 +435,19 @@ export const BugAttachmentOrderByRelevanceFieldEnum = {
 } as const
 
 export type BugAttachmentOrderByRelevanceFieldEnum = (typeof BugAttachmentOrderByRelevanceFieldEnum)[keyof typeof BugAttachmentOrderByRelevanceFieldEnum]
+
+
+export const FinalReportOrderByRelevanceFieldEnum = {
+  id: 'id',
+  campaignId: 'campaignId',
+  uploadedById: 'uploadedById',
+  originalName: 'originalName',
+  storedName: 'storedName',
+  relativePath: 'relativePath',
+  mimeType: 'mimeType'
+} as const
+
+export type FinalReportOrderByRelevanceFieldEnum = (typeof FinalReportOrderByRelevanceFieldEnum)[keyof typeof FinalReportOrderByRelevanceFieldEnum]
 
 
 export const AuditLogOrderByRelevanceFieldEnum = {

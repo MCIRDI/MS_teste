@@ -338,6 +338,7 @@ export type CampaignWhereInput = {
   invitations?: Prisma.CampaignInvitationListRelationFilter
   tasks?: Prisma.TestingTaskListRelationFilter
   bugReports?: Prisma.BugReportListRelationFilter
+  finalReports?: Prisma.FinalReportListRelationFilter
   auditLogs?: Prisma.AuditLogListRelationFilter
 }
 
@@ -369,6 +370,7 @@ export type CampaignOrderByWithRelationInput = {
   invitations?: Prisma.CampaignInvitationOrderByRelationAggregateInput
   tasks?: Prisma.TestingTaskOrderByRelationAggregateInput
   bugReports?: Prisma.BugReportOrderByRelationAggregateInput
+  finalReports?: Prisma.FinalReportOrderByRelationAggregateInput
   auditLogs?: Prisma.AuditLogOrderByRelationAggregateInput
   _relevance?: Prisma.CampaignOrderByRelevanceInput
 }
@@ -404,6 +406,7 @@ export type CampaignWhereUniqueInput = Prisma.AtLeast<{
   invitations?: Prisma.CampaignInvitationListRelationFilter
   tasks?: Prisma.TestingTaskListRelationFilter
   bugReports?: Prisma.BugReportListRelationFilter
+  finalReports?: Prisma.FinalReportListRelationFilter
   auditLogs?: Prisma.AuditLogListRelationFilter
 }, "id">
 
@@ -489,6 +492,7 @@ export type CampaignCreateInput = {
   invitations?: Prisma.CampaignInvitationCreateNestedManyWithoutCampaignInput
   tasks?: Prisma.TestingTaskCreateNestedManyWithoutCampaignInput
   bugReports?: Prisma.BugReportCreateNestedManyWithoutCampaignInput
+  finalReports?: Prisma.FinalReportCreateNestedManyWithoutCampaignInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutCampaignInput
 }
 
@@ -518,6 +522,7 @@ export type CampaignUncheckedCreateInput = {
   invitations?: Prisma.CampaignInvitationUncheckedCreateNestedManyWithoutCampaignInput
   tasks?: Prisma.TestingTaskUncheckedCreateNestedManyWithoutCampaignInput
   bugReports?: Prisma.BugReportUncheckedCreateNestedManyWithoutCampaignInput
+  finalReports?: Prisma.FinalReportUncheckedCreateNestedManyWithoutCampaignInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutCampaignInput
 }
 
@@ -547,6 +552,7 @@ export type CampaignUpdateInput = {
   invitations?: Prisma.CampaignInvitationUpdateManyWithoutCampaignNestedInput
   tasks?: Prisma.TestingTaskUpdateManyWithoutCampaignNestedInput
   bugReports?: Prisma.BugReportUpdateManyWithoutCampaignNestedInput
+  finalReports?: Prisma.FinalReportUpdateManyWithoutCampaignNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutCampaignNestedInput
 }
 
@@ -576,6 +582,7 @@ export type CampaignUncheckedUpdateInput = {
   invitations?: Prisma.CampaignInvitationUncheckedUpdateManyWithoutCampaignNestedInput
   tasks?: Prisma.TestingTaskUncheckedUpdateManyWithoutCampaignNestedInput
   bugReports?: Prisma.BugReportUncheckedUpdateManyWithoutCampaignNestedInput
+  finalReports?: Prisma.FinalReportUncheckedUpdateManyWithoutCampaignNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutCampaignNestedInput
 }
 
@@ -913,6 +920,20 @@ export type CampaignUpdateOneRequiredWithoutBugReportsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.CampaignUpdateToOneWithWhereWithoutBugReportsInput, Prisma.CampaignUpdateWithoutBugReportsInput>, Prisma.CampaignUncheckedUpdateWithoutBugReportsInput>
 }
 
+export type CampaignCreateNestedOneWithoutFinalReportsInput = {
+  create?: Prisma.XOR<Prisma.CampaignCreateWithoutFinalReportsInput, Prisma.CampaignUncheckedCreateWithoutFinalReportsInput>
+  connectOrCreate?: Prisma.CampaignCreateOrConnectWithoutFinalReportsInput
+  connect?: Prisma.CampaignWhereUniqueInput
+}
+
+export type CampaignUpdateOneRequiredWithoutFinalReportsNestedInput = {
+  create?: Prisma.XOR<Prisma.CampaignCreateWithoutFinalReportsInput, Prisma.CampaignUncheckedCreateWithoutFinalReportsInput>
+  connectOrCreate?: Prisma.CampaignCreateOrConnectWithoutFinalReportsInput
+  upsert?: Prisma.CampaignUpsertWithoutFinalReportsInput
+  connect?: Prisma.CampaignWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.CampaignUpdateToOneWithWhereWithoutFinalReportsInput, Prisma.CampaignUpdateWithoutFinalReportsInput>, Prisma.CampaignUncheckedUpdateWithoutFinalReportsInput>
+}
+
 export type CampaignCreateNestedOneWithoutAuditLogsInput = {
   create?: Prisma.XOR<Prisma.CampaignCreateWithoutAuditLogsInput, Prisma.CampaignUncheckedCreateWithoutAuditLogsInput>
   connectOrCreate?: Prisma.CampaignCreateOrConnectWithoutAuditLogsInput
@@ -954,6 +975,7 @@ export type CampaignCreateWithoutClientInput = {
   invitations?: Prisma.CampaignInvitationCreateNestedManyWithoutCampaignInput
   tasks?: Prisma.TestingTaskCreateNestedManyWithoutCampaignInput
   bugReports?: Prisma.BugReportCreateNestedManyWithoutCampaignInput
+  finalReports?: Prisma.FinalReportCreateNestedManyWithoutCampaignInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutCampaignInput
 }
 
@@ -982,6 +1004,7 @@ export type CampaignUncheckedCreateWithoutClientInput = {
   invitations?: Prisma.CampaignInvitationUncheckedCreateNestedManyWithoutCampaignInput
   tasks?: Prisma.TestingTaskUncheckedCreateNestedManyWithoutCampaignInput
   bugReports?: Prisma.BugReportUncheckedCreateNestedManyWithoutCampaignInput
+  finalReports?: Prisma.FinalReportUncheckedCreateNestedManyWithoutCampaignInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutCampaignInput
 }
 
@@ -1020,6 +1043,7 @@ export type CampaignCreateWithoutTestManagerInput = {
   invitations?: Prisma.CampaignInvitationCreateNestedManyWithoutCampaignInput
   tasks?: Prisma.TestingTaskCreateNestedManyWithoutCampaignInput
   bugReports?: Prisma.BugReportCreateNestedManyWithoutCampaignInput
+  finalReports?: Prisma.FinalReportCreateNestedManyWithoutCampaignInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutCampaignInput
 }
 
@@ -1048,6 +1072,7 @@ export type CampaignUncheckedCreateWithoutTestManagerInput = {
   invitations?: Prisma.CampaignInvitationUncheckedCreateNestedManyWithoutCampaignInput
   tasks?: Prisma.TestingTaskUncheckedCreateNestedManyWithoutCampaignInput
   bugReports?: Prisma.BugReportUncheckedCreateNestedManyWithoutCampaignInput
+  finalReports?: Prisma.FinalReportUncheckedCreateNestedManyWithoutCampaignInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutCampaignInput
 }
 
@@ -1145,6 +1170,7 @@ export type CampaignCreateWithoutAssignmentsInput = {
   invitations?: Prisma.CampaignInvitationCreateNestedManyWithoutCampaignInput
   tasks?: Prisma.TestingTaskCreateNestedManyWithoutCampaignInput
   bugReports?: Prisma.BugReportCreateNestedManyWithoutCampaignInput
+  finalReports?: Prisma.FinalReportCreateNestedManyWithoutCampaignInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutCampaignInput
 }
 
@@ -1173,6 +1199,7 @@ export type CampaignUncheckedCreateWithoutAssignmentsInput = {
   invitations?: Prisma.CampaignInvitationUncheckedCreateNestedManyWithoutCampaignInput
   tasks?: Prisma.TestingTaskUncheckedCreateNestedManyWithoutCampaignInput
   bugReports?: Prisma.BugReportUncheckedCreateNestedManyWithoutCampaignInput
+  finalReports?: Prisma.FinalReportUncheckedCreateNestedManyWithoutCampaignInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutCampaignInput
 }
 
@@ -1217,6 +1244,7 @@ export type CampaignUpdateWithoutAssignmentsInput = {
   invitations?: Prisma.CampaignInvitationUpdateManyWithoutCampaignNestedInput
   tasks?: Prisma.TestingTaskUpdateManyWithoutCampaignNestedInput
   bugReports?: Prisma.BugReportUpdateManyWithoutCampaignNestedInput
+  finalReports?: Prisma.FinalReportUpdateManyWithoutCampaignNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutCampaignNestedInput
 }
 
@@ -1245,6 +1273,7 @@ export type CampaignUncheckedUpdateWithoutAssignmentsInput = {
   invitations?: Prisma.CampaignInvitationUncheckedUpdateManyWithoutCampaignNestedInput
   tasks?: Prisma.TestingTaskUncheckedUpdateManyWithoutCampaignNestedInput
   bugReports?: Prisma.BugReportUncheckedUpdateManyWithoutCampaignNestedInput
+  finalReports?: Prisma.FinalReportUncheckedUpdateManyWithoutCampaignNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutCampaignNestedInput
 }
 
@@ -1273,6 +1302,7 @@ export type CampaignCreateWithoutInvitationsInput = {
   assignments?: Prisma.CampaignAssignmentCreateNestedManyWithoutCampaignInput
   tasks?: Prisma.TestingTaskCreateNestedManyWithoutCampaignInput
   bugReports?: Prisma.BugReportCreateNestedManyWithoutCampaignInput
+  finalReports?: Prisma.FinalReportCreateNestedManyWithoutCampaignInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutCampaignInput
 }
 
@@ -1301,6 +1331,7 @@ export type CampaignUncheckedCreateWithoutInvitationsInput = {
   assignments?: Prisma.CampaignAssignmentUncheckedCreateNestedManyWithoutCampaignInput
   tasks?: Prisma.TestingTaskUncheckedCreateNestedManyWithoutCampaignInput
   bugReports?: Prisma.BugReportUncheckedCreateNestedManyWithoutCampaignInput
+  finalReports?: Prisma.FinalReportUncheckedCreateNestedManyWithoutCampaignInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutCampaignInput
 }
 
@@ -1345,6 +1376,7 @@ export type CampaignUpdateWithoutInvitationsInput = {
   assignments?: Prisma.CampaignAssignmentUpdateManyWithoutCampaignNestedInput
   tasks?: Prisma.TestingTaskUpdateManyWithoutCampaignNestedInput
   bugReports?: Prisma.BugReportUpdateManyWithoutCampaignNestedInput
+  finalReports?: Prisma.FinalReportUpdateManyWithoutCampaignNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutCampaignNestedInput
 }
 
@@ -1373,6 +1405,7 @@ export type CampaignUncheckedUpdateWithoutInvitationsInput = {
   assignments?: Prisma.CampaignAssignmentUncheckedUpdateManyWithoutCampaignNestedInput
   tasks?: Prisma.TestingTaskUncheckedUpdateManyWithoutCampaignNestedInput
   bugReports?: Prisma.BugReportUncheckedUpdateManyWithoutCampaignNestedInput
+  finalReports?: Prisma.FinalReportUncheckedUpdateManyWithoutCampaignNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutCampaignNestedInput
 }
 
@@ -1401,6 +1434,7 @@ export type CampaignCreateWithoutTasksInput = {
   assignments?: Prisma.CampaignAssignmentCreateNestedManyWithoutCampaignInput
   invitations?: Prisma.CampaignInvitationCreateNestedManyWithoutCampaignInput
   bugReports?: Prisma.BugReportCreateNestedManyWithoutCampaignInput
+  finalReports?: Prisma.FinalReportCreateNestedManyWithoutCampaignInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutCampaignInput
 }
 
@@ -1429,6 +1463,7 @@ export type CampaignUncheckedCreateWithoutTasksInput = {
   assignments?: Prisma.CampaignAssignmentUncheckedCreateNestedManyWithoutCampaignInput
   invitations?: Prisma.CampaignInvitationUncheckedCreateNestedManyWithoutCampaignInput
   bugReports?: Prisma.BugReportUncheckedCreateNestedManyWithoutCampaignInput
+  finalReports?: Prisma.FinalReportUncheckedCreateNestedManyWithoutCampaignInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutCampaignInput
 }
 
@@ -1473,6 +1508,7 @@ export type CampaignUpdateWithoutTasksInput = {
   assignments?: Prisma.CampaignAssignmentUpdateManyWithoutCampaignNestedInput
   invitations?: Prisma.CampaignInvitationUpdateManyWithoutCampaignNestedInput
   bugReports?: Prisma.BugReportUpdateManyWithoutCampaignNestedInput
+  finalReports?: Prisma.FinalReportUpdateManyWithoutCampaignNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutCampaignNestedInput
 }
 
@@ -1501,6 +1537,7 @@ export type CampaignUncheckedUpdateWithoutTasksInput = {
   assignments?: Prisma.CampaignAssignmentUncheckedUpdateManyWithoutCampaignNestedInput
   invitations?: Prisma.CampaignInvitationUncheckedUpdateManyWithoutCampaignNestedInput
   bugReports?: Prisma.BugReportUncheckedUpdateManyWithoutCampaignNestedInput
+  finalReports?: Prisma.FinalReportUncheckedUpdateManyWithoutCampaignNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutCampaignNestedInput
 }
 
@@ -1529,6 +1566,7 @@ export type CampaignCreateWithoutBugReportsInput = {
   assignments?: Prisma.CampaignAssignmentCreateNestedManyWithoutCampaignInput
   invitations?: Prisma.CampaignInvitationCreateNestedManyWithoutCampaignInput
   tasks?: Prisma.TestingTaskCreateNestedManyWithoutCampaignInput
+  finalReports?: Prisma.FinalReportCreateNestedManyWithoutCampaignInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutCampaignInput
 }
 
@@ -1557,6 +1595,7 @@ export type CampaignUncheckedCreateWithoutBugReportsInput = {
   assignments?: Prisma.CampaignAssignmentUncheckedCreateNestedManyWithoutCampaignInput
   invitations?: Prisma.CampaignInvitationUncheckedCreateNestedManyWithoutCampaignInput
   tasks?: Prisma.TestingTaskUncheckedCreateNestedManyWithoutCampaignInput
+  finalReports?: Prisma.FinalReportUncheckedCreateNestedManyWithoutCampaignInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutCampaignInput
 }
 
@@ -1601,6 +1640,7 @@ export type CampaignUpdateWithoutBugReportsInput = {
   assignments?: Prisma.CampaignAssignmentUpdateManyWithoutCampaignNestedInput
   invitations?: Prisma.CampaignInvitationUpdateManyWithoutCampaignNestedInput
   tasks?: Prisma.TestingTaskUpdateManyWithoutCampaignNestedInput
+  finalReports?: Prisma.FinalReportUpdateManyWithoutCampaignNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutCampaignNestedInput
 }
 
@@ -1629,6 +1669,139 @@ export type CampaignUncheckedUpdateWithoutBugReportsInput = {
   assignments?: Prisma.CampaignAssignmentUncheckedUpdateManyWithoutCampaignNestedInput
   invitations?: Prisma.CampaignInvitationUncheckedUpdateManyWithoutCampaignNestedInput
   tasks?: Prisma.TestingTaskUncheckedUpdateManyWithoutCampaignNestedInput
+  finalReports?: Prisma.FinalReportUncheckedUpdateManyWithoutCampaignNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutCampaignNestedInput
+}
+
+export type CampaignCreateWithoutFinalReportsInput = {
+  id?: string
+  projectName: string
+  description: string
+  softwareType: $Enums.SoftwareType
+  websiteUrl?: string | null
+  downloadPath?: string | null
+  testerCredentials?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  stage?: $Enums.CampaignStage
+  crowdTesterCount?: number
+  developerTesterCount?: number
+  selectedCountries: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedPlatforms: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedBrowsers: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  estimatedCost?: number
+  moderatorSlots?: number
+  requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  analytics?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  client: Prisma.UserCreateNestedOneWithoutClientCampaignsInput
+  testManager?: Prisma.UserCreateNestedOneWithoutManagerCampaignsInput
+  assignments?: Prisma.CampaignAssignmentCreateNestedManyWithoutCampaignInput
+  invitations?: Prisma.CampaignInvitationCreateNestedManyWithoutCampaignInput
+  tasks?: Prisma.TestingTaskCreateNestedManyWithoutCampaignInput
+  bugReports?: Prisma.BugReportCreateNestedManyWithoutCampaignInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutCampaignInput
+}
+
+export type CampaignUncheckedCreateWithoutFinalReportsInput = {
+  id?: string
+  clientId: string
+  testManagerId?: string | null
+  projectName: string
+  description: string
+  softwareType: $Enums.SoftwareType
+  websiteUrl?: string | null
+  downloadPath?: string | null
+  testerCredentials?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  stage?: $Enums.CampaignStage
+  crowdTesterCount?: number
+  developerTesterCount?: number
+  selectedCountries: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedPlatforms: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedBrowsers: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  estimatedCost?: number
+  moderatorSlots?: number
+  requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  analytics?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  assignments?: Prisma.CampaignAssignmentUncheckedCreateNestedManyWithoutCampaignInput
+  invitations?: Prisma.CampaignInvitationUncheckedCreateNestedManyWithoutCampaignInput
+  tasks?: Prisma.TestingTaskUncheckedCreateNestedManyWithoutCampaignInput
+  bugReports?: Prisma.BugReportUncheckedCreateNestedManyWithoutCampaignInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutCampaignInput
+}
+
+export type CampaignCreateOrConnectWithoutFinalReportsInput = {
+  where: Prisma.CampaignWhereUniqueInput
+  create: Prisma.XOR<Prisma.CampaignCreateWithoutFinalReportsInput, Prisma.CampaignUncheckedCreateWithoutFinalReportsInput>
+}
+
+export type CampaignUpsertWithoutFinalReportsInput = {
+  update: Prisma.XOR<Prisma.CampaignUpdateWithoutFinalReportsInput, Prisma.CampaignUncheckedUpdateWithoutFinalReportsInput>
+  create: Prisma.XOR<Prisma.CampaignCreateWithoutFinalReportsInput, Prisma.CampaignUncheckedCreateWithoutFinalReportsInput>
+  where?: Prisma.CampaignWhereInput
+}
+
+export type CampaignUpdateToOneWithWhereWithoutFinalReportsInput = {
+  where?: Prisma.CampaignWhereInput
+  data: Prisma.XOR<Prisma.CampaignUpdateWithoutFinalReportsInput, Prisma.CampaignUncheckedUpdateWithoutFinalReportsInput>
+}
+
+export type CampaignUpdateWithoutFinalReportsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  projectName?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  softwareType?: Prisma.EnumSoftwareTypeFieldUpdateOperationsInput | $Enums.SoftwareType
+  websiteUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  downloadPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  testerCredentials?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  stage?: Prisma.EnumCampaignStageFieldUpdateOperationsInput | $Enums.CampaignStage
+  crowdTesterCount?: Prisma.IntFieldUpdateOperationsInput | number
+  developerTesterCount?: Prisma.IntFieldUpdateOperationsInput | number
+  selectedCountries?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedPlatforms?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedBrowsers?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  estimatedCost?: Prisma.FloatFieldUpdateOperationsInput | number
+  moderatorSlots?: Prisma.IntFieldUpdateOperationsInput | number
+  requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  analytics?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  client?: Prisma.UserUpdateOneRequiredWithoutClientCampaignsNestedInput
+  testManager?: Prisma.UserUpdateOneWithoutManagerCampaignsNestedInput
+  assignments?: Prisma.CampaignAssignmentUpdateManyWithoutCampaignNestedInput
+  invitations?: Prisma.CampaignInvitationUpdateManyWithoutCampaignNestedInput
+  tasks?: Prisma.TestingTaskUpdateManyWithoutCampaignNestedInput
+  bugReports?: Prisma.BugReportUpdateManyWithoutCampaignNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutCampaignNestedInput
+}
+
+export type CampaignUncheckedUpdateWithoutFinalReportsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  clientId?: Prisma.StringFieldUpdateOperationsInput | string
+  testManagerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  projectName?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  softwareType?: Prisma.EnumSoftwareTypeFieldUpdateOperationsInput | $Enums.SoftwareType
+  websiteUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  downloadPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  testerCredentials?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  stage?: Prisma.EnumCampaignStageFieldUpdateOperationsInput | $Enums.CampaignStage
+  crowdTesterCount?: Prisma.IntFieldUpdateOperationsInput | number
+  developerTesterCount?: Prisma.IntFieldUpdateOperationsInput | number
+  selectedCountries?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedPlatforms?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedBrowsers?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  estimatedCost?: Prisma.FloatFieldUpdateOperationsInput | number
+  moderatorSlots?: Prisma.IntFieldUpdateOperationsInput | number
+  requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  analytics?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  assignments?: Prisma.CampaignAssignmentUncheckedUpdateManyWithoutCampaignNestedInput
+  invitations?: Prisma.CampaignInvitationUncheckedUpdateManyWithoutCampaignNestedInput
+  tasks?: Prisma.TestingTaskUncheckedUpdateManyWithoutCampaignNestedInput
+  bugReports?: Prisma.BugReportUncheckedUpdateManyWithoutCampaignNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutCampaignNestedInput
 }
 
@@ -1658,6 +1831,7 @@ export type CampaignCreateWithoutAuditLogsInput = {
   invitations?: Prisma.CampaignInvitationCreateNestedManyWithoutCampaignInput
   tasks?: Prisma.TestingTaskCreateNestedManyWithoutCampaignInput
   bugReports?: Prisma.BugReportCreateNestedManyWithoutCampaignInput
+  finalReports?: Prisma.FinalReportCreateNestedManyWithoutCampaignInput
 }
 
 export type CampaignUncheckedCreateWithoutAuditLogsInput = {
@@ -1686,6 +1860,7 @@ export type CampaignUncheckedCreateWithoutAuditLogsInput = {
   invitations?: Prisma.CampaignInvitationUncheckedCreateNestedManyWithoutCampaignInput
   tasks?: Prisma.TestingTaskUncheckedCreateNestedManyWithoutCampaignInput
   bugReports?: Prisma.BugReportUncheckedCreateNestedManyWithoutCampaignInput
+  finalReports?: Prisma.FinalReportUncheckedCreateNestedManyWithoutCampaignInput
 }
 
 export type CampaignCreateOrConnectWithoutAuditLogsInput = {
@@ -1730,6 +1905,7 @@ export type CampaignUpdateWithoutAuditLogsInput = {
   invitations?: Prisma.CampaignInvitationUpdateManyWithoutCampaignNestedInput
   tasks?: Prisma.TestingTaskUpdateManyWithoutCampaignNestedInput
   bugReports?: Prisma.BugReportUpdateManyWithoutCampaignNestedInput
+  finalReports?: Prisma.FinalReportUpdateManyWithoutCampaignNestedInput
 }
 
 export type CampaignUncheckedUpdateWithoutAuditLogsInput = {
@@ -1758,6 +1934,7 @@ export type CampaignUncheckedUpdateWithoutAuditLogsInput = {
   invitations?: Prisma.CampaignInvitationUncheckedUpdateManyWithoutCampaignNestedInput
   tasks?: Prisma.TestingTaskUncheckedUpdateManyWithoutCampaignNestedInput
   bugReports?: Prisma.BugReportUncheckedUpdateManyWithoutCampaignNestedInput
+  finalReports?: Prisma.FinalReportUncheckedUpdateManyWithoutCampaignNestedInput
 }
 
 export type CampaignCreateManyClientInput = {
@@ -1831,6 +2008,7 @@ export type CampaignUpdateWithoutClientInput = {
   invitations?: Prisma.CampaignInvitationUpdateManyWithoutCampaignNestedInput
   tasks?: Prisma.TestingTaskUpdateManyWithoutCampaignNestedInput
   bugReports?: Prisma.BugReportUpdateManyWithoutCampaignNestedInput
+  finalReports?: Prisma.FinalReportUpdateManyWithoutCampaignNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutCampaignNestedInput
 }
 
@@ -1859,6 +2037,7 @@ export type CampaignUncheckedUpdateWithoutClientInput = {
   invitations?: Prisma.CampaignInvitationUncheckedUpdateManyWithoutCampaignNestedInput
   tasks?: Prisma.TestingTaskUncheckedUpdateManyWithoutCampaignNestedInput
   bugReports?: Prisma.BugReportUncheckedUpdateManyWithoutCampaignNestedInput
+  finalReports?: Prisma.FinalReportUncheckedUpdateManyWithoutCampaignNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutCampaignNestedInput
 }
 
@@ -1910,6 +2089,7 @@ export type CampaignUpdateWithoutTestManagerInput = {
   invitations?: Prisma.CampaignInvitationUpdateManyWithoutCampaignNestedInput
   tasks?: Prisma.TestingTaskUpdateManyWithoutCampaignNestedInput
   bugReports?: Prisma.BugReportUpdateManyWithoutCampaignNestedInput
+  finalReports?: Prisma.FinalReportUpdateManyWithoutCampaignNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutCampaignNestedInput
 }
 
@@ -1938,6 +2118,7 @@ export type CampaignUncheckedUpdateWithoutTestManagerInput = {
   invitations?: Prisma.CampaignInvitationUncheckedUpdateManyWithoutCampaignNestedInput
   tasks?: Prisma.TestingTaskUncheckedUpdateManyWithoutCampaignNestedInput
   bugReports?: Prisma.BugReportUncheckedUpdateManyWithoutCampaignNestedInput
+  finalReports?: Prisma.FinalReportUncheckedUpdateManyWithoutCampaignNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutCampaignNestedInput
 }
 
@@ -1974,6 +2155,7 @@ export type CampaignCountOutputType = {
   invitations: number
   tasks: number
   bugReports: number
+  finalReports: number
   auditLogs: number
 }
 
@@ -1982,6 +2164,7 @@ export type CampaignCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensio
   invitations?: boolean | CampaignCountOutputTypeCountInvitationsArgs
   tasks?: boolean | CampaignCountOutputTypeCountTasksArgs
   bugReports?: boolean | CampaignCountOutputTypeCountBugReportsArgs
+  finalReports?: boolean | CampaignCountOutputTypeCountFinalReportsArgs
   auditLogs?: boolean | CampaignCountOutputTypeCountAuditLogsArgs
 }
 
@@ -2026,6 +2209,13 @@ export type CampaignCountOutputTypeCountBugReportsArgs<ExtArgs extends runtime.T
 /**
  * CampaignCountOutputType without action
  */
+export type CampaignCountOutputTypeCountFinalReportsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.FinalReportWhereInput
+}
+
+/**
+ * CampaignCountOutputType without action
+ */
 export type CampaignCountOutputTypeCountAuditLogsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.AuditLogWhereInput
 }
@@ -2059,6 +2249,7 @@ export type CampaignSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   invitations?: boolean | Prisma.Campaign$invitationsArgs<ExtArgs>
   tasks?: boolean | Prisma.Campaign$tasksArgs<ExtArgs>
   bugReports?: boolean | Prisma.Campaign$bugReportsArgs<ExtArgs>
+  finalReports?: boolean | Prisma.Campaign$finalReportsArgs<ExtArgs>
   auditLogs?: boolean | Prisma.Campaign$auditLogsArgs<ExtArgs>
   _count?: boolean | Prisma.CampaignCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["campaign"]>
@@ -2097,6 +2288,7 @@ export type CampaignInclude<ExtArgs extends runtime.Types.Extensions.InternalArg
   invitations?: boolean | Prisma.Campaign$invitationsArgs<ExtArgs>
   tasks?: boolean | Prisma.Campaign$tasksArgs<ExtArgs>
   bugReports?: boolean | Prisma.Campaign$bugReportsArgs<ExtArgs>
+  finalReports?: boolean | Prisma.Campaign$finalReportsArgs<ExtArgs>
   auditLogs?: boolean | Prisma.Campaign$auditLogsArgs<ExtArgs>
   _count?: boolean | Prisma.CampaignCountOutputTypeDefaultArgs<ExtArgs>
 }
@@ -2110,6 +2302,7 @@ export type $CampaignPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     invitations: Prisma.$CampaignInvitationPayload<ExtArgs>[]
     tasks: Prisma.$TestingTaskPayload<ExtArgs>[]
     bugReports: Prisma.$BugReportPayload<ExtArgs>[]
+    finalReports: Prisma.$FinalReportPayload<ExtArgs>[]
     auditLogs: Prisma.$AuditLogPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -2480,6 +2673,7 @@ export interface Prisma__CampaignClient<T, Null = never, ExtArgs extends runtime
   invitations<T extends Prisma.Campaign$invitationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Campaign$invitationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CampaignInvitationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   tasks<T extends Prisma.Campaign$tasksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Campaign$tasksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TestingTaskPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   bugReports<T extends Prisma.Campaign$bugReportsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Campaign$bugReportsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BugReportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  finalReports<T extends Prisma.Campaign$finalReportsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Campaign$finalReportsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FinalReportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   auditLogs<T extends Prisma.Campaign$auditLogsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Campaign$auditLogsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AuditLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -2991,6 +3185,30 @@ export type Campaign$bugReportsArgs<ExtArgs extends runtime.Types.Extensions.Int
   take?: number
   skip?: number
   distinct?: Prisma.BugReportScalarFieldEnum | Prisma.BugReportScalarFieldEnum[]
+}
+
+/**
+ * Campaign.finalReports
+ */
+export type Campaign$finalReportsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the FinalReport
+   */
+  select?: Prisma.FinalReportSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the FinalReport
+   */
+  omit?: Prisma.FinalReportOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.FinalReportInclude<ExtArgs> | null
+  where?: Prisma.FinalReportWhereInput
+  orderBy?: Prisma.FinalReportOrderByWithRelationInput | Prisma.FinalReportOrderByWithRelationInput[]
+  cursor?: Prisma.FinalReportWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.FinalReportScalarFieldEnum | Prisma.FinalReportScalarFieldEnum[]
 }
 
 /**
