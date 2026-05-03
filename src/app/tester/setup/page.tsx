@@ -6,7 +6,7 @@ import { requireSession } from "@/lib/auth";
 import { getTesterSetupState } from "@/lib/tester-setup";
 import { prisma } from "@/lib/prisma";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
+import { Card, CardDescription, CardHeader, CardSection, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { SectionHeading } from "@/components/sections/section-heading";
 
@@ -44,8 +44,13 @@ export default async function TesterSetupPage({
         }
       />
 
-      <Card className="space-y-4">
-        <form action={saveTesterSetupAction} className="grid gap-4 md:grid-cols-2">
+      <Card padding="none">
+        <CardHeader>
+          <CardTitle>Device &amp; location</CardTitle>
+          <CardDescription>Used for matching and auto-filled bug environments.</CardDescription>
+        </CardHeader>
+        <CardSection className="border-t border-slate-100/90">
+          <form action={saveTesterSetupAction} className="grid gap-4 md:grid-cols-2">
           <input type="hidden" name="next" value={next ?? ""} />
           <div className="space-y-2 md:col-span-2">
             <label className="text-sm font-medium text-stone-700" htmlFor="country">
@@ -86,7 +91,8 @@ export default async function TesterSetupPage({
           <div className="md:col-span-2">
             <Button type="submit">Save testing info</Button>
           </div>
-        </form>
+          </form>
+        </CardSection>
       </Card>
     </div>
   );

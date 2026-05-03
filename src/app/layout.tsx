@@ -27,7 +27,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${sans.variable} ${serif.variable} h-full antialiased`}>
-      <body className="min-h-full bg-stone-50 text-stone-900">
+      <body className="min-h-full bg-slate-50 text-slate-900">
         <div className="flex min-h-screen flex-col">
           <SiteHeader />
           <div className="flex-1">{children}</div>

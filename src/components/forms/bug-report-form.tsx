@@ -8,6 +8,7 @@ import { SubmitButton } from "@/components/forms/submit-button";
 import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import { Card, CardDescription, CardHeader, CardSection, CardTitle } from "@/components/ui/card";
 
 const initialState: ActionState = { success: false };
 
@@ -25,11 +26,17 @@ export function BugReportForm({ campaignId }: { campaignId: string }) {
   };
 
   return (
-    <form action={formAction} className="space-y-5 rounded-[28px] border border-stone-200 bg-white p-6">
-      <input type="hidden" name="campaignId" value={campaignId} />
+    <Card padding="none">
+      <CardHeader>
+        <CardTitle>Report details</CardTitle>
+        <CardDescription>Share clear steps and evidence so moderators can triage quickly.</CardDescription>
+      </CardHeader>
+      <CardSection className="border-t border-slate-100/90">
+        <form action={formAction} className="space-y-6">
+          <input type="hidden" name="campaignId" value={campaignId} />
       <div className="grid gap-4 md:grid-cols-2">
         <div className="space-y-2 md:col-span-2">
-          <label className="text-sm font-medium text-stone-700" htmlFor="bugType">
+          <label className="text-sm font-medium text-slate-700" htmlFor="bugType">
             Type
           </label>
           <Select id="bugType" name="bugType" defaultValue="Functional Bugs">
@@ -49,31 +56,31 @@ export function BugReportForm({ campaignId }: { campaignId: string }) {
           </Select>
         </div>
         <div className="space-y-2 md:col-span-2">
-          <label className="text-sm font-medium text-stone-700" htmlFor="title">
+          <label className="text-sm font-medium text-slate-700" htmlFor="title">
             Title
           </label>
           <Input id="title" name="title" placeholder="Checkout button does nothing on Safari" required />
         </div>
         <div className="space-y-2 md:col-span-2">
-          <label className="text-sm font-medium text-stone-700" htmlFor="pageUrl">
+          <label className="text-sm font-medium text-slate-700" htmlFor="pageUrl">
             URL (optional)
           </label>
           <Input id="pageUrl" name="pageUrl" placeholder="https://example.com/checkout" />
         </div>
         <div className="space-y-2 md:col-span-2">
-          <label className="text-sm font-medium text-stone-700" htmlFor="description">
+          <label className="text-sm font-medium text-slate-700" htmlFor="description">
             Description
           </label>
           <Textarea id="description" name="description" required />
         </div>
         <div className="space-y-2 md:col-span-2">
-          <label className="text-sm font-medium text-stone-700" htmlFor="reproductionSteps">
+          <label className="text-sm font-medium text-slate-700" htmlFor="reproductionSteps">
             Reproduction steps
           </label>
           <Textarea id="reproductionSteps" name="reproductionSteps" required />
         </div>
         <div className="space-y-2">
-          <label className="text-sm font-medium text-stone-700" htmlFor="severity">
+          <label className="text-sm font-medium text-slate-700" htmlFor="severity">
             Severity
           </label>
           <Select id="severity" name="severity" defaultValue="MEDIUM">
@@ -84,7 +91,7 @@ export function BugReportForm({ campaignId }: { campaignId: string }) {
           </Select>
         </div>
         <div className="space-y-2 md:col-span-2">
-          <label className="text-sm font-medium text-stone-700" htmlFor="attachments">
+          <label className="text-sm font-medium text-slate-700" htmlFor="attachments">
             Attachments (optional)
           </label>
           <Input id="attachments" name="attachments" type="file" multiple />
@@ -100,7 +107,9 @@ export function BugReportForm({ campaignId }: { campaignId: string }) {
           ))}
         </div>
       ) : null}
-      <SubmitButton label="Submit bug report" pendingLabel="Uploading report..." />
-    </form>
+          <SubmitButton label="Submit bug report" pendingLabel="Uploading report..." />
+        </form>
+      </CardSection>
+    </Card>
   );
 }

@@ -3,7 +3,7 @@ import Link from "next/link";
 import { requireSession } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
+import { Card, CardDescription, CardHeader, CardMeta, CardMetaItem, CardSection, CardTitle } from "@/components/ui/card";
 import { SectionHeading } from "@/components/sections/section-heading";
 
 export default async function TesterProfilePage() {
@@ -29,26 +29,38 @@ export default async function TesterProfilePage() {
           </Link>
         }
       />
-      <div className="grid gap-6 lg:grid-cols-2">
-        <Card className="space-y-4">
-          <h2 className="font-serif text-3xl text-stone-900">Account</h2>
-          <p className="text-sm leading-7 text-stone-600">Name: {tester.name}</p>
-          <p className="text-sm leading-7 text-stone-600">Email: {tester.email}</p>
-          <p className="text-sm leading-7 text-stone-600">Country: {tester.country ?? "Not set"}</p>
-          <p className="text-sm leading-7 text-stone-600">Tester type: {tester.testerKind ?? "Not set"}</p>
+      <div className="grid gap-4 lg:grid-cols-2">
+        <Card padding="none">
+          <CardHeader>
+            <CardTitle>Account</CardTitle>
+            <CardDescription>Identity and tester classification</CardDescription>
+          </CardHeader>
+          <CardSection className="border-t border-slate-100/90">
+            <CardMeta className="sm:grid-cols-1">
+              <CardMetaItem label="Name">{tester.name}</CardMetaItem>
+              <CardMetaItem label="Email">{tester.email}</CardMetaItem>
+              <CardMetaItem label="Country">{tester.country ?? "Not set"}</CardMetaItem>
+              <CardMetaItem label="Tester type">{tester.testerKind ?? "Not set"}</CardMetaItem>
+            </CardMeta>
+          </CardSection>
         </Card>
-        <Card className="space-y-4">
-          <h2 className="font-serif text-3xl text-stone-900">Current device</h2>
-          {device ? (
-            <div className="space-y-2">
-              <p className="text-sm font-medium text-stone-900">{device.deviceName}</p>
-              <p className="text-sm text-stone-600">OS: {device.osVersion}</p>
-              <p className="text-sm text-stone-600">Browser: {browser || "Not set"}</p>
-              <p className="text-sm text-stone-600">Resolution: {device.screenResolution}</p>
-            </div>
-          ) : (
-            <p className="text-sm text-stone-600">No device info yet. Use &quot;Edit testing info&quot;.</p>
-          )}
+        <Card padding="none">
+          <CardHeader>
+            <CardTitle>Current device</CardTitle>
+            <CardDescription>Used for environment blocks on bug reports</CardDescription>
+          </CardHeader>
+          <CardSection className="border-t border-slate-100/90">
+            {device ? (
+              <CardMeta className="sm:grid-cols-1">
+                <CardMetaItem label="Device">{device.deviceName}</CardMetaItem>
+                <CardMetaItem label="OS">{device.osVersion}</CardMetaItem>
+                <CardMetaItem label="Browser">{browser || "Not set"}</CardMetaItem>
+                <CardMetaItem label="Resolution">{device.screenResolution}</CardMetaItem>
+              </CardMeta>
+            ) : (
+              <p className="text-sm text-slate-600">No device info yet. Use &quot;Edit testing info&quot;.</p>
+            )}
+          </CardSection>
         </Card>
       </div>
     </div>

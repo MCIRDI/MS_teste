@@ -1,11 +1,13 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f8f7f4;
-  --foreground: #1c1917;
-  --muted: #78716c;
+  --background: #f5f7fb;
+  --foreground: #111827;
+  --muted: #64748b;
   --surface: #ffffff;
-  --line: #e7e5e4;
+  --line: #e2e8f0;
+  --accent: #2563eb;
+  --accent-soft: #dbeafe;
 }
 
 @theme inline {
@@ -13,6 +15,10 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-sans);
   --font-serif: var(--font-serif);
+  /* Team / brand (Tailwind: bg-brand, text-brand, ring-brand, etc.) */
+  --color-brand: var(--accent);
+  --color-brand-hover: #1d4ed8;
+  --color-brand-muted: var(--accent-soft);
 }
 
 * {
@@ -27,6 +33,7 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans), sans-serif;
+  line-height: 1.5;
 }
 
 a {
@@ -34,10 +41,44 @@ a {
 }
 
 ::selection {
-  background: #d6d3d1;
-  color: #1c1917;
+  background: var(--accent-soft);
+  color: var(--foreground);
 }
 
 .font-serif {
   font-family: var(--font-serif), serif;
+}
+
+.saas-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.saas-table thead {
+  background: #f8fafc;
+}
+
+.saas-table th {
+  padding: 0.75rem 1rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: #475569;
+}
+
+.saas-table td {
+  border-top: 1px solid var(--line);
+  padding: 0.9rem 1rem;
+  font-size: 0.875rem;
+  color: #334155;
+}
+
+.saas-table tbody tr {
+  transition: background-color 0.2s ease;
+}
+
+.saas-table tbody tr:hover {
+  background: #f8fafc;
 }

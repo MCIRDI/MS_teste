@@ -7,7 +7,17 @@ import { diceCoefficient, normalizeText } from "@/lib/moderation";
 import { prisma } from "@/lib/prisma";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
+import {
+  Card,
+  CardDescription,
+  CardHeader,
+  CardMeta,
+  CardMetaItem,
+  CardProse,
+  CardSection,
+  CardTitle,
+} from "@/components/ui/card";
+import { Select } from "@/components/ui/select";
 import { SectionHeading } from "@/components/sections/section-heading";
 
 type BugEnvironment = {
@@ -104,7 +114,7 @@ export default async function ModeratorBugDetailPage({
         return "bg-amber-100 text-amber-900";
       case "LOW":
       default:
-        return "bg-stone-100 text-stone-700";
+        return "bg-slate-100 text-slate-700";
     }
   };
 
@@ -121,144 +131,152 @@ export default async function ModeratorBugDetailPage({
         }
       />
 
-      <Card className="space-y-4">
-        <div className="flex flex-wrap items-center gap-2">
-          <Badge className={severityBadgeClass(bug.severity)}>{bug.severity}</Badge>
-          <Badge>{bug.status}</Badge>
-          {bug.feature ? <Badge>Feature: {bug.feature}</Badge> : null}
-          {bug.errorType ? <Badge>Error: {bug.errorType}</Badge> : null}
-          {bug.pageUrl ? <Badge>Page: {bug.pageUrl}</Badge> : null}
-        </div>
-        <div className="grid gap-4 md:grid-cols-2">
-          <div className="space-y-3">
-            <p className="text-sm font-medium text-stone-700">Reporter</p>
-            <p className="text-sm text-stone-700">{bug.tester.name}</p>
-            <p className="text-sm text-stone-600">{bug.tester.email}</p>
-            <p className="text-sm text-stone-600">Submitted: {bug.createdAt.toLocaleString()}</p>
+      <Card padding="none">
+        <CardHeader>
+          <div className="flex flex-wrap items-center gap-2">
+            <Badge className={severityBadgeClass(bug.severity)}>{bug.severity}</Badge>
+            <Badge>{bug.status}</Badge>
+            {bug.feature ? <Badge>Feature: {bug.feature}</Badge> : null}
+            {bug.errorType ? <Badge>Error: {bug.errorType}</Badge> : null}
+            {bug.pageUrl ? <Badge className="max-w-full truncate">Page: {bug.pageUrl}</Badge> : null}
           </div>
-          <div className="space-y-3">
-            <p className="text-sm font-medium text-stone-700">Environment</p>
-            <p className="text-sm text-stone-700">Device: {String(env?.device ?? "—")}</p>
-            <p className="text-sm text-stone-700">OS: {String(env?.osVersion ?? "—")}</p>
-            <p className="text-sm text-stone-700">Browser: {String(env?.browser ?? "—")}</p>
-            <p className="text-sm text-stone-700">Resolution: {String(env?.screenResolution ?? "—")}</p>
-          </div>
-        </div>
+          <CardTitle className="mt-3">Reporter &amp; environment</CardTitle>
+          <CardDescription>Context captured automatically with the submission.</CardDescription>
+        </CardHeader>
+        <CardSection>
+          <CardMeta>
+            <CardMetaItem label="Name">{bug.tester.name}</CardMetaItem>
+            <CardMetaItem label="Email">{bug.tester.email}</CardMetaItem>
+            <CardMetaItem label="Submitted">{bug.createdAt.toLocaleString()}</CardMetaItem>
+            <CardMetaItem label="Device">{String(env?.device ?? "—")}</CardMetaItem>
+            <CardMetaItem label="OS">{String(env?.osVersion ?? "—")}</CardMetaItem>
+            <CardMetaItem label="Browser">{String(env?.browser ?? "—")}</CardMetaItem>
+            <CardMetaItem label="Resolution">{String(env?.screenResolution ?? "—")}</CardMetaItem>
+          </CardMeta>
+        </CardSection>
       </Card>
 
-      <Card className="space-y-4">
-        <SectionHeading eyebrow="Details" title="Reproduction" description="Full report content as submitted by the tester." />
-        <div className="space-y-4">
+      <Card padding="none">
+        <CardHeader>
+          <CardTitle>Reproduction</CardTitle>
+          <CardDescription>Full report content as submitted by the tester.</CardDescription>
+        </CardHeader>
+        <CardSection className="space-y-5">
           <div>
-            <p className="text-sm font-medium text-stone-700">Description</p>
-            <p className="mt-2 whitespace-pre-wrap text-sm leading-7 text-stone-800">{bug.description}</p>
+            <p className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">Description</p>
+            <CardProse className="mt-2 whitespace-pre-wrap">{bug.description}</CardProse>
           </div>
           <div>
-            <p className="text-sm font-medium text-stone-700">Steps</p>
-            <p className="mt-2 whitespace-pre-wrap text-sm leading-7 text-stone-800">{bug.reproductionSteps}</p>
+            <p className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">Steps</p>
+            <CardProse className="mt-2 whitespace-pre-wrap">{bug.reproductionSteps}</CardProse>
           </div>
-          <div className="grid gap-4 md:grid-cols-2">
+          <div className="grid gap-5 md:grid-cols-2">
             <div>
-              <p className="text-sm font-medium text-stone-700">Expected</p>
-              <p className="mt-2 whitespace-pre-wrap text-sm leading-7 text-stone-800">{bug.expectedResult}</p>
+              <p className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">Expected</p>
+              <CardProse className="mt-2 whitespace-pre-wrap">{bug.expectedResult}</CardProse>
             </div>
             <div>
-              <p className="text-sm font-medium text-stone-700">Actual</p>
-              <p className="mt-2 whitespace-pre-wrap text-sm leading-7 text-stone-800">{bug.actualResult}</p>
+              <p className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">Actual</p>
+              <CardProse className="mt-2 whitespace-pre-wrap">{bug.actualResult}</CardProse>
             </div>
           </div>
-        </div>
+        </CardSection>
       </Card>
 
-      <Card className="space-y-4">
-        <SectionHeading eyebrow="Attachments" title="Files" description="Screenshots, recordings, logs, and additional evidence." />
-        {bug.attachments.length === 0 ? (
-          <p className="text-sm text-stone-600">No attachments were uploaded.</p>
-        ) : (
-          <div className="grid gap-2">
-            {bug.attachments.map((attachment) => (
-              <Link
-                key={attachment.id}
-                href={`/api/attachments/${attachment.id}`}
-                className="rounded-2xl bg-stone-100 px-4 py-3 text-sm text-stone-800 hover:bg-stone-200"
-              >
-                {attachment.originalName}
-              </Link>
-            ))}
-          </div>
-        )}
+      <Card padding="none">
+        <CardHeader>
+          <CardTitle>Attachments</CardTitle>
+          <CardDescription>Screenshots, recordings, logs, and additional evidence.</CardDescription>
+        </CardHeader>
+        <CardSection>
+          {bug.attachments.length === 0 ? (
+            <p className="text-sm text-slate-600">No attachments were uploaded.</p>
+          ) : (
+            <div className="grid gap-2">
+              {bug.attachments.map((attachment) => (
+                <Link
+                  key={attachment.id}
+                  href={`/api/attachments/${attachment.id}`}
+                  className="rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-medium text-slate-800 transition hover:border-slate-300 hover:bg-slate-100"
+                >
+                  {attachment.originalName}
+                </Link>
+              ))}
+            </div>
+          )}
+        </CardSection>
       </Card>
 
-      <Card className="space-y-4">
-        <SectionHeading
-          eyebrow="Actions"
-          title="Quick moderation"
-          description="No page switching: approve, reject, request more info, or link duplicates."
-        />
-        <div className="grid gap-4 md:grid-cols-2">
-          <form action={moderateBugReportAction} className="space-y-3 rounded-3xl bg-stone-100 p-4">
+      <Card padding="none">
+        <CardHeader>
+          <CardTitle>Moderation</CardTitle>
+          <CardDescription>Approve, reject, request more info, or link duplicates.</CardDescription>
+        </CardHeader>
+        <CardSection className="grid gap-4 md:grid-cols-2">
+          <form action={moderateBugReportAction} className="space-y-3 rounded-xl border border-slate-200 bg-slate-50/90 p-4">
             <input type="hidden" name="bugReportId" value={bug.id} />
-            <p className="text-sm font-medium text-stone-700">Set status</p>
+            <p className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">Status</p>
             <div className="flex flex-wrap gap-2">
-              <button className="rounded-full bg-stone-900 px-4 py-2 text-sm text-white" type="submit" name="decision" value="APPROVED">
+              <button className="rounded-lg bg-blue-600 px-4 py-2 text-sm text-white hover:bg-blue-500" type="submit" name="decision" value="APPROVED">
                 Send to manager
               </button>
-              <button className="rounded-full bg-stone-200 px-4 py-2 text-sm text-stone-900" type="submit" name="decision" value="NEEDS_INFO">
+              <button className="rounded-lg bg-slate-200 px-4 py-2 text-sm text-slate-900 hover:bg-slate-300" type="submit" name="decision" value="NEEDS_INFO">
                 Needs info
               </button>
-              <button className="rounded-full bg-stone-100 px-4 py-2 text-sm text-stone-900" type="submit" name="decision" value="REJECTED">
+              <button className="rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm text-slate-900 hover:bg-slate-50" type="submit" name="decision" value="REJECTED">
                 Reject
               </button>
             </div>
           </form>
 
-          <form action={moderateBugReportAction} className="space-y-3 rounded-3xl bg-stone-100 p-4">
+          <form action={moderateBugReportAction} className="space-y-3 rounded-xl border border-slate-200 bg-slate-50/90 p-4">
             <input type="hidden" name="bugReportId" value={bug.id} />
             <input type="hidden" name="decision" value="DUPLICATE" />
-            <p className="text-sm font-medium text-stone-700">Mark as duplicate of</p>
-            <select name="duplicateOfId" className="w-full rounded-2xl border border-stone-200 bg-white px-3 py-2 text-sm">
+            <p className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">Duplicate of</p>
+            <Select name="duplicateOfId" className="text-sm">
               <option value="">Select a bug…</option>
               {suggestions.map((row) => (
                 <option key={row.other.id} value={row.other.id}>
                   {percent(row.score)} · {row.other.severity} · {row.other.title}
                 </option>
               ))}
-            </select>
-            <button className="w-full rounded-full bg-stone-900 px-4 py-2 text-sm text-white" type="submit">
+            </Select>
+            <button className="w-full rounded-lg bg-blue-600 px-4 py-2 text-sm text-white hover:bg-blue-500" type="submit">
               Mark duplicate
             </button>
           </form>
-        </div>
+        </CardSection>
       </Card>
 
-      <Card className="space-y-4">
-        <SectionHeading
-          eyebrow="Duplicates"
-          title="Possible duplicates"
-          description="Suggested matches based on title similarity and matching feature/error/page."
-        />
-        {suggestions.length === 0 ? (
-          <p className="text-sm text-stone-600">No strong duplicates found in this campaign yet.</p>
-        ) : (
-          <div className="grid gap-3">
-            {suggestions.map((row) => (
-              <div key={row.other.id} className="rounded-3xl bg-stone-100 p-4">
+      <Card padding="none">
+        <CardHeader>
+          <CardTitle>Possible duplicates</CardTitle>
+          <CardDescription>Suggested matches from title similarity and shared fields.</CardDescription>
+        </CardHeader>
+        <CardSection className="space-y-3">
+          {suggestions.length === 0 ? (
+            <p className="text-sm text-slate-600">No strong duplicates found in this campaign yet.</p>
+          ) : (
+            suggestions.map((row) => (
+              <Card key={row.other.id} variant="muted" className="p-4">
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <div className="flex flex-wrap items-center gap-2">
                     <Badge>{percent(row.score)} match</Badge>
                     <Badge className={severityBadgeClass(row.other.severity)}>{row.other.severity}</Badge>
                     <Badge>{row.other.status}</Badge>
                   </div>
-                  <Link href={`/moderator/bugs/${row.other.id}`} className="text-sm text-stone-700 hover:underline">
+                  <Link href={`/moderator/bugs/${row.other.id}`} className="text-sm font-medium text-blue-700 hover:text-blue-800">
                     Open
                   </Link>
                 </div>
-                <p className="mt-2 font-medium text-stone-900">{row.other.title}</p>
-                <p className="mt-1 text-sm text-stone-600">Tester: {row.other.tester.name} · {row.other.createdAt.toLocaleString()}</p>
-              </div>
-            ))}
-          </div>
-        )}
+                <p className="mt-2 text-sm font-semibold text-slate-900">{row.other.title}</p>
+                <p className="mt-1 text-xs text-slate-600">
+                  Tester: {row.other.tester.name} · {row.other.createdAt.toLocaleString()}
+                </p>
+              </Card>
+            ))
+          )}
+        </CardSection>
       </Card>
     </div>
   );

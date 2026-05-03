@@ -1,7 +1,7 @@
 import { requireSession } from "@/lib/auth";
 import { getClientDashboardData } from "@/lib/dashboard-data";
 import { formatCurrency } from "@/lib/utils";
-import { Card } from "@/components/ui/card";
+import { Card, CardHeader, CardSection } from "@/components/ui/card";
 import { SectionHeading } from "@/components/sections/section-heading";
 import { StatGrid } from "@/components/sections/stat-grid";
 
@@ -12,61 +12,73 @@ export default async function ClientDashboardPage() {
   return (
     <div className="space-y-6">
       <StatGrid items={data.stats} />
-      <Card className="space-y-5">
-        <SectionHeading
-          eyebrow="Campaign portfolio"
-          title="Campaign overview"
-          description="This dashboard reflects the campaigns, tester allocation, and validated bug totals currently stored in the platform."
-        />
-        <div className="overflow-hidden rounded-3xl border border-stone-200">
-          <table className="min-w-full text-left text-sm">
-            <thead className="bg-stone-50 text-stone-500">
-              <tr>
-                <th className="px-4 py-3 font-medium">Campaign</th>
-                <th className="px-4 py-3 font-medium">Testers</th>
-                <th className="px-4 py-3 font-medium">Bugs</th>
-                <th className="px-4 py-3 font-medium">Countries</th>
-                <th className="px-4 py-3 font-medium">Estimated cost</th>
-              </tr>
-            </thead>
-            <tbody>
-              {data.campaigns.map((campaign) => (
-                <tr key={campaign.id} className="border-t border-stone-200">
-                  <td className="px-4 py-4 text-stone-900">{campaign.name}</td>
-                  <td className="px-4 py-4 text-stone-600">{campaign.testers}</td>
-                  <td className="px-4 py-4 text-stone-600">{campaign.bugs}</td>
-                  <td className="px-4 py-4 text-stone-600">{campaign.countries || "None"}</td>
-                  <td className="px-4 py-4 text-stone-600">{formatCurrency(campaign.price)}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+      <Card padding="none">
+        <CardHeader>
+          <SectionHeading
+            density="panel"
+            eyebrow="Campaign portfolio"
+            title="Campaign overview"
+            description="Campaigns, tester allocation, validated bugs, and estimates currently on record."
+          />
+        </CardHeader>
+        <CardSection className="border-t border-slate-100 px-0 pb-0 pt-0">
+          <div className="overflow-x-auto px-5 pb-5">
+            <div className="overflow-hidden rounded-xl border border-slate-200 bg-white">
+              <table className="saas-table">
+                <thead>
+                  <tr>
+                    <th>Campaign</th>
+                    <th>Testers</th>
+                    <th>Bugs</th>
+                    <th>Countries</th>
+                    <th>Estimated cost</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {data.campaigns.map((campaign) => (
+                    <tr key={campaign.id}>
+                      <td className="font-medium text-slate-900">{campaign.name}</td>
+                      <td>{campaign.testers}</td>
+                      <td>{campaign.bugs}</td>
+                      <td>{campaign.countries || "None"}</td>
+                      <td>{formatCurrency(campaign.price)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </CardSection>
       </Card>
-      <Card className="space-y-5">
-        <SectionHeading
-          eyebrow="Severity"
-          title="Validated bug mix"
-          description="Clients can quickly read where the risk concentration is without digging into raw reports."
-        />
-        <div className="grid gap-4 md:grid-cols-4">
-          <div className="rounded-3xl bg-stone-100 p-5">
-            <p className="text-sm text-stone-500">Critical</p>
-            <p className="mt-2 text-3xl font-semibold text-stone-900">{data.severity.critical}</p>
+      <Card padding="none">
+        <CardHeader>
+          <SectionHeading
+            density="panel"
+            eyebrow="Severity"
+            title="Validated bug mix"
+            description="See where risk concentrates without opening individual reports."
+          />
+        </CardHeader>
+        <CardSection>
+          <div className="grid gap-3 md:grid-cols-4">
+            <div className="rounded-xl border border-red-100 bg-red-50/90 px-4 py-3">
+              <p className="text-[11px] font-semibold uppercase tracking-wide text-red-700">Critical</p>
+              <p className="mt-1 tabular-nums text-2xl font-semibold text-slate-900">{data.severity.critical}</p>
+            </div>
+            <div className="rounded-xl border border-orange-100 bg-orange-50/90 px-4 py-3">
+              <p className="text-[11px] font-semibold uppercase tracking-wide text-orange-700">High</p>
+              <p className="mt-1 tabular-nums text-2xl font-semibold text-slate-900">{data.severity.high}</p>
+            </div>
+            <div className="rounded-xl border border-amber-100 bg-amber-50/90 px-4 py-3">
+              <p className="text-[11px] font-semibold uppercase tracking-wide text-amber-800">Medium</p>
+              <p className="mt-1 tabular-nums text-2xl font-semibold text-slate-900">{data.severity.medium}</p>
+            </div>
+            <div className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3">
+              <p className="text-[11px] font-semibold uppercase tracking-wide text-slate-600">Low</p>
+              <p className="mt-1 tabular-nums text-2xl font-semibold text-slate-900">{data.severity.low}</p>
+            </div>
           </div>
-          <div className="rounded-3xl bg-stone-100 p-5">
-            <p className="text-sm text-stone-500">High</p>
-            <p className="mt-2 text-3xl font-semibold text-stone-900">{data.severity.high}</p>
-          </div>
-          <div className="rounded-3xl bg-stone-100 p-5">
-            <p className="text-sm text-stone-500">Medium</p>
-            <p className="mt-2 text-3xl font-semibold text-stone-900">{data.severity.medium}</p>
-          </div>
-          <div className="rounded-3xl bg-stone-100 p-5">
-            <p className="text-sm text-stone-500">Low</p>
-            <p className="mt-2 text-3xl font-semibold text-stone-900">{data.severity.low}</p>
-          </div>
-        </div>
+        </CardSection>
       </Card>
     </div>
   );

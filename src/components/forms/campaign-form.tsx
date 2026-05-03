@@ -12,6 +12,7 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import { Card, CardDescription, CardHeader, CardSection, CardTitle } from "@/components/ui/card";
 
 const initialState: ActionState = { success: false };
 
@@ -43,11 +44,17 @@ export function CampaignForm() {
 
   return (
     <div className="grid gap-6 xl:grid-cols-[1.2fr_0.8fr]">
-      <form action={formAction} className="space-y-5 rounded-[28px] border border-stone-200 bg-white p-6">
-        <input type="hidden" name="selectedPlatforms" value={selectedPlatforms.join(", ")} />
-        <input type="hidden" name="selectedBrowsers" value={selectedBrowsers.join(", ")} />
-        <input type="hidden" name="selectedCountries" value={selectedCountries.join(", ")} />
-        <div className="grid gap-4 md:grid-cols-2">
+      <Card padding="none">
+        <CardHeader>
+          <CardTitle>Campaign scope</CardTitle>
+          <CardDescription>Define tester coverage, environments, and tasks for this test cycle.</CardDescription>
+        </CardHeader>
+        <CardSection className="border-t border-slate-100/90">
+          <form action={formAction} className="space-y-6">
+            <input type="hidden" name="selectedPlatforms" value={selectedPlatforms.join(", ")} />
+            <input type="hidden" name="selectedBrowsers" value={selectedBrowsers.join(", ")} />
+            <input type="hidden" name="selectedCountries" value={selectedCountries.join(", ")} />
+            <div className="grid gap-4 md:grid-cols-2">
           <div className="space-y-2 md:col-span-2">
             <label className="text-sm font-medium text-stone-700" htmlFor="projectName">
               Project name
@@ -102,7 +109,11 @@ export function CampaignForm() {
                     key={platform}
                     type="button"
                     onClick={() => toggleValue(platform, selectedPlatforms, setSelectedPlatforms)}
-                    className={active ? "rounded-full bg-stone-900 px-4 py-2 text-sm text-white" : "rounded-full bg-stone-100 px-4 py-2 text-sm text-stone-700"}
+                    className={
+                      active
+                        ? "rounded-lg border border-blue-200 bg-blue-50 px-3 py-1.5 text-sm font-medium text-blue-700"
+                        : "rounded-lg border border-slate-200 bg-slate-50 px-3 py-1.5 text-sm text-slate-700"
+                    }
                   >
                     {platform}
                   </button>
@@ -122,7 +133,11 @@ export function CampaignForm() {
                     key={browser}
                     type="button"
                     onClick={() => toggleValue(browser, selectedBrowsers, setSelectedBrowsers)}
-                    className={active ? "rounded-full bg-stone-900 px-4 py-2 text-sm text-white" : "rounded-full bg-stone-100 px-4 py-2 text-sm text-stone-700"}
+                    className={
+                      active
+                        ? "rounded-lg border border-blue-200 bg-blue-50 px-3 py-1.5 text-sm font-medium text-blue-700"
+                        : "rounded-lg border border-slate-200 bg-slate-50 px-3 py-1.5 text-sm text-slate-700"
+                    }
                   >
                     {browser}
                   </button>
@@ -142,7 +157,11 @@ export function CampaignForm() {
                     key={country}
                     type="button"
                     onClick={() => toggleValue(country, selectedCountries, setSelectedCountries)}
-                    className={active ? "rounded-full bg-stone-900 px-4 py-2 text-sm text-white" : "rounded-full bg-stone-100 px-4 py-2 text-sm text-stone-700"}
+                    className={
+                      active
+                        ? "rounded-lg border border-blue-200 bg-blue-50 px-3 py-1.5 text-sm font-medium text-blue-700"
+                        : "rounded-lg border border-slate-200 bg-slate-50 px-3 py-1.5 text-sm text-slate-700"
+                    }
                   >
                     {country}
                   </button>
@@ -194,21 +213,24 @@ export function CampaignForm() {
             />
           </div>
         </div>
-        {state.message ? <p className="text-sm text-red-700">{state.message}</p> : null}
-        <SubmitButton label="Launch campaign" pendingLabel="Launching campaign..." />
-      </form>
+            {state.message ? <p className="text-sm text-red-700">{state.message}</p> : null}
+            <SubmitButton label="Launch campaign" pendingLabel="Launching campaign..." />
+          </form>
+        </CardSection>
+      </Card>
 
-      <aside className="space-y-5 rounded-[28px] border border-stone-200 bg-white p-6">
-        <div>
-          <p className="text-xs uppercase tracking-[0.2em] text-stone-500">Pricing preview</p>
-          <h3 className="mt-2 font-serif text-3xl text-stone-900">
+      <Card padding="none" variant="muted">
+        <CardHeader>
+          <CardTitle>Pricing preview</CardTitle>
+          <CardDescription>
+            Updates automatically from testers, countries, browsers, and device targets.
+          </CardDescription>
+          <p className="mt-3 text-3xl font-semibold tracking-tight text-slate-900 tabular-nums">
             {formatCurrency(preview.estimatedCost)}
-          </h3>
-          <p className="mt-3 text-sm leading-6 text-stone-600">
-            The estimate updates automatically from tester counts, target countries, browsers, and device types.
           </p>
-        </div>
-        <div className="space-y-3 rounded-3xl bg-stone-100 p-5 text-sm text-stone-700">
+        </CardHeader>
+        <CardSection className="space-y-5 border-t border-slate-100/90">
+        <div className="space-y-3 rounded-xl border border-slate-200 bg-white p-4 text-sm text-slate-700">
           <div className="flex items-center justify-between">
             <span>Crowd testers</span>
             <span>{formatCurrency(preview.crowdSubtotal)}</span>
@@ -229,13 +251,13 @@ export function CampaignForm() {
             <span>Browser multiplier</span>
             <span>x{preview.browserMultiplier.toFixed(2)}</span>
           </div>
-          <div className="flex items-center justify-between border-t border-stone-200 pt-3 font-semibold text-stone-900">
+          <div className="flex items-center justify-between border-t border-slate-200 pt-3 font-semibold text-slate-900">
             <span>Moderator slots</span>
             <span>{preview.moderatorSlots}</span>
           </div>
         </div>
-        <div className="rounded-3xl border border-dashed border-stone-300 p-5 text-sm leading-6 text-stone-600">
-          <p className="font-medium text-stone-900">Selected scope</p>
+        <div className="rounded-xl border border-dashed border-slate-300 bg-white/60 p-4 text-sm leading-6 text-slate-600">
+          <p className="font-medium text-slate-900">Selected scope</p>
           <div className="mt-3 flex flex-wrap gap-2">
             {selectedCountries.map((country) => (
               <Badge key={country}>{country}</Badge>
@@ -248,7 +270,8 @@ export function CampaignForm() {
             ))}
           </div>
         </div>
-      </aside>
+        </CardSection>
+      </Card>
     </div>
   );
 }

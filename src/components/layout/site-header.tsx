@@ -8,9 +8,9 @@ export async function SiteHeader() {
   const session = await getCurrentSession();
 
   return (
-    <header className="border-b border-stone-200/80 bg-stone-50/90 backdrop-blur">
-      <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-6 py-4">
-        <Link href="/" className="text-lg font-semibold tracking-tight text-stone-900">
+    <header className="border-b border-slate-200 bg-white/95 backdrop-blur">
+      <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-6 py-4">
+        <Link href="/" className="text-lg font-semibold tracking-tight text-blue-700">
           MS test
         </Link>
         <nav className="hidden items-center gap-6 md:flex">
@@ -18,7 +18,7 @@ export async function SiteHeader() {
             <Link
               key={item.href}
               href={item.href}
-              className="text-sm text-stone-600 transition hover:text-stone-900"
+              className="text-sm font-medium text-slate-600 transition hover:text-blue-700"
             >
               {item.label}
             </Link>
@@ -31,7 +31,7 @@ export async function SiteHeader() {
             </Link>
           ) : (
             <>
-              <Link href="/login" className="text-sm text-stone-600 hover:text-stone-900">
+              <Link href="/login" className="text-sm font-medium text-slate-600 hover:text-blue-700">
                 Login
               </Link>
               <Link href="/signup">

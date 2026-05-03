@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, type ReactNode, type RefObject } from "react";
 // @ts-ignore
 import domtoimage from "dom-to-image";
 import {
@@ -17,6 +17,13 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardDescription,
+  CardHeader,
+  CardSection,
+  CardTitle,
+} from "@/components/ui/card";
 
 type BugEnvironment = {
   device?: string;
@@ -55,6 +62,41 @@ const COLORS = {
 };
 
 const CHART_COLORS = ["#3b82f6", "#10b981", "#f59e0b", "#ef4444", "#8b5cf6", "#ec4899", "#06b6d4", "#84cc16"];
+
+function AnalyticsChartCard({
+  title,
+  chartRef,
+  children,
+  onDownloadSVG,
+  onDownloadPNG,
+}: {
+  title: string;
+  chartRef: RefObject<HTMLDivElement | null>;
+  children: ReactNode;
+  onDownloadSVG: () => void;
+  onDownloadPNG: () => void;
+}) {
+  return (
+    <Card padding="none">
+      <CardHeader className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <CardTitle>{title}</CardTitle>
+        <div className="flex flex-wrap gap-2">
+          <Button variant="secondary" onClick={onDownloadSVG}>
+            Download SVG
+          </Button>
+          <Button variant="secondary" onClick={onDownloadPNG}>
+            Download PNG
+          </Button>
+        </div>
+      </CardHeader>
+      <CardSection className="border-t border-slate-100/90">
+        <div ref={chartRef} className="h-80">
+          {children}
+        </div>
+      </CardSection>
+    </Card>
+  );
+}
 
 export function BugAnalytics({ bugReports, campaignName }: BugAnalyticsProps) {
   const severityChartRef = useRef<HTMLDivElement>(null);
@@ -164,45 +206,17 @@ export function BugAnalytics({ bugReports, campaignName }: BugAnalyticsProps) {
     }
   };
 
-  const ChartCard = ({ 
-    title, 
-    ref, 
-    children, 
-    onDownloadSVG, 
-    onDownloadPNG 
-  }: { 
-    title: string; 
-    ref: React.RefObject<HTMLDivElement | null>; 
-    children: React.ReactNode;
-    onDownloadSVG: () => void;
-    onDownloadPNG: () => void;
-  }) => (
-    <div className="border border-gray-200 bg-white p-4">
-      <div className="flex items-center justify-between mb-4">
-        <h3 className="font-medium">{title}</h3>
-        <div className="flex gap-2">
-          <Button variant="secondary" onClick={onDownloadSVG}>
-            Download SVG
-          </Button>
-          <Button variant="secondary" onClick={onDownloadPNG}>
-            Download PNG
-          </Button>
-        </div>
-      </div>
-      <div ref={ref} className="h-80">
-        {children}
-      </div>
-    </div>
-  );
-
   return (
-    <div className="space-y-6">
-      <h2 className="text-xl font-medium">Bug Analytics</h2>
-      
-      <div className="grid gap-6 md:grid-cols-2">
-        <ChartCard
+    <Card padding="none">
+      <CardHeader>
+        <CardTitle>Bug analytics</CardTitle>
+        <CardDescription>Distribution views for {campaignName}</CardDescription>
+      </CardHeader>
+      <CardSection className="border-t border-slate-100/90">
+        <div className="grid gap-4 md:grid-cols-2">
+        <AnalyticsChartCard
           title="Severity Distribution"
-          ref={severityChartRef}
+          chartRef={severityChartRef}
           onDownloadSVG={() => downloadChart(severityChartRef, "Severity Distribution")}
           onDownloadPNG={() => downloadAsPNG(severityChartRef, "Severity Distribution")}
         >
@@ -226,11 +240,11 @@ export function BugAnalytics({ bugReports, campaignName }: BugAnalyticsProps) {
               <Legend />
             </PieChart>
           </ResponsiveContainer>
-        </ChartCard>
+        </AnalyticsChartCard>
 
-        <ChartCard
+        <AnalyticsChartCard
           title="Country Distribution"
-          ref={countryChartRef}
+          chartRef={countryChartRef}
           onDownloadSVG={() => downloadChart(countryChartRef, "Country Distribution")}
           onDownloadPNG={() => downloadAsPNG(countryChartRef, "Country Distribution")}
         >
@@ -244,11 +258,11 @@ export function BugAnalytics({ bugReports, campaignName }: BugAnalyticsProps) {
               <Bar dataKey="value" fill="#3b82f6" />
             </BarChart>
           </ResponsiveContainer>
-        </ChartCard>
+        </AnalyticsChartCard>
 
-        <ChartCard
+        <AnalyticsChartCard
           title="Device Distribution"
-          ref={deviceChartRef}
+          chartRef={deviceChartRef}
           onDownloadSVG={() => downloadChart(deviceChartRef, "Device Distribution")}
           onDownloadPNG={() => downloadAsPNG(deviceChartRef, "Device Distribution")}
         >
@@ -262,11 +276,11 @@ export function BugAnalytics({ bugReports, campaignName }: BugAnalyticsProps) {
               <Bar dataKey="value" fill="#10b981" />
             </BarChart>
           </ResponsiveContainer>
-        </ChartCard>
+        </AnalyticsChartCard>
 
-        <ChartCard
+        <AnalyticsChartCard
           title="Error Type Distribution"
-          ref={errorTypeChartRef}
+          chartRef={errorTypeChartRef}
           onDownloadSVG={() => downloadChart(errorTypeChartRef, "Error Type Distribution")}
           onDownloadPNG={() => downloadAsPNG(errorTypeChartRef, "Error Type Distribution")}
         >
@@ -280,8 +294,9 @@ export function BugAnalytics({ bugReports, campaignName }: BugAnalyticsProps) {
               <Bar dataKey="value" fill="#f59e0b" />
             </BarChart>
           </ResponsiveContainer>
-        </ChartCard>
-      </div>
-    </div>
+        </AnalyticsChartCard>
+        </div>
+      </CardSection>
+    </Card>
   );
 }

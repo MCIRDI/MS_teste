@@ -6,7 +6,14 @@ import { getManagerDashboardData } from "@/lib/dashboard-data";
 import { makeGroupKey, severityRank } from "@/lib/moderation";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
+import {
+  Card,
+  CardFooter,
+  CardHeader,
+  CardMeta,
+  CardMetaItem,
+  CardSection,
+} from "@/components/ui/card";
 import { SectionHeading } from "@/components/sections/section-heading";
 
 const bugTypes = [
@@ -84,7 +91,7 @@ export default async function ManagerValidationPage({
         return "bg-amber-100 text-amber-900";
       case "LOW":
       default:
-        return "bg-stone-100 text-stone-700";
+        return "bg-slate-100 text-slate-700";
     }
   };
 
@@ -101,48 +108,53 @@ export default async function ManagerValidationPage({
         }
       />
 
-      <Card className="space-y-4">
-        <div className="flex flex-wrap items-center gap-2">
-          <span className="text-sm font-medium text-stone-700">Type</span>
-          <div className="flex flex-wrap gap-2">
-            <Link href={`/manager/validation?type=all`}>
-              <Badge className={type === "all" || !type ? "bg-stone-900 text-white" : ""}>All</Badge>
-            </Link>
-            {bugTypes.map((label) => (
-              <Link key={label} href={`/manager/validation?type=${encodeURIComponent(label)}`}>
-                <Badge className={type === label ? "bg-stone-900 text-white" : ""}>{label}</Badge>
+      <Card padding="none">
+        <CardHeader>
+          <SectionHeading density="panel" eyebrow="Filters" title="Report type" description="Narrow the inbox by defect category." />
+        </CardHeader>
+        <CardSection className="border-t border-slate-100/90">
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">Type</span>
+            <div className="flex flex-wrap gap-2">
+              <Link href="/manager/validation?type=all">
+                <Badge className={type === "all" || !type ? "border-transparent bg-blue-600 text-white" : ""}>All</Badge>
               </Link>
-            ))}
+              {bugTypes.map((label) => (
+                <Link key={label} href={`/manager/validation?type=${encodeURIComponent(label)}`}>
+                  <Badge className={type === label ? "border-transparent bg-blue-600 text-white" : ""}>{label}</Badge>
+                </Link>
+              ))}
+            </div>
           </div>
-        </div>
+        </CardSection>
       </Card>
 
       {filteredGroups.length === 0 ? (
-        <Card>
-          <p className="text-sm text-stone-600">Nothing in this tab right now.</p>
+        <Card variant="muted">
+          <p className="text-sm text-slate-600">No bugs match this filter.</p>
         </Card>
       ) : (
         <div className="grid gap-4">
           {filteredGroups.map((group) => (
-            <Card key={`${group.campaignId}:${group.groupKey}`} className="grid gap-4 md:grid-cols-[1fr_auto] md:items-start">
-              <div className="space-y-2">
+            <Card key={`${group.campaignId}:${group.groupKey}`} padding="none">
+              <CardSection>
                 <div className="flex flex-wrap items-center gap-2">
                   <Badge className={severityBadgeClass(group.severity)}>{group.severity}</Badge>
                   {group.bugType ? <Badge>{group.bugType}</Badge> : null}
                   {group.count > 1 ? <Badge>Grouped {group.count}</Badge> : null}
                   {group.attachmentCount ? <Badge>Files {group.attachmentCount}</Badge> : null}
                 </div>
-                <p className="text-lg font-semibold text-stone-900">{group.title}</p>
-                {group.pageUrl ? <p className="text-sm text-stone-600">URL: {group.pageUrl}</p> : null}
-                <p className="text-sm text-stone-600">Updated {group.latestAt.toLocaleString()}</p>
-              </div>
-              <div className="flex flex-col gap-2">
+                <p className="mt-3 text-lg font-semibold text-slate-900">{group.title}</p>
+                <CardMeta className="mt-4">
+                  <CardMetaItem label="URL">{group.pageUrl ?? "—"}</CardMetaItem>
+                  <CardMetaItem label="Updated">{group.latestAt.toLocaleString()}</CardMetaItem>
+                </CardMeta>
+              </CardSection>
+              <CardFooter className="flex justify-end">
                 <Link href={`/manager/bugs/${group.representative.id}`}>
-                  <Button variant="secondary" className="w-full">
-                    Open details
-                  </Button>
+                  <Button variant="secondary">Open details</Button>
                 </Link>
-              </div>
+              </CardFooter>
             </Card>
           ))}
         </div>

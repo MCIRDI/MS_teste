@@ -5,7 +5,7 @@ import { prisma } from "@/lib/prisma";
 import { getTesterSetupState } from "@/lib/tester-setup";
 import { BugReportForm } from "@/components/forms/bug-report-form";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
+import { Card, CardDescription, CardFooter, CardHeader, CardSection, CardTitle } from "@/components/ui/card";
 import { SectionHeading } from "@/components/sections/section-heading";
 
 export default async function TesterBugNewPage({
@@ -26,11 +26,16 @@ export default async function TesterBugNewPage({
           title="Complete your testing info"
           description="Bug reports automatically include your device environment. Add it once and we reuse it."
         />
-        <Card className="space-y-3">
-          <p className="text-sm text-stone-600">{setup.reason ?? "Tester info is incomplete."}</p>
-          <Link href={`/tester/setup?next=${next}`}>
-            <Button>Complete setup</Button>
-          </Link>
+        <Card padding="none">
+          <CardHeader>
+            <CardTitle>Profile incomplete</CardTitle>
+            <CardDescription>{setup.reason ?? "Tester info is incomplete."}</CardDescription>
+          </CardHeader>
+          <CardFooter className="flex justify-start">
+            <Link href={`/tester/setup?next=${next}`}>
+              <Button>Complete setup</Button>
+            </Link>
+          </CardFooter>
         </Card>
       </div>
     );
@@ -77,24 +82,29 @@ export default async function TesterBugNewPage({
       <SectionHeading
         eyebrow="Bug reporting"
         title={`Submit a bug report for ${selectedAssignment.campaign.projectName}`}
-        description="Keep it simple: type, title, URL (optional), description, steps, severity, and optional attachments."
+        description="Type, title, optional URL, description, steps, severity, and attachments."
       />
       {assignments.length > 1 ? (
-        <Card className="space-y-3">
-          <p className="text-sm font-medium text-stone-900">Other accepted campaigns</p>
-          <div className="flex flex-wrap gap-2">
-            {assignments.map((assignment) => (
-              <Link key={assignment.id} href={`/tester/bugs/new?campaignId=${assignment.campaignId}`}>
-                <Button
-                  variant={
-                    assignment.campaignId === selectedAssignment.campaignId ? "primary" : "secondary"
-                  }
-                >
-                  {assignment.campaign.projectName}
-                </Button>
-              </Link>
-            ))}
-          </div>
+        <Card padding="none">
+          <CardHeader>
+            <CardTitle>Campaign</CardTitle>
+            <CardDescription>Switch context if you are testing multiple projects.</CardDescription>
+          </CardHeader>
+          <CardSection className="border-t border-slate-100/90">
+            <div className="flex flex-wrap gap-2">
+              {assignments.map((assignment) => (
+                <Link key={assignment.id} href={`/tester/bugs/new?campaignId=${assignment.campaignId}`}>
+                  <Button
+                    variant={
+                      assignment.campaignId === selectedAssignment.campaignId ? "primary" : "secondary"
+                    }
+                  >
+                    {assignment.campaign.projectName}
+                  </Button>
+                </Link>
+              ))}
+            </div>
+          </CardSection>
         </Card>
       ) : null}
       <BugReportForm campaignId={selectedAssignment.campaignId} />

@@ -3,7 +3,15 @@ import Link from "next/link";
 import { requireSession } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
+import {
+  Card,
+  CardDescription,
+  CardHeader,
+  CardMeta,
+  CardMetaItem,
+  CardSection,
+  CardTitle,
+} from "@/components/ui/card";
 import { SectionHeading } from "@/components/sections/section-heading";
 
 export default async function ModeratorCampaignsPage() {
@@ -44,8 +52,8 @@ export default async function ModeratorCampaignsPage() {
         }
       />
       {assignments.length === 0 ? (
-        <Card>
-          <p className="text-sm text-stone-600">You are not assigned to any campaigns yet.</p>
+        <Card variant="muted">
+          <p className="text-sm text-slate-600">You are not assigned to any campaigns yet.</p>
         </Card>
       ) : (
         <div className="grid gap-4">
@@ -58,16 +66,25 @@ export default async function ModeratorCampaignsPage() {
             const rejected = reports.filter((bug) => bug.status === "REJECTED").length;
 
             return (
-              <Card key={assignment.id} className="grid gap-3 md:grid-cols-[1fr_auto] md:items-center">
-                <div className="space-y-1">
-                  <p className="font-serif text-2xl text-stone-900">{assignment.campaign.projectName}</p>
-                  <p className="text-sm text-stone-600">
-                    Pending: {pending} · Needs info: {needsInfo} · Duplicates: {duplicates} · Approved: {approved} · Rejected: {rejected}
-                  </p>
-                </div>
-                <Link href={`/moderator/campaigns/${assignment.campaignId}`}>
-                  <Button>Open campaign</Button>
-                </Link>
+              <Card key={assignment.id} padding="none">
+                <CardHeader className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+                  <div>
+                    <CardTitle className="text-lg">{assignment.campaign.projectName}</CardTitle>
+                    <CardDescription>Inbox counts across active moderation states</CardDescription>
+                  </div>
+                  <Link href={`/moderator/campaigns/${assignment.campaignId}`} className="shrink-0">
+                    <Button>Open campaign</Button>
+                  </Link>
+                </CardHeader>
+                <CardSection className="border-t border-slate-100/90 bg-white/40">
+                  <CardMeta className="sm:grid-cols-5">
+                    <CardMetaItem label="Pending">{pending}</CardMetaItem>
+                    <CardMetaItem label="Needs info">{needsInfo}</CardMetaItem>
+                    <CardMetaItem label="Duplicates">{duplicates}</CardMetaItem>
+                    <CardMetaItem label="Approved">{approved}</CardMetaItem>
+                    <CardMetaItem label="Rejected">{rejected}</CardMetaItem>
+                  </CardMeta>
+                </CardSection>
               </Card>
             );
           })}
@@ -76,4 +93,3 @@ export default async function ModeratorCampaignsPage() {
     </div>
   );
 }
-

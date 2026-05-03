@@ -4,7 +4,16 @@ import { requireSession } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
+import {
+  Card,
+  CardDescription,
+  CardHeader,
+  CardMeta,
+  CardMetaItem,
+  CardProse,
+  CardSection,
+  CardTitle,
+} from "@/components/ui/card";
 import { SectionHeading } from "@/components/sections/section-heading";
 
 type BugEnvironment = {
@@ -61,7 +70,7 @@ export default async function ManagerBugDetailPage({
         return "bg-amber-100 text-amber-900";
       case "LOW":
       default:
-        return "bg-stone-100 text-stone-700";
+        return "bg-slate-100 text-slate-700";
     }
   };
 
@@ -78,69 +87,76 @@ export default async function ManagerBugDetailPage({
         }
       />
 
-      <Card className="space-y-4">
-        <div className="flex flex-wrap items-center gap-2">
-          <Badge className={severityBadgeClass(bug.severity)}>{bug.severity}</Badge>
-          {bug.errorType ? <Badge>{bug.errorType}</Badge> : null}
-          <Badge>{bug.status}</Badge>
-          {bug.pageUrl ? <Badge>URL: {bug.pageUrl}</Badge> : null}
-        </div>
-        <div className="grid gap-4 md:grid-cols-2">
-          <div className="space-y-2">
-            <p className="text-sm font-medium text-stone-700">Tester</p>
-            <p className="text-sm text-stone-700">{bug.tester.name}</p>
-            <p className="text-sm text-stone-600">{bug.tester.email}</p>
+      <Card padding="none">
+        <CardHeader>
+          <div className="flex flex-wrap items-center gap-2">
+            <Badge className={severityBadgeClass(bug.severity)}>{bug.severity}</Badge>
+            {bug.errorType ? <Badge>{bug.errorType}</Badge> : null}
+            <Badge>{bug.status}</Badge>
+            {bug.pageUrl ? <Badge className="max-w-full truncate">URL: {bug.pageUrl}</Badge> : null}
           </div>
-          <div className="space-y-2">
-            <p className="text-sm font-medium text-stone-700">Environment</p>
-            <p className="text-sm text-stone-700">Country: {env.country ?? "—"}</p>
-            <p className="text-sm text-stone-700">Device: {env.device ?? "—"}</p>
-            <p className="text-sm text-stone-700">OS: {env.osVersion ?? "—"}</p>
-            <p className="text-sm text-stone-700">Browser: {env.browser ?? "—"}</p>
-            <p className="text-sm text-stone-700">Resolution: {env.screenResolution ?? "—"}</p>
-          </div>
-        </div>
+          <CardTitle className="mt-3">Summary</CardTitle>
+          <CardDescription>Reporter and environment captured with this report.</CardDescription>
+        </CardHeader>
+        <CardSection>
+          <CardMeta>
+            <CardMetaItem label="Tester">{bug.tester.name}</CardMetaItem>
+            <CardMetaItem label="Email">{bug.tester.email}</CardMetaItem>
+            <CardMetaItem label="Country">{env.country ?? "—"}</CardMetaItem>
+            <CardMetaItem label="Device">{env.device ?? "—"}</CardMetaItem>
+            <CardMetaItem label="OS">{env.osVersion ?? "—"}</CardMetaItem>
+            <CardMetaItem label="Browser">{env.browser ?? "—"}</CardMetaItem>
+            <CardMetaItem label="Resolution">{env.screenResolution ?? "—"}</CardMetaItem>
+          </CardMeta>
+        </CardSection>
       </Card>
 
-      <Card className="space-y-4">
-        <SectionHeading eyebrow="Report" title="Details" description="As provided by the moderator/tester." />
-        <div className="space-y-4">
+      <Card padding="none">
+        <CardHeader>
+          <CardTitle>Report body</CardTitle>
+          <CardDescription>As provided by the moderator and tester.</CardDescription>
+        </CardHeader>
+        <CardSection className="space-y-5">
           <div>
-            <p className="text-sm font-medium text-stone-700">Description</p>
-            <p className="mt-2 whitespace-pre-wrap text-sm leading-7 text-stone-800">{bug.description}</p>
+            <p className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">Description</p>
+            <CardProse className="mt-2 whitespace-pre-wrap">{bug.description}</CardProse>
           </div>
           <div>
-            <p className="text-sm font-medium text-stone-700">Reproduction steps</p>
-            <p className="mt-2 whitespace-pre-wrap text-sm leading-7 text-stone-800">{bug.reproductionSteps}</p>
+            <p className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">Reproduction steps</p>
+            <CardProse className="mt-2 whitespace-pre-wrap">{bug.reproductionSteps}</CardProse>
           </div>
           {bug.moderationNotes ? (
             <div>
-              <p className="text-sm font-medium text-stone-700">Moderator notes</p>
-              <p className="mt-2 whitespace-pre-wrap text-sm leading-7 text-stone-800">{bug.moderationNotes}</p>
+              <p className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">Moderator notes</p>
+              <CardProse className="mt-2 whitespace-pre-wrap">{bug.moderationNotes}</CardProse>
             </div>
           ) : null}
-        </div>
+        </CardSection>
       </Card>
 
-      <Card className="space-y-4">
-        <SectionHeading eyebrow="Files" title="Attachments" description="Download any files linked to this report." />
-        {bug.attachments.length === 0 ? (
-          <p className="text-sm text-stone-600">No attachments.</p>
-        ) : (
-          <div className="grid gap-2">
-            {bug.attachments.map((attachment) => (
-              <Link
-                key={attachment.id}
-                href={`/api/attachments/${attachment.id}`}
-                className="rounded-2xl bg-stone-100 px-4 py-3 text-sm text-stone-800 hover:bg-stone-200"
-              >
-                {attachment.originalName}
-              </Link>
-            ))}
-          </div>
-        )}
+      <Card padding="none">
+        <CardHeader>
+          <CardTitle>Attachments</CardTitle>
+          <CardDescription>Download any files linked to this report.</CardDescription>
+        </CardHeader>
+        <CardSection>
+          {bug.attachments.length === 0 ? (
+            <p className="text-sm text-slate-600">No attachments.</p>
+          ) : (
+            <div className="grid gap-2">
+              {bug.attachments.map((attachment) => (
+                <Link
+                  key={attachment.id}
+                  href={`/api/attachments/${attachment.id}`}
+                  className="rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-medium text-slate-800 transition hover:border-slate-300 hover:bg-slate-100"
+                >
+                  {attachment.originalName}
+                </Link>
+              ))}
+            </div>
+          )}
+        </CardSection>
       </Card>
     </div>
   );
 }
-

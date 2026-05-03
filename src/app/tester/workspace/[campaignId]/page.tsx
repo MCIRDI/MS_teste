@@ -4,7 +4,15 @@ import { requireSession } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { toStringArray } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
+import {
+  Card,
+  CardDescription,
+  CardHeader,
+  CardMeta,
+  CardMetaItem,
+  CardSection,
+  CardTitle,
+} from "@/components/ui/card";
 import { SectionHeading } from "@/components/sections/section-heading";
 
 export default async function TesterWorkspacePage({
@@ -52,49 +60,68 @@ export default async function TesterWorkspacePage({
       <SectionHeading
         eyebrow="Workspace"
         title={campaign.projectName}
-        description="Each workspace centralizes instructions, software access, testing tasks, and the bug submission flow."
+        description="Instructions, tasks, access details, and your submissions for this campaign."
         action={
           <Link href={`/tester/bugs/new?campaignId=${campaignId}`}>
             <Button>Submit bug</Button>
           </Link>
         }
       />
-      <div className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
-        <Card className="space-y-4">
-          <h2 className="font-serif text-3xl text-stone-900">Campaign instructions</h2>
-          <p className="text-sm leading-7 text-stone-600">
-            {campaign.description}
-          </p>
-          <p className="text-sm leading-7 text-stone-600">
-            Shared access URL: {campaign.websiteUrl ?? "Uploaded build only"}
-          </p>
-          <p className="text-sm leading-7 text-stone-600">
-            Target countries: {toStringArray(campaign.selectedCountries).join(", ") || "None"}
-          </p>
+      <div className="grid gap-4 lg:grid-cols-2">
+        <Card padding="none">
+          <CardHeader>
+            <CardTitle>Campaign instructions</CardTitle>
+            <CardDescription>Scope, access, and targeting</CardDescription>
+          </CardHeader>
+          <CardSection className="border-t border-slate-100/90">
+            <p className="text-sm leading-relaxed text-slate-600">{campaign.description}</p>
+            <CardMeta className="mt-5">
+              <CardMetaItem label="Access URL">{campaign.websiteUrl ?? "Uploaded build only"}</CardMetaItem>
+              <CardMetaItem label="Countries">{toStringArray(campaign.selectedCountries).join(", ") || "None"}</CardMetaItem>
+            </CardMeta>
+          </CardSection>
         </Card>
-        <Card className="space-y-4">
-          <h2 className="font-serif text-3xl text-stone-900">Testing tasks</h2>
-          <ul className="space-y-3 text-sm leading-7 text-stone-600">
-            {campaign.tasks.map((task) => (
-              <li key={task.id} className="rounded-2xl bg-stone-100 px-4 py-3">
-                {task.description}
-              </li>
-            ))}
-          </ul>
+        <Card padding="none">
+          <CardHeader>
+            <CardTitle>Testing tasks</CardTitle>
+            <CardDescription>Work through these in order unless instructed otherwise</CardDescription>
+          </CardHeader>
+          <CardSection className="space-y-2 border-t border-slate-100/90">
+            <ol className="list-none space-y-2">
+              {campaign.tasks.map((task, index) => (
+                <li
+                  key={task.id}
+                  className="flex gap-3 rounded-xl border border-slate-100 bg-slate-50/80 px-4 py-3 text-sm leading-relaxed text-slate-700"
+                >
+                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-blue-100 text-xs font-semibold text-blue-800">
+                    {index + 1}
+                  </span>
+                  <span className="pt-0.5">{task.description}</span>
+                </li>
+              ))}
+            </ol>
+          </CardSection>
         </Card>
       </div>
-      <Card className="space-y-4">
-        <h2 className="font-serif text-3xl text-stone-900">Your submitted bugs</h2>
-        {campaign.bugReports.length === 0 ? (
-          <p className="text-sm text-stone-600">No bug reports submitted for this campaign yet.</p>
-        ) : (
-          campaign.bugReports.map((bug) => (
-            <div key={bug.id} className="rounded-2xl bg-stone-100 p-4">
-              <p className="font-medium text-stone-900">{bug.title}</p>
-              <p className="text-sm text-stone-600">{bug.status} · {bug.severity}</p>
-            </div>
-          ))
-        )}
+      <Card padding="none">
+        <CardHeader>
+          <CardTitle>Your submitted bugs</CardTitle>
+          <CardDescription>Latest activity first</CardDescription>
+        </CardHeader>
+        <CardSection className="space-y-3 border-t border-slate-100/90">
+          {campaign.bugReports.length === 0 ? (
+            <p className="text-sm text-slate-600">No bug reports submitted for this campaign yet.</p>
+          ) : (
+            campaign.bugReports.map((bug) => (
+              <Card key={bug.id} variant="muted">
+                <p className="font-semibold text-slate-900">{bug.title}</p>
+                <p className="mt-1 text-xs font-medium uppercase tracking-wide text-slate-500">
+                  {bug.status} · {bug.severity}
+                </p>
+              </Card>
+            ))
+          )}
+        </CardSection>
       </Card>
     </div>
   );

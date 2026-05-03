@@ -3,7 +3,16 @@ import Link from "next/link";
 import { acceptInvitationAction } from "@/app/actions/campaigns";
 import { requireSession } from "@/lib/auth";
 import { getManagerDashboardData } from "@/lib/dashboard-data";
-import { Card } from "@/components/ui/card";
+import {
+  Card,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardMeta,
+  CardMetaItem,
+  CardSection,
+  CardTitle,
+} from "@/components/ui/card";
 import { LiveRefresh } from "@/components/live-refresh";
 import { SectionHeading } from "@/components/sections/section-heading";
 import { StatGrid } from "@/components/sections/stat-grid";
@@ -17,76 +26,87 @@ export default async function ManagerDashboardPage() {
     <div className="space-y-6">
       <LiveRefresh />
       <StatGrid items={data.stats} />
-      <Card className="space-y-4">
-        <SectionHeading
-          eyebrow="Invitations"
-          title="Available manager campaigns"
-          description="The first test manager to accept a campaign becomes the assigned owner for delivery and final validation."
-        />
-        {data.pendingInvitations.length === 0 ? (
-          <p className="text-sm text-stone-600">No pending manager invitations right now.</p>
-        ) : (
-          <div className="grid gap-4">
-            {data.pendingInvitations.map((invitation) => (
-              <div
-                key={invitation.id}
-                className="grid gap-4 rounded-3xl bg-stone-100 p-4 lg:grid-cols-[1fr_auto] lg:items-center"
-              >
-                <div className="space-y-2">
-                  <h2 className="font-serif text-2xl text-stone-900">{invitation.campaign.projectName}</h2>
-                  <p className="text-sm text-stone-600">{invitation.campaign.description}</p>
-                  <p className="text-sm text-stone-600">
-                    Moderators needed: {invitation.campaign.moderatorSlots} · Testers needed:{" "}
-                    {invitation.campaign.crowdTesterCount + invitation.campaign.developerTesterCount}
-                  </p>
-                </div>
-                <form action={acceptInvitationAction}>
-                  <input type="hidden" name="invitationId" value={invitation.id} />
-                  <Button type="submit">Accept campaign</Button>
-                </form>
-              </div>
-            ))}
-          </div>
-        )}
+      <Card padding="none">
+        <CardHeader>
+          <SectionHeading
+            density="panel"
+            eyebrow="Invitations"
+            title="Available manager campaigns"
+            description="The first test manager to accept a campaign becomes the assigned owner for delivery and final validation."
+          />
+        </CardHeader>
+        <CardSection className="space-y-4 border-t border-slate-100/90">
+          {data.pendingInvitations.length === 0 ? (
+            <p className="text-sm text-slate-600">No pending manager invitations right now.</p>
+          ) : (
+            data.pendingInvitations.map((invitation) => (
+              <Card key={invitation.id} variant="muted" padding="none">
+                <CardSection>
+                  <CardTitle className="text-lg">{invitation.campaign.projectName}</CardTitle>
+                  <CardDescription className="mt-2">{invitation.campaign.description}</CardDescription>
+                  <CardMeta className="mt-4 sm:grid-cols-2">
+                    <CardMetaItem label="Moderator slots">{invitation.campaign.moderatorSlots}</CardMetaItem>
+                    <CardMetaItem label="Testers needed">
+                      {invitation.campaign.crowdTesterCount + invitation.campaign.developerTesterCount}
+                    </CardMetaItem>
+                  </CardMeta>
+                </CardSection>
+                <CardFooter className="flex justify-end">
+                  <form action={acceptInvitationAction}>
+                    <input type="hidden" name="invitationId" value={invitation.id} />
+                    <Button type="submit">Accept campaign</Button>
+                  </form>
+                </CardFooter>
+              </Card>
+            ))
+          )}
+        </CardSection>
       </Card>
-      <Card className="space-y-4">
-        <SectionHeading
-          eyebrow="Oversight"
-          title="Assigned campaign progress"
-          description="These figures are live from accepted assignments, pending invitations, and the current bug pipeline."
-        />
-        <div className="space-y-3">
+      <Card padding="none">
+        <CardHeader>
+          <SectionHeading
+            density="panel"
+            eyebrow="Oversight"
+            title="Assigned campaign progress"
+            description="Live staffing and bug pipeline for campaigns you own."
+          />
+        </CardHeader>
+        <CardSection className="space-y-3 border-t border-slate-100/90">
           {data.campaigns.length === 0 ? (
-            <p className="text-sm text-stone-600">No campaigns are assigned to you yet.</p>
+            <p className="text-sm text-slate-600">No campaigns are assigned to you yet.</p>
           ) : (
             data.campaigns.map((campaign) => (
-              <Link key={campaign.id} href={`/manager/campaigns/${campaign.id}`}>
-                <div className="rounded-2xl bg-stone-100 p-4 text-sm text-stone-700 hover:bg-stone-200 cursor-pointer transition-colors">
-                  <p className="font-medium text-stone-900">{campaign.projectName}</p>
-                  <p className="mt-2">
-                    Moderators: {campaign.assignments.filter((item) => item.assignmentRole === "MODERATOR").length}/
-                    {campaign.moderatorSlots}
-                  </p>
-                  <p>
-                    Crowd testers: {campaign.assignments.filter((item) => item.assignmentRole === "CROWD_TESTER").length}/
-                    {campaign.crowdTesterCount}
-                  </p>
-                  <p>
-                    Developer testers: {campaign.assignments.filter((item) => item.assignmentRole === "DEVELOPER_TESTER").length}/
-                    {campaign.developerTesterCount}
-                  </p>
-                  <p>
-                    Pending invitations: {campaign.invitations.filter((item) => item.status === "PENDING").length}
-                  </p>
-                  <p>
-                    Approved bugs: {campaign.bugReports.filter((bug) => bug.status === "APPROVED").length} · Validated bugs:{" "}
-                    {campaign.bugReports.filter((bug) => bug.status === "VALIDATED").length}
-                  </p>
-                </div>
+              <Link key={campaign.id} href={`/manager/campaigns/${campaign.id}`} className="block">
+                <Card variant="muted" className="transition hover:ring-blue-200">
+                  <CardTitle className="text-base">{campaign.projectName}</CardTitle>
+                  <CardMeta className="mt-4 text-xs sm:grid-cols-2 lg:grid-cols-3">
+                    <CardMetaItem label="Moderators">
+                      {campaign.assignments.filter((item) => item.assignmentRole === "MODERATOR").length}/
+                      {campaign.moderatorSlots}
+                    </CardMetaItem>
+                    <CardMetaItem label="Crowd testers">
+                      {campaign.assignments.filter((item) => item.assignmentRole === "CROWD_TESTER").length}/
+                      {campaign.crowdTesterCount}
+                    </CardMetaItem>
+                    <CardMetaItem label="Developer testers">
+                      {campaign.assignments.filter((item) => item.assignmentRole === "DEVELOPER_TESTER").length}/
+                      {campaign.developerTesterCount}
+                    </CardMetaItem>
+                    <CardMetaItem label="Pending invites">
+                      {campaign.invitations.filter((item) => item.status === "PENDING").length}
+                    </CardMetaItem>
+                    <CardMetaItem label="Approved bugs">
+                      {campaign.bugReports.filter((bug) => bug.status === "APPROVED").length}
+                    </CardMetaItem>
+                    <CardMetaItem label="Validated bugs">
+                      {campaign.bugReports.filter((bug) => bug.status === "VALIDATED").length}
+                    </CardMetaItem>
+                  </CardMeta>
+                </Card>
               </Link>
             ))
           )}
-        </div>
+        </CardSection>
       </Card>
     </div>
   );

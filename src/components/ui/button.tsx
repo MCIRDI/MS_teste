@@ -8,11 +8,11 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
 
 const variants: Record<NonNullable<ButtonProps["variant"]>, string> = {
   primary:
-    "bg-stone-900 text-white hover:bg-stone-700 focus-visible:outline-stone-900",
+    "bg-blue-600 text-white hover:bg-blue-500 focus-visible:outline-blue-600",
   secondary:
-    "bg-white text-stone-900 ring-1 ring-stone-200 hover:bg-stone-50 focus-visible:outline-stone-400",
+    "border border-slate-200 bg-white text-slate-900 hover:bg-slate-50 focus-visible:outline-slate-400",
   ghost:
-    "bg-transparent text-stone-700 hover:bg-stone-100 focus-visible:outline-stone-400",
+    "bg-transparent text-slate-700 hover:bg-slate-100 focus-visible:outline-slate-400",
   danger:
     "bg-red-700 text-white hover:bg-red-600 focus-visible:outline-red-700",
 };
@@ -27,7 +27,7 @@ export function Button({
     <button
       type={type}
       className={cn(
-        "inline-flex h-11 items-center justify-center rounded-full px-5 text-sm font-semibold transition focus-visible:outline-2 focus-visible:outline-offset-2 disabled:pointer-events-none disabled:opacity-50",
+        "inline-flex h-10 items-center justify-center rounded-lg px-4 text-sm font-semibold transition focus-visible:outline-2 focus-visible:outline-offset-2 disabled:pointer-events-none disabled:opacity-50",
         variants[variant],
         className,
       )}

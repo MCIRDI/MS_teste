@@ -7,7 +7,14 @@ import { computePriorityScore, makeGroupKey, severityRank } from "@/lib/moderati
 import { prisma } from "@/lib/prisma";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
+import {
+  Card,
+  CardFooter,
+  CardHeader,
+  CardMeta,
+  CardMetaItem,
+  CardSection,
+} from "@/components/ui/card";
 import { Tabs } from "@/components/ui/tabs";
 import { SectionHeading } from "@/components/sections/section-heading";
 import { BugAnalytics } from "@/components/charts/bug-analytics";
@@ -238,7 +245,7 @@ export default async function ModeratorCampaignPage({
         return "bg-amber-100 text-amber-900";
       case "LOW":
       default:
-        return "bg-stone-100 text-stone-700";
+        return "bg-slate-100 text-slate-700";
     }
   };
 
@@ -254,51 +261,56 @@ export default async function ModeratorCampaignPage({
           </Link>
         }
       />
-      <Card className="space-y-4">
-        <SectionHeading
-          eyebrow="Inbox"
-          title="Bug triage"
-          description="Grouped reports with quick actions. Open a bug when you need full steps, attachments, and duplicate suggestions."
-        />
-        <Tabs
-          active={tabLabel}
-          items={[
-            { href: `/moderator/campaigns/${campaignId}?tab=pending`, label: "Pending Review", count: counts.pending },
-            { href: `/moderator/campaigns/${campaignId}?tab=needs-info`, label: "Needs Info", count: counts.needsInfo },
-            { href: `/moderator/campaigns/${campaignId}?tab=duplicates`, label: "Duplicates", count: counts.duplicates },
-            { href: `/moderator/campaigns/${campaignId}?tab=approved`, label: "Approved", count: counts.approved },
-            { href: `/moderator/campaigns/${campaignId}?tab=rejected`, label: "Rejected", count: counts.rejected },
-          ]}
-        />
-        <div className="flex flex-wrap items-center gap-2">
-          <span className="text-sm font-medium text-stone-700">Type</span>
-          <div className="flex flex-wrap gap-2">
-            <Link href={`/moderator/campaigns/${campaignId}?tab=${encodeURIComponent(tabKey)}&type=all`}>
-              <Badge className={type === "all" || !type ? "bg-stone-900 text-white" : ""}>All</Badge>
-            </Link>
-            {bugTypes.map((label) => (
-              <Link
-                key={label}
-                href={`/moderator/campaigns/${campaignId}?tab=${encodeURIComponent(tabKey)}&type=${encodeURIComponent(label)}`}
-              >
-                <Badge className={type === label ? "bg-stone-900 text-white" : ""}>{label}</Badge>
+      <Card padding="none">
+        <CardHeader>
+          <SectionHeading
+            density="panel"
+            eyebrow="Inbox"
+            title="Bug triage"
+            description="Grouped reports with quick actions. Open a bug for full steps, attachments, and duplicate suggestions."
+          />
+        </CardHeader>
+        <CardSection className="space-y-4 border-t border-slate-100/90">
+          <Tabs
+            active={tabLabel}
+            items={[
+              { href: `/moderator/campaigns/${campaignId}?tab=pending`, label: "Pending Review", count: counts.pending },
+              { href: `/moderator/campaigns/${campaignId}?tab=needs-info`, label: "Needs Info", count: counts.needsInfo },
+              { href: `/moderator/campaigns/${campaignId}?tab=duplicates`, label: "Duplicates", count: counts.duplicates },
+              { href: `/moderator/campaigns/${campaignId}?tab=approved`, label: "Approved", count: counts.approved },
+              { href: `/moderator/campaigns/${campaignId}?tab=rejected`, label: "Rejected", count: counts.rejected },
+            ]}
+          />
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">Type</span>
+            <div className="flex flex-wrap gap-2">
+              <Link href={`/moderator/campaigns/${campaignId}?tab=${encodeURIComponent(tabKey)}&type=all`}>
+                <Badge className={type === "all" || !type ? "border-transparent bg-blue-600 text-white" : ""}>All</Badge>
               </Link>
-            ))}
+              {bugTypes.map((label) => (
+                <Link
+                  key={label}
+                  href={`/moderator/campaigns/${campaignId}?tab=${encodeURIComponent(tabKey)}&type=${encodeURIComponent(label)}`}
+                >
+                  <Badge className={type === label ? "border-transparent bg-blue-600 text-white" : ""}>{label}</Badge>
+                </Link>
+              ))}
+            </div>
           </div>
-        </div>
+        </CardSection>
       </Card>
 
       <BugAnalytics bugReports={campaign.bugReports} campaignName={campaign.projectName} />
 
       {filteredGroups.length === 0 ? (
-        <Card>
-          <p className="text-sm text-stone-600">Nothing in this tab right now.</p>
+        <Card variant="muted">
+          <p className="text-sm text-slate-600">Nothing in this tab right now.</p>
         </Card>
       ) : (
         <div className="grid gap-4">
           {filteredGroups.map((group) => (
-            <Card key={group.groupKey} className="grid gap-4 md:grid-cols-[1fr_auto] md:items-start">
-              <div className="space-y-2">
+            <Card key={group.groupKey} padding="none">
+              <CardSection>
                 <div className="flex flex-wrap items-center gap-2">
                   <Badge className={severityBadgeClass(group.severity)}>{group.severity}</Badge>
                   {group.errorType ? <Badge>{group.errorType}</Badge> : null}
@@ -306,31 +318,28 @@ export default async function ModeratorCampaignPage({
                   <Badge>Priority {group.priorityScore}</Badge>
                   {group.duplicateCount > 0 ? <Badge>Duplicates {group.duplicateCount}</Badge> : null}
                 </div>
-                <div className="space-y-1">
-                  <Link
-                    href={`/moderator/bugs/${group.representative.id}`}
-                    className="text-lg font-semibold text-stone-900 hover:underline"
-                  >
-                    {group.title}
-                  </Link>
-                  <p className="text-sm text-stone-600">
-                    Tester: {group.testerName} · Rating: {group.testerRating.toFixed(1)} · Updated{" "}
-                    {group.latestAt.toLocaleString()}
-                  </p>
-                  <p className="text-sm text-stone-600">
-                    {group.feature ? `Feature: ${group.feature}` : "Feature: —"} ·{" "}
-                    {group.errorType ? `Error: ${group.errorType}` : "Error: —"} ·{" "}
-                    {group.pageUrl ? `Page: ${group.pageUrl}` : "Page: —"}
-                  </p>
-                </div>
-              </div>
-              <div className="flex flex-col gap-2">
+                <Link
+                  href={`/moderator/bugs/${group.representative.id}`}
+                  className="mt-3 block text-lg font-semibold text-slate-900 hover:text-blue-700 hover:underline"
+                >
+                  {group.title}
+                </Link>
+                <CardMeta className="mt-4">
+                  <CardMetaItem label="Tester">{group.testerName}</CardMetaItem>
+                  <CardMetaItem label="Rating">{group.testerRating.toFixed(1)}</CardMetaItem>
+                  <CardMetaItem label="Updated">{group.latestAt.toLocaleString()}</CardMetaItem>
+                  <CardMetaItem label="Feature">{group.feature ?? "—"}</CardMetaItem>
+                  <CardMetaItem label="Error type">{group.errorType ?? "—"}</CardMetaItem>
+                  <CardMetaItem label="Page">{group.pageUrl ?? "—"}</CardMetaItem>
+                </CardMeta>
+              </CardSection>
+              <CardFooter className="flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:justify-end">
                 <form action={moderateBugGroupAction} className="grid gap-2">
                   <input type="hidden" name="campaignId" value={campaignId} />
                   <input type="hidden" name="groupKey" value={group.groupKey} />
                   <div className="flex flex-wrap gap-2">
                     <button
-                      className="rounded-full bg-stone-900 px-4 py-2 text-sm text-white"
+                      className="rounded-lg bg-blue-600 px-4 py-2 text-sm text-white hover:bg-blue-500"
                       type="submit"
                       name="decision"
                       value="APPROVED"
@@ -338,7 +347,7 @@ export default async function ModeratorCampaignPage({
                       Send to manager
                     </button>
                     <button
-                      className="rounded-full bg-stone-200 px-4 py-2 text-sm text-stone-900"
+                      className="rounded-lg bg-slate-200 px-4 py-2 text-sm text-slate-900 hover:bg-slate-300"
                       type="submit"
                       name="decision"
                       value="NEEDS_INFO"
@@ -346,7 +355,7 @@ export default async function ModeratorCampaignPage({
                       Needs info
                     </button>
                     <button
-                      className="rounded-full bg-stone-100 px-4 py-2 text-sm text-stone-900"
+                      className="rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm text-slate-900 hover:bg-slate-50"
                       type="submit"
                       name="decision"
                       value="REJECTED"
@@ -359,17 +368,17 @@ export default async function ModeratorCampaignPage({
                   <form action={markBugGroupDuplicatesAction}>
                     <input type="hidden" name="campaignId" value={campaignId} />
                     <input type="hidden" name="groupKey" value={group.groupKey} />
-                    <button className="w-full rounded-full bg-stone-100 px-4 py-2 text-sm text-stone-900" type="submit">
+                    <button className="w-full rounded-lg border border-slate-200 bg-slate-50 px-4 py-2 text-sm text-slate-900 hover:bg-slate-100 sm:w-auto" type="submit">
                       Mark duplicates
                     </button>
                   </form>
                 ) : null}
                 <Link href={`/moderator/bugs/${group.representative.id}`}>
-                  <Button variant="secondary" className="w-full">
+                  <Button variant="secondary" className="w-full sm:w-auto">
                     Open details
                   </Button>
                 </Link>
-              </div>
+              </CardFooter>
             </Card>
           ))}
         </div>

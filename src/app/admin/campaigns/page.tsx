@@ -1,6 +1,14 @@
 import { getAdminDashboardData } from "@/lib/dashboard-data";
 import { assignmentRoleLabels } from "@/lib/constants";
-import { Card } from "@/components/ui/card";
+import {
+  Card,
+  CardDescription,
+  CardHeader,
+  CardMeta,
+  CardMetaItem,
+  CardSection,
+  CardTitle,
+} from "@/components/ui/card";
 import { LiveRefresh } from "@/components/live-refresh";
 import { SectionHeading } from "@/components/sections/section-heading";
 
@@ -20,30 +28,36 @@ export default async function AdminCampaignsPage() {
       <SectionHeading
         eyebrow="Campaigns"
         title="Campaign monitoring"
-        description="Admins track live campaigns, staffing progress, pending invitations, and coverage across the platform."
+        description="Live campaigns, staffing progress, pending invitations, and coverage across the platform."
       />
       <div className="grid gap-4">
         {data.campaigns.map((campaign) => (
-          <Card key={campaign.id} className="space-y-3">
-            <h2 className="font-serif text-2xl text-stone-900">{campaign.projectName}</h2>
-            <p className="text-sm text-stone-600">{campaign.client.name} · {campaign.stage}</p>
-            <p className="text-sm text-stone-600">
-              Pending invitations: {campaign.invitations.filter((item) => item.status === "PENDING").length}
-            </p>
-            <div className="grid gap-2 pt-2 text-sm text-stone-600 md:grid-cols-2">
-              <p>
-                {assignmentRoleLabels.TEST_MANAGER}: {countByRole(campaign.assignments, "TEST_MANAGER")}/1
-              </p>
-              <p>
-                {assignmentRoleLabels.MODERATOR}: {countByRole(campaign.assignments, "MODERATOR")}/{campaign.moderatorSlots}
-              </p>
-              <p>
-                {assignmentRoleLabels.CROWD_TESTER}: {countByRole(campaign.assignments, "CROWD_TESTER")}/{campaign.crowdTesterCount}
-              </p>
-              <p>
-                {assignmentRoleLabels.DEVELOPER_TESTER}: {countByRole(campaign.assignments, "DEVELOPER_TESTER")}/{campaign.developerTesterCount}
-              </p>
-            </div>
+          <Card key={campaign.id} padding="none">
+            <CardHeader>
+              <CardTitle className="text-lg">{campaign.projectName}</CardTitle>
+              <CardDescription>
+                {campaign.client.name} · {campaign.stage}
+              </CardDescription>
+            </CardHeader>
+            <CardSection className="border-t border-slate-100/90">
+              <CardMeta className="sm:grid-cols-2 lg:grid-cols-3">
+                <CardMetaItem label="Pending invitations">
+                  {campaign.invitations.filter((item) => item.status === "PENDING").length}
+                </CardMetaItem>
+                <CardMetaItem label={assignmentRoleLabels.TEST_MANAGER}>
+                  {countByRole(campaign.assignments, "TEST_MANAGER")}/1
+                </CardMetaItem>
+                <CardMetaItem label={assignmentRoleLabels.MODERATOR}>
+                  {countByRole(campaign.assignments, "MODERATOR")}/{campaign.moderatorSlots}
+                </CardMetaItem>
+                <CardMetaItem label={assignmentRoleLabels.CROWD_TESTER}>
+                  {countByRole(campaign.assignments, "CROWD_TESTER")}/{campaign.crowdTesterCount}
+                </CardMetaItem>
+                <CardMetaItem label={assignmentRoleLabels.DEVELOPER_TESTER}>
+                  {countByRole(campaign.assignments, "DEVELOPER_TESTER")}/{campaign.developerTesterCount}
+                </CardMetaItem>
+              </CardMeta>
+            </CardSection>
           </Card>
         ))}
       </div>
