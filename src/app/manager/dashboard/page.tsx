@@ -98,9 +98,6 @@ export default async function ManagerDashboardPage() {
                     <CardMetaItem label="Approved bugs">
                       {campaign.bugReports.filter((bug) => bug.status === "APPROVED").length}
                     </CardMetaItem>
-                    <CardMetaItem label="Validated bugs">
-                      {campaign.bugReports.filter((bug) => bug.status === "VALIDATED").length}
-                    </CardMetaItem>
                   </CardMeta>
                 </Card>
               </Link>

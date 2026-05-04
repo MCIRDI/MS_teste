@@ -28,7 +28,7 @@ export const publicFeatures = [
 export const clientSnapshot = {
   stats: [
     { label: "Active campaigns", value: "4" },
-    { label: "Validated bugs", value: "61" },
+    { label: "Approved bugs", value: "61" },
     { label: "Device variants", value: "18" },
     { label: "Country coverage", value: "9" },
   ],
@@ -126,7 +126,7 @@ export const adminSnapshot = {
 export function getRoleSummary(role: Role) {
   switch (role) {
     case "CLIENT":
-      return "Launch campaigns, preview pricing, and monitor validated defects.";
+      return "Launch campaigns, preview pricing, and monitor approved defects.";
     case "TESTER":
       return "Accept matching invitations, work through tasks, and submit structured bugs.";
     case "MODERATOR":

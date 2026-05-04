@@ -111,7 +111,7 @@ export default async function ModeratorCampaignPage({
   for (const row of testerStats) {
     const current = testerRatingById.get(row.testerId) ?? 3;
     const count = row._count._all;
-    if (row.status === BugStatus.VALIDATED) {
+    if (row.status === BugStatus.APPROVED) {
       testerRatingById.set(row.testerId, Math.min(5, current + count * 0.1));
     } else if (row.status === BugStatus.REJECTED) {
       testerRatingById.set(row.testerId, Math.max(0, current - count * 0.05));

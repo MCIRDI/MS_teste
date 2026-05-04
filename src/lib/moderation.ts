@@ -84,8 +84,6 @@ export function statusWeight(status: BugStatus) {
       return 10;
     case "REJECTED":
       return 0;
-    case "VALIDATED":
-      return 0;
     default:
       return 0;
   }
