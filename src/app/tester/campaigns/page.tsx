@@ -3,7 +3,6 @@ import Link from "next/link";
 import { acceptInvitationAction } from "@/app/actions/campaigns";
 import { requireSession } from "@/lib/auth";
 import { getTesterDashboardData } from "@/lib/dashboard-data";
-import { getTesterSetupState } from "@/lib/tester-setup";
 import { Button } from "@/components/ui/button";
 import { Card, CardDescription, CardFooter, CardHeader, CardSection, CardTitle } from "@/components/ui/card";
 import { LiveRefresh } from "@/components/live-refresh";
@@ -12,30 +11,6 @@ import { StatGrid } from "@/components/sections/stat-grid";
 
 export default async function TesterCampaignsPage() {
   const session = await requireSession(["TESTER"]);
-  const setup = await getTesterSetupState(session.id);
-  if (setup.needsSetup) {
-    const next = encodeURIComponent("/tester/campaigns");
-    return (
-      <div className="space-y-6">
-        <SectionHeading
-          eyebrow="Setup"
-          title="Add your testing info first"
-          description="Before you can participate in campaigns, we need your country and device details."
-        />
-        <Card padding="none">
-          <CardHeader>
-            <CardTitle>Profile incomplete</CardTitle>
-            <CardDescription>{setup.reason ?? "Tester info is incomplete."}</CardDescription>
-          </CardHeader>
-          <CardFooter className="flex justify-start">
-            <Link href={`/tester/setup?next=${next}`}>
-              <Button>Complete setup</Button>
-            </Link>
-          </CardFooter>
-        </Card>
-      </div>
-    );
-  }
   const data = await getTesterDashboardData(session.id);
   const testerAssignmentRole =
     session.testerKind === "DEVELOPER" ? "DEVELOPER_TESTER" : "CROWD_TESTER";

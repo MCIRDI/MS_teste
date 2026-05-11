@@ -28,9 +28,11 @@ export async function signupAction(
     password: formData.get("password"),
     role: formData.get("role"),
     testerKind: formData.get("testerKind") || undefined,
-    country: formData.get("country") || undefined,
     language: formData.get("language") || undefined,
     deviceName: formData.get("deviceName") || undefined,
+    osVersion: formData.get("osVersion") || undefined,
+    browser: formData.get("browser") || undefined,
+    screenResolution: formData.get("screenResolution") || undefined,
   });
 
   if (!parsed.success) {
@@ -65,16 +67,15 @@ export async function signupAction(
           : null,
       accountStatus: AccountStatus.ACTIVE,
       isEmailVerified: false,
-      country: parsed.data.role === "TESTER" ? parsed.data.country : null,
       language: parsed.data.role === "TESTER" ? parsed.data.language : null,
       devices:
         parsed.data.role === "TESTER"
           ? {
               create: {
                 deviceName: parsed.data.deviceName,
-                osVersion: "Not provided",
-                browsers: [],
-                screenResolution: "Not provided",
+                osVersion: parsed.data.osVersion,
+                browsers: [parsed.data.browser],
+                screenResolution: parsed.data.screenResolution,
               },
             }
           : undefined,
@@ -103,6 +104,10 @@ export async function signupAction(
     role: user.role,
     testerKind: user.testerKind,
   });
+
+  if (user.role === "TESTER") {
+    redirect("/tester/location-setup");
+  }
 
   redirect(getDashboardPath(user.role));
 }

@@ -13,9 +13,11 @@ export const signupSchema = z.discriminatedUnion("role", [
   baseSignupSchema.extend({
     role: z.literal("TESTER"),
     testerKind: z.enum(["CROWD", "DEVELOPER"]),
-    country: z.string().min(2),
     language: z.string().min(2),
-    deviceName: z.string().min(2),
+    deviceName: z.string().min(1),
+    osVersion: z.string().min(1),
+    browser: z.string().min(1),
+    screenResolution: z.string().min(1),
   }),
 ]);
 

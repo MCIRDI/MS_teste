@@ -42,16 +42,15 @@ export async function POST(request: Request) {
           ? (parsed.data.testerKind as TesterKind)
           : null,
       accountStatus: AccountStatus.ACTIVE,
-      country: parsed.data.role === "TESTER" ? parsed.data.country : null,
       language: parsed.data.role === "TESTER" ? parsed.data.language : null,
       devices:
         parsed.data.role === "TESTER"
           ? {
               create: {
                 deviceName: parsed.data.deviceName,
-                osVersion: "Not provided",
-                browsers: [],
-                screenResolution: "Not provided",
+                osVersion: parsed.data.osVersion,
+                browsers: [parsed.data.browser],
+                screenResolution: parsed.data.screenResolution,
               },
             }
           : undefined,
@@ -75,6 +74,7 @@ export async function POST(request: Request) {
 
   const response = NextResponse.json({
     user: { id: user.id, role: user.role, email: user.email },
+    redirectTo: user.role === "TESTER" ? "/tester/location-setup" : undefined,
   });
 
   response.cookies.set("ms-test-session", token, {

@@ -1,10 +1,8 @@
-import Link from "next/link";
-
 import { requireSession } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { Button } from "@/components/ui/button";
 import { Card, CardDescription, CardHeader, CardMeta, CardMetaItem, CardSection, CardTitle } from "@/components/ui/card";
 import { SectionHeading } from "@/components/sections/section-heading";
+import { UpdateTesterInfoButton } from "@/components/forms/update-tester-info-button";
 
 export default async function TesterProfilePage() {
   const session = await requireSession(["TESTER"]);
@@ -23,11 +21,7 @@ export default async function TesterProfilePage() {
         eyebrow="Profile"
         title="Tester profile"
         description="Your testing info is used for campaign matching and is attached to every bug report you submit."
-        action={
-          <Link href="/tester/setup">
-            <Button>Edit testing info</Button>
-          </Link>
-        }
+        action={<UpdateTesterInfoButton />}
       />
       <div className="grid gap-4 lg:grid-cols-2">
         <Card padding="none">

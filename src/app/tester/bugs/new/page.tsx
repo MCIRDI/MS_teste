@@ -2,10 +2,9 @@ import Link from "next/link";
 
 import { requireSession } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { getTesterSetupState } from "@/lib/tester-setup";
 import { BugReportForm } from "@/components/forms/bug-report-form";
 import { Button } from "@/components/ui/button";
-import { Card, CardDescription, CardFooter, CardHeader, CardSection, CardTitle } from "@/components/ui/card";
+import { Card, CardDescription, CardHeader, CardSection, CardTitle } from "@/components/ui/card";
 import { SectionHeading } from "@/components/sections/section-heading";
 
 export default async function TesterBugNewPage({
@@ -15,31 +14,6 @@ export default async function TesterBugNewPage({
 }) {
   const session = await requireSession(["TESTER"]);
   const { campaignId: requestedCampaignId } = await searchParams;
-
-  const setup = await getTesterSetupState(session.id);
-  if (setup.needsSetup) {
-    const next = encodeURIComponent(`/tester/bugs/new${requestedCampaignId ? `?campaignId=${requestedCampaignId}` : ""}`);
-    return (
-      <div className="space-y-6">
-        <SectionHeading
-          eyebrow="Setup"
-          title="Complete your testing info"
-          description="Bug reports automatically include your device environment. Add it once and we reuse it."
-        />
-        <Card padding="none">
-          <CardHeader>
-            <CardTitle>Profile incomplete</CardTitle>
-            <CardDescription>{setup.reason ?? "Tester info is incomplete."}</CardDescription>
-          </CardHeader>
-          <CardFooter className="flex justify-start">
-            <Link href={`/tester/setup?next=${next}`}>
-              <Button>Complete setup</Button>
-            </Link>
-          </CardFooter>
-        </Card>
-      </div>
-    );
-  }
 
   const assignments = await prisma.campaignAssignment.findMany({
     where: {
