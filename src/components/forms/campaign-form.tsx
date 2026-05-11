@@ -10,6 +10,7 @@ import { estimateCampaignPrice } from "@/lib/pricing";
 import { formatCurrency } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
+import { MultiSelect } from "@/components/ui/multi-select";
 import { Select } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardDescription, CardHeader, CardSection, CardTitle } from "@/components/ui/card";
@@ -53,7 +54,6 @@ export function CampaignForm() {
           <form action={formAction} className="space-y-6">
             <input type="hidden" name="selectedPlatforms" value={selectedPlatforms.join(", ")} />
             <input type="hidden" name="selectedBrowsers" value={selectedBrowsers.join(", ")} />
-            <input type="hidden" name="selectedCountries" value={selectedCountries.join(", ")} />
             <div className="grid gap-4 md:grid-cols-2">
           <div className="space-y-2 md:col-span-2">
             <label className="text-sm font-medium text-stone-700" htmlFor="projectName">
@@ -149,25 +149,13 @@ export function CampaignForm() {
             <label className="text-sm font-medium text-stone-700">
               Target countries
             </label>
-            <div className="flex flex-wrap gap-2">
-              {countries.map((country) => {
-                const active = selectedCountries.includes(country);
-                return (
-                  <button
-                    key={country}
-                    type="button"
-                    onClick={() => toggleValue(country, selectedCountries, setSelectedCountries)}
-                    className={
-                      active
-                        ? "rounded-lg border border-blue-200 bg-blue-50 px-3 py-1.5 text-sm font-medium text-blue-700"
-                        : "rounded-lg border border-slate-200 bg-slate-50 px-3 py-1.5 text-sm text-slate-700"
-                    }
-                  >
-                    {country}
-                  </button>
-                );
-              })}
-            </div>
+            <MultiSelect
+              options={countries}
+              selected={selectedCountries}
+              onChange={setSelectedCountries}
+              name="selectedCountries"
+              placeholder="Search and select countries..."
+            />
           </div>
           <div className="space-y-2">
             <label className="text-sm font-medium text-stone-700" htmlFor="crowdTesterCount">
