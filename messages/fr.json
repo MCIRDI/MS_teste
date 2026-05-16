@@ -1,0 +1,261 @@
+{
+  "meta": {
+    "title": "DzTesters",
+    "description": "Campagnes de tests logiciels par des humains avec workflows de revue en couches."
+  },
+  "brand": {
+    "name": "DzTesters"
+  },
+  "language": {
+    "label": "Langue",
+    "en": "English",
+    "fr": "Français",
+    "ar": "العربية"
+  },
+  "nav": {
+    "home": "Accueil",
+    "about": "À propos",
+    "howItWorks": "Comment ça marche",
+    "login": "Connexion",
+    "signup": "Inscription",
+    "openDashboard": "Ouvrir le tableau de bord",
+    "getStarted": "Commencer",
+    "navigation": "Navigation",
+    "logOut": "Déconnexion"
+  },
+  "home": {
+    "eyebrow": "Plateforme de tests humains",
+    "heroHeadline": "Du crowdtesting structuré avec de vraies personnes.",
+    "title": "DzTesters aide les clients à mener des campagnes de crowdtesting structurées avec de vraies personnes.",
+    "subtitle": "Lancez des campagnes, associez des testeurs éligibles, modérez les défauts entrants et livrez des rapports de bugs validés depuis une seule plateforme.",
+    "trust": {
+      "realTesters": "Vrais testeurs, vrais appareils",
+      "structuredReview": "Revue qualité en couches",
+      "multiRole": "Workflows client à admin"
+    },
+    "preview": {
+      "eyebrow": "Campagne en direct",
+      "campaign": "Sprint fiabilité checkout",
+      "live": "En test",
+      "countries": "Pays couverts"
+    },
+    "featuresSection": {
+      "eyebrow": "Plateforme",
+      "title": "Tout pour livrer en confiance",
+      "subtitle": "De la création de campagne à la livraison des défauts validés — un workflow unifié pour clients, testeurs et équipes de revue."
+    },
+    "cta": {
+      "title": "Prêt à lancer votre prochaine campagne ?",
+      "subtitle": "Rejoignez DzTesters et connectez-vous à des testeurs vérifiés qui livrent des rapports structurés et prêts pour la revue.",
+      "primary": "Commencer gratuitement",
+      "secondary": "Découvrir le workflow"
+    },
+    "createAccount": "Créer votre compte",
+    "seeWorkflow": "Voir le workflow",
+    "coverageTitle": "Couverture terrain réelle",
+    "coverageDescription": "La confiance vient de campagnes structurées, de testeurs éligibles et de workflows de revue — pas de suppositions.",
+    "coverageP1": "Nous vous mettons en relation avec de vraies personnes qui testent votre site ou application au quotidien, découvrent des bugs et partagent un retour honnête.",
+    "coverageP2": "Grâce à leurs retours, vous pouvez affiner votre produit et lancer en toute confiance.",
+    "coverageP3": "DzTesters vous aide à construire mieux — ensemble.",
+    "stats": {
+      "campaigns": "Campagnes coordonnées",
+      "testers": "Testeurs vérifiés",
+      "countries": "Pays couverts",
+      "reviewTime": "Délai médian de revue"
+    },
+    "features": {
+      "reviewTitle": "Flux de revue en couches",
+      "reviewDescription": "Chaque bug passe par des modérateurs et un responsable de test avant d'atteindre le tableau de bord client.",
+      "rutTitle": "Tests utilisateurs réels",
+      "rutDescription": "Obtenez des retours d'un groupe diversifié d'utilisateurs réels qui testent votre produit en conditions réelles.",
+      "matchingTitle": "Appariement ciblé des testeurs",
+      "matchingDescription": "Les invitations sont filtrées par pays, appareils, versions OS, navigateurs et type de testeur."
+    }
+  },
+  "about": {
+    "eyebrow": "À propos de DzTesters",
+    "title": "Une plateforme de crowdtesting pratique pour une livraison structurée.",
+    "intro": "DzTesters a été conçu pour les équipes qui ont besoin de retours humains sans une stack enterprise lourde. Les clients définissent le périmètre, les testeurs exécutent des tâches ciblées, les modérateurs maintiennent la qualité et les responsables de test livrent des constats validés.",
+    "supportsTitle": "Ce que la plateforme prend en charge",
+    "supportsBody": "Contrôle d'accès multi-rôles, aperçu des prix, profils appareils des testeurs, invitations ciblées, revue modérée des bugs, analytiques et téléversements locaux pour captures, vidéos et journaux.",
+    "architectureTitle": "Pourquoi l'architecture reste simple",
+    "architectureBody": "Tout tourne dans Next.js App Router avec un stockage compatible MySQL via Prisma et des route handlers Node.js, ce qui facilite le déploiement sur hébergement mutualisé ou VPS."
+  },
+  "howItWorks": {
+    "eyebrow": "Workflow",
+    "title": "De la création de campagne à la livraison de défauts validés.",
+    "steps": [
+      "Le client crée une campagne et prévisualise le coût estimé avant le lancement.",
+      "DzTesters assigne un responsable de test et calcule les besoins en modérateurs selon le nombre de testeurs.",
+      "Les testeurs crowd et développeurs éligibles reçoivent des invitations selon le pays et l'appareil.",
+      "Les testeurs suivent les tâches et soumettent des bugs structurés avec pièces jointes et données d'environnement.",
+      "Les modérateurs traitent les doublons et la qualité, puis le responsable de test valide les rapports finaux pour le client."
+    ]
+  },
+  "login": {
+    "eyebrow": "Bon retour",
+    "title": "Connectez-vous pour poursuivre une campagne ou une file de revue.",
+    "subtitle": "Clients, testeurs, modérateurs, responsables de test et admins utilisent le même point d'entrée sécurisé avec cookies de session JWT et tableaux de bord par rôle.",
+    "cardTitle": "Connexion",
+    "cardDescription": "Saisissez l'e-mail et le mot de passe de votre rôle.",
+    "needAccount": "Pas encore de compte ?",
+    "signUp": "S'inscrire",
+    "email": "E-mail",
+    "password": "Mot de passe",
+    "emailPlaceholder": "nom@entreprise.com",
+    "passwordPlaceholder": "Votre mot de passe",
+    "submit": "Connexion",
+    "pending": "Connexion..."
+  },
+  "signup": {
+    "eyebrow": "Créer un compte",
+    "title": "Rejoignez DzTesters en tant que client ou testeur.",
+    "subtitle": "Les clients lancent des campagnes et consultent les défauts validés. Les testeurs gèrent leurs appareils, acceptent les invitations et soumettent des rapports détaillés avec preuves.",
+    "note": "Les rôles modérateur et responsable de test sont généralement assignés par les admins après approbation du compte.",
+    "cardTitle": "Créer votre compte",
+    "cardDescription": "Choisissez un rôle et complétez les champs ci-dessous.",
+    "alreadyRegistered": "Déjà inscrit ?",
+    "login": "Connexion"
+  },
+  "shell": {
+    "signedInAs": "Connecté en tant que",
+    "roleUpgrade": "Montée de rôle",
+    "accept": "Accepter"
+  },
+  "roles": {
+    "ADMIN": "Admin",
+    "CLIENT": "Client",
+    "TESTER": "Testeur",
+    "MODERATOR": "Modérateur",
+    "TEST_MANAGER": "Responsable de test"
+  },
+  "testerKinds": {
+    "CROWD": "Testeur crowd",
+    "DEVELOPER": "Testeur développeur"
+  },
+  "campaignStages": {
+    "DRAFT": "Brouillon",
+    "PENDING_APPROVAL": "En attente d'approbation",
+    "ACTIVE": "Active",
+    "TESTING": "Phase de test",
+    "BUG_REVIEW": "Phase de revue des bugs",
+    "COMPLETED": "Terminée"
+  },
+  "assignmentRoles": {
+    "CROWD_TESTER": "Testeur crowd",
+    "DEVELOPER_TESTER": "Testeur développeur",
+    "MODERATOR": "Modérateur",
+    "TEST_MANAGER": "Responsable de test"
+  },
+  "softwareTypes": {
+    "WEBSITE": "Site web",
+    "ANDROID_APP": "Application Android",
+    "IOS_APP": "Application iOS",
+    "DESKTOP_SOFTWARE": "Logiciel bureau"
+  },
+  "roleNav": {
+    "clientDashboard": "Tableau de bord",
+    "clientCreateCampaign": "Créer une campagne",
+    "clientReports": "Rapports de campagne",
+    "testerProfile": "Profil",
+    "testerSetup": "Infos de test",
+    "testerCampaigns": "Campagnes disponibles",
+    "testerSubmitBug": "Soumettre un bug",
+    "moderatorInbox": "Boîte de réception",
+    "moderatorCampaigns": "Campagnes",
+    "moderatorSendReport": "Envoyer un rapport",
+    "managerDashboard": "Tableau de bord projet",
+    "managerValidation": "Validation des bugs",
+    "managerReports": "Rapports finaux",
+    "adminUsers": "Gestion des utilisateurs",
+    "adminCampaigns": "Suivi des campagnes",
+    "adminSettings": "Paramètres système"
+  },
+  "workspace": {
+    "client": {
+      "title": "Espace client",
+      "description": "Créez des campagnes, suivez la participation des testeurs et consultez les problèmes validés depuis un seul tableau de bord."
+    },
+    "tester": {
+      "title": "Espace testeur",
+      "description": "Gérez votre profil, acceptez les invitations et soumettez des rapports de bugs structurés avec preuves."
+    },
+    "moderator": {
+      "title": "Bureau modérateur",
+      "description": "Examinez les bugs entrants, gérez les doublons et maintenez la qualité des rapports sur les campagnes."
+    },
+    "manager": {
+      "title": "Espace responsable de test",
+      "description": "Coordonnez les campagnes, validez les constats et publiez les rapports finaux prêts pour le client."
+    },
+    "admin": {
+      "title": "Contrôle admin",
+      "description": "Gérez les comptes, les affectations, la supervision des campagnes et la configuration système."
+    }
+  },
+  "footer": {
+    "tagline": "DzTesters est une plateforme de crowdtesting pour des campagnes QA humaines structurées."
+  },
+  "admin": {
+    "home": {
+      "inviteModerator": "Inviter modérateur",
+      "inviteManager": "Inviter responsable",
+      "quickLinks": {
+        "campaigns": "Suivi des campagnes",
+        "campaignsDesc": "Campagnes actives et staffing",
+        "settings": "Paramètres système",
+        "settingsDesc": "Configuration plateforme",
+        "bugs": "Rapports de bugs",
+        "bugsTotal": "sur toutes les campagnes"
+      },
+      "users": {
+        "eyebrow": "Utilisateurs",
+        "title": "Gestion des comptes",
+        "description": "Approuvez, suspendez ou promouvez les utilisateurs vers modérateur ou responsable de test.",
+        "notSet": "Non défini",
+        "none": "Aucun",
+        "pendingInvite": "Invitation déjà en attente",
+        "notEligible": "Non éligible",
+        "columns": {
+          "name": "Nom",
+          "role": "Rôle",
+          "status": "Statut",
+          "country": "Pays",
+          "upgrade": "Promotion en attente",
+          "action": "Action"
+        }
+      }
+    }
+  },
+  "tester": {
+    "home": {
+      "quickActions": {
+        "submitBug": "Signaler un bug",
+        "submitBugDesc": "Avec captures et journaux",
+        "profile": "Votre profil",
+        "profileDesc": "Appareils, pays et compétences"
+      },
+      "invitations": {
+        "eyebrow": "Invitations",
+        "title": "Campagnes disponibles",
+        "description": "Les invitations restent visibles jusqu'à remplissage des places.",
+        "empty": "Aucune invitation en attente",
+        "emptyHint": "Revenez plus tard ou mettez à jour votre profil",
+        "developerSlot": "Place testeur développeur",
+        "crowdSlot": "Place testeur crowd",
+        "new": "Nouveau",
+        "accept": "Accepter l'invitation"
+      },
+      "workspace": {
+        "eyebrow": "Espace de travail",
+        "title": "Campagnes acceptées",
+        "description": "Ouvrez votre espace pour les tâches et les rapports de bugs.",
+        "empty": "Vous n'avez encore accepté aucune campagne",
+        "active": "Espace actif",
+        "tasks": "Tâches",
+        "pendingInvites": "Invitations en attente",
+        "open": "Ouvrir l'espace"
+      }
+    }
+  }
+}

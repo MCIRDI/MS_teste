@@ -2,7 +2,7 @@
 
 import { InvitationStatus, Role } from "@/generated/prisma/client";
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
+import { redirectTo } from "@/lib/redirect";
 
 import { getDashboardPath, requireSession, setSession } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
@@ -151,5 +151,5 @@ export async function acceptRoleUpgradeInvitationAction(formData: FormData) {
   revalidatePath("/moderator/review-queue");
   revalidatePath("/manager/dashboard");
   revalidatePath("/admin/campaigns");
-  redirect(getDashboardPath(updatedUser.role));
+  return await redirectTo(getDashboardPath(updatedUser.role));
 }

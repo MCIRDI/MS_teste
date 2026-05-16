@@ -94,8 +94,7 @@ export const BugStatus = {
   NEEDS_INFO: 'NEEDS_INFO',
   APPROVED: 'APPROVED',
   REJECTED: 'REJECTED',
-  DUPLICATE: 'DUPLICATE',
-  VALIDATED: 'VALIDATED'
+  DUPLICATE: 'DUPLICATE'
 } as const
 
 export type BugStatus = (typeof BugStatus)[keyof typeof BugStatus]

@@ -253,7 +253,6 @@ export type UserWhereInput = {
   campaignInvitations?: Prisma.CampaignInvitationListRelationFilter
   bugReports?: Prisma.BugReportListRelationFilter
   moderatedReports?: Prisma.BugReportListRelationFilter
-  validatedReports?: Prisma.BugReportListRelationFilter
   uploadedFinalReports?: Prisma.FinalReportListRelationFilter
   auditLogs?: Prisma.AuditLogListRelationFilter
   emailTokens?: Prisma.EmailTokenListRelationFilter
@@ -282,7 +281,6 @@ export type UserOrderByWithRelationInput = {
   campaignInvitations?: Prisma.CampaignInvitationOrderByRelationAggregateInput
   bugReports?: Prisma.BugReportOrderByRelationAggregateInput
   moderatedReports?: Prisma.BugReportOrderByRelationAggregateInput
-  validatedReports?: Prisma.BugReportOrderByRelationAggregateInput
   uploadedFinalReports?: Prisma.FinalReportOrderByRelationAggregateInput
   auditLogs?: Prisma.AuditLogOrderByRelationAggregateInput
   emailTokens?: Prisma.EmailTokenOrderByRelationAggregateInput
@@ -315,7 +313,6 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   campaignInvitations?: Prisma.CampaignInvitationListRelationFilter
   bugReports?: Prisma.BugReportListRelationFilter
   moderatedReports?: Prisma.BugReportListRelationFilter
-  validatedReports?: Prisma.BugReportListRelationFilter
   uploadedFinalReports?: Prisma.FinalReportListRelationFilter
   auditLogs?: Prisma.AuditLogListRelationFilter
   emailTokens?: Prisma.EmailTokenListRelationFilter
@@ -382,7 +379,6 @@ export type UserCreateInput = {
   campaignInvitations?: Prisma.CampaignInvitationCreateNestedManyWithoutRecipientInput
   bugReports?: Prisma.BugReportCreateNestedManyWithoutTesterInput
   moderatedReports?: Prisma.BugReportCreateNestedManyWithoutModeratorInput
-  validatedReports?: Prisma.BugReportCreateNestedManyWithoutValidatedByInput
   uploadedFinalReports?: Prisma.FinalReportCreateNestedManyWithoutUploadedByInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutActorInput
   emailTokens?: Prisma.EmailTokenCreateNestedManyWithoutUserInput
@@ -411,7 +407,6 @@ export type UserUncheckedCreateInput = {
   campaignInvitations?: Prisma.CampaignInvitationUncheckedCreateNestedManyWithoutRecipientInput
   bugReports?: Prisma.BugReportUncheckedCreateNestedManyWithoutTesterInput
   moderatedReports?: Prisma.BugReportUncheckedCreateNestedManyWithoutModeratorInput
-  validatedReports?: Prisma.BugReportUncheckedCreateNestedManyWithoutValidatedByInput
   uploadedFinalReports?: Prisma.FinalReportUncheckedCreateNestedManyWithoutUploadedByInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
   emailTokens?: Prisma.EmailTokenUncheckedCreateNestedManyWithoutUserInput
@@ -440,7 +435,6 @@ export type UserUpdateInput = {
   campaignInvitations?: Prisma.CampaignInvitationUpdateManyWithoutRecipientNestedInput
   bugReports?: Prisma.BugReportUpdateManyWithoutTesterNestedInput
   moderatedReports?: Prisma.BugReportUpdateManyWithoutModeratorNestedInput
-  validatedReports?: Prisma.BugReportUpdateManyWithoutValidatedByNestedInput
   uploadedFinalReports?: Prisma.FinalReportUpdateManyWithoutUploadedByNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
   emailTokens?: Prisma.EmailTokenUpdateManyWithoutUserNestedInput
@@ -469,7 +463,6 @@ export type UserUncheckedUpdateInput = {
   campaignInvitations?: Prisma.CampaignInvitationUncheckedUpdateManyWithoutRecipientNestedInput
   bugReports?: Prisma.BugReportUncheckedUpdateManyWithoutTesterNestedInput
   moderatedReports?: Prisma.BugReportUncheckedUpdateManyWithoutModeratorNestedInput
-  validatedReports?: Prisma.BugReportUncheckedUpdateManyWithoutValidatedByNestedInput
   uploadedFinalReports?: Prisma.FinalReportUncheckedUpdateManyWithoutUploadedByNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
   emailTokens?: Prisma.EmailTokenUncheckedUpdateManyWithoutUserNestedInput
@@ -729,12 +722,6 @@ export type UserCreateNestedOneWithoutModeratedReportsInput = {
   connect?: Prisma.UserWhereUniqueInput
 }
 
-export type UserCreateNestedOneWithoutValidatedReportsInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutValidatedReportsInput, Prisma.UserUncheckedCreateWithoutValidatedReportsInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutValidatedReportsInput
-  connect?: Prisma.UserWhereUniqueInput
-}
-
 export type UserUpdateOneRequiredWithoutBugReportsNestedInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutBugReportsInput, Prisma.UserUncheckedCreateWithoutBugReportsInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutBugReportsInput
@@ -751,16 +738,6 @@ export type UserUpdateOneWithoutModeratedReportsNestedInput = {
   delete?: Prisma.UserWhereInput | boolean
   connect?: Prisma.UserWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutModeratedReportsInput, Prisma.UserUpdateWithoutModeratedReportsInput>, Prisma.UserUncheckedUpdateWithoutModeratedReportsInput>
-}
-
-export type UserUpdateOneWithoutValidatedReportsNestedInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutValidatedReportsInput, Prisma.UserUncheckedCreateWithoutValidatedReportsInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutValidatedReportsInput
-  upsert?: Prisma.UserUpsertWithoutValidatedReportsInput
-  disconnect?: Prisma.UserWhereInput | boolean
-  delete?: Prisma.UserWhereInput | boolean
-  connect?: Prisma.UserWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutValidatedReportsInput, Prisma.UserUpdateWithoutValidatedReportsInput>, Prisma.UserUncheckedUpdateWithoutValidatedReportsInput>
 }
 
 export type UserCreateNestedOneWithoutUploadedFinalReportsInput = {
@@ -827,7 +804,6 @@ export type UserCreateWithoutDevicesInput = {
   campaignInvitations?: Prisma.CampaignInvitationCreateNestedManyWithoutRecipientInput
   bugReports?: Prisma.BugReportCreateNestedManyWithoutTesterInput
   moderatedReports?: Prisma.BugReportCreateNestedManyWithoutModeratorInput
-  validatedReports?: Prisma.BugReportCreateNestedManyWithoutValidatedByInput
   uploadedFinalReports?: Prisma.FinalReportCreateNestedManyWithoutUploadedByInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutActorInput
   emailTokens?: Prisma.EmailTokenCreateNestedManyWithoutUserInput
@@ -855,7 +831,6 @@ export type UserUncheckedCreateWithoutDevicesInput = {
   campaignInvitations?: Prisma.CampaignInvitationUncheckedCreateNestedManyWithoutRecipientInput
   bugReports?: Prisma.BugReportUncheckedCreateNestedManyWithoutTesterInput
   moderatedReports?: Prisma.BugReportUncheckedCreateNestedManyWithoutModeratorInput
-  validatedReports?: Prisma.BugReportUncheckedCreateNestedManyWithoutValidatedByInput
   uploadedFinalReports?: Prisma.FinalReportUncheckedCreateNestedManyWithoutUploadedByInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
   emailTokens?: Prisma.EmailTokenUncheckedCreateNestedManyWithoutUserInput
@@ -899,7 +874,6 @@ export type UserUpdateWithoutDevicesInput = {
   campaignInvitations?: Prisma.CampaignInvitationUpdateManyWithoutRecipientNestedInput
   bugReports?: Prisma.BugReportUpdateManyWithoutTesterNestedInput
   moderatedReports?: Prisma.BugReportUpdateManyWithoutModeratorNestedInput
-  validatedReports?: Prisma.BugReportUpdateManyWithoutValidatedByNestedInput
   uploadedFinalReports?: Prisma.FinalReportUpdateManyWithoutUploadedByNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
   emailTokens?: Prisma.EmailTokenUpdateManyWithoutUserNestedInput
@@ -927,7 +901,6 @@ export type UserUncheckedUpdateWithoutDevicesInput = {
   campaignInvitations?: Prisma.CampaignInvitationUncheckedUpdateManyWithoutRecipientNestedInput
   bugReports?: Prisma.BugReportUncheckedUpdateManyWithoutTesterNestedInput
   moderatedReports?: Prisma.BugReportUncheckedUpdateManyWithoutModeratorNestedInput
-  validatedReports?: Prisma.BugReportUncheckedUpdateManyWithoutValidatedByNestedInput
   uploadedFinalReports?: Prisma.FinalReportUncheckedUpdateManyWithoutUploadedByNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
   emailTokens?: Prisma.EmailTokenUncheckedUpdateManyWithoutUserNestedInput
@@ -955,7 +928,6 @@ export type UserCreateWithoutClientCampaignsInput = {
   campaignInvitations?: Prisma.CampaignInvitationCreateNestedManyWithoutRecipientInput
   bugReports?: Prisma.BugReportCreateNestedManyWithoutTesterInput
   moderatedReports?: Prisma.BugReportCreateNestedManyWithoutModeratorInput
-  validatedReports?: Prisma.BugReportCreateNestedManyWithoutValidatedByInput
   uploadedFinalReports?: Prisma.FinalReportCreateNestedManyWithoutUploadedByInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutActorInput
   emailTokens?: Prisma.EmailTokenCreateNestedManyWithoutUserInput
@@ -983,7 +955,6 @@ export type UserUncheckedCreateWithoutClientCampaignsInput = {
   campaignInvitations?: Prisma.CampaignInvitationUncheckedCreateNestedManyWithoutRecipientInput
   bugReports?: Prisma.BugReportUncheckedCreateNestedManyWithoutTesterInput
   moderatedReports?: Prisma.BugReportUncheckedCreateNestedManyWithoutModeratorInput
-  validatedReports?: Prisma.BugReportUncheckedCreateNestedManyWithoutValidatedByInput
   uploadedFinalReports?: Prisma.FinalReportUncheckedCreateNestedManyWithoutUploadedByInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
   emailTokens?: Prisma.EmailTokenUncheckedCreateNestedManyWithoutUserInput
@@ -1016,7 +987,6 @@ export type UserCreateWithoutManagerCampaignsInput = {
   campaignInvitations?: Prisma.CampaignInvitationCreateNestedManyWithoutRecipientInput
   bugReports?: Prisma.BugReportCreateNestedManyWithoutTesterInput
   moderatedReports?: Prisma.BugReportCreateNestedManyWithoutModeratorInput
-  validatedReports?: Prisma.BugReportCreateNestedManyWithoutValidatedByInput
   uploadedFinalReports?: Prisma.FinalReportCreateNestedManyWithoutUploadedByInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutActorInput
   emailTokens?: Prisma.EmailTokenCreateNestedManyWithoutUserInput
@@ -1044,7 +1014,6 @@ export type UserUncheckedCreateWithoutManagerCampaignsInput = {
   campaignInvitations?: Prisma.CampaignInvitationUncheckedCreateNestedManyWithoutRecipientInput
   bugReports?: Prisma.BugReportUncheckedCreateNestedManyWithoutTesterInput
   moderatedReports?: Prisma.BugReportUncheckedCreateNestedManyWithoutModeratorInput
-  validatedReports?: Prisma.BugReportUncheckedCreateNestedManyWithoutValidatedByInput
   uploadedFinalReports?: Prisma.FinalReportUncheckedCreateNestedManyWithoutUploadedByInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
   emailTokens?: Prisma.EmailTokenUncheckedCreateNestedManyWithoutUserInput
@@ -1088,7 +1057,6 @@ export type UserUpdateWithoutClientCampaignsInput = {
   campaignInvitations?: Prisma.CampaignInvitationUpdateManyWithoutRecipientNestedInput
   bugReports?: Prisma.BugReportUpdateManyWithoutTesterNestedInput
   moderatedReports?: Prisma.BugReportUpdateManyWithoutModeratorNestedInput
-  validatedReports?: Prisma.BugReportUpdateManyWithoutValidatedByNestedInput
   uploadedFinalReports?: Prisma.FinalReportUpdateManyWithoutUploadedByNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
   emailTokens?: Prisma.EmailTokenUpdateManyWithoutUserNestedInput
@@ -1116,7 +1084,6 @@ export type UserUncheckedUpdateWithoutClientCampaignsInput = {
   campaignInvitations?: Prisma.CampaignInvitationUncheckedUpdateManyWithoutRecipientNestedInput
   bugReports?: Prisma.BugReportUncheckedUpdateManyWithoutTesterNestedInput
   moderatedReports?: Prisma.BugReportUncheckedUpdateManyWithoutModeratorNestedInput
-  validatedReports?: Prisma.BugReportUncheckedUpdateManyWithoutValidatedByNestedInput
   uploadedFinalReports?: Prisma.FinalReportUncheckedUpdateManyWithoutUploadedByNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
   emailTokens?: Prisma.EmailTokenUncheckedUpdateManyWithoutUserNestedInput
@@ -1155,7 +1122,6 @@ export type UserUpdateWithoutManagerCampaignsInput = {
   campaignInvitations?: Prisma.CampaignInvitationUpdateManyWithoutRecipientNestedInput
   bugReports?: Prisma.BugReportUpdateManyWithoutTesterNestedInput
   moderatedReports?: Prisma.BugReportUpdateManyWithoutModeratorNestedInput
-  validatedReports?: Prisma.BugReportUpdateManyWithoutValidatedByNestedInput
   uploadedFinalReports?: Prisma.FinalReportUpdateManyWithoutUploadedByNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
   emailTokens?: Prisma.EmailTokenUpdateManyWithoutUserNestedInput
@@ -1183,7 +1149,6 @@ export type UserUncheckedUpdateWithoutManagerCampaignsInput = {
   campaignInvitations?: Prisma.CampaignInvitationUncheckedUpdateManyWithoutRecipientNestedInput
   bugReports?: Prisma.BugReportUncheckedUpdateManyWithoutTesterNestedInput
   moderatedReports?: Prisma.BugReportUncheckedUpdateManyWithoutModeratorNestedInput
-  validatedReports?: Prisma.BugReportUncheckedUpdateManyWithoutValidatedByNestedInput
   uploadedFinalReports?: Prisma.FinalReportUncheckedUpdateManyWithoutUploadedByNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
   emailTokens?: Prisma.EmailTokenUncheckedUpdateManyWithoutUserNestedInput
@@ -1211,7 +1176,6 @@ export type UserCreateWithoutAssignmentsInput = {
   campaignInvitations?: Prisma.CampaignInvitationCreateNestedManyWithoutRecipientInput
   bugReports?: Prisma.BugReportCreateNestedManyWithoutTesterInput
   moderatedReports?: Prisma.BugReportCreateNestedManyWithoutModeratorInput
-  validatedReports?: Prisma.BugReportCreateNestedManyWithoutValidatedByInput
   uploadedFinalReports?: Prisma.FinalReportCreateNestedManyWithoutUploadedByInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutActorInput
   emailTokens?: Prisma.EmailTokenCreateNestedManyWithoutUserInput
@@ -1239,7 +1203,6 @@ export type UserUncheckedCreateWithoutAssignmentsInput = {
   campaignInvitations?: Prisma.CampaignInvitationUncheckedCreateNestedManyWithoutRecipientInput
   bugReports?: Prisma.BugReportUncheckedCreateNestedManyWithoutTesterInput
   moderatedReports?: Prisma.BugReportUncheckedCreateNestedManyWithoutModeratorInput
-  validatedReports?: Prisma.BugReportUncheckedCreateNestedManyWithoutValidatedByInput
   uploadedFinalReports?: Prisma.FinalReportUncheckedCreateNestedManyWithoutUploadedByInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
   emailTokens?: Prisma.EmailTokenUncheckedCreateNestedManyWithoutUserInput
@@ -1283,7 +1246,6 @@ export type UserUpdateWithoutAssignmentsInput = {
   campaignInvitations?: Prisma.CampaignInvitationUpdateManyWithoutRecipientNestedInput
   bugReports?: Prisma.BugReportUpdateManyWithoutTesterNestedInput
   moderatedReports?: Prisma.BugReportUpdateManyWithoutModeratorNestedInput
-  validatedReports?: Prisma.BugReportUpdateManyWithoutValidatedByNestedInput
   uploadedFinalReports?: Prisma.FinalReportUpdateManyWithoutUploadedByNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
   emailTokens?: Prisma.EmailTokenUpdateManyWithoutUserNestedInput
@@ -1311,7 +1273,6 @@ export type UserUncheckedUpdateWithoutAssignmentsInput = {
   campaignInvitations?: Prisma.CampaignInvitationUncheckedUpdateManyWithoutRecipientNestedInput
   bugReports?: Prisma.BugReportUncheckedUpdateManyWithoutTesterNestedInput
   moderatedReports?: Prisma.BugReportUncheckedUpdateManyWithoutModeratorNestedInput
-  validatedReports?: Prisma.BugReportUncheckedUpdateManyWithoutValidatedByNestedInput
   uploadedFinalReports?: Prisma.FinalReportUncheckedUpdateManyWithoutUploadedByNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
   emailTokens?: Prisma.EmailTokenUncheckedUpdateManyWithoutUserNestedInput
@@ -1339,7 +1300,6 @@ export type UserCreateWithoutCampaignInvitationsInput = {
   assignments?: Prisma.CampaignAssignmentCreateNestedManyWithoutUserInput
   bugReports?: Prisma.BugReportCreateNestedManyWithoutTesterInput
   moderatedReports?: Prisma.BugReportCreateNestedManyWithoutModeratorInput
-  validatedReports?: Prisma.BugReportCreateNestedManyWithoutValidatedByInput
   uploadedFinalReports?: Prisma.FinalReportCreateNestedManyWithoutUploadedByInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutActorInput
   emailTokens?: Prisma.EmailTokenCreateNestedManyWithoutUserInput
@@ -1367,7 +1327,6 @@ export type UserUncheckedCreateWithoutCampaignInvitationsInput = {
   assignments?: Prisma.CampaignAssignmentUncheckedCreateNestedManyWithoutUserInput
   bugReports?: Prisma.BugReportUncheckedCreateNestedManyWithoutTesterInput
   moderatedReports?: Prisma.BugReportUncheckedCreateNestedManyWithoutModeratorInput
-  validatedReports?: Prisma.BugReportUncheckedCreateNestedManyWithoutValidatedByInput
   uploadedFinalReports?: Prisma.FinalReportUncheckedCreateNestedManyWithoutUploadedByInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
   emailTokens?: Prisma.EmailTokenUncheckedCreateNestedManyWithoutUserInput
@@ -1411,7 +1370,6 @@ export type UserUpdateWithoutCampaignInvitationsInput = {
   assignments?: Prisma.CampaignAssignmentUpdateManyWithoutUserNestedInput
   bugReports?: Prisma.BugReportUpdateManyWithoutTesterNestedInput
   moderatedReports?: Prisma.BugReportUpdateManyWithoutModeratorNestedInput
-  validatedReports?: Prisma.BugReportUpdateManyWithoutValidatedByNestedInput
   uploadedFinalReports?: Prisma.FinalReportUpdateManyWithoutUploadedByNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
   emailTokens?: Prisma.EmailTokenUpdateManyWithoutUserNestedInput
@@ -1439,7 +1397,6 @@ export type UserUncheckedUpdateWithoutCampaignInvitationsInput = {
   assignments?: Prisma.CampaignAssignmentUncheckedUpdateManyWithoutUserNestedInput
   bugReports?: Prisma.BugReportUncheckedUpdateManyWithoutTesterNestedInput
   moderatedReports?: Prisma.BugReportUncheckedUpdateManyWithoutModeratorNestedInput
-  validatedReports?: Prisma.BugReportUncheckedUpdateManyWithoutValidatedByNestedInput
   uploadedFinalReports?: Prisma.FinalReportUncheckedUpdateManyWithoutUploadedByNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
   emailTokens?: Prisma.EmailTokenUncheckedUpdateManyWithoutUserNestedInput
@@ -1468,7 +1425,6 @@ export type UserCreateWithoutReceivedRoleUpgradeInvitationsInput = {
   campaignInvitations?: Prisma.CampaignInvitationCreateNestedManyWithoutRecipientInput
   bugReports?: Prisma.BugReportCreateNestedManyWithoutTesterInput
   moderatedReports?: Prisma.BugReportCreateNestedManyWithoutModeratorInput
-  validatedReports?: Prisma.BugReportCreateNestedManyWithoutValidatedByInput
   uploadedFinalReports?: Prisma.FinalReportCreateNestedManyWithoutUploadedByInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutActorInput
   emailTokens?: Prisma.EmailTokenCreateNestedManyWithoutUserInput
@@ -1496,7 +1452,6 @@ export type UserUncheckedCreateWithoutReceivedRoleUpgradeInvitationsInput = {
   campaignInvitations?: Prisma.CampaignInvitationUncheckedCreateNestedManyWithoutRecipientInput
   bugReports?: Prisma.BugReportUncheckedCreateNestedManyWithoutTesterInput
   moderatedReports?: Prisma.BugReportUncheckedCreateNestedManyWithoutModeratorInput
-  validatedReports?: Prisma.BugReportUncheckedCreateNestedManyWithoutValidatedByInput
   uploadedFinalReports?: Prisma.FinalReportUncheckedCreateNestedManyWithoutUploadedByInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
   emailTokens?: Prisma.EmailTokenUncheckedCreateNestedManyWithoutUserInput
@@ -1529,7 +1484,6 @@ export type UserCreateWithoutSentRoleUpgradeInvitationsInput = {
   campaignInvitations?: Prisma.CampaignInvitationCreateNestedManyWithoutRecipientInput
   bugReports?: Prisma.BugReportCreateNestedManyWithoutTesterInput
   moderatedReports?: Prisma.BugReportCreateNestedManyWithoutModeratorInput
-  validatedReports?: Prisma.BugReportCreateNestedManyWithoutValidatedByInput
   uploadedFinalReports?: Prisma.FinalReportCreateNestedManyWithoutUploadedByInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutActorInput
   emailTokens?: Prisma.EmailTokenCreateNestedManyWithoutUserInput
@@ -1557,7 +1511,6 @@ export type UserUncheckedCreateWithoutSentRoleUpgradeInvitationsInput = {
   campaignInvitations?: Prisma.CampaignInvitationUncheckedCreateNestedManyWithoutRecipientInput
   bugReports?: Prisma.BugReportUncheckedCreateNestedManyWithoutTesterInput
   moderatedReports?: Prisma.BugReportUncheckedCreateNestedManyWithoutModeratorInput
-  validatedReports?: Prisma.BugReportUncheckedCreateNestedManyWithoutValidatedByInput
   uploadedFinalReports?: Prisma.FinalReportUncheckedCreateNestedManyWithoutUploadedByInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
   emailTokens?: Prisma.EmailTokenUncheckedCreateNestedManyWithoutUserInput
@@ -1601,7 +1554,6 @@ export type UserUpdateWithoutReceivedRoleUpgradeInvitationsInput = {
   campaignInvitations?: Prisma.CampaignInvitationUpdateManyWithoutRecipientNestedInput
   bugReports?: Prisma.BugReportUpdateManyWithoutTesterNestedInput
   moderatedReports?: Prisma.BugReportUpdateManyWithoutModeratorNestedInput
-  validatedReports?: Prisma.BugReportUpdateManyWithoutValidatedByNestedInput
   uploadedFinalReports?: Prisma.FinalReportUpdateManyWithoutUploadedByNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
   emailTokens?: Prisma.EmailTokenUpdateManyWithoutUserNestedInput
@@ -1629,7 +1581,6 @@ export type UserUncheckedUpdateWithoutReceivedRoleUpgradeInvitationsInput = {
   campaignInvitations?: Prisma.CampaignInvitationUncheckedUpdateManyWithoutRecipientNestedInput
   bugReports?: Prisma.BugReportUncheckedUpdateManyWithoutTesterNestedInput
   moderatedReports?: Prisma.BugReportUncheckedUpdateManyWithoutModeratorNestedInput
-  validatedReports?: Prisma.BugReportUncheckedUpdateManyWithoutValidatedByNestedInput
   uploadedFinalReports?: Prisma.FinalReportUncheckedUpdateManyWithoutUploadedByNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
   emailTokens?: Prisma.EmailTokenUncheckedUpdateManyWithoutUserNestedInput
@@ -1668,7 +1619,6 @@ export type UserUpdateWithoutSentRoleUpgradeInvitationsInput = {
   campaignInvitations?: Prisma.CampaignInvitationUpdateManyWithoutRecipientNestedInput
   bugReports?: Prisma.BugReportUpdateManyWithoutTesterNestedInput
   moderatedReports?: Prisma.BugReportUpdateManyWithoutModeratorNestedInput
-  validatedReports?: Prisma.BugReportUpdateManyWithoutValidatedByNestedInput
   uploadedFinalReports?: Prisma.FinalReportUpdateManyWithoutUploadedByNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
   emailTokens?: Prisma.EmailTokenUpdateManyWithoutUserNestedInput
@@ -1696,7 +1646,6 @@ export type UserUncheckedUpdateWithoutSentRoleUpgradeInvitationsInput = {
   campaignInvitations?: Prisma.CampaignInvitationUncheckedUpdateManyWithoutRecipientNestedInput
   bugReports?: Prisma.BugReportUncheckedUpdateManyWithoutTesterNestedInput
   moderatedReports?: Prisma.BugReportUncheckedUpdateManyWithoutModeratorNestedInput
-  validatedReports?: Prisma.BugReportUncheckedUpdateManyWithoutValidatedByNestedInput
   uploadedFinalReports?: Prisma.FinalReportUncheckedUpdateManyWithoutUploadedByNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
   emailTokens?: Prisma.EmailTokenUncheckedUpdateManyWithoutUserNestedInput
@@ -1723,7 +1672,6 @@ export type UserCreateWithoutBugReportsInput = {
   assignments?: Prisma.CampaignAssignmentCreateNestedManyWithoutUserInput
   campaignInvitations?: Prisma.CampaignInvitationCreateNestedManyWithoutRecipientInput
   moderatedReports?: Prisma.BugReportCreateNestedManyWithoutModeratorInput
-  validatedReports?: Prisma.BugReportCreateNestedManyWithoutValidatedByInput
   uploadedFinalReports?: Prisma.FinalReportCreateNestedManyWithoutUploadedByInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutActorInput
   emailTokens?: Prisma.EmailTokenCreateNestedManyWithoutUserInput
@@ -1751,7 +1699,6 @@ export type UserUncheckedCreateWithoutBugReportsInput = {
   assignments?: Prisma.CampaignAssignmentUncheckedCreateNestedManyWithoutUserInput
   campaignInvitations?: Prisma.CampaignInvitationUncheckedCreateNestedManyWithoutRecipientInput
   moderatedReports?: Prisma.BugReportUncheckedCreateNestedManyWithoutModeratorInput
-  validatedReports?: Prisma.BugReportUncheckedCreateNestedManyWithoutValidatedByInput
   uploadedFinalReports?: Prisma.FinalReportUncheckedCreateNestedManyWithoutUploadedByInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
   emailTokens?: Prisma.EmailTokenUncheckedCreateNestedManyWithoutUserInput
@@ -1784,7 +1731,6 @@ export type UserCreateWithoutModeratedReportsInput = {
   assignments?: Prisma.CampaignAssignmentCreateNestedManyWithoutUserInput
   campaignInvitations?: Prisma.CampaignInvitationCreateNestedManyWithoutRecipientInput
   bugReports?: Prisma.BugReportCreateNestedManyWithoutTesterInput
-  validatedReports?: Prisma.BugReportCreateNestedManyWithoutValidatedByInput
   uploadedFinalReports?: Prisma.FinalReportCreateNestedManyWithoutUploadedByInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutActorInput
   emailTokens?: Prisma.EmailTokenCreateNestedManyWithoutUserInput
@@ -1812,7 +1758,6 @@ export type UserUncheckedCreateWithoutModeratedReportsInput = {
   assignments?: Prisma.CampaignAssignmentUncheckedCreateNestedManyWithoutUserInput
   campaignInvitations?: Prisma.CampaignInvitationUncheckedCreateNestedManyWithoutRecipientInput
   bugReports?: Prisma.BugReportUncheckedCreateNestedManyWithoutTesterInput
-  validatedReports?: Prisma.BugReportUncheckedCreateNestedManyWithoutValidatedByInput
   uploadedFinalReports?: Prisma.FinalReportUncheckedCreateNestedManyWithoutUploadedByInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
   emailTokens?: Prisma.EmailTokenUncheckedCreateNestedManyWithoutUserInput
@@ -1823,67 +1768,6 @@ export type UserUncheckedCreateWithoutModeratedReportsInput = {
 export type UserCreateOrConnectWithoutModeratedReportsInput = {
   where: Prisma.UserWhereUniqueInput
   create: Prisma.XOR<Prisma.UserCreateWithoutModeratedReportsInput, Prisma.UserUncheckedCreateWithoutModeratedReportsInput>
-}
-
-export type UserCreateWithoutValidatedReportsInput = {
-  id?: string
-  name: string
-  email: string
-  passwordHash: string
-  role: $Enums.Role
-  testerKind?: $Enums.TesterKind | null
-  accountStatus?: $Enums.AccountStatus
-  isEmailVerified?: boolean
-  country?: string | null
-  language?: string | null
-  testingExperience?: string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  devices?: Prisma.DeviceCreateNestedManyWithoutUserInput
-  clientCampaigns?: Prisma.CampaignCreateNestedManyWithoutClientInput
-  managerCampaigns?: Prisma.CampaignCreateNestedManyWithoutTestManagerInput
-  assignments?: Prisma.CampaignAssignmentCreateNestedManyWithoutUserInput
-  campaignInvitations?: Prisma.CampaignInvitationCreateNestedManyWithoutRecipientInput
-  bugReports?: Prisma.BugReportCreateNestedManyWithoutTesterInput
-  moderatedReports?: Prisma.BugReportCreateNestedManyWithoutModeratorInput
-  uploadedFinalReports?: Prisma.FinalReportCreateNestedManyWithoutUploadedByInput
-  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutActorInput
-  emailTokens?: Prisma.EmailTokenCreateNestedManyWithoutUserInput
-  receivedRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationCreateNestedManyWithoutRecipientInput
-  sentRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationCreateNestedManyWithoutInvitedByInput
-}
-
-export type UserUncheckedCreateWithoutValidatedReportsInput = {
-  id?: string
-  name: string
-  email: string
-  passwordHash: string
-  role: $Enums.Role
-  testerKind?: $Enums.TesterKind | null
-  accountStatus?: $Enums.AccountStatus
-  isEmailVerified?: boolean
-  country?: string | null
-  language?: string | null
-  testingExperience?: string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutUserInput
-  clientCampaigns?: Prisma.CampaignUncheckedCreateNestedManyWithoutClientInput
-  managerCampaigns?: Prisma.CampaignUncheckedCreateNestedManyWithoutTestManagerInput
-  assignments?: Prisma.CampaignAssignmentUncheckedCreateNestedManyWithoutUserInput
-  campaignInvitations?: Prisma.CampaignInvitationUncheckedCreateNestedManyWithoutRecipientInput
-  bugReports?: Prisma.BugReportUncheckedCreateNestedManyWithoutTesterInput
-  moderatedReports?: Prisma.BugReportUncheckedCreateNestedManyWithoutModeratorInput
-  uploadedFinalReports?: Prisma.FinalReportUncheckedCreateNestedManyWithoutUploadedByInput
-  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
-  emailTokens?: Prisma.EmailTokenUncheckedCreateNestedManyWithoutUserInput
-  receivedRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationUncheckedCreateNestedManyWithoutRecipientInput
-  sentRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationUncheckedCreateNestedManyWithoutInvitedByInput
-}
-
-export type UserCreateOrConnectWithoutValidatedReportsInput = {
-  where: Prisma.UserWhereUniqueInput
-  create: Prisma.XOR<Prisma.UserCreateWithoutValidatedReportsInput, Prisma.UserUncheckedCreateWithoutValidatedReportsInput>
 }
 
 export type UserUpsertWithoutBugReportsInput = {
@@ -1917,7 +1801,6 @@ export type UserUpdateWithoutBugReportsInput = {
   assignments?: Prisma.CampaignAssignmentUpdateManyWithoutUserNestedInput
   campaignInvitations?: Prisma.CampaignInvitationUpdateManyWithoutRecipientNestedInput
   moderatedReports?: Prisma.BugReportUpdateManyWithoutModeratorNestedInput
-  validatedReports?: Prisma.BugReportUpdateManyWithoutValidatedByNestedInput
   uploadedFinalReports?: Prisma.FinalReportUpdateManyWithoutUploadedByNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
   emailTokens?: Prisma.EmailTokenUpdateManyWithoutUserNestedInput
@@ -1945,7 +1828,6 @@ export type UserUncheckedUpdateWithoutBugReportsInput = {
   assignments?: Prisma.CampaignAssignmentUncheckedUpdateManyWithoutUserNestedInput
   campaignInvitations?: Prisma.CampaignInvitationUncheckedUpdateManyWithoutRecipientNestedInput
   moderatedReports?: Prisma.BugReportUncheckedUpdateManyWithoutModeratorNestedInput
-  validatedReports?: Prisma.BugReportUncheckedUpdateManyWithoutValidatedByNestedInput
   uploadedFinalReports?: Prisma.FinalReportUncheckedUpdateManyWithoutUploadedByNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
   emailTokens?: Prisma.EmailTokenUncheckedUpdateManyWithoutUserNestedInput
@@ -1984,7 +1866,6 @@ export type UserUpdateWithoutModeratedReportsInput = {
   assignments?: Prisma.CampaignAssignmentUpdateManyWithoutUserNestedInput
   campaignInvitations?: Prisma.CampaignInvitationUpdateManyWithoutRecipientNestedInput
   bugReports?: Prisma.BugReportUpdateManyWithoutTesterNestedInput
-  validatedReports?: Prisma.BugReportUpdateManyWithoutValidatedByNestedInput
   uploadedFinalReports?: Prisma.FinalReportUpdateManyWithoutUploadedByNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
   emailTokens?: Prisma.EmailTokenUpdateManyWithoutUserNestedInput
@@ -2012,74 +1893,6 @@ export type UserUncheckedUpdateWithoutModeratedReportsInput = {
   assignments?: Prisma.CampaignAssignmentUncheckedUpdateManyWithoutUserNestedInput
   campaignInvitations?: Prisma.CampaignInvitationUncheckedUpdateManyWithoutRecipientNestedInput
   bugReports?: Prisma.BugReportUncheckedUpdateManyWithoutTesterNestedInput
-  validatedReports?: Prisma.BugReportUncheckedUpdateManyWithoutValidatedByNestedInput
-  uploadedFinalReports?: Prisma.FinalReportUncheckedUpdateManyWithoutUploadedByNestedInput
-  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
-  emailTokens?: Prisma.EmailTokenUncheckedUpdateManyWithoutUserNestedInput
-  receivedRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationUncheckedUpdateManyWithoutRecipientNestedInput
-  sentRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationUncheckedUpdateManyWithoutInvitedByNestedInput
-}
-
-export type UserUpsertWithoutValidatedReportsInput = {
-  update: Prisma.XOR<Prisma.UserUpdateWithoutValidatedReportsInput, Prisma.UserUncheckedUpdateWithoutValidatedReportsInput>
-  create: Prisma.XOR<Prisma.UserCreateWithoutValidatedReportsInput, Prisma.UserUncheckedCreateWithoutValidatedReportsInput>
-  where?: Prisma.UserWhereInput
-}
-
-export type UserUpdateToOneWithWhereWithoutValidatedReportsInput = {
-  where?: Prisma.UserWhereInput
-  data: Prisma.XOR<Prisma.UserUpdateWithoutValidatedReportsInput, Prisma.UserUncheckedUpdateWithoutValidatedReportsInput>
-}
-
-export type UserUpdateWithoutValidatedReportsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
-  testerKind?: Prisma.NullableEnumTesterKindFieldUpdateOperationsInput | $Enums.TesterKind | null
-  accountStatus?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
-  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  language?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  testingExperience?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  devices?: Prisma.DeviceUpdateManyWithoutUserNestedInput
-  clientCampaigns?: Prisma.CampaignUpdateManyWithoutClientNestedInput
-  managerCampaigns?: Prisma.CampaignUpdateManyWithoutTestManagerNestedInput
-  assignments?: Prisma.CampaignAssignmentUpdateManyWithoutUserNestedInput
-  campaignInvitations?: Prisma.CampaignInvitationUpdateManyWithoutRecipientNestedInput
-  bugReports?: Prisma.BugReportUpdateManyWithoutTesterNestedInput
-  moderatedReports?: Prisma.BugReportUpdateManyWithoutModeratorNestedInput
-  uploadedFinalReports?: Prisma.FinalReportUpdateManyWithoutUploadedByNestedInput
-  auditLogs?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
-  emailTokens?: Prisma.EmailTokenUpdateManyWithoutUserNestedInput
-  receivedRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationUpdateManyWithoutRecipientNestedInput
-  sentRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationUpdateManyWithoutInvitedByNestedInput
-}
-
-export type UserUncheckedUpdateWithoutValidatedReportsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
-  testerKind?: Prisma.NullableEnumTesterKindFieldUpdateOperationsInput | $Enums.TesterKind | null
-  accountStatus?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
-  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  language?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  testingExperience?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  devices?: Prisma.DeviceUncheckedUpdateManyWithoutUserNestedInput
-  clientCampaigns?: Prisma.CampaignUncheckedUpdateManyWithoutClientNestedInput
-  managerCampaigns?: Prisma.CampaignUncheckedUpdateManyWithoutTestManagerNestedInput
-  assignments?: Prisma.CampaignAssignmentUncheckedUpdateManyWithoutUserNestedInput
-  campaignInvitations?: Prisma.CampaignInvitationUncheckedUpdateManyWithoutRecipientNestedInput
-  bugReports?: Prisma.BugReportUncheckedUpdateManyWithoutTesterNestedInput
-  moderatedReports?: Prisma.BugReportUncheckedUpdateManyWithoutModeratorNestedInput
   uploadedFinalReports?: Prisma.FinalReportUncheckedUpdateManyWithoutUploadedByNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
   emailTokens?: Prisma.EmailTokenUncheckedUpdateManyWithoutUserNestedInput
@@ -2108,7 +1921,6 @@ export type UserCreateWithoutUploadedFinalReportsInput = {
   campaignInvitations?: Prisma.CampaignInvitationCreateNestedManyWithoutRecipientInput
   bugReports?: Prisma.BugReportCreateNestedManyWithoutTesterInput
   moderatedReports?: Prisma.BugReportCreateNestedManyWithoutModeratorInput
-  validatedReports?: Prisma.BugReportCreateNestedManyWithoutValidatedByInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutActorInput
   emailTokens?: Prisma.EmailTokenCreateNestedManyWithoutUserInput
   receivedRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationCreateNestedManyWithoutRecipientInput
@@ -2136,7 +1948,6 @@ export type UserUncheckedCreateWithoutUploadedFinalReportsInput = {
   campaignInvitations?: Prisma.CampaignInvitationUncheckedCreateNestedManyWithoutRecipientInput
   bugReports?: Prisma.BugReportUncheckedCreateNestedManyWithoutTesterInput
   moderatedReports?: Prisma.BugReportUncheckedCreateNestedManyWithoutModeratorInput
-  validatedReports?: Prisma.BugReportUncheckedCreateNestedManyWithoutValidatedByInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
   emailTokens?: Prisma.EmailTokenUncheckedCreateNestedManyWithoutUserInput
   receivedRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationUncheckedCreateNestedManyWithoutRecipientInput
@@ -2180,7 +1991,6 @@ export type UserUpdateWithoutUploadedFinalReportsInput = {
   campaignInvitations?: Prisma.CampaignInvitationUpdateManyWithoutRecipientNestedInput
   bugReports?: Prisma.BugReportUpdateManyWithoutTesterNestedInput
   moderatedReports?: Prisma.BugReportUpdateManyWithoutModeratorNestedInput
-  validatedReports?: Prisma.BugReportUpdateManyWithoutValidatedByNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
   emailTokens?: Prisma.EmailTokenUpdateManyWithoutUserNestedInput
   receivedRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationUpdateManyWithoutRecipientNestedInput
@@ -2208,7 +2018,6 @@ export type UserUncheckedUpdateWithoutUploadedFinalReportsInput = {
   campaignInvitations?: Prisma.CampaignInvitationUncheckedUpdateManyWithoutRecipientNestedInput
   bugReports?: Prisma.BugReportUncheckedUpdateManyWithoutTesterNestedInput
   moderatedReports?: Prisma.BugReportUncheckedUpdateManyWithoutModeratorNestedInput
-  validatedReports?: Prisma.BugReportUncheckedUpdateManyWithoutValidatedByNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
   emailTokens?: Prisma.EmailTokenUncheckedUpdateManyWithoutUserNestedInput
   receivedRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationUncheckedUpdateManyWithoutRecipientNestedInput
@@ -2236,7 +2045,6 @@ export type UserCreateWithoutAuditLogsInput = {
   campaignInvitations?: Prisma.CampaignInvitationCreateNestedManyWithoutRecipientInput
   bugReports?: Prisma.BugReportCreateNestedManyWithoutTesterInput
   moderatedReports?: Prisma.BugReportCreateNestedManyWithoutModeratorInput
-  validatedReports?: Prisma.BugReportCreateNestedManyWithoutValidatedByInput
   uploadedFinalReports?: Prisma.FinalReportCreateNestedManyWithoutUploadedByInput
   emailTokens?: Prisma.EmailTokenCreateNestedManyWithoutUserInput
   receivedRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationCreateNestedManyWithoutRecipientInput
@@ -2264,7 +2072,6 @@ export type UserUncheckedCreateWithoutAuditLogsInput = {
   campaignInvitations?: Prisma.CampaignInvitationUncheckedCreateNestedManyWithoutRecipientInput
   bugReports?: Prisma.BugReportUncheckedCreateNestedManyWithoutTesterInput
   moderatedReports?: Prisma.BugReportUncheckedCreateNestedManyWithoutModeratorInput
-  validatedReports?: Prisma.BugReportUncheckedCreateNestedManyWithoutValidatedByInput
   uploadedFinalReports?: Prisma.FinalReportUncheckedCreateNestedManyWithoutUploadedByInput
   emailTokens?: Prisma.EmailTokenUncheckedCreateNestedManyWithoutUserInput
   receivedRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationUncheckedCreateNestedManyWithoutRecipientInput
@@ -2308,7 +2115,6 @@ export type UserUpdateWithoutAuditLogsInput = {
   campaignInvitations?: Prisma.CampaignInvitationUpdateManyWithoutRecipientNestedInput
   bugReports?: Prisma.BugReportUpdateManyWithoutTesterNestedInput
   moderatedReports?: Prisma.BugReportUpdateManyWithoutModeratorNestedInput
-  validatedReports?: Prisma.BugReportUpdateManyWithoutValidatedByNestedInput
   uploadedFinalReports?: Prisma.FinalReportUpdateManyWithoutUploadedByNestedInput
   emailTokens?: Prisma.EmailTokenUpdateManyWithoutUserNestedInput
   receivedRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationUpdateManyWithoutRecipientNestedInput
@@ -2336,7 +2142,6 @@ export type UserUncheckedUpdateWithoutAuditLogsInput = {
   campaignInvitations?: Prisma.CampaignInvitationUncheckedUpdateManyWithoutRecipientNestedInput
   bugReports?: Prisma.BugReportUncheckedUpdateManyWithoutTesterNestedInput
   moderatedReports?: Prisma.BugReportUncheckedUpdateManyWithoutModeratorNestedInput
-  validatedReports?: Prisma.BugReportUncheckedUpdateManyWithoutValidatedByNestedInput
   uploadedFinalReports?: Prisma.FinalReportUncheckedUpdateManyWithoutUploadedByNestedInput
   emailTokens?: Prisma.EmailTokenUncheckedUpdateManyWithoutUserNestedInput
   receivedRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationUncheckedUpdateManyWithoutRecipientNestedInput
@@ -2364,7 +2169,6 @@ export type UserCreateWithoutEmailTokensInput = {
   campaignInvitations?: Prisma.CampaignInvitationCreateNestedManyWithoutRecipientInput
   bugReports?: Prisma.BugReportCreateNestedManyWithoutTesterInput
   moderatedReports?: Prisma.BugReportCreateNestedManyWithoutModeratorInput
-  validatedReports?: Prisma.BugReportCreateNestedManyWithoutValidatedByInput
   uploadedFinalReports?: Prisma.FinalReportCreateNestedManyWithoutUploadedByInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutActorInput
   receivedRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationCreateNestedManyWithoutRecipientInput
@@ -2392,7 +2196,6 @@ export type UserUncheckedCreateWithoutEmailTokensInput = {
   campaignInvitations?: Prisma.CampaignInvitationUncheckedCreateNestedManyWithoutRecipientInput
   bugReports?: Prisma.BugReportUncheckedCreateNestedManyWithoutTesterInput
   moderatedReports?: Prisma.BugReportUncheckedCreateNestedManyWithoutModeratorInput
-  validatedReports?: Prisma.BugReportUncheckedCreateNestedManyWithoutValidatedByInput
   uploadedFinalReports?: Prisma.FinalReportUncheckedCreateNestedManyWithoutUploadedByInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
   receivedRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationUncheckedCreateNestedManyWithoutRecipientInput
@@ -2436,7 +2239,6 @@ export type UserUpdateWithoutEmailTokensInput = {
   campaignInvitations?: Prisma.CampaignInvitationUpdateManyWithoutRecipientNestedInput
   bugReports?: Prisma.BugReportUpdateManyWithoutTesterNestedInput
   moderatedReports?: Prisma.BugReportUpdateManyWithoutModeratorNestedInput
-  validatedReports?: Prisma.BugReportUpdateManyWithoutValidatedByNestedInput
   uploadedFinalReports?: Prisma.FinalReportUpdateManyWithoutUploadedByNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
   receivedRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationUpdateManyWithoutRecipientNestedInput
@@ -2464,7 +2266,6 @@ export type UserUncheckedUpdateWithoutEmailTokensInput = {
   campaignInvitations?: Prisma.CampaignInvitationUncheckedUpdateManyWithoutRecipientNestedInput
   bugReports?: Prisma.BugReportUncheckedUpdateManyWithoutTesterNestedInput
   moderatedReports?: Prisma.BugReportUncheckedUpdateManyWithoutModeratorNestedInput
-  validatedReports?: Prisma.BugReportUncheckedUpdateManyWithoutValidatedByNestedInput
   uploadedFinalReports?: Prisma.FinalReportUncheckedUpdateManyWithoutUploadedByNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
   receivedRoleUpgradeInvitations?: Prisma.RoleUpgradeInvitationUncheckedUpdateManyWithoutRecipientNestedInput
@@ -2484,7 +2285,6 @@ export type UserCountOutputType = {
   campaignInvitations: number
   bugReports: number
   moderatedReports: number
-  validatedReports: number
   uploadedFinalReports: number
   auditLogs: number
   emailTokens: number
@@ -2500,7 +2300,6 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   campaignInvitations?: boolean | UserCountOutputTypeCountCampaignInvitationsArgs
   bugReports?: boolean | UserCountOutputTypeCountBugReportsArgs
   moderatedReports?: boolean | UserCountOutputTypeCountModeratedReportsArgs
-  validatedReports?: boolean | UserCountOutputTypeCountValidatedReportsArgs
   uploadedFinalReports?: boolean | UserCountOutputTypeCountUploadedFinalReportsArgs
   auditLogs?: boolean | UserCountOutputTypeCountAuditLogsArgs
   emailTokens?: boolean | UserCountOutputTypeCountEmailTokensArgs
@@ -2570,13 +2369,6 @@ export type UserCountOutputTypeCountModeratedReportsArgs<ExtArgs extends runtime
 /**
  * UserCountOutputType without action
  */
-export type UserCountOutputTypeCountValidatedReportsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.BugReportWhereInput
-}
-
-/**
- * UserCountOutputType without action
- */
 export type UserCountOutputTypeCountUploadedFinalReportsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.FinalReportWhereInput
 }
@@ -2631,7 +2423,6 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   campaignInvitations?: boolean | Prisma.User$campaignInvitationsArgs<ExtArgs>
   bugReports?: boolean | Prisma.User$bugReportsArgs<ExtArgs>
   moderatedReports?: boolean | Prisma.User$moderatedReportsArgs<ExtArgs>
-  validatedReports?: boolean | Prisma.User$validatedReportsArgs<ExtArgs>
   uploadedFinalReports?: boolean | Prisma.User$uploadedFinalReportsArgs<ExtArgs>
   auditLogs?: boolean | Prisma.User$auditLogsArgs<ExtArgs>
   emailTokens?: boolean | Prisma.User$emailTokensArgs<ExtArgs>
@@ -2667,7 +2458,6 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   campaignInvitations?: boolean | Prisma.User$campaignInvitationsArgs<ExtArgs>
   bugReports?: boolean | Prisma.User$bugReportsArgs<ExtArgs>
   moderatedReports?: boolean | Prisma.User$moderatedReportsArgs<ExtArgs>
-  validatedReports?: boolean | Prisma.User$validatedReportsArgs<ExtArgs>
   uploadedFinalReports?: boolean | Prisma.User$uploadedFinalReportsArgs<ExtArgs>
   auditLogs?: boolean | Prisma.User$auditLogsArgs<ExtArgs>
   emailTokens?: boolean | Prisma.User$emailTokensArgs<ExtArgs>
@@ -2686,7 +2476,6 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     campaignInvitations: Prisma.$CampaignInvitationPayload<ExtArgs>[]
     bugReports: Prisma.$BugReportPayload<ExtArgs>[]
     moderatedReports: Prisma.$BugReportPayload<ExtArgs>[]
-    validatedReports: Prisma.$BugReportPayload<ExtArgs>[]
     uploadedFinalReports: Prisma.$FinalReportPayload<ExtArgs>[]
     auditLogs: Prisma.$AuditLogPayload<ExtArgs>[]
     emailTokens: Prisma.$EmailTokenPayload<ExtArgs>[]
@@ -3054,7 +2843,6 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   campaignInvitations<T extends Prisma.User$campaignInvitationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$campaignInvitationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CampaignInvitationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   bugReports<T extends Prisma.User$bugReportsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$bugReportsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BugReportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   moderatedReports<T extends Prisma.User$moderatedReportsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$moderatedReportsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BugReportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  validatedReports<T extends Prisma.User$validatedReportsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$validatedReportsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BugReportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   uploadedFinalReports<T extends Prisma.User$uploadedFinalReportsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$uploadedFinalReportsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FinalReportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   auditLogs<T extends Prisma.User$auditLogsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$auditLogsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AuditLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   emailTokens<T extends Prisma.User$emailTokensArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$emailTokensArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EmailTokenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -3597,30 +3385,6 @@ export type User$bugReportsArgs<ExtArgs extends runtime.Types.Extensions.Interna
  * User.moderatedReports
  */
 export type User$moderatedReportsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the BugReport
-   */
-  select?: Prisma.BugReportSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the BugReport
-   */
-  omit?: Prisma.BugReportOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.BugReportInclude<ExtArgs> | null
-  where?: Prisma.BugReportWhereInput
-  orderBy?: Prisma.BugReportOrderByWithRelationInput | Prisma.BugReportOrderByWithRelationInput[]
-  cursor?: Prisma.BugReportWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.BugReportScalarFieldEnum | Prisma.BugReportScalarFieldEnum[]
-}
-
-/**
- * User.validatedReports
- */
-export type User$validatedReportsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the BugReport
    */

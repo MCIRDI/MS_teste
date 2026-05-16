@@ -1,8 +1,12 @@
 import { jwtVerify } from "jose";
+import createIntlMiddleware from "next-intl/middleware";
 import { NextResponse, type NextRequest } from "next/server";
+
+import { routing } from "@/i18n/routing";
 
 const SESSION_COOKIE = "ms-test-session";
 const protectedAreas = ["/client", "/tester", "/moderator", "/manager", "/admin"];
+const authPages = ["/login", "/signup"];
 
 const rolePrefixes: Record<string, string[]> = {
   CLIENT: ["/client"],
@@ -11,6 +15,19 @@ const rolePrefixes: Record<string, string[]> = {
   TEST_MANAGER: ["/manager"],
   ADMIN: ["/admin"],
 };
+
+const intlMiddleware = createIntlMiddleware(routing);
+
+function stripLocale(pathname: string) {
+  const match = pathname.match(/^\/(en|fr|ar)(?=\/|$)/);
+  if (!match) {
+    return { locale: routing.defaultLocale, pathname };
+  }
+
+  const locale = match[1]!;
+  const rest = pathname.slice(locale.length + 1) || "/";
+  return { locale, pathname: rest };
+}
 
 function isProtectedPath(pathname: string) {
   return protectedAreas.some((segment) => pathname.startsWith(segment));
@@ -32,28 +49,35 @@ function getDashboardPath(role: string) {
   }
 }
 
+function localizedPath(locale: string, path: string) {
+  return `/${locale}${path}`;
+}
+
 export async function middleware(request: NextRequest) {
-  const { pathname } = request.nextUrl;
+  const intlResponse = intlMiddleware(request);
+  const { locale, pathname } = stripLocale(request.nextUrl.pathname);
   const token = request.cookies.get(SESSION_COOKIE)?.value;
 
-  if ((pathname === "/login" || pathname === "/signup") && token) {
+  if (authPages.includes(pathname) && token) {
     try {
       const secret = new TextEncoder().encode(
         process.env.JWT_SECRET ?? "change-me-to-a-long-random-secret",
       );
       const { payload } = await jwtVerify(token, secret);
-      return NextResponse.redirect(new URL(getDashboardPath(String(payload.role)), request.url));
+      return NextResponse.redirect(
+        new URL(localizedPath(locale, getDashboardPath(String(payload.role))), request.url),
+      );
     } catch {
-      return NextResponse.next();
+      return intlResponse;
     }
   }
 
   if (!isProtectedPath(pathname)) {
-    return NextResponse.next();
+    return intlResponse;
   }
 
   if (!token) {
-    return NextResponse.redirect(new URL("/login", request.url));
+    return NextResponse.redirect(new URL(localizedPath(locale, "/login"), request.url));
   }
 
   try {
@@ -65,23 +89,17 @@ export async function middleware(request: NextRequest) {
     const allowedPrefixes = rolePrefixes[role] ?? [];
 
     if (!allowedPrefixes.some((segment) => pathname.startsWith(segment))) {
-      return NextResponse.redirect(new URL(getDashboardPath(role), request.url));
+      return NextResponse.redirect(
+        new URL(localizedPath(locale, getDashboardPath(role)), request.url),
+      );
     }
 
-    return NextResponse.next();
+    return intlResponse;
   } catch {
-    return NextResponse.redirect(new URL("/login", request.url));
+    return NextResponse.redirect(new URL(localizedPath(locale, "/login"), request.url));
   }
 }
 
 export const config = {
-  matcher: [
-    "/login",
-    "/signup",
-    "/client/:path*",
-    "/tester/:path*",
-    "/moderator/:path*",
-    "/manager/:path*",
-    "/admin/:path*",
-  ],
+  matcher: ["/((?!api|_next|_vercel|.*\\..*).*)"],
 };

@@ -1,7 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
+import { redirectTo } from "@/lib/redirect";
 
 import { requireSession } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
@@ -81,7 +81,7 @@ export async function saveTesterSetupAction(formData: FormData) {
   const next = String(formData.get("next") ?? "").trim();
 
   if (!country || !deviceName || !osVersion || !browser || !screenResolution) {
-    redirect(`/tester/setup?next=${encodeURIComponent(next || "/tester/campaigns")}`);
+    return await redirectTo(`/tester/setup?next=${encodeURIComponent(next || "/tester/campaigns")}`);
   }
 
   await prisma.user.update({
@@ -122,5 +122,5 @@ export async function saveTesterSetupAction(formData: FormData) {
   revalidatePath("/tester/campaigns");
   revalidatePath("/tester/bugs/new");
 
-  redirect(next && next.startsWith("/tester") ? next : "/tester/campaigns");
+  return await redirectTo(next && next.startsWith("/tester") ? next : "/tester/campaigns");
 }

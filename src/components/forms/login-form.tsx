@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { useActionState } from "react";
 
 import { loginAction, type ActionState } from "@/app/actions/auth";
@@ -9,24 +10,31 @@ import { Input } from "@/components/ui/input";
 const initialState: ActionState = { success: false };
 
 export function LoginForm() {
+  const t = useTranslations("login");
   const [state, formAction] = useActionState(loginAction, initialState);
 
   return (
     <form action={formAction} className="space-y-4">
       <div className="space-y-2">
         <label className="text-sm font-medium text-stone-700" htmlFor="email">
-          Email
+          {t("email")}
         </label>
-        <Input id="email" name="email" type="email" placeholder="name@company.com" required />
+        <Input id="email" name="email" type="email" placeholder={t("emailPlaceholder")} required />
       </div>
       <div className="space-y-2">
         <label className="text-sm font-medium text-stone-700" htmlFor="password">
-          Password
+          {t("password")}
         </label>
-        <Input id="password" name="password" type="password" placeholder="Your password" required />
+        <Input
+          id="password"
+          name="password"
+          type="password"
+          placeholder={t("passwordPlaceholder")}
+          required
+        />
       </div>
       {state.message ? <p className="text-sm text-red-700">{state.message}</p> : null}
-      <SubmitButton label="Login" pendingLabel="Signing in..." />
+      <SubmitButton label={t("submit")} pendingLabel={t("pending")} />
     </form>
   );
 }

@@ -29,7 +29,6 @@ export type BugReportMinAggregateOutputType = {
   campaignId: string | null
   testerId: string | null
   moderatorId: string | null
-  validatedById: string | null
   title: string | null
   groupKey: string | null
   pageUrl: string | null
@@ -42,7 +41,6 @@ export type BugReportMinAggregateOutputType = {
   severity: $Enums.BugSeverity | null
   status: $Enums.BugStatus | null
   moderationNotes: string | null
-  validationNotes: string | null
   duplicateOfId: string | null
   moderatedAt: Date | null
   createdAt: Date | null
@@ -54,7 +52,6 @@ export type BugReportMaxAggregateOutputType = {
   campaignId: string | null
   testerId: string | null
   moderatorId: string | null
-  validatedById: string | null
   title: string | null
   groupKey: string | null
   pageUrl: string | null
@@ -67,7 +64,6 @@ export type BugReportMaxAggregateOutputType = {
   severity: $Enums.BugSeverity | null
   status: $Enums.BugStatus | null
   moderationNotes: string | null
-  validationNotes: string | null
   duplicateOfId: string | null
   moderatedAt: Date | null
   createdAt: Date | null
@@ -79,7 +75,6 @@ export type BugReportCountAggregateOutputType = {
   campaignId: number
   testerId: number
   moderatorId: number
-  validatedById: number
   title: number
   groupKey: number
   pageUrl: number
@@ -93,7 +88,6 @@ export type BugReportCountAggregateOutputType = {
   environment: number
   status: number
   moderationNotes: number
-  validationNotes: number
   duplicateOfId: number
   moderatedAt: number
   createdAt: number
@@ -107,7 +101,6 @@ export type BugReportMinAggregateInputType = {
   campaignId?: true
   testerId?: true
   moderatorId?: true
-  validatedById?: true
   title?: true
   groupKey?: true
   pageUrl?: true
@@ -120,7 +113,6 @@ export type BugReportMinAggregateInputType = {
   severity?: true
   status?: true
   moderationNotes?: true
-  validationNotes?: true
   duplicateOfId?: true
   moderatedAt?: true
   createdAt?: true
@@ -132,7 +124,6 @@ export type BugReportMaxAggregateInputType = {
   campaignId?: true
   testerId?: true
   moderatorId?: true
-  validatedById?: true
   title?: true
   groupKey?: true
   pageUrl?: true
@@ -145,7 +136,6 @@ export type BugReportMaxAggregateInputType = {
   severity?: true
   status?: true
   moderationNotes?: true
-  validationNotes?: true
   duplicateOfId?: true
   moderatedAt?: true
   createdAt?: true
@@ -157,7 +147,6 @@ export type BugReportCountAggregateInputType = {
   campaignId?: true
   testerId?: true
   moderatorId?: true
-  validatedById?: true
   title?: true
   groupKey?: true
   pageUrl?: true
@@ -171,7 +160,6 @@ export type BugReportCountAggregateInputType = {
   environment?: true
   status?: true
   moderationNotes?: true
-  validationNotes?: true
   duplicateOfId?: true
   moderatedAt?: true
   createdAt?: true
@@ -256,7 +244,6 @@ export type BugReportGroupByOutputType = {
   campaignId: string
   testerId: string
   moderatorId: string | null
-  validatedById: string | null
   title: string
   groupKey: string
   pageUrl: string | null
@@ -270,7 +257,6 @@ export type BugReportGroupByOutputType = {
   environment: runtime.JsonValue
   status: $Enums.BugStatus
   moderationNotes: string | null
-  validationNotes: string | null
   duplicateOfId: string | null
   moderatedAt: Date | null
   createdAt: Date
@@ -303,7 +289,6 @@ export type BugReportWhereInput = {
   campaignId?: Prisma.StringFilter<"BugReport"> | string
   testerId?: Prisma.StringFilter<"BugReport"> | string
   moderatorId?: Prisma.StringNullableFilter<"BugReport"> | string | null
-  validatedById?: Prisma.StringNullableFilter<"BugReport"> | string | null
   title?: Prisma.StringFilter<"BugReport"> | string
   groupKey?: Prisma.StringFilter<"BugReport"> | string
   pageUrl?: Prisma.StringNullableFilter<"BugReport"> | string | null
@@ -317,7 +302,6 @@ export type BugReportWhereInput = {
   environment?: Prisma.JsonFilter<"BugReport">
   status?: Prisma.EnumBugStatusFilter<"BugReport"> | $Enums.BugStatus
   moderationNotes?: Prisma.StringNullableFilter<"BugReport"> | string | null
-  validationNotes?: Prisma.StringNullableFilter<"BugReport"> | string | null
   duplicateOfId?: Prisma.StringNullableFilter<"BugReport"> | string | null
   moderatedAt?: Prisma.DateTimeNullableFilter<"BugReport"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"BugReport"> | Date | string
@@ -325,7 +309,6 @@ export type BugReportWhereInput = {
   campaign?: Prisma.XOR<Prisma.CampaignScalarRelationFilter, Prisma.CampaignWhereInput>
   tester?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   moderator?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
-  validatedBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   attachments?: Prisma.BugAttachmentListRelationFilter
 }
 
@@ -334,7 +317,6 @@ export type BugReportOrderByWithRelationInput = {
   campaignId?: Prisma.SortOrder
   testerId?: Prisma.SortOrder
   moderatorId?: Prisma.SortOrderInput | Prisma.SortOrder
-  validatedById?: Prisma.SortOrderInput | Prisma.SortOrder
   title?: Prisma.SortOrder
   groupKey?: Prisma.SortOrder
   pageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -348,7 +330,6 @@ export type BugReportOrderByWithRelationInput = {
   environment?: Prisma.SortOrder
   status?: Prisma.SortOrder
   moderationNotes?: Prisma.SortOrderInput | Prisma.SortOrder
-  validationNotes?: Prisma.SortOrderInput | Prisma.SortOrder
   duplicateOfId?: Prisma.SortOrderInput | Prisma.SortOrder
   moderatedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -356,7 +337,6 @@ export type BugReportOrderByWithRelationInput = {
   campaign?: Prisma.CampaignOrderByWithRelationInput
   tester?: Prisma.UserOrderByWithRelationInput
   moderator?: Prisma.UserOrderByWithRelationInput
-  validatedBy?: Prisma.UserOrderByWithRelationInput
   attachments?: Prisma.BugAttachmentOrderByRelationAggregateInput
   _relevance?: Prisma.BugReportOrderByRelevanceInput
 }
@@ -369,7 +349,6 @@ export type BugReportWhereUniqueInput = Prisma.AtLeast<{
   campaignId?: Prisma.StringFilter<"BugReport"> | string
   testerId?: Prisma.StringFilter<"BugReport"> | string
   moderatorId?: Prisma.StringNullableFilter<"BugReport"> | string | null
-  validatedById?: Prisma.StringNullableFilter<"BugReport"> | string | null
   title?: Prisma.StringFilter<"BugReport"> | string
   groupKey?: Prisma.StringFilter<"BugReport"> | string
   pageUrl?: Prisma.StringNullableFilter<"BugReport"> | string | null
@@ -383,7 +362,6 @@ export type BugReportWhereUniqueInput = Prisma.AtLeast<{
   environment?: Prisma.JsonFilter<"BugReport">
   status?: Prisma.EnumBugStatusFilter<"BugReport"> | $Enums.BugStatus
   moderationNotes?: Prisma.StringNullableFilter<"BugReport"> | string | null
-  validationNotes?: Prisma.StringNullableFilter<"BugReport"> | string | null
   duplicateOfId?: Prisma.StringNullableFilter<"BugReport"> | string | null
   moderatedAt?: Prisma.DateTimeNullableFilter<"BugReport"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"BugReport"> | Date | string
@@ -391,7 +369,6 @@ export type BugReportWhereUniqueInput = Prisma.AtLeast<{
   campaign?: Prisma.XOR<Prisma.CampaignScalarRelationFilter, Prisma.CampaignWhereInput>
   tester?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   moderator?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
-  validatedBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   attachments?: Prisma.BugAttachmentListRelationFilter
 }, "id">
 
@@ -400,7 +377,6 @@ export type BugReportOrderByWithAggregationInput = {
   campaignId?: Prisma.SortOrder
   testerId?: Prisma.SortOrder
   moderatorId?: Prisma.SortOrderInput | Prisma.SortOrder
-  validatedById?: Prisma.SortOrderInput | Prisma.SortOrder
   title?: Prisma.SortOrder
   groupKey?: Prisma.SortOrder
   pageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -414,7 +390,6 @@ export type BugReportOrderByWithAggregationInput = {
   environment?: Prisma.SortOrder
   status?: Prisma.SortOrder
   moderationNotes?: Prisma.SortOrderInput | Prisma.SortOrder
-  validationNotes?: Prisma.SortOrderInput | Prisma.SortOrder
   duplicateOfId?: Prisma.SortOrderInput | Prisma.SortOrder
   moderatedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -432,7 +407,6 @@ export type BugReportScalarWhereWithAggregatesInput = {
   campaignId?: Prisma.StringWithAggregatesFilter<"BugReport"> | string
   testerId?: Prisma.StringWithAggregatesFilter<"BugReport"> | string
   moderatorId?: Prisma.StringNullableWithAggregatesFilter<"BugReport"> | string | null
-  validatedById?: Prisma.StringNullableWithAggregatesFilter<"BugReport"> | string | null
   title?: Prisma.StringWithAggregatesFilter<"BugReport"> | string
   groupKey?: Prisma.StringWithAggregatesFilter<"BugReport"> | string
   pageUrl?: Prisma.StringNullableWithAggregatesFilter<"BugReport"> | string | null
@@ -446,7 +420,6 @@ export type BugReportScalarWhereWithAggregatesInput = {
   environment?: Prisma.JsonWithAggregatesFilter<"BugReport">
   status?: Prisma.EnumBugStatusWithAggregatesFilter<"BugReport"> | $Enums.BugStatus
   moderationNotes?: Prisma.StringNullableWithAggregatesFilter<"BugReport"> | string | null
-  validationNotes?: Prisma.StringNullableWithAggregatesFilter<"BugReport"> | string | null
   duplicateOfId?: Prisma.StringNullableWithAggregatesFilter<"BugReport"> | string | null
   moderatedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"BugReport"> | Date | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"BugReport"> | Date | string
@@ -468,7 +441,6 @@ export type BugReportCreateInput = {
   environment: Prisma.JsonNullValueInput | runtime.InputJsonValue
   status?: $Enums.BugStatus
   moderationNotes?: string | null
-  validationNotes?: string | null
   duplicateOfId?: string | null
   moderatedAt?: Date | string | null
   createdAt?: Date | string
@@ -476,7 +448,6 @@ export type BugReportCreateInput = {
   campaign: Prisma.CampaignCreateNestedOneWithoutBugReportsInput
   tester: Prisma.UserCreateNestedOneWithoutBugReportsInput
   moderator?: Prisma.UserCreateNestedOneWithoutModeratedReportsInput
-  validatedBy?: Prisma.UserCreateNestedOneWithoutValidatedReportsInput
   attachments?: Prisma.BugAttachmentCreateNestedManyWithoutBugReportInput
 }
 
@@ -485,7 +456,6 @@ export type BugReportUncheckedCreateInput = {
   campaignId: string
   testerId: string
   moderatorId?: string | null
-  validatedById?: string | null
   title: string
   groupKey?: string
   pageUrl?: string | null
@@ -499,7 +469,6 @@ export type BugReportUncheckedCreateInput = {
   environment: Prisma.JsonNullValueInput | runtime.InputJsonValue
   status?: $Enums.BugStatus
   moderationNotes?: string | null
-  validationNotes?: string | null
   duplicateOfId?: string | null
   moderatedAt?: Date | string | null
   createdAt?: Date | string
@@ -522,7 +491,6 @@ export type BugReportUpdateInput = {
   environment?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   status?: Prisma.EnumBugStatusFieldUpdateOperationsInput | $Enums.BugStatus
   moderationNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  validationNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   duplicateOfId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   moderatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -530,7 +498,6 @@ export type BugReportUpdateInput = {
   campaign?: Prisma.CampaignUpdateOneRequiredWithoutBugReportsNestedInput
   tester?: Prisma.UserUpdateOneRequiredWithoutBugReportsNestedInput
   moderator?: Prisma.UserUpdateOneWithoutModeratedReportsNestedInput
-  validatedBy?: Prisma.UserUpdateOneWithoutValidatedReportsNestedInput
   attachments?: Prisma.BugAttachmentUpdateManyWithoutBugReportNestedInput
 }
 
@@ -539,7 +506,6 @@ export type BugReportUncheckedUpdateInput = {
   campaignId?: Prisma.StringFieldUpdateOperationsInput | string
   testerId?: Prisma.StringFieldUpdateOperationsInput | string
   moderatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  validatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   title?: Prisma.StringFieldUpdateOperationsInput | string
   groupKey?: Prisma.StringFieldUpdateOperationsInput | string
   pageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -553,7 +519,6 @@ export type BugReportUncheckedUpdateInput = {
   environment?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   status?: Prisma.EnumBugStatusFieldUpdateOperationsInput | $Enums.BugStatus
   moderationNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  validationNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   duplicateOfId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   moderatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -566,7 +531,6 @@ export type BugReportCreateManyInput = {
   campaignId: string
   testerId: string
   moderatorId?: string | null
-  validatedById?: string | null
   title: string
   groupKey?: string
   pageUrl?: string | null
@@ -580,7 +544,6 @@ export type BugReportCreateManyInput = {
   environment: Prisma.JsonNullValueInput | runtime.InputJsonValue
   status?: $Enums.BugStatus
   moderationNotes?: string | null
-  validationNotes?: string | null
   duplicateOfId?: string | null
   moderatedAt?: Date | string | null
   createdAt?: Date | string
@@ -602,7 +565,6 @@ export type BugReportUpdateManyMutationInput = {
   environment?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   status?: Prisma.EnumBugStatusFieldUpdateOperationsInput | $Enums.BugStatus
   moderationNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  validationNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   duplicateOfId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   moderatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -614,7 +576,6 @@ export type BugReportUncheckedUpdateManyInput = {
   campaignId?: Prisma.StringFieldUpdateOperationsInput | string
   testerId?: Prisma.StringFieldUpdateOperationsInput | string
   moderatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  validatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   title?: Prisma.StringFieldUpdateOperationsInput | string
   groupKey?: Prisma.StringFieldUpdateOperationsInput | string
   pageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -628,7 +589,6 @@ export type BugReportUncheckedUpdateManyInput = {
   environment?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   status?: Prisma.EnumBugStatusFieldUpdateOperationsInput | $Enums.BugStatus
   moderationNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  validationNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   duplicateOfId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   moderatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -656,7 +616,6 @@ export type BugReportCountOrderByAggregateInput = {
   campaignId?: Prisma.SortOrder
   testerId?: Prisma.SortOrder
   moderatorId?: Prisma.SortOrder
-  validatedById?: Prisma.SortOrder
   title?: Prisma.SortOrder
   groupKey?: Prisma.SortOrder
   pageUrl?: Prisma.SortOrder
@@ -670,7 +629,6 @@ export type BugReportCountOrderByAggregateInput = {
   environment?: Prisma.SortOrder
   status?: Prisma.SortOrder
   moderationNotes?: Prisma.SortOrder
-  validationNotes?: Prisma.SortOrder
   duplicateOfId?: Prisma.SortOrder
   moderatedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -682,7 +640,6 @@ export type BugReportMaxOrderByAggregateInput = {
   campaignId?: Prisma.SortOrder
   testerId?: Prisma.SortOrder
   moderatorId?: Prisma.SortOrder
-  validatedById?: Prisma.SortOrder
   title?: Prisma.SortOrder
   groupKey?: Prisma.SortOrder
   pageUrl?: Prisma.SortOrder
@@ -695,7 +652,6 @@ export type BugReportMaxOrderByAggregateInput = {
   severity?: Prisma.SortOrder
   status?: Prisma.SortOrder
   moderationNotes?: Prisma.SortOrder
-  validationNotes?: Prisma.SortOrder
   duplicateOfId?: Prisma.SortOrder
   moderatedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -707,7 +663,6 @@ export type BugReportMinOrderByAggregateInput = {
   campaignId?: Prisma.SortOrder
   testerId?: Prisma.SortOrder
   moderatorId?: Prisma.SortOrder
-  validatedById?: Prisma.SortOrder
   title?: Prisma.SortOrder
   groupKey?: Prisma.SortOrder
   pageUrl?: Prisma.SortOrder
@@ -720,7 +675,6 @@ export type BugReportMinOrderByAggregateInput = {
   severity?: Prisma.SortOrder
   status?: Prisma.SortOrder
   moderationNotes?: Prisma.SortOrder
-  validationNotes?: Prisma.SortOrder
   duplicateOfId?: Prisma.SortOrder
   moderatedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -746,13 +700,6 @@ export type BugReportCreateNestedManyWithoutModeratorInput = {
   connect?: Prisma.BugReportWhereUniqueInput | Prisma.BugReportWhereUniqueInput[]
 }
 
-export type BugReportCreateNestedManyWithoutValidatedByInput = {
-  create?: Prisma.XOR<Prisma.BugReportCreateWithoutValidatedByInput, Prisma.BugReportUncheckedCreateWithoutValidatedByInput> | Prisma.BugReportCreateWithoutValidatedByInput[] | Prisma.BugReportUncheckedCreateWithoutValidatedByInput[]
-  connectOrCreate?: Prisma.BugReportCreateOrConnectWithoutValidatedByInput | Prisma.BugReportCreateOrConnectWithoutValidatedByInput[]
-  createMany?: Prisma.BugReportCreateManyValidatedByInputEnvelope
-  connect?: Prisma.BugReportWhereUniqueInput | Prisma.BugReportWhereUniqueInput[]
-}
-
 export type BugReportUncheckedCreateNestedManyWithoutTesterInput = {
   create?: Prisma.XOR<Prisma.BugReportCreateWithoutTesterInput, Prisma.BugReportUncheckedCreateWithoutTesterInput> | Prisma.BugReportCreateWithoutTesterInput[] | Prisma.BugReportUncheckedCreateWithoutTesterInput[]
   connectOrCreate?: Prisma.BugReportCreateOrConnectWithoutTesterInput | Prisma.BugReportCreateOrConnectWithoutTesterInput[]
@@ -764,13 +711,6 @@ export type BugReportUncheckedCreateNestedManyWithoutModeratorInput = {
   create?: Prisma.XOR<Prisma.BugReportCreateWithoutModeratorInput, Prisma.BugReportUncheckedCreateWithoutModeratorInput> | Prisma.BugReportCreateWithoutModeratorInput[] | Prisma.BugReportUncheckedCreateWithoutModeratorInput[]
   connectOrCreate?: Prisma.BugReportCreateOrConnectWithoutModeratorInput | Prisma.BugReportCreateOrConnectWithoutModeratorInput[]
   createMany?: Prisma.BugReportCreateManyModeratorInputEnvelope
-  connect?: Prisma.BugReportWhereUniqueInput | Prisma.BugReportWhereUniqueInput[]
-}
-
-export type BugReportUncheckedCreateNestedManyWithoutValidatedByInput = {
-  create?: Prisma.XOR<Prisma.BugReportCreateWithoutValidatedByInput, Prisma.BugReportUncheckedCreateWithoutValidatedByInput> | Prisma.BugReportCreateWithoutValidatedByInput[] | Prisma.BugReportUncheckedCreateWithoutValidatedByInput[]
-  connectOrCreate?: Prisma.BugReportCreateOrConnectWithoutValidatedByInput | Prisma.BugReportCreateOrConnectWithoutValidatedByInput[]
-  createMany?: Prisma.BugReportCreateManyValidatedByInputEnvelope
   connect?: Prisma.BugReportWhereUniqueInput | Prisma.BugReportWhereUniqueInput[]
 }
 
@@ -802,20 +742,6 @@ export type BugReportUpdateManyWithoutModeratorNestedInput = {
   deleteMany?: Prisma.BugReportScalarWhereInput | Prisma.BugReportScalarWhereInput[]
 }
 
-export type BugReportUpdateManyWithoutValidatedByNestedInput = {
-  create?: Prisma.XOR<Prisma.BugReportCreateWithoutValidatedByInput, Prisma.BugReportUncheckedCreateWithoutValidatedByInput> | Prisma.BugReportCreateWithoutValidatedByInput[] | Prisma.BugReportUncheckedCreateWithoutValidatedByInput[]
-  connectOrCreate?: Prisma.BugReportCreateOrConnectWithoutValidatedByInput | Prisma.BugReportCreateOrConnectWithoutValidatedByInput[]
-  upsert?: Prisma.BugReportUpsertWithWhereUniqueWithoutValidatedByInput | Prisma.BugReportUpsertWithWhereUniqueWithoutValidatedByInput[]
-  createMany?: Prisma.BugReportCreateManyValidatedByInputEnvelope
-  set?: Prisma.BugReportWhereUniqueInput | Prisma.BugReportWhereUniqueInput[]
-  disconnect?: Prisma.BugReportWhereUniqueInput | Prisma.BugReportWhereUniqueInput[]
-  delete?: Prisma.BugReportWhereUniqueInput | Prisma.BugReportWhereUniqueInput[]
-  connect?: Prisma.BugReportWhereUniqueInput | Prisma.BugReportWhereUniqueInput[]
-  update?: Prisma.BugReportUpdateWithWhereUniqueWithoutValidatedByInput | Prisma.BugReportUpdateWithWhereUniqueWithoutValidatedByInput[]
-  updateMany?: Prisma.BugReportUpdateManyWithWhereWithoutValidatedByInput | Prisma.BugReportUpdateManyWithWhereWithoutValidatedByInput[]
-  deleteMany?: Prisma.BugReportScalarWhereInput | Prisma.BugReportScalarWhereInput[]
-}
-
 export type BugReportUncheckedUpdateManyWithoutTesterNestedInput = {
   create?: Prisma.XOR<Prisma.BugReportCreateWithoutTesterInput, Prisma.BugReportUncheckedCreateWithoutTesterInput> | Prisma.BugReportCreateWithoutTesterInput[] | Prisma.BugReportUncheckedCreateWithoutTesterInput[]
   connectOrCreate?: Prisma.BugReportCreateOrConnectWithoutTesterInput | Prisma.BugReportCreateOrConnectWithoutTesterInput[]
@@ -841,20 +767,6 @@ export type BugReportUncheckedUpdateManyWithoutModeratorNestedInput = {
   connect?: Prisma.BugReportWhereUniqueInput | Prisma.BugReportWhereUniqueInput[]
   update?: Prisma.BugReportUpdateWithWhereUniqueWithoutModeratorInput | Prisma.BugReportUpdateWithWhereUniqueWithoutModeratorInput[]
   updateMany?: Prisma.BugReportUpdateManyWithWhereWithoutModeratorInput | Prisma.BugReportUpdateManyWithWhereWithoutModeratorInput[]
-  deleteMany?: Prisma.BugReportScalarWhereInput | Prisma.BugReportScalarWhereInput[]
-}
-
-export type BugReportUncheckedUpdateManyWithoutValidatedByNestedInput = {
-  create?: Prisma.XOR<Prisma.BugReportCreateWithoutValidatedByInput, Prisma.BugReportUncheckedCreateWithoutValidatedByInput> | Prisma.BugReportCreateWithoutValidatedByInput[] | Prisma.BugReportUncheckedCreateWithoutValidatedByInput[]
-  connectOrCreate?: Prisma.BugReportCreateOrConnectWithoutValidatedByInput | Prisma.BugReportCreateOrConnectWithoutValidatedByInput[]
-  upsert?: Prisma.BugReportUpsertWithWhereUniqueWithoutValidatedByInput | Prisma.BugReportUpsertWithWhereUniqueWithoutValidatedByInput[]
-  createMany?: Prisma.BugReportCreateManyValidatedByInputEnvelope
-  set?: Prisma.BugReportWhereUniqueInput | Prisma.BugReportWhereUniqueInput[]
-  disconnect?: Prisma.BugReportWhereUniqueInput | Prisma.BugReportWhereUniqueInput[]
-  delete?: Prisma.BugReportWhereUniqueInput | Prisma.BugReportWhereUniqueInput[]
-  connect?: Prisma.BugReportWhereUniqueInput | Prisma.BugReportWhereUniqueInput[]
-  update?: Prisma.BugReportUpdateWithWhereUniqueWithoutValidatedByInput | Prisma.BugReportUpdateWithWhereUniqueWithoutValidatedByInput[]
-  updateMany?: Prisma.BugReportUpdateManyWithWhereWithoutValidatedByInput | Prisma.BugReportUpdateManyWithWhereWithoutValidatedByInput[]
   deleteMany?: Prisma.BugReportScalarWhereInput | Prisma.BugReportScalarWhereInput[]
 }
 
@@ -937,14 +849,12 @@ export type BugReportCreateWithoutTesterInput = {
   environment: Prisma.JsonNullValueInput | runtime.InputJsonValue
   status?: $Enums.BugStatus
   moderationNotes?: string | null
-  validationNotes?: string | null
   duplicateOfId?: string | null
   moderatedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   campaign: Prisma.CampaignCreateNestedOneWithoutBugReportsInput
   moderator?: Prisma.UserCreateNestedOneWithoutModeratedReportsInput
-  validatedBy?: Prisma.UserCreateNestedOneWithoutValidatedReportsInput
   attachments?: Prisma.BugAttachmentCreateNestedManyWithoutBugReportInput
 }
 
@@ -952,7 +862,6 @@ export type BugReportUncheckedCreateWithoutTesterInput = {
   id?: string
   campaignId: string
   moderatorId?: string | null
-  validatedById?: string | null
   title: string
   groupKey?: string
   pageUrl?: string | null
@@ -966,7 +875,6 @@ export type BugReportUncheckedCreateWithoutTesterInput = {
   environment: Prisma.JsonNullValueInput | runtime.InputJsonValue
   status?: $Enums.BugStatus
   moderationNotes?: string | null
-  validationNotes?: string | null
   duplicateOfId?: string | null
   moderatedAt?: Date | string | null
   createdAt?: Date | string
@@ -999,14 +907,12 @@ export type BugReportCreateWithoutModeratorInput = {
   environment: Prisma.JsonNullValueInput | runtime.InputJsonValue
   status?: $Enums.BugStatus
   moderationNotes?: string | null
-  validationNotes?: string | null
   duplicateOfId?: string | null
   moderatedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   campaign: Prisma.CampaignCreateNestedOneWithoutBugReportsInput
   tester: Prisma.UserCreateNestedOneWithoutBugReportsInput
-  validatedBy?: Prisma.UserCreateNestedOneWithoutValidatedReportsInput
   attachments?: Prisma.BugAttachmentCreateNestedManyWithoutBugReportInput
 }
 
@@ -1014,7 +920,6 @@ export type BugReportUncheckedCreateWithoutModeratorInput = {
   id?: string
   campaignId: string
   testerId: string
-  validatedById?: string | null
   title: string
   groupKey?: string
   pageUrl?: string | null
@@ -1028,7 +933,6 @@ export type BugReportUncheckedCreateWithoutModeratorInput = {
   environment: Prisma.JsonNullValueInput | runtime.InputJsonValue
   status?: $Enums.BugStatus
   moderationNotes?: string | null
-  validationNotes?: string | null
   duplicateOfId?: string | null
   moderatedAt?: Date | string | null
   createdAt?: Date | string
@@ -1043,68 +947,6 @@ export type BugReportCreateOrConnectWithoutModeratorInput = {
 
 export type BugReportCreateManyModeratorInputEnvelope = {
   data: Prisma.BugReportCreateManyModeratorInput | Prisma.BugReportCreateManyModeratorInput[]
-  skipDuplicates?: boolean
-}
-
-export type BugReportCreateWithoutValidatedByInput = {
-  id?: string
-  title: string
-  groupKey?: string
-  pageUrl?: string | null
-  feature?: string | null
-  errorType?: string | null
-  description: string
-  reproductionSteps: string
-  expectedResult: string
-  actualResult: string
-  severity: $Enums.BugSeverity
-  environment: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  status?: $Enums.BugStatus
-  moderationNotes?: string | null
-  validationNotes?: string | null
-  duplicateOfId?: string | null
-  moderatedAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  campaign: Prisma.CampaignCreateNestedOneWithoutBugReportsInput
-  tester: Prisma.UserCreateNestedOneWithoutBugReportsInput
-  moderator?: Prisma.UserCreateNestedOneWithoutModeratedReportsInput
-  attachments?: Prisma.BugAttachmentCreateNestedManyWithoutBugReportInput
-}
-
-export type BugReportUncheckedCreateWithoutValidatedByInput = {
-  id?: string
-  campaignId: string
-  testerId: string
-  moderatorId?: string | null
-  title: string
-  groupKey?: string
-  pageUrl?: string | null
-  feature?: string | null
-  errorType?: string | null
-  description: string
-  reproductionSteps: string
-  expectedResult: string
-  actualResult: string
-  severity: $Enums.BugSeverity
-  environment: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  status?: $Enums.BugStatus
-  moderationNotes?: string | null
-  validationNotes?: string | null
-  duplicateOfId?: string | null
-  moderatedAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  attachments?: Prisma.BugAttachmentUncheckedCreateNestedManyWithoutBugReportInput
-}
-
-export type BugReportCreateOrConnectWithoutValidatedByInput = {
-  where: Prisma.BugReportWhereUniqueInput
-  create: Prisma.XOR<Prisma.BugReportCreateWithoutValidatedByInput, Prisma.BugReportUncheckedCreateWithoutValidatedByInput>
-}
-
-export type BugReportCreateManyValidatedByInputEnvelope = {
-  data: Prisma.BugReportCreateManyValidatedByInput | Prisma.BugReportCreateManyValidatedByInput[]
   skipDuplicates?: boolean
 }
 
@@ -1132,7 +974,6 @@ export type BugReportScalarWhereInput = {
   campaignId?: Prisma.StringFilter<"BugReport"> | string
   testerId?: Prisma.StringFilter<"BugReport"> | string
   moderatorId?: Prisma.StringNullableFilter<"BugReport"> | string | null
-  validatedById?: Prisma.StringNullableFilter<"BugReport"> | string | null
   title?: Prisma.StringFilter<"BugReport"> | string
   groupKey?: Prisma.StringFilter<"BugReport"> | string
   pageUrl?: Prisma.StringNullableFilter<"BugReport"> | string | null
@@ -1146,7 +987,6 @@ export type BugReportScalarWhereInput = {
   environment?: Prisma.JsonFilter<"BugReport">
   status?: Prisma.EnumBugStatusFilter<"BugReport"> | $Enums.BugStatus
   moderationNotes?: Prisma.StringNullableFilter<"BugReport"> | string | null
-  validationNotes?: Prisma.StringNullableFilter<"BugReport"> | string | null
   duplicateOfId?: Prisma.StringNullableFilter<"BugReport"> | string | null
   moderatedAt?: Prisma.DateTimeNullableFilter<"BugReport"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"BugReport"> | Date | string
@@ -1169,22 +1009,6 @@ export type BugReportUpdateManyWithWhereWithoutModeratorInput = {
   data: Prisma.XOR<Prisma.BugReportUpdateManyMutationInput, Prisma.BugReportUncheckedUpdateManyWithoutModeratorInput>
 }
 
-export type BugReportUpsertWithWhereUniqueWithoutValidatedByInput = {
-  where: Prisma.BugReportWhereUniqueInput
-  update: Prisma.XOR<Prisma.BugReportUpdateWithoutValidatedByInput, Prisma.BugReportUncheckedUpdateWithoutValidatedByInput>
-  create: Prisma.XOR<Prisma.BugReportCreateWithoutValidatedByInput, Prisma.BugReportUncheckedCreateWithoutValidatedByInput>
-}
-
-export type BugReportUpdateWithWhereUniqueWithoutValidatedByInput = {
-  where: Prisma.BugReportWhereUniqueInput
-  data: Prisma.XOR<Prisma.BugReportUpdateWithoutValidatedByInput, Prisma.BugReportUncheckedUpdateWithoutValidatedByInput>
-}
-
-export type BugReportUpdateManyWithWhereWithoutValidatedByInput = {
-  where: Prisma.BugReportScalarWhereInput
-  data: Prisma.XOR<Prisma.BugReportUpdateManyMutationInput, Prisma.BugReportUncheckedUpdateManyWithoutValidatedByInput>
-}
-
 export type BugReportCreateWithoutCampaignInput = {
   id?: string
   title: string
@@ -1200,14 +1024,12 @@ export type BugReportCreateWithoutCampaignInput = {
   environment: Prisma.JsonNullValueInput | runtime.InputJsonValue
   status?: $Enums.BugStatus
   moderationNotes?: string | null
-  validationNotes?: string | null
   duplicateOfId?: string | null
   moderatedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   tester: Prisma.UserCreateNestedOneWithoutBugReportsInput
   moderator?: Prisma.UserCreateNestedOneWithoutModeratedReportsInput
-  validatedBy?: Prisma.UserCreateNestedOneWithoutValidatedReportsInput
   attachments?: Prisma.BugAttachmentCreateNestedManyWithoutBugReportInput
 }
 
@@ -1215,7 +1037,6 @@ export type BugReportUncheckedCreateWithoutCampaignInput = {
   id?: string
   testerId: string
   moderatorId?: string | null
-  validatedById?: string | null
   title: string
   groupKey?: string
   pageUrl?: string | null
@@ -1229,7 +1050,6 @@ export type BugReportUncheckedCreateWithoutCampaignInput = {
   environment: Prisma.JsonNullValueInput | runtime.InputJsonValue
   status?: $Enums.BugStatus
   moderationNotes?: string | null
-  validationNotes?: string | null
   duplicateOfId?: string | null
   moderatedAt?: Date | string | null
   createdAt?: Date | string
@@ -1278,7 +1098,6 @@ export type BugReportCreateWithoutAttachmentsInput = {
   environment: Prisma.JsonNullValueInput | runtime.InputJsonValue
   status?: $Enums.BugStatus
   moderationNotes?: string | null
-  validationNotes?: string | null
   duplicateOfId?: string | null
   moderatedAt?: Date | string | null
   createdAt?: Date | string
@@ -1286,7 +1105,6 @@ export type BugReportCreateWithoutAttachmentsInput = {
   campaign: Prisma.CampaignCreateNestedOneWithoutBugReportsInput
   tester: Prisma.UserCreateNestedOneWithoutBugReportsInput
   moderator?: Prisma.UserCreateNestedOneWithoutModeratedReportsInput
-  validatedBy?: Prisma.UserCreateNestedOneWithoutValidatedReportsInput
 }
 
 export type BugReportUncheckedCreateWithoutAttachmentsInput = {
@@ -1294,7 +1112,6 @@ export type BugReportUncheckedCreateWithoutAttachmentsInput = {
   campaignId: string
   testerId: string
   moderatorId?: string | null
-  validatedById?: string | null
   title: string
   groupKey?: string
   pageUrl?: string | null
@@ -1308,7 +1125,6 @@ export type BugReportUncheckedCreateWithoutAttachmentsInput = {
   environment: Prisma.JsonNullValueInput | runtime.InputJsonValue
   status?: $Enums.BugStatus
   moderationNotes?: string | null
-  validationNotes?: string | null
   duplicateOfId?: string | null
   moderatedAt?: Date | string | null
   createdAt?: Date | string
@@ -1346,7 +1162,6 @@ export type BugReportUpdateWithoutAttachmentsInput = {
   environment?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   status?: Prisma.EnumBugStatusFieldUpdateOperationsInput | $Enums.BugStatus
   moderationNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  validationNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   duplicateOfId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   moderatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1354,7 +1169,6 @@ export type BugReportUpdateWithoutAttachmentsInput = {
   campaign?: Prisma.CampaignUpdateOneRequiredWithoutBugReportsNestedInput
   tester?: Prisma.UserUpdateOneRequiredWithoutBugReportsNestedInput
   moderator?: Prisma.UserUpdateOneWithoutModeratedReportsNestedInput
-  validatedBy?: Prisma.UserUpdateOneWithoutValidatedReportsNestedInput
 }
 
 export type BugReportUncheckedUpdateWithoutAttachmentsInput = {
@@ -1362,7 +1176,6 @@ export type BugReportUncheckedUpdateWithoutAttachmentsInput = {
   campaignId?: Prisma.StringFieldUpdateOperationsInput | string
   testerId?: Prisma.StringFieldUpdateOperationsInput | string
   moderatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  validatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   title?: Prisma.StringFieldUpdateOperationsInput | string
   groupKey?: Prisma.StringFieldUpdateOperationsInput | string
   pageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1376,7 +1189,6 @@ export type BugReportUncheckedUpdateWithoutAttachmentsInput = {
   environment?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   status?: Prisma.EnumBugStatusFieldUpdateOperationsInput | $Enums.BugStatus
   moderationNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  validationNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   duplicateOfId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   moderatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1387,7 +1199,6 @@ export type BugReportCreateManyTesterInput = {
   id?: string
   campaignId: string
   moderatorId?: string | null
-  validatedById?: string | null
   title: string
   groupKey?: string
   pageUrl?: string | null
@@ -1401,7 +1212,6 @@ export type BugReportCreateManyTesterInput = {
   environment: Prisma.JsonNullValueInput | runtime.InputJsonValue
   status?: $Enums.BugStatus
   moderationNotes?: string | null
-  validationNotes?: string | null
   duplicateOfId?: string | null
   moderatedAt?: Date | string | null
   createdAt?: Date | string
@@ -1412,7 +1222,6 @@ export type BugReportCreateManyModeratorInput = {
   id?: string
   campaignId: string
   testerId: string
-  validatedById?: string | null
   title: string
   groupKey?: string
   pageUrl?: string | null
@@ -1426,32 +1235,6 @@ export type BugReportCreateManyModeratorInput = {
   environment: Prisma.JsonNullValueInput | runtime.InputJsonValue
   status?: $Enums.BugStatus
   moderationNotes?: string | null
-  validationNotes?: string | null
-  duplicateOfId?: string | null
-  moderatedAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-}
-
-export type BugReportCreateManyValidatedByInput = {
-  id?: string
-  campaignId: string
-  testerId: string
-  moderatorId?: string | null
-  title: string
-  groupKey?: string
-  pageUrl?: string | null
-  feature?: string | null
-  errorType?: string | null
-  description: string
-  reproductionSteps: string
-  expectedResult: string
-  actualResult: string
-  severity: $Enums.BugSeverity
-  environment: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  status?: $Enums.BugStatus
-  moderationNotes?: string | null
-  validationNotes?: string | null
   duplicateOfId?: string | null
   moderatedAt?: Date | string | null
   createdAt?: Date | string
@@ -1473,14 +1256,12 @@ export type BugReportUpdateWithoutTesterInput = {
   environment?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   status?: Prisma.EnumBugStatusFieldUpdateOperationsInput | $Enums.BugStatus
   moderationNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  validationNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   duplicateOfId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   moderatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   campaign?: Prisma.CampaignUpdateOneRequiredWithoutBugReportsNestedInput
   moderator?: Prisma.UserUpdateOneWithoutModeratedReportsNestedInput
-  validatedBy?: Prisma.UserUpdateOneWithoutValidatedReportsNestedInput
   attachments?: Prisma.BugAttachmentUpdateManyWithoutBugReportNestedInput
 }
 
@@ -1488,7 +1269,6 @@ export type BugReportUncheckedUpdateWithoutTesterInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   campaignId?: Prisma.StringFieldUpdateOperationsInput | string
   moderatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  validatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   title?: Prisma.StringFieldUpdateOperationsInput | string
   groupKey?: Prisma.StringFieldUpdateOperationsInput | string
   pageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1502,7 +1282,6 @@ export type BugReportUncheckedUpdateWithoutTesterInput = {
   environment?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   status?: Prisma.EnumBugStatusFieldUpdateOperationsInput | $Enums.BugStatus
   moderationNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  validationNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   duplicateOfId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   moderatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1514,7 +1293,6 @@ export type BugReportUncheckedUpdateManyWithoutTesterInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   campaignId?: Prisma.StringFieldUpdateOperationsInput | string
   moderatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  validatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   title?: Prisma.StringFieldUpdateOperationsInput | string
   groupKey?: Prisma.StringFieldUpdateOperationsInput | string
   pageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1528,7 +1306,6 @@ export type BugReportUncheckedUpdateManyWithoutTesterInput = {
   environment?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   status?: Prisma.EnumBugStatusFieldUpdateOperationsInput | $Enums.BugStatus
   moderationNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  validationNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   duplicateOfId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   moderatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1550,14 +1327,12 @@ export type BugReportUpdateWithoutModeratorInput = {
   environment?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   status?: Prisma.EnumBugStatusFieldUpdateOperationsInput | $Enums.BugStatus
   moderationNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  validationNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   duplicateOfId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   moderatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   campaign?: Prisma.CampaignUpdateOneRequiredWithoutBugReportsNestedInput
   tester?: Prisma.UserUpdateOneRequiredWithoutBugReportsNestedInput
-  validatedBy?: Prisma.UserUpdateOneWithoutValidatedReportsNestedInput
   attachments?: Prisma.BugAttachmentUpdateManyWithoutBugReportNestedInput
 }
 
@@ -1565,7 +1340,6 @@ export type BugReportUncheckedUpdateWithoutModeratorInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   campaignId?: Prisma.StringFieldUpdateOperationsInput | string
   testerId?: Prisma.StringFieldUpdateOperationsInput | string
-  validatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   title?: Prisma.StringFieldUpdateOperationsInput | string
   groupKey?: Prisma.StringFieldUpdateOperationsInput | string
   pageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1579,7 +1353,6 @@ export type BugReportUncheckedUpdateWithoutModeratorInput = {
   environment?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   status?: Prisma.EnumBugStatusFieldUpdateOperationsInput | $Enums.BugStatus
   moderationNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  validationNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   duplicateOfId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   moderatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1591,7 +1364,6 @@ export type BugReportUncheckedUpdateManyWithoutModeratorInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   campaignId?: Prisma.StringFieldUpdateOperationsInput | string
   testerId?: Prisma.StringFieldUpdateOperationsInput | string
-  validatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   title?: Prisma.StringFieldUpdateOperationsInput | string
   groupKey?: Prisma.StringFieldUpdateOperationsInput | string
   pageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1605,84 +1377,6 @@ export type BugReportUncheckedUpdateManyWithoutModeratorInput = {
   environment?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   status?: Prisma.EnumBugStatusFieldUpdateOperationsInput | $Enums.BugStatus
   moderationNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  validationNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  duplicateOfId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moderatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-}
-
-export type BugReportUpdateWithoutValidatedByInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  title?: Prisma.StringFieldUpdateOperationsInput | string
-  groupKey?: Prisma.StringFieldUpdateOperationsInput | string
-  pageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  feature?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  errorType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  description?: Prisma.StringFieldUpdateOperationsInput | string
-  reproductionSteps?: Prisma.StringFieldUpdateOperationsInput | string
-  expectedResult?: Prisma.StringFieldUpdateOperationsInput | string
-  actualResult?: Prisma.StringFieldUpdateOperationsInput | string
-  severity?: Prisma.EnumBugSeverityFieldUpdateOperationsInput | $Enums.BugSeverity
-  environment?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  status?: Prisma.EnumBugStatusFieldUpdateOperationsInput | $Enums.BugStatus
-  moderationNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  validationNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  duplicateOfId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moderatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  campaign?: Prisma.CampaignUpdateOneRequiredWithoutBugReportsNestedInput
-  tester?: Prisma.UserUpdateOneRequiredWithoutBugReportsNestedInput
-  moderator?: Prisma.UserUpdateOneWithoutModeratedReportsNestedInput
-  attachments?: Prisma.BugAttachmentUpdateManyWithoutBugReportNestedInput
-}
-
-export type BugReportUncheckedUpdateWithoutValidatedByInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  campaignId?: Prisma.StringFieldUpdateOperationsInput | string
-  testerId?: Prisma.StringFieldUpdateOperationsInput | string
-  moderatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  title?: Prisma.StringFieldUpdateOperationsInput | string
-  groupKey?: Prisma.StringFieldUpdateOperationsInput | string
-  pageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  feature?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  errorType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  description?: Prisma.StringFieldUpdateOperationsInput | string
-  reproductionSteps?: Prisma.StringFieldUpdateOperationsInput | string
-  expectedResult?: Prisma.StringFieldUpdateOperationsInput | string
-  actualResult?: Prisma.StringFieldUpdateOperationsInput | string
-  severity?: Prisma.EnumBugSeverityFieldUpdateOperationsInput | $Enums.BugSeverity
-  environment?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  status?: Prisma.EnumBugStatusFieldUpdateOperationsInput | $Enums.BugStatus
-  moderationNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  validationNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  duplicateOfId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moderatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  attachments?: Prisma.BugAttachmentUncheckedUpdateManyWithoutBugReportNestedInput
-}
-
-export type BugReportUncheckedUpdateManyWithoutValidatedByInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  campaignId?: Prisma.StringFieldUpdateOperationsInput | string
-  testerId?: Prisma.StringFieldUpdateOperationsInput | string
-  moderatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  title?: Prisma.StringFieldUpdateOperationsInput | string
-  groupKey?: Prisma.StringFieldUpdateOperationsInput | string
-  pageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  feature?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  errorType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  description?: Prisma.StringFieldUpdateOperationsInput | string
-  reproductionSteps?: Prisma.StringFieldUpdateOperationsInput | string
-  expectedResult?: Prisma.StringFieldUpdateOperationsInput | string
-  actualResult?: Prisma.StringFieldUpdateOperationsInput | string
-  severity?: Prisma.EnumBugSeverityFieldUpdateOperationsInput | $Enums.BugSeverity
-  environment?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  status?: Prisma.EnumBugStatusFieldUpdateOperationsInput | $Enums.BugStatus
-  moderationNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  validationNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   duplicateOfId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   moderatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1693,7 +1387,6 @@ export type BugReportCreateManyCampaignInput = {
   id?: string
   testerId: string
   moderatorId?: string | null
-  validatedById?: string | null
   title: string
   groupKey?: string
   pageUrl?: string | null
@@ -1707,7 +1400,6 @@ export type BugReportCreateManyCampaignInput = {
   environment: Prisma.JsonNullValueInput | runtime.InputJsonValue
   status?: $Enums.BugStatus
   moderationNotes?: string | null
-  validationNotes?: string | null
   duplicateOfId?: string | null
   moderatedAt?: Date | string | null
   createdAt?: Date | string
@@ -1729,14 +1421,12 @@ export type BugReportUpdateWithoutCampaignInput = {
   environment?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   status?: Prisma.EnumBugStatusFieldUpdateOperationsInput | $Enums.BugStatus
   moderationNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  validationNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   duplicateOfId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   moderatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tester?: Prisma.UserUpdateOneRequiredWithoutBugReportsNestedInput
   moderator?: Prisma.UserUpdateOneWithoutModeratedReportsNestedInput
-  validatedBy?: Prisma.UserUpdateOneWithoutValidatedReportsNestedInput
   attachments?: Prisma.BugAttachmentUpdateManyWithoutBugReportNestedInput
 }
 
@@ -1744,7 +1434,6 @@ export type BugReportUncheckedUpdateWithoutCampaignInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   testerId?: Prisma.StringFieldUpdateOperationsInput | string
   moderatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  validatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   title?: Prisma.StringFieldUpdateOperationsInput | string
   groupKey?: Prisma.StringFieldUpdateOperationsInput | string
   pageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1758,7 +1447,6 @@ export type BugReportUncheckedUpdateWithoutCampaignInput = {
   environment?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   status?: Prisma.EnumBugStatusFieldUpdateOperationsInput | $Enums.BugStatus
   moderationNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  validationNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   duplicateOfId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   moderatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1770,7 +1458,6 @@ export type BugReportUncheckedUpdateManyWithoutCampaignInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   testerId?: Prisma.StringFieldUpdateOperationsInput | string
   moderatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  validatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   title?: Prisma.StringFieldUpdateOperationsInput | string
   groupKey?: Prisma.StringFieldUpdateOperationsInput | string
   pageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1784,7 +1471,6 @@ export type BugReportUncheckedUpdateManyWithoutCampaignInput = {
   environment?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   status?: Prisma.EnumBugStatusFieldUpdateOperationsInput | $Enums.BugStatus
   moderationNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  validationNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   duplicateOfId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   moderatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1827,7 +1513,6 @@ export type BugReportSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   campaignId?: boolean
   testerId?: boolean
   moderatorId?: boolean
-  validatedById?: boolean
   title?: boolean
   groupKey?: boolean
   pageUrl?: boolean
@@ -1841,7 +1526,6 @@ export type BugReportSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   environment?: boolean
   status?: boolean
   moderationNotes?: boolean
-  validationNotes?: boolean
   duplicateOfId?: boolean
   moderatedAt?: boolean
   createdAt?: boolean
@@ -1849,7 +1533,6 @@ export type BugReportSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   campaign?: boolean | Prisma.CampaignDefaultArgs<ExtArgs>
   tester?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   moderator?: boolean | Prisma.BugReport$moderatorArgs<ExtArgs>
-  validatedBy?: boolean | Prisma.BugReport$validatedByArgs<ExtArgs>
   attachments?: boolean | Prisma.BugReport$attachmentsArgs<ExtArgs>
   _count?: boolean | Prisma.BugReportCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["bugReport"]>
@@ -1861,7 +1544,6 @@ export type BugReportSelectScalar = {
   campaignId?: boolean
   testerId?: boolean
   moderatorId?: boolean
-  validatedById?: boolean
   title?: boolean
   groupKey?: boolean
   pageUrl?: boolean
@@ -1875,19 +1557,17 @@ export type BugReportSelectScalar = {
   environment?: boolean
   status?: boolean
   moderationNotes?: boolean
-  validationNotes?: boolean
   duplicateOfId?: boolean
   moderatedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type BugReportOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "campaignId" | "testerId" | "moderatorId" | "validatedById" | "title" | "groupKey" | "pageUrl" | "feature" | "errorType" | "description" | "reproductionSteps" | "expectedResult" | "actualResult" | "severity" | "environment" | "status" | "moderationNotes" | "validationNotes" | "duplicateOfId" | "moderatedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["bugReport"]>
+export type BugReportOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "campaignId" | "testerId" | "moderatorId" | "title" | "groupKey" | "pageUrl" | "feature" | "errorType" | "description" | "reproductionSteps" | "expectedResult" | "actualResult" | "severity" | "environment" | "status" | "moderationNotes" | "duplicateOfId" | "moderatedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["bugReport"]>
 export type BugReportInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   campaign?: boolean | Prisma.CampaignDefaultArgs<ExtArgs>
   tester?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   moderator?: boolean | Prisma.BugReport$moderatorArgs<ExtArgs>
-  validatedBy?: boolean | Prisma.BugReport$validatedByArgs<ExtArgs>
   attachments?: boolean | Prisma.BugReport$attachmentsArgs<ExtArgs>
   _count?: boolean | Prisma.BugReportCountOutputTypeDefaultArgs<ExtArgs>
 }
@@ -1898,7 +1578,6 @@ export type $BugReportPayload<ExtArgs extends runtime.Types.Extensions.InternalA
     campaign: Prisma.$CampaignPayload<ExtArgs>
     tester: Prisma.$UserPayload<ExtArgs>
     moderator: Prisma.$UserPayload<ExtArgs> | null
-    validatedBy: Prisma.$UserPayload<ExtArgs> | null
     attachments: Prisma.$BugAttachmentPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -1906,7 +1585,6 @@ export type $BugReportPayload<ExtArgs extends runtime.Types.Extensions.InternalA
     campaignId: string
     testerId: string
     moderatorId: string | null
-    validatedById: string | null
     title: string
     groupKey: string
     pageUrl: string | null
@@ -1920,7 +1598,6 @@ export type $BugReportPayload<ExtArgs extends runtime.Types.Extensions.InternalA
     environment: runtime.JsonValue
     status: $Enums.BugStatus
     moderationNotes: string | null
-    validationNotes: string | null
     duplicateOfId: string | null
     moderatedAt: Date | null
     createdAt: Date
@@ -2268,7 +1945,6 @@ export interface Prisma__BugReportClient<T, Null = never, ExtArgs extends runtim
   campaign<T extends Prisma.CampaignDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CampaignDefaultArgs<ExtArgs>>): Prisma.Prisma__CampaignClient<runtime.Types.Result.GetResult<Prisma.$CampaignPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   tester<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   moderator<T extends Prisma.BugReport$moderatorArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.BugReport$moderatorArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  validatedBy<T extends Prisma.BugReport$validatedByArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.BugReport$validatedByArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   attachments<T extends Prisma.BugReport$attachmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.BugReport$attachmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BugAttachmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -2303,7 +1979,6 @@ export interface BugReportFieldRefs {
   readonly campaignId: Prisma.FieldRef<"BugReport", 'String'>
   readonly testerId: Prisma.FieldRef<"BugReport", 'String'>
   readonly moderatorId: Prisma.FieldRef<"BugReport", 'String'>
-  readonly validatedById: Prisma.FieldRef<"BugReport", 'String'>
   readonly title: Prisma.FieldRef<"BugReport", 'String'>
   readonly groupKey: Prisma.FieldRef<"BugReport", 'String'>
   readonly pageUrl: Prisma.FieldRef<"BugReport", 'String'>
@@ -2317,7 +1992,6 @@ export interface BugReportFieldRefs {
   readonly environment: Prisma.FieldRef<"BugReport", 'Json'>
   readonly status: Prisma.FieldRef<"BugReport", 'BugStatus'>
   readonly moderationNotes: Prisma.FieldRef<"BugReport", 'String'>
-  readonly validationNotes: Prisma.FieldRef<"BugReport", 'String'>
   readonly duplicateOfId: Prisma.FieldRef<"BugReport", 'String'>
   readonly moderatedAt: Prisma.FieldRef<"BugReport", 'DateTime'>
   readonly createdAt: Prisma.FieldRef<"BugReport", 'DateTime'>
@@ -2673,25 +2347,6 @@ export type BugReportDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Int
  * BugReport.moderator
  */
 export type BugReport$moderatorArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the User
-   */
-  select?: Prisma.UserSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the User
-   */
-  omit?: Prisma.UserOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.UserInclude<ExtArgs> | null
-  where?: Prisma.UserWhereInput
-}
-
-/**
- * BugReport.validatedBy
- */
-export type BugReport$validatedByArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the User
    */

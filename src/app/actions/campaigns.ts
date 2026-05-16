@@ -2,7 +2,7 @@
 
 import { CampaignStage, Role, SoftwareType } from "@/generated/prisma/client";
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
+import { redirectTo } from "@/lib/redirect";
 
 import type { ActionState } from "@/app/actions/auth";
 import { requireSession } from "@/lib/auth";
@@ -104,7 +104,7 @@ export async function createCampaignAction(
   revalidatePath("/manager/dashboard");
   revalidatePath("/moderator/review-queue");
   revalidatePath("/admin/campaigns");
-  redirect("/client/dashboard");
+  return await redirectTo("/client/dashboard");
 }
 
 export async function acceptInvitationAction(formData: FormData) {

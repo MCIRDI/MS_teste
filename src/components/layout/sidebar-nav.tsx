@@ -1,15 +1,13 @@
 "use client";
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-
+import { Link, usePathname } from "@/i18n/routing";
 import { cn } from "@/lib/utils";
 
 export function SidebarNav({ items }: { items: { href: string; label: string }[] }) {
   const pathname = usePathname();
 
   return (
-    <nav className="flex flex-col gap-0.5" aria-label="Workspace">
+    <nav className="flex flex-col gap-1" aria-label="Workspace">
       {items.map((item) => {
         const active =
           pathname === item.href ||
@@ -20,10 +18,10 @@ export function SidebarNav({ items }: { items: { href: string; label: string }[]
             key={item.href}
             href={item.href}
             className={cn(
-              "rounded-md px-3 py-2 text-sm font-medium transition-colors",
+              "rounded-lg px-3 py-2.5 text-sm font-medium transition-all",
               active
-                ? "bg-blue-50 text-blue-700"
-                : "text-slate-600 hover:bg-slate-100 hover:text-slate-900",
+                ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md shadow-blue-600/20"
+                : "text-slate-600 hover:bg-slate-100/90 hover:text-slate-900",
             )}
           >
             {item.label}

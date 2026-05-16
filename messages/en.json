@@ -1,0 +1,261 @@
+{
+  "meta": {
+    "title": "DzTesters",
+    "description": "Human-powered software testing campaigns with layered review workflows."
+  },
+  "brand": {
+    "name": "DzTesters"
+  },
+  "language": {
+    "label": "Language",
+    "en": "English",
+    "fr": "Français",
+    "ar": "العربية"
+  },
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "howItWorks": "How it works",
+    "login": "Login",
+    "signup": "Signup",
+    "openDashboard": "Open dashboard",
+    "getStarted": "Get started",
+    "navigation": "Navigation",
+    "logOut": "Log out"
+  },
+  "home": {
+    "eyebrow": "Human testing platform",
+    "heroHeadline": "Structured crowdtesting with real people.",
+    "title": "DzTesters helps clients run structured crowdtesting campaigns with real people.",
+    "subtitle": "Launch campaigns, match eligible testers, moderate incoming defects, and deliver final validated bug reports from a single platform.",
+    "trust": {
+      "realTesters": "Real testers, real devices",
+      "structuredReview": "Layered quality review",
+      "multiRole": "Client to admin workflows"
+    },
+    "preview": {
+      "eyebrow": "Live campaign",
+      "campaign": "Checkout reliability sprint",
+      "live": "Testing",
+      "countries": "Countries covered"
+    },
+    "featuresSection": {
+      "eyebrow": "Platform",
+      "title": "Everything you need to ship with confidence",
+      "subtitle": "From campaign setup to validated defect delivery—one cohesive workflow for clients, testers, and review teams."
+    },
+    "cta": {
+      "title": "Ready to run your next testing campaign?",
+      "subtitle": "Join DzTesters and connect with verified testers who deliver structured, review-ready bug reports.",
+      "primary": "Get started free",
+      "secondary": "Explore the workflow"
+    },
+    "createAccount": "Create your account",
+    "seeWorkflow": "See the workflow",
+    "coverageTitle": "Real-world coverage",
+    "coverageDescription": "Confidence comes from structured campaigns, eligible testers, and review workflows—not guesses.",
+    "coverageP1": "We connect you with real people who test your website or app in everyday situations, uncovering bugs and sharing honest feedback.",
+    "coverageP2": "With their insights, you can refine your product and launch with confidence.",
+    "coverageP3": "DzTesters helps you build better—together.",
+    "stats": {
+      "campaigns": "Campaigns coordinated",
+      "testers": "Verified testers",
+      "countries": "Countries covered",
+      "reviewTime": "Median review time"
+    },
+    "features": {
+      "reviewTitle": "Layered review flow",
+      "reviewDescription": "Every bug passes through moderators and a test manager before it reaches the client dashboard.",
+      "rutTitle": "Real user testing",
+      "rutDescription": "Get feedback from a diverse group of real users who test your product in real-world scenarios.",
+      "matchingTitle": "Targeted tester matching",
+      "matchingDescription": "Campaign invitations are filtered by country, devices, OS versions, browsers, and tester type."
+    }
+  },
+  "about": {
+    "eyebrow": "About DzTesters",
+    "title": "A practical crowdtesting platform for structured delivery.",
+    "intro": "DzTesters was designed for teams that need human feedback without a heavy enterprise stack. Clients define campaign scope, testers work through targeted tasks, moderators maintain quality, and test managers deliver validated findings.",
+    "supportsTitle": "What the platform supports",
+    "supportsBody": "Multi-role access control, pricing preview, tester-device profiling, invitation-based matching, moderated bug review, analytics, and direct filesystem uploads for screenshots, videos, and logs.",
+    "architectureTitle": "Why the architecture is simple",
+    "architectureBody": "Everything runs inside Next.js App Router with MySQL-compatible storage through Prisma and standard Node.js route handlers, which keeps deployment friendly to shared and VPS-style environments."
+  },
+  "howItWorks": {
+    "eyebrow": "Workflow",
+    "title": "From campaign setup to validated defect delivery.",
+    "steps": [
+      "Client creates a campaign and previews the estimated cost before launch.",
+      "DzTesters assigns a test manager and calculates moderator needs based on tester counts.",
+      "Eligible crowd testers and developer testers receive invitations based on country and device fit.",
+      "Testers work through tasks and submit structured bugs with attachments and environment data.",
+      "Moderators review duplicates and quality, then the test manager validates final reports for the client."
+    ]
+  },
+  "login": {
+    "eyebrow": "Welcome back",
+    "title": "Login to continue a campaign or review queue.",
+    "subtitle": "Clients, testers, moderators, test managers, and admins all use the same secure entry point with JWT session cookies and role-based dashboards.",
+    "cardTitle": "Sign in",
+    "cardDescription": "Enter the email and password for your workspace role.",
+    "needAccount": "Need an account?",
+    "signUp": "Sign up",
+    "email": "Email",
+    "password": "Password",
+    "emailPlaceholder": "name@company.com",
+    "passwordPlaceholder": "Your password",
+    "submit": "Login",
+    "pending": "Signing in..."
+  },
+  "signup": {
+    "eyebrow": "Create account",
+    "title": "Join DzTesters as a client or tester.",
+    "subtitle": "Clients can launch campaigns and view validated defects. Testers can maintain device inventories, accept matched invitations, and submit detailed reports with evidence.",
+    "note": "Moderator and test manager roles are intended to be assigned by admins after account approval.",
+    "cardTitle": "Create your account",
+    "cardDescription": "Pick a role and complete the fields below.",
+    "alreadyRegistered": "Already registered?",
+    "login": "Login"
+  },
+  "shell": {
+    "signedInAs": "Signed in as",
+    "roleUpgrade": "Role upgrade",
+    "accept": "Accept"
+  },
+  "roles": {
+    "ADMIN": "Admin",
+    "CLIENT": "Client",
+    "TESTER": "Tester",
+    "MODERATOR": "Moderator",
+    "TEST_MANAGER": "Test Manager"
+  },
+  "testerKinds": {
+    "CROWD": "Crowd tester",
+    "DEVELOPER": "Developer tester"
+  },
+  "campaignStages": {
+    "DRAFT": "Draft",
+    "PENDING_APPROVAL": "Pending approval",
+    "ACTIVE": "Active",
+    "TESTING": "Testing phase",
+    "BUG_REVIEW": "Bug review phase",
+    "COMPLETED": "Completed"
+  },
+  "assignmentRoles": {
+    "CROWD_TESTER": "Crowd tester",
+    "DEVELOPER_TESTER": "Developer tester",
+    "MODERATOR": "Moderator",
+    "TEST_MANAGER": "Test manager"
+  },
+  "softwareTypes": {
+    "WEBSITE": "Website",
+    "ANDROID_APP": "Android app",
+    "IOS_APP": "iOS app",
+    "DESKTOP_SOFTWARE": "Desktop software"
+  },
+  "roleNav": {
+    "clientDashboard": "Dashboard",
+    "clientCreateCampaign": "Create campaign",
+    "clientReports": "Campaign reports",
+    "testerProfile": "Profile",
+    "testerSetup": "Testing info",
+    "testerCampaigns": "Available campaigns",
+    "testerSubmitBug": "Submit bug",
+    "moderatorInbox": "Inbox",
+    "moderatorCampaigns": "Campaigns",
+    "moderatorSendReport": "Send report",
+    "managerDashboard": "Project dashboard",
+    "managerValidation": "Bug validation",
+    "managerReports": "Final reports",
+    "adminUsers": "User management",
+    "adminCampaigns": "Campaign monitoring",
+    "adminSettings": "System settings"
+  },
+  "workspace": {
+    "client": {
+      "title": "Client workspace",
+      "description": "Create campaigns, track tester participation, and review validated issues from a single dashboard."
+    },
+    "tester": {
+      "title": "Tester workspace",
+      "description": "Manage your profile, accept invitations, and submit structured bug reports with evidence."
+    },
+    "moderator": {
+      "title": "Moderator desk",
+      "description": "Review incoming bugs, manage duplicates, and keep report quality high across campaigns."
+    },
+    "manager": {
+      "title": "Test manager workspace",
+      "description": "Coordinate campaigns, validate findings, and publish final client-ready reports."
+    },
+    "admin": {
+      "title": "Admin control",
+      "description": "Manage accounts, platform assignments, campaign oversight, and system configuration."
+    }
+  },
+  "footer": {
+    "tagline": "DzTesters is a crowdtesting platform for structured human QA campaigns."
+  },
+  "admin": {
+    "home": {
+      "inviteModerator": "Invite to moderator",
+      "inviteManager": "Invite to manager",
+      "quickLinks": {
+        "campaigns": "Campaign monitoring",
+        "campaignsDesc": "Live campaigns and staffing",
+        "settings": "System settings",
+        "settingsDesc": "Platform configuration",
+        "bugs": "Total bug reports",
+        "bugsTotal": "across all campaigns"
+      },
+      "users": {
+        "eyebrow": "Users",
+        "title": "Account management",
+        "description": "Approve or suspend accounts and elevate users into moderator or test manager roles.",
+        "notSet": "Not set",
+        "none": "None",
+        "pendingInvite": "Invitation already pending",
+        "notEligible": "Not eligible",
+        "columns": {
+          "name": "Name",
+          "role": "Role",
+          "status": "Status",
+          "country": "Country",
+          "upgrade": "Pending upgrade",
+          "action": "Action"
+        }
+      }
+    }
+  },
+  "tester": {
+    "home": {
+      "quickActions": {
+        "submitBug": "Submit a bug",
+        "submitBugDesc": "Report with screenshots and logs",
+        "profile": "Your profile",
+        "profileDesc": "Devices, country, and skills"
+      },
+      "invitations": {
+        "eyebrow": "Invitations",
+        "title": "Available campaigns",
+        "description": "Matching invitations stay visible until required tester slots are filled.",
+        "empty": "No pending invitations right now",
+        "emptyHint": "Check back later or update your profile for better matches",
+        "developerSlot": "Developer tester slot",
+        "crowdSlot": "Crowd tester slot",
+        "new": "New",
+        "accept": "Accept invitation"
+      },
+      "workspace": {
+        "eyebrow": "Workspace",
+        "title": "Accepted campaigns",
+        "description": "Open your workspace for tasks, instructions, and bug submission.",
+        "empty": "You have not accepted any campaigns yet",
+        "active": "Active workspace",
+        "tasks": "Tasks",
+        "pendingInvites": "Pending invites",
+        "open": "Open workspace"
+      }
+    }
+  }
+}

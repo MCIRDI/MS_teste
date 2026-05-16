@@ -1,7 +1,7 @@
 import bcrypt from "bcryptjs";
 import { SignJWT, jwtVerify } from "jose";
 import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
+import { redirectTo } from "@/lib/redirect";
 
 import { env } from "@/lib/env";
 import type { Role, TesterKind } from "@/generated/prisma/client";
@@ -78,11 +78,13 @@ export async function requireSession(roles?: Role[]) {
   const session = await getCurrentSession();
 
   if (!session) {
-    redirect("/login");
+    await redirectTo("/login");
+    throw new Error("Redirecting to login");
   }
 
   if (roles && !roles.includes(session.role)) {
-    redirect(getDashboardPath(session.role));
+    await redirectTo(getDashboardPath(session.role));
+    throw new Error("Redirecting to dashboard");
   }
 
   return session;

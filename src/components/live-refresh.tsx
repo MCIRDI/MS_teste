@@ -1,7 +1,7 @@
 "use client";
 
 import { startTransition, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter } from "@/i18n/routing";
 
 function hasEditableFocus() {
   const activeElement = document.activeElement;

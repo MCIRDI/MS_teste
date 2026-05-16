@@ -84,10 +84,10 @@ enum TokenType {
 }
 
 model User {
-  id                String               @id @default(cuid())
+  id                String               @id @default(cuid()) @db.VarChar(30)
   name              String
-  email             String               @unique
-  passwordHash      String
+  email             String               @unique @db.VarChar(191)
+  passwordHash      String               @db.VarChar(255)
   role              Role
   testerKind        TesterKind?
   accountStatus     AccountStatus        @default(PENDING_APPROVAL)
@@ -112,8 +112,8 @@ model User {
 }
 
 model Device {
-  id               String   @id @default(cuid())
-  userId           String
+  id               String   @id @default(cuid()) @db.VarChar(30)
+  userId           String   @db.VarChar(30)
   deviceName       String
   osVersion        String
   browsers         Json
@@ -126,9 +126,9 @@ model Device {
 }
 
 model Campaign {
-  id                   String               @id @default(cuid())
-  clientId             String
-  testManagerId        String?
+  id                   String               @id @default(cuid()) @db.VarChar(30)
+  clientId             String               @db.VarChar(30)
+  testManagerId        String?              @db.VarChar(30)
   projectName          String
   description          String
   softwareType         SoftwareType
@@ -161,9 +161,9 @@ model Campaign {
 }
 
 model CampaignAssignment {
-  id             String         @id @default(cuid())
-  campaignId     String
-  userId         String
+  id             String         @id @default(cuid()) @db.VarChar(30)
+  campaignId     String         @db.VarChar(30)
+  userId         String         @db.VarChar(30)
   assignmentRole AssignmentRole
   acceptedAt     DateTime?
   createdAt      DateTime       @default(now())
@@ -175,9 +175,9 @@ model CampaignAssignment {
 }
 
 model CampaignInvitation {
-  id         String           @id @default(cuid())
-  campaignId String
-  recipientId String          @map("testerId")
+  id         String           @id @default(cuid()) @db.VarChar(30)
+  campaignId String           @db.VarChar(30)
+  recipientId String          @map("testerId") @db.VarChar(30)
   assignmentRole AssignmentRole   @default(CROWD_TESTER)
   status     InvitationStatus @default(PENDING)
   invitedAt  DateTime         @default(now())
@@ -192,9 +192,9 @@ model CampaignInvitation {
 }
 
 model RoleUpgradeInvitation {
-  id         String           @id @default(cuid())
-  recipientId String
-  invitedById String
+  id         String           @id @default(cuid()) @db.VarChar(30)
+  recipientId String          @db.VarChar(30)
+  invitedById String          @db.VarChar(30)
   currentRole Role
   targetRole Role
   status     InvitationStatus @default(PENDING)
@@ -209,8 +209,8 @@ model RoleUpgradeInvitation {
 }
 
 model TestingTask {
-  id          String   @id @default(cuid())
-  campaignId  String
+  id          String   @id @default(cuid()) @db.VarChar(30)
+  campaignId  String   @db.VarChar(30)
   title       String
   description String
   orderIndex  Int
@@ -221,15 +221,15 @@ model TestingTask {
 }
 
 model BugReport {
-  id                String        @id @default(cuid())
-  campaignId        String
-  testerId          String
-  moderatorId       String?
+  id                String        @id @default(cuid()) @db.VarChar(30)
+  campaignId        String        @db.VarChar(30)
+  testerId          String        @db.VarChar(30)
+  moderatorId       String?       @db.VarChar(30)
   title             String
-  groupKey          String        @default("")
+  groupKey          String        @default("") @db.VarChar(191)
   pageUrl           String?
-  feature           String?
-  errorType         String?
+  feature           String?       @db.VarChar(191)
+  errorType         String?       @db.VarChar(191)
   description       String
   reproductionSteps String
   expectedResult    String
@@ -238,7 +238,7 @@ model BugReport {
   environment       Json
   status            BugStatus     @default(SUBMITTED)
   moderationNotes   String?
-  duplicateOfId     String?
+  duplicateOfId     String?       @db.VarChar(30)
   moderatedAt       DateTime?
   createdAt         DateTime      @default(now())
   updatedAt         DateTime      @updatedAt
@@ -255,8 +255,8 @@ model BugReport {
 }
 
 model BugAttachment {
-  id           String         @id @default(cuid())
-  bugReportId  String
+  id           String         @id @default(cuid()) @db.VarChar(30)
+  bugReportId  String         @db.VarChar(30)
   kind         AttachmentKind
   originalName String
   storedName   String
@@ -270,9 +270,9 @@ model BugAttachment {
 }
 
 model FinalReport {
-  id           String   @id @default(cuid())
-  campaignId   String
-  uploadedById String
+  id           String   @id @default(cuid()) @db.VarChar(30)
+  campaignId   String   @db.VarChar(30)
+  uploadedById String   @db.VarChar(30)
   originalName String
   storedName   String
   relativePath String
@@ -288,12 +288,12 @@ model FinalReport {
 }
 
 model AuditLog {
-  id         String    @id @default(cuid())
-  actorId    String?
-  campaignId String?
+  id         String    @id @default(cuid()) @db.VarChar(30)
+  actorId    String?   @db.VarChar(30)
+  campaignId String?   @db.VarChar(30)
   action     String
   entityType String
-  entityId   String
+  entityId   String    @db.VarChar(30)
   metadata   Json?
   createdAt  DateTime  @default(now())
   actor      User?     @relation(fields: [actorId], references: [id], onDelete: SetNull)
@@ -304,9 +304,9 @@ model AuditLog {
 }
 
 model EmailToken {
-  id        String    @id @default(cuid())
-  userId    String
-  token     String    @unique
+  id        String    @id @default(cuid()) @db.VarChar(30)
+  userId    String    @db.VarChar(30)
+  token     String    @unique @db.VarChar(191)
   type      TokenType
   expiresAt DateTime
   usedAt    DateTime?

@@ -1,7 +1,7 @@
 "use server";
 
 import { randomUUID } from "node:crypto";
-import { redirect } from "next/navigation";
+import { redirectTo } from "@/lib/redirect";
 
 import { getDashboardPath, hashPassword, setSession, verifyPassword } from "@/lib/auth";
 import { AccountStatus, Role, TesterKind, TokenType } from "@/generated/prisma/client";
@@ -106,10 +106,10 @@ export async function signupAction(
   });
 
   if (user.role === "TESTER") {
-    redirect("/tester/location-setup");
+    return await redirectTo("/tester/location-setup");
   }
 
-  redirect(getDashboardPath(user.role));
+  return await redirectTo(getDashboardPath(user.role));
 }
 
 export async function loginAction(
@@ -156,5 +156,5 @@ export async function loginAction(
     testerKind: user.testerKind,
   });
 
-  redirect(getDashboardPath(user.role));
+  return await redirectTo(getDashboardPath(user.role));
 }

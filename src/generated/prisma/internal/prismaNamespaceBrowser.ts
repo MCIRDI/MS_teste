@@ -199,7 +199,6 @@ export const BugReportScalarFieldEnum = {
   campaignId: 'campaignId',
   testerId: 'testerId',
   moderatorId: 'moderatorId',
-  validatedById: 'validatedById',
   title: 'title',
   groupKey: 'groupKey',
   pageUrl: 'pageUrl',
@@ -213,7 +212,6 @@ export const BugReportScalarFieldEnum = {
   environment: 'environment',
   status: 'status',
   moderationNotes: 'moderationNotes',
-  validationNotes: 'validationNotes',
   duplicateOfId: 'duplicateOfId',
   moderatedAt: 'moderatedAt',
   createdAt: 'createdAt',
@@ -407,7 +405,6 @@ export const BugReportOrderByRelevanceFieldEnum = {
   campaignId: 'campaignId',
   testerId: 'testerId',
   moderatorId: 'moderatorId',
-  validatedById: 'validatedById',
   title: 'title',
   groupKey: 'groupKey',
   pageUrl: 'pageUrl',
@@ -418,7 +415,6 @@ export const BugReportOrderByRelevanceFieldEnum = {
   expectedResult: 'expectedResult',
   actualResult: 'actualResult',
   moderationNotes: 'moderationNotes',
-  validationNotes: 'validationNotes',
   duplicateOfId: 'duplicateOfId'
 } as const
 

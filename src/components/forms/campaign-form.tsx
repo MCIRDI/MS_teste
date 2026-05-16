@@ -5,7 +5,9 @@ import { useActionState, useState } from "react";
 import { createCampaignAction } from "@/app/actions/campaigns";
 import type { ActionState } from "@/app/actions/auth";
 import { SubmitButton } from "@/components/forms/submit-button";
-import { browsers, countries, platforms, softwareTypes } from "@/lib/constants";
+import { browsers, countries, platforms } from "@/lib/constants";
+import { getSoftwareTypes } from "@/lib/i18n";
+import { useTranslations } from "next-intl";
 import { estimateCampaignPrice } from "@/lib/pricing";
 import { formatCurrency } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
@@ -18,6 +20,8 @@ import { Card, CardDescription, CardHeader, CardSection, CardTitle } from "@/com
 const initialState: ActionState = { success: false };
 
 export function CampaignForm() {
+  const t = useTranslations();
+  const softwareTypes = getSoftwareTypes(t);
   const [state, formAction] = useActionState(createCampaignAction, initialState);
   const [crowdTesterCount, setCrowdTesterCount] = useState(120);
   const [developerTesterCount, setDeveloperTesterCount] = useState(10);

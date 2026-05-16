@@ -2,7 +2,7 @@
 
 import { AttachmentKind, BugSeverity, BugStatus, Role } from "@/generated/prisma/client";
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
+import { redirectTo } from "@/lib/redirect";
 
 import type { ActionState } from "@/app/actions/auth";
 import { requireSession } from "@/lib/auth";
@@ -163,7 +163,7 @@ export async function submitBugReportAction(
   revalidatePath("/tester/campaigns");
   revalidatePath("/moderator/review-queue");
   revalidatePath("/client/dashboard");
-  redirect(`/tester/workspace/${parsed.data.campaignId}`);
+  return await redirectTo(`/tester/workspace/${parsed.data.campaignId}`);
 }
 
 export async function moderateBugReportAction(formData: FormData) {
@@ -384,5 +384,5 @@ export async function submitModeratorBugReportAction(formData: FormData) {
 
   revalidatePath("/moderator/review-queue");
   revalidatePath(`/moderator/campaigns/${campaignId}`);
-  redirect(`/moderator/campaigns/${campaignId}`);
+  return await redirectTo(`/moderator/campaigns/${campaignId}`);
 }
