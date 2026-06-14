@@ -105,7 +105,8 @@
     "emailPlaceholder": "nom@entreprise.com",
     "passwordPlaceholder": "Votre mot de passe",
     "submit": "Connexion",
-    "pending": "Connexion..."
+    "pending": "Connexion...",
+    "pendingApprovalAfterVetting": "Vetting soumis avec succès. Reconnectez-vous après activation de votre compte par un administrateur."
   },
   "signup": {
     "eyebrow": "Créer un compte",
@@ -120,12 +121,15 @@
   "shell": {
     "signedInAs": "Connecté en tant que",
     "roleUpgrade": "Montée de rôle",
-    "accept": "Accepter"
+    "accept": "Accepter",
+    "notifications": "Notifications",
+    "markRead": "Marquer lu"
   },
   "roles": {
     "ADMIN": "Admin",
     "CLIENT": "Client",
     "TESTER": "Testeur",
+    "CERT_TESTER": "Testeur certifié",
     "MODERATOR": "Modérateur",
     "TEST_MANAGER": "Responsable de test"
   },
@@ -139,11 +143,12 @@
     "ACTIVE": "Active",
     "TESTING": "Phase de test",
     "BUG_REVIEW": "Phase de revue des bugs",
-    "COMPLETED": "Terminée"
+    "COMPLETED": "Terminée",
+    "ARCHIVED": "Archivée"
   },
   "assignmentRoles": {
     "CROWD_TESTER": "Testeur crowd",
-    "DEVELOPER_TESTER": "Testeur développeur",
+    "CERT_TESTER": "Testeur certifié",
     "MODERATOR": "Modérateur",
     "TEST_MANAGER": "Responsable de test"
   },
@@ -158,16 +163,19 @@
     "clientCreateCampaign": "Créer une campagne",
     "clientReports": "Rapports de campagne",
     "testerProfile": "Profil",
+    "testerVetting": "Évaluation vetting",
     "testerSetup": "Infos de test",
     "testerCampaigns": "Campagnes disponibles",
     "testerSubmitBug": "Soumettre un bug",
     "moderatorInbox": "Boîte de réception",
+    "moderatorDisputes": "Litiges",
     "moderatorCampaigns": "Campagnes",
     "moderatorSendReport": "Envoyer un rapport",
     "managerDashboard": "Tableau de bord projet",
     "managerValidation": "Validation des bugs",
     "managerReports": "Rapports finaux",
     "adminUsers": "Gestion des utilisateurs",
+    "adminDisputes": "Litiges escaladés",
     "adminCampaigns": "Suivi des campagnes",
     "adminSettings": "Paramètres système"
   },
@@ -216,11 +224,17 @@
         "none": "Aucun",
         "pendingInvite": "Invitation déjà en attente",
         "notEligible": "Non éligible",
+        "approve": "Approuver",
+        "reject": "Rejeter",
+        "certify": "Certifier",
+        "awaitingVetting": "Vetting non terminé — approbation manuelle possible",
+        "vettingPassed": "Vetting réussi — prêt pour approbation",
         "columns": {
           "name": "Nom",
           "role": "Rôle",
           "status": "Statut",
           "country": "Pays",
+          "vetting": "Score vetting",
           "upgrade": "Promotion en attente",
           "action": "Action"
         }
@@ -241,8 +255,8 @@
         "description": "Les invitations restent visibles jusqu'à remplissage des places.",
         "empty": "Aucune invitation en attente",
         "emptyHint": "Revenez plus tard ou mettez à jour votre profil",
-        "developerSlot": "Place testeur développeur",
         "crowdSlot": "Place testeur crowd",
+        "certSlot": "Place testeur certifié",
         "new": "Nouveau",
         "accept": "Accepter l'invitation"
       },

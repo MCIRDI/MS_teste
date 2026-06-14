@@ -1,9 +1,12 @@
 import {
   AssignmentRole,
   BugStatus,
+  DisputeStatus,
   InvitationStatus,
+  PaymentStatus,
+  PaymentType,
   Role,
-} from "@/generated/prisma/client";
+} from "@/generated/prisma";
 
 import { prisma } from "@/lib/prisma";
 import { toStringArray } from "@/lib/utils";
@@ -23,6 +26,10 @@ export async function getClientDashboardData(clientId: string) {
       invitations: true,
       assignments: true,
       bugReports: true,
+      payments: {
+        where: { type: PaymentType.CAMPAIGN_PAYMENT, status: PaymentStatus.COMPLETED },
+        take: 1,
+      },
     },
     orderBy: { createdAt: "desc" },
   });
@@ -35,12 +42,12 @@ export async function getClientDashboardData(clientId: string) {
       campaign.assignments.filter(
         (assignment) =>
           assignment.assignmentRole === AssignmentRole.CROWD_TESTER ||
-          assignment.assignmentRole === AssignmentRole.DEVELOPER_TESTER,
+          assignment.assignmentRole === AssignmentRole.CERT_TESTER,
       ).length,
     0,
   );
   const countries = new Set(
-    campaigns.flatMap((campaign) => toStringArray(campaign.selectedCountries)),
+    campaigns.flatMap((campaign) => campaign.targetCountries),
   );
   const devices = new Set(
     campaigns.flatMap((campaign) => toStringArray(campaign.selectedPlatforms)),
@@ -56,13 +63,16 @@ export async function getClientDashboardData(clientId: string) {
     campaigns: campaigns.map((campaign) => ({
       id: campaign.id,
       name: campaign.projectName,
+      stage: campaign.stage,
+      isPremium: campaign.isPremium,
+      isPaid: campaign.payments.length > 0,
       testers: campaign.assignments.filter(
         (assignment) =>
           assignment.assignmentRole === AssignmentRole.CROWD_TESTER ||
-          assignment.assignmentRole === AssignmentRole.DEVELOPER_TESTER,
+          assignment.assignmentRole === AssignmentRole.CERT_TESTER,
       ).length,
       bugs: campaign.bugReports.length,
-      countries: toStringArray(campaign.selectedCountries).join(", "),
+      countries: campaign.targetCountries.join(", "),
       devices: toStringArray(campaign.selectedPlatforms).join(", "),
       price: campaign.estimatedCost,
       pendingInvitations: campaign.invitations.filter(
@@ -90,7 +100,7 @@ export async function getTesterDashboardData(testerId: string) {
       campaignInvitations: {
         where: {
           assignmentRole: {
-            in: [AssignmentRole.CROWD_TESTER, AssignmentRole.DEVELOPER_TESTER],
+            in: [AssignmentRole.CROWD_TESTER, AssignmentRole.CERT_TESTER],
           },
         },
         include: {
@@ -107,7 +117,7 @@ export async function getTesterDashboardData(testerId: string) {
       assignments: {
         where: {
           assignmentRole: {
-            in: [AssignmentRole.CROWD_TESTER, AssignmentRole.DEVELOPER_TESTER],
+            in: [AssignmentRole.CROWD_TESTER, AssignmentRole.CERT_TESTER],
           },
         },
         include: {
@@ -476,16 +486,133 @@ export async function getClientReportsData(clientId: string) {
   return campaigns.map((campaign) => ({
     id: campaign.id,
     name: campaign.projectName,
-    countries: toStringArray(campaign.selectedCountries),
+    countries: campaign.targetCountries,
     devices: toStringArray(campaign.selectedPlatforms),
-    bugs: campaign.bugReports.filter((bug) => bug.status === BugStatus.APPROVED),
+    bugs: campaign.bugReports
+      .filter((bug) => bug.status === BugStatus.APPROVED)
+      .map((bug) => ({
+        id: bug.id,
+        title: bug.title,
+        severity: bug.severity,
+        hasDispute: false as boolean,
+      })),
     finalReport: campaign.finalReports[0] ?? null,
     testers: campaign.assignments.filter(
       (assignment) =>
         assignment.assignmentRole === AssignmentRole.CROWD_TESTER ||
-        assignment.assignmentRole === AssignmentRole.DEVELOPER_TESTER,
+        assignment.assignmentRole === AssignmentRole.CERT_TESTER,
     ).length,
   }));
+}
+
+export async function getClientReportsWithDisputes(clientId: string) {
+  const campaigns = await prisma.campaign.findMany({
+    where: { clientId },
+    include: {
+      bugReports: {
+        where: { status: BugStatus.APPROVED },
+        include: { dispute: true },
+      },
+      finalReports: { orderBy: { createdAt: "desc" }, take: 1 },
+      assignments: true,
+    },
+    orderBy: { createdAt: "desc" },
+  });
+
+  return campaigns.map((campaign) => ({
+    id: campaign.id,
+    name: campaign.projectName,
+    countries: campaign.targetCountries,
+    devices: campaign.selectedPlatforms,
+    bugs: campaign.bugReports.map((bug) => ({
+      id: bug.id,
+      title: bug.title,
+      severity: bug.severity,
+      dispute: bug.dispute,
+    })),
+    finalReport: campaign.finalReports[0] ?? null,
+    testers: campaign.assignments.filter(
+      (assignment) =>
+        assignment.assignmentRole === AssignmentRole.CROWD_TESTER ||
+        assignment.assignmentRole === AssignmentRole.CERT_TESTER,
+    ).length,
+  }));
+}
+
+export async function getTesterProfileData(testerId: string) {
+  const tester = await prisma.user.findUniqueOrThrow({
+    where: { id: testerId },
+    include: {
+      devices: { orderBy: { createdAt: "desc" } },
+      payments: {
+        where: { type: PaymentType.TESTER_WITHDRAWAL },
+        orderBy: { createdAt: "desc" },
+        take: 10,
+      },
+    },
+  });
+
+  const withdrawn = await prisma.payment.aggregate({
+    where: {
+      userId: testerId,
+      type: PaymentType.TESTER_WITHDRAWAL,
+      status: { in: [PaymentStatus.COMPLETED, PaymentStatus.PENDING] },
+    },
+    _sum: { amount: true },
+  });
+
+  const withdrawnTotal = withdrawn._sum.amount ?? 0;
+  const availableBalance = Math.max(0, tester.totalEarned - withdrawnTotal);
+
+  return { tester, withdrawnTotal, availableBalance };
+}
+
+export async function getUserNotifications(userId: string) {
+  return prisma.notification.findMany({
+    where: { userId },
+    orderBy: { createdAt: "desc" },
+    take: 12,
+  });
+}
+
+export async function getUnreadNotificationCount(userId: string) {
+  return prisma.notification.count({
+    where: { userId, isRead: false },
+  });
+}
+
+export async function getModeratorDisputes(moderatorId: string) {
+  return prisma.dispute.findMany({
+    where: {
+      status: { in: [DisputeStatus.OPEN, DisputeStatus.ESCALATED] },
+    },
+    include: {
+      bugReport: {
+        include: {
+          campaign: true,
+          tester: true,
+        },
+      },
+    },
+    orderBy: { createdAt: "desc" },
+  });
+}
+
+export async function getAdminDisputes() {
+  return prisma.dispute.findMany({
+    where: {
+      status: DisputeStatus.ESCALATED,
+    },
+    include: {
+      bugReport: {
+        include: {
+          campaign: true,
+          tester: true,
+        },
+      },
+    },
+    orderBy: { escalatedAt: "desc" },
+  });
 }
 
 export async function getUsersByRole(role: Role) {

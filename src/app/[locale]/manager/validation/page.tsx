@@ -1,6 +1,6 @@
 import { Link } from "@/i18n/routing";
 
-import { BugStatus } from "@/generated/prisma/client";
+import { BugStatus } from "@/generated/prisma";
 import { requireSession } from "@/lib/auth";
 import { getManagerDashboardData } from "@/lib/dashboard-data";
 import { makeGroupKey, severityRank } from "@/lib/moderation";

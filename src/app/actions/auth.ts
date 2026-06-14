@@ -3,8 +3,8 @@
 import { randomUUID } from "node:crypto";
 import { redirectTo } from "@/lib/redirect";
 
-import { getDashboardPath, hashPassword, setSession, verifyPassword } from "@/lib/auth";
-import { AccountStatus, Role, TesterKind, TokenType } from "@/generated/prisma/client";
+import { getDashboardPath, hashPassword, setSession, verifyPassword, getSignupAccountStatus, getTesterPendingLoginMessage, isTesterLoginBlocked, shouldAutoActivateOnLogin, getTesterOnboardingPath, needsTesterOnboarding } from "@/lib/auth";
+import { AccountStatus, Role, TokenType } from "@/generated/prisma";
 import { prisma } from "@/lib/prisma";
 import { loginSchema, signupSchema } from "@/lib/validation";
 
@@ -22,13 +22,18 @@ export async function signupAction(
 ): Promise<ActionState> {
   void _;
 
+  const languagesRaw = formData.getAll("languages");
+  const languages =
+    languagesRaw.length > 0
+      ? languagesRaw.map(String)
+      : splitList(String(formData.get("languages") ?? "fr"));
+
   const parsed = signupSchema.safeParse({
     name: formData.get("name"),
     email: formData.get("email"),
     password: formData.get("password"),
     role: formData.get("role"),
-    testerKind: formData.get("testerKind") || undefined,
-    language: formData.get("language") || undefined,
+    languages,
     deviceName: formData.get("deviceName") || undefined,
     osVersion: formData.get("osVersion") || undefined,
     browser: formData.get("browser") || undefined,
@@ -61,13 +66,9 @@ export async function signupAction(
       email: parsed.data.email.toLowerCase(),
       passwordHash,
       role: parsed.data.role as Role,
-      testerKind:
-        parsed.data.role === "TESTER"
-          ? (parsed.data.testerKind as TesterKind)
-          : null,
-      accountStatus: AccountStatus.ACTIVE,
+      accountStatus: getSignupAccountStatus(parsed.data.role as Role),
       isEmailVerified: false,
-      language: parsed.data.role === "TESTER" ? parsed.data.language : null,
+      languages: parsed.data.role === "TESTER" ? parsed.data.languages : [],
       devices:
         parsed.data.role === "TESTER"
           ? {
@@ -102,7 +103,7 @@ export async function signupAction(
     name: user.name,
     email: user.email,
     role: user.role,
-    testerKind: user.testerKind,
+    isCertified: user.isCertified,
   });
 
   if (user.role === "TESTER") {
@@ -139,7 +140,14 @@ export async function loginAction(
     return { success: false, message: "No account was found for that email." };
   }
 
-  if (user.accountStatus === "SUSPENDED") {
+  if (isTesterLoginBlocked(user)) {
+    return {
+      success: false,
+      message: getTesterPendingLoginMessage(user.vetingScore),
+    };
+  }
+
+  if (user.accountStatus === "SUSPENDED" || user.accountStatus === "BANNED") {
     return { success: false, message: "This account is suspended." };
   }
 
@@ -148,13 +156,31 @@ export async function loginAction(
     return { success: false, message: "Incorrect password." };
   }
 
+  if (shouldAutoActivateOnLogin(user)) {
+    await prisma.user.update({
+      where: { id: user.id },
+      data: { accountStatus: AccountStatus.ACTIVE },
+    });
+  }
+
   await setSession({
     id: user.id,
     name: user.name,
     email: user.email,
     role: user.role,
-    testerKind: user.testerKind,
+    isCertified: user.isCertified,
   });
 
+  if (needsTesterOnboarding(user)) {
+    return await redirectTo(getTesterOnboardingPath(user));
+  }
+
   return await redirectTo(getDashboardPath(user.role));
+}
+
+function splitList(value: string) {
+  return value
+    .split(",")
+    .map((item) => item.trim())
+    .filter(Boolean);
 }

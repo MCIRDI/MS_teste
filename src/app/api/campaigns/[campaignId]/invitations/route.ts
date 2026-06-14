@@ -1,4 +1,4 @@
-import { AssignmentRole, InvitationStatus, Role } from "@/generated/prisma/client";
+import { AssignmentRole, InvitationStatus, Role } from "@/generated/prisma";
 import { NextResponse } from "next/server";
 
 import { getCurrentSession } from "@/lib/auth";
@@ -33,15 +33,26 @@ export async function POST(
     return NextResponse.json({ error: "assignmentRole is required." }, { status: 400 });
   }
 
-  await prisma.campaignInvitation.createMany({
-    data: recipientIds.map((recipientId: string) => ({
+  const existing = await prisma.campaignInvitation.findMany({
+    where: {
       campaignId,
-      recipientId,
-      assignmentRole,
-      status: InvitationStatus.PENDING,
-    })),
-    skipDuplicates: true,
+      recipientId: { in: recipientIds },
+    },
+    select: { recipientId: true },
   });
+  const existingIds = new Set(existing.map((item) => item.recipientId));
+  const toCreate = recipientIds.filter((recipientId: string) => !existingIds.has(recipientId));
+
+  if (toCreate.length > 0) {
+    await prisma.campaignInvitation.createMany({
+      data: toCreate.map((recipientId: string) => ({
+        campaignId,
+        recipientId,
+        assignmentRole,
+        status: InvitationStatus.PENDING,
+      })),
+    });
+  }
 
   return NextResponse.json({ ok: true });
 }

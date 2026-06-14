@@ -47,7 +47,7 @@ export default async function ManagerDashboardPage() {
                   <CardMeta className="mt-4 sm:grid-cols-2">
                     <CardMetaItem label="Moderator slots">{invitation.campaign.moderatorSlots}</CardMetaItem>
                     <CardMetaItem label="Testers needed">
-                      {invitation.campaign.crowdTesterCount + invitation.campaign.developerTesterCount}
+                      {invitation.campaign.crowdTesterCount + invitation.campaign.certTesterCount}
                     </CardMetaItem>
                   </CardMeta>
                 </CardSection>
@@ -89,8 +89,8 @@ export default async function ManagerDashboardPage() {
                       {campaign.crowdTesterCount}
                     </CardMetaItem>
                     <CardMetaItem label="Developer testers">
-                      {campaign.assignments.filter((item) => item.assignmentRole === "DEVELOPER_TESTER").length}/
-                      {campaign.developerTesterCount}
+                      {campaign.assignments.filter((item) => item.assignmentRole === "CERT_TESTER").length}/
+                      {campaign.certTesterCount}
                     </CardMetaItem>
                     <CardMetaItem label="Pending invites">
                       {campaign.invitations.filter((item) => item.status === "PENDING").length}

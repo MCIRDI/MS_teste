@@ -2,8 +2,8 @@ import { randomUUID } from "node:crypto";
 import { NextResponse } from "next/server";
 
 import { consumeRateLimit } from "@/lib/rate-limit";
-import { AccountStatus, Role, TesterKind, TokenType } from "@/generated/prisma/client";
-import { signSession, hashPassword } from "@/lib/auth";
+import { Role, TokenType } from "@/generated/prisma";
+import { signSession, hashPassword, getSignupAccountStatus, getTesterPendingLoginMessage, isTesterLoginBlocked, shouldAutoActivateOnLogin } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { signupSchema } from "@/lib/validation";
 
@@ -37,12 +37,8 @@ export async function POST(request: Request) {
       email: parsed.data.email.toLowerCase(),
       passwordHash,
       role: parsed.data.role as Role,
-      testerKind:
-        parsed.data.role === "TESTER"
-          ? (parsed.data.testerKind as TesterKind)
-          : null,
-      accountStatus: AccountStatus.ACTIVE,
-      language: parsed.data.role === "TESTER" ? parsed.data.language : null,
+      accountStatus: getSignupAccountStatus(parsed.data.role as Role),
+      languages: parsed.data.role === "TESTER" ? parsed.data.languages : [],
       devices:
         parsed.data.role === "TESTER"
           ? {
@@ -69,7 +65,7 @@ export async function POST(request: Request) {
     name: user.name,
     email: user.email,
     role: user.role,
-    testerKind: user.testerKind,
+    isCertified: user.isCertified,
   });
 
   const response = NextResponse.json({

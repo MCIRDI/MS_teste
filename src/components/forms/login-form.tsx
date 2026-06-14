@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input";
 
 const initialState: ActionState = { success: false };
 
-export function LoginForm() {
+export function LoginForm({ notice }: { notice?: string }) {
   const t = useTranslations("login");
   const [state, formAction] = useActionState(loginAction, initialState);
 
@@ -33,6 +33,7 @@ export function LoginForm() {
           required
         />
       </div>
+      {notice ? <p className="text-sm text-emerald-800">{notice}</p> : null}
       {state.message ? <p className="text-sm text-red-700">{state.message}</p> : null}
       <SubmitButton label={t("submit")} pendingLabel={t("pending")} />
     </form>

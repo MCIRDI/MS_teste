@@ -2,13 +2,14 @@ import type { ReactNode } from "react";
 import { getTranslations } from "next-intl/server";
 
 import { acceptRoleUpgradeInvitationAction } from "@/app/actions/admin";
+import { markNotificationsReadAction } from "@/app/actions/notifications";
 import { LanguageSwitcher } from "@/components/layout/language-switcher";
 import { SidebarNav } from "@/components/layout/sidebar-nav";
 import { Button } from "@/components/ui/button";
 import { Link } from "@/i18n/routing";
-import type { Role } from "@/generated/prisma/client";
+import type { Role } from "@/generated/prisma";
 import { clearSession, type SessionUser } from "@/lib/auth";
-import { getPendingRoleUpgradeInvitation } from "@/lib/dashboard-data";
+import { getPendingRoleUpgradeInvitation, getUserNotifications, getUnreadNotificationCount } from "@/lib/dashboard-data";
 import { getRoleLabels, getRoleNavigation } from "@/lib/i18n";
 
 export async function logoutAction() {
@@ -35,6 +36,8 @@ export async function AppShell({ session, children, title, description }: AppShe
   const roleLabels = getRoleLabels(t);
   const items = getRoleNavigation(t)[session.role as Role];
   const pendingRoleUpgrade = await getPendingRoleUpgradeInvitation(session.id);
+  const notifications = await getUserNotifications(session.id);
+  const unreadCount = await getUnreadNotificationCount(session.id);
   const initials = userInitials(session.name);
 
   return (
@@ -88,6 +91,30 @@ export async function AppShell({ session, children, title, description }: AppShe
                     {t("shell.accept")}
                   </Button>
                 </form>
+              </div>
+            ) : null}
+
+            {notifications.length > 0 ? (
+              <div className="mt-4 rounded-xl border border-slate-200/80 bg-white px-3 py-3">
+                <div className="flex items-center justify-between gap-2">
+                  <p className="text-xs font-semibold text-slate-900">
+                    {t("shell.notifications")} {unreadCount > 0 ? `(${unreadCount})` : ""}
+                  </p>
+                  {unreadCount > 0 ? (
+                    <form action={markNotificationsReadAction}>
+                      <Button type="submit" variant="ghost" className="h-7 px-2 text-[10px]">
+                        {t("shell.markRead")}
+                      </Button>
+                    </form>
+                  ) : null}
+                </div>
+                <ul className="mt-2 max-h-40 space-y-2 overflow-y-auto text-xs text-slate-600">
+                  {notifications.slice(0, 5).map((notification) => (
+                    <li key={notification.id} className={notification.isRead ? "" : "font-medium text-slate-900"}>
+                      {notification.message}
+                    </li>
+                  ))}
+                </ul>
               </div>
             ) : null}
 

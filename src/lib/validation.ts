@@ -12,8 +12,7 @@ export const signupSchema = z.discriminatedUnion("role", [
   }),
   baseSignupSchema.extend({
     role: z.literal("TESTER"),
-    testerKind: z.enum(["CROWD", "DEVELOPER"]),
-    language: z.string().min(2),
+    languages: z.array(z.enum(["ar", "fr", "en"])).min(1),
     deviceName: z.string().min(1),
     osVersion: z.string().min(1),
     browser: z.string().min(1),
@@ -34,11 +33,12 @@ export const createCampaignSchema = z.object({
   testerLoginCredentials: z.string().optional(),
   selectedPlatforms: z.array(z.string()).min(1),
   selectedBrowsers: z.array(z.string()).min(1),
-  selectedCountries: z.array(z.string()).min(1),
+  targetCountries: z.array(z.string()).min(1),
   crowdTesterCount: z.coerce.number().int().min(0),
-  developerTesterCount: z.coerce.number().int().min(0),
+  certTesterCount: z.coerce.number().int().min(0),
   tasks: z.array(z.string()).min(1),
   softwareFilePath: z.string().optional(),
+  isPremium: z.coerce.boolean().optional(),
 });
 
 export const bugReportSchema = z.object({
@@ -63,6 +63,7 @@ export const bugReportSchema = z.object({
   description: z.string().min(20),
   reproductionSteps: z.string().min(10),
   severity: z.enum(["CRITICAL", "HIGH", "MEDIUM", "LOW"]),
+  reportType: z.enum(["STANDARD", "API", "PERFORMANCE", "SECURITY", "DEVOPS"]).optional(),
 });
 
 export const passwordResetRequestSchema = z.object({

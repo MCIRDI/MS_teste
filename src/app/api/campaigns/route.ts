@@ -1,4 +1,4 @@
-import { CampaignStage, Role, SoftwareType } from "@/generated/prisma/client";
+import { CampaignStage, Role, SoftwareType } from "@/generated/prisma";
 import { NextResponse } from "next/server";
 
 import { getCurrentSession } from "@/lib/auth";
@@ -45,8 +45,8 @@ export async function POST(request: Request) {
 
   const price = estimateCampaignPrice({
     crowdTesterCount: parsed.data.crowdTesterCount,
-    developerTesterCount: parsed.data.developerTesterCount,
-    countries: parsed.data.selectedCountries,
+    certTesterCount: parsed.data.certTesterCount,
+    countries: parsed.data.targetCountries,
     platforms: parsed.data.selectedPlatforms,
     browsers: parsed.data.selectedBrowsers,
   });
@@ -64,8 +64,8 @@ export async function POST(request: Request) {
         : undefined,
       stage: CampaignStage.ACTIVE,
       crowdTesterCount: parsed.data.crowdTesterCount,
-      developerTesterCount: parsed.data.developerTesterCount,
-      selectedCountries: parsed.data.selectedCountries,
+      certTesterCount: parsed.data.certTesterCount,
+      targetCountries: parsed.data.targetCountries,
       selectedPlatforms: parsed.data.selectedPlatforms,
       selectedBrowsers: parsed.data.selectedBrowsers,
       estimatedCost: price.estimatedCost,

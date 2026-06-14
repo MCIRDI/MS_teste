@@ -105,7 +105,8 @@
     "emailPlaceholder": "name@company.com",
     "passwordPlaceholder": "كلمة المرور",
     "submit": "دخول",
-    "pending": "جاري تسجيل الدخول..."
+    "pending": "جاري تسجيل الدخول...",
+    "pendingApprovalAfterVetting": "تم إرسال التأهيل بنجاح. سجّل الدخول مرة أخرى بعد تفعيل حسابك من قبل المسؤول."
   },
   "signup": {
     "eyebrow": "إنشاء حساب",
@@ -120,12 +121,15 @@
   "shell": {
     "signedInAs": "مسجل الدخول كـ",
     "roleUpgrade": "ترقية الدور",
-    "accept": "قبول"
+    "accept": "قبول",
+    "notifications": "الإشعارات",
+    "markRead": "تعليم كمقروء"
   },
   "roles": {
     "ADMIN": "مسؤول",
     "CLIENT": "عميل",
     "TESTER": "مختبر",
+    "CERT_TESTER": "مختبر معتمد",
     "MODERATOR": "مشرف",
     "TEST_MANAGER": "مدير اختبار"
   },
@@ -143,7 +147,7 @@
   },
   "assignmentRoles": {
     "CROWD_TESTER": "مختبر جماعي",
-    "DEVELOPER_TESTER": "مختبر مطور",
+    "CERT_TESTER": "مختبر معتمد",
     "MODERATOR": "مشرف",
     "TEST_MANAGER": "مدير اختبار"
   },
@@ -158,16 +162,19 @@
     "clientCreateCampaign": "إنشاء حملة",
     "clientReports": "تقارير الحملات",
     "testerProfile": "الملف الشخصي",
+    "testerVetting": "اختبار التأهيل",
     "testerSetup": "معلومات الاختبار",
     "testerCampaigns": "حملات متاحة",
     "testerSubmitBug": "إبلاغ عن خطأ",
     "moderatorInbox": "صندوق الوارد",
+    "moderatorDisputes": "النزاعات",
     "moderatorCampaigns": "الحملات",
     "moderatorSendReport": "إرسال تقرير",
     "managerDashboard": "لوحة المشروع",
     "managerValidation": "التحقق من الأخطاء",
     "managerReports": "التقارير النهائية",
     "adminUsers": "إدارة المستخدمين",
+    "adminDisputes": "النزاعات المصعدة",
     "adminCampaigns": "مراقبة الحملات",
     "adminSettings": "إعدادات النظام"
   },
@@ -216,11 +223,17 @@
         "none": "لا يوجد",
         "pendingInvite": "دعوة قيد الانتظار",
         "notEligible": "غير مؤهل",
+        "approve": "تفعيل الحساب",
+        "reject": "رفض",
+        "certify": "اعتماد المختبر",
+        "awaitingVetting": "التأهيل غير مكتمل — يمكن الموافقة يدوياً",
+        "vettingPassed": "اجتاز التأهيل — جاهز للموافقة",
         "columns": {
           "name": "الاسم",
           "role": "الدور",
           "status": "الحالة",
           "country": "البلد",
+          "vetting": "نتيجة التأهيل",
           "upgrade": "ترقية معلقة",
           "action": "إجراء"
         }

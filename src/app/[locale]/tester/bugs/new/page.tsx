@@ -12,14 +12,14 @@ export default async function TesterBugNewPage({
 }: {
   searchParams: Promise<{ campaignId?: string }>;
 }) {
-  const session = await requireSession(["TESTER"]);
+  const session = await requireSession(["TESTER", "CERT_TESTER"]);
   const { campaignId: requestedCampaignId } = await searchParams;
 
   const assignments = await prisma.campaignAssignment.findMany({
     where: {
       userId: session.id,
       assignmentRole: {
-        in: ["CROWD_TESTER", "DEVELOPER_TESTER"],
+        in: ["CROWD_TESTER", "CERT_TESTER"],
       },
     },
     include: {

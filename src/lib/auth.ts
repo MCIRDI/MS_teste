@@ -4,14 +4,14 @@ import { cookies } from "next/headers";
 import { redirectTo } from "@/lib/redirect";
 
 import { env } from "@/lib/env";
-import type { Role, TesterKind } from "@/generated/prisma/client";
+import type { AccountStatus, Role } from "@/generated/prisma";
 
 export type SessionUser = {
   id: string;
   name: string;
   email: string;
   role: Role;
-  testerKind?: TesterKind | null;
+  isCertified?: boolean;
 };
 
 const SESSION_COOKIE = "ms-test-session";
@@ -67,7 +67,7 @@ export async function getCurrentSession(): Promise<SessionUser | null> {
       name: String(payload.name),
       email: String(payload.email),
       role: payload.role as Role,
-      testerKind: payload.testerKind as TesterKind | null | undefined,
+      isCertified: payload.isCertified === true,
     };
   } catch {
     return null;
@@ -95,6 +95,7 @@ export function getDashboardPath(role: Role) {
     case "CLIENT":
       return "/client/dashboard";
     case "TESTER":
+    case "CERT_TESTER":
       return "/tester/campaigns";
     case "MODERATOR":
       return "/moderator/review-queue";
@@ -104,4 +105,72 @@ export function getDashboardPath(role: Role) {
     default:
       return "/admin/users";
   }
+}
+
+export function getSignupAccountStatus(role: Role): AccountStatus {
+  return role === "TESTER" ? "PENDING_APPROVAL" : "ACTIVE";
+}
+
+export function getTesterPendingLoginMessage(vetingScore: number | null) {
+  return "Your account is pending administrator approval after passing vetting.";
+}
+
+export function isTesterLoginBlocked(user: {
+  role: Role;
+  accountStatus: AccountStatus;
+  vetingScore: number | null;
+}) {
+  return (
+    user.role === "TESTER" &&
+    user.accountStatus === "PENDING_APPROVAL" &&
+    (user.vetingScore ?? 0) >= 60
+  );
+}
+
+export function hasPassedVetting(vetingScore: number | null) {
+  return (vetingScore ?? 0) >= 60;
+}
+
+export function isAwaitingAdminAfterVetting(user: {
+  role: Role;
+  accountStatus: AccountStatus;
+  vetingScore: number | null;
+}) {
+  return (
+    user.role === "TESTER" &&
+    user.accountStatus === "PENDING_APPROVAL" &&
+    hasPassedVetting(user.vetingScore)
+  );
+}
+
+export function needsTesterOnboarding(user: {
+  role: Role;
+  accountStatus: AccountStatus;
+  country: string | null;
+  vetingScore: number | null;
+}) {
+  if (user.role !== "TESTER" || user.accountStatus !== "PENDING_APPROVAL") {
+    return false;
+  }
+
+  if (isAwaitingAdminAfterVetting(user)) {
+    return false;
+  }
+
+  return !user.country || !hasPassedVetting(user.vetingScore);
+}
+
+export function getTesterOnboardingPath(user: {
+  country: string | null;
+  vetingScore: number | null;
+}) {
+  if (!user.country) {
+    return "/tester/location-setup";
+  }
+
+  return "/tester/vetting";
+}
+
+export function shouldAutoActivateOnLogin(user: { role: Role; accountStatus: AccountStatus }) {
+  return user.accountStatus === "PENDING_APPROVAL" && user.role !== "TESTER";
 }

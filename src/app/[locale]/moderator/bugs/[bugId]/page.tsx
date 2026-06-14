@@ -1,6 +1,6 @@
 import { Link } from "@/i18n/routing";
 
-import { BugStatus } from "@/generated/prisma/client";
+import { BugStatus } from "@/generated/prisma";
 import { moderateBugReportAction } from "@/app/actions/bugs";
 import { requireSession } from "@/lib/auth";
 import { diceCoefficient, normalizeText } from "@/lib/moderation";

@@ -4,22 +4,20 @@ import {
   InvitationStatus,
   Prisma,
   Role,
-  TesterKind,
   type Campaign,
-} from "@/generated/prisma/client";
+} from "@/generated/prisma";
 
 import { prisma } from "@/lib/prisma";
-import { toStringArray } from "@/lib/utils";
 
 type CampaignSlotConfig = Pick<
   Campaign,
-  "crowdTesterCount" | "developerTesterCount" | "moderatorSlots"
+  "crowdTesterCount" | "certTesterCount" | "moderatorSlots"
 >;
 
 type CampaignInvitationSession = {
   id: string;
   role: Role;
-  testerKind?: TesterKind | null;
+  isCertified?: boolean;
 };
 
 export type AcceptCampaignInvitationResult = {
@@ -28,10 +26,8 @@ export type AcceptCampaignInvitationResult = {
   assignmentRole: AssignmentRole | null;
 };
 
-function getTesterAssignmentRole(testerKind?: TesterKind | null) {
-  return testerKind === TesterKind.DEVELOPER
-    ? AssignmentRole.DEVELOPER_TESTER
-    : AssignmentRole.CROWD_TESTER;
+function getTesterAssignmentRole(isCertified?: boolean) {
+  return isCertified ? AssignmentRole.CERT_TESTER : AssignmentRole.CROWD_TESTER;
 }
 
 function matchesPlatforms(deviceName: string, osVersion: string, selectedPlatforms: string[]) {
@@ -81,8 +77,8 @@ export function getCampaignRequiredSlots(
       return campaign.moderatorSlots;
     case AssignmentRole.CROWD_TESTER:
       return campaign.crowdTesterCount;
-    case AssignmentRole.DEVELOPER_TESTER:
-      return campaign.developerTesterCount;
+    case AssignmentRole.CERT_TESTER:
+      return campaign.certTesterCount;
     default:
       return 0;
   }
@@ -98,9 +94,12 @@ function canSessionAcceptInvitation(
     case AssignmentRole.MODERATOR:
       return session.role === Role.MODERATOR;
     case AssignmentRole.CROWD_TESTER:
-      return session.role === Role.TESTER && session.testerKind === TesterKind.CROWD;
-    case AssignmentRole.DEVELOPER_TESTER:
-      return session.role === Role.TESTER && session.testerKind === TesterKind.DEVELOPER;
+      return session.role === Role.TESTER && !session.isCertified;
+    case AssignmentRole.CERT_TESTER:
+      return (
+        (session.role === Role.TESTER || session.role === Role.CERT_TESTER) &&
+        Boolean(session.isCertified)
+      );
     default:
       return false;
   }
@@ -111,11 +110,10 @@ function resolveInvitationAssignmentRole(
   session: CampaignInvitationSession,
 ) {
   if (
-    session.role === Role.TESTER &&
-    (assignmentRole === AssignmentRole.CROWD_TESTER ||
-      assignmentRole === AssignmentRole.DEVELOPER_TESTER)
+    (session.role === Role.TESTER || session.role === Role.CERT_TESTER) &&
+    (assignmentRole === AssignmentRole.CROWD_TESTER || assignmentRole === AssignmentRole.CERT_TESTER)
   ) {
-    return getTesterAssignmentRole(session.testerKind);
+    return getTesterAssignmentRole(session.isCertified);
   }
 
   return assignmentRole;
@@ -154,8 +152,8 @@ export async function inviteCampaignParticipants(campaignId: string) {
     return;
   }
 
-  const selectedCountries = toStringArray(campaign.selectedCountries);
-  const selectedPlatforms = toStringArray(campaign.selectedPlatforms);
+  const targetCountries = campaign.targetCountries;
+  const selectedPlatforms = campaign.selectedPlatforms;
   const invitationKeys = new Set(
     campaign.invitations.map((invitation) => `${invitation.recipientId}:${invitation.assignmentRole}`),
   );
@@ -228,32 +226,32 @@ export async function inviteCampaignParticipants(campaignId: string) {
   const crowdAssignmentCount = campaign.assignments.filter(
     (assignment) => assignment.assignmentRole === AssignmentRole.CROWD_TESTER,
   ).length;
-  const developerAssignmentCount = campaign.assignments.filter(
-    (assignment) => assignment.assignmentRole === AssignmentRole.DEVELOPER_TESTER,
+  const certAssignmentCount = campaign.assignments.filter(
+    (assignment) => assignment.assignmentRole === AssignmentRole.CERT_TESTER,
   ).length;
 
   const pendingCrowdInvites = campaign.invitations.filter(
     (invitation) => invitation.assignmentRole === AssignmentRole.CROWD_TESTER,
   ).length;
-  const pendingDeveloperInvites = campaign.invitations.filter(
-    (invitation) => invitation.assignmentRole === AssignmentRole.DEVELOPER_TESTER,
+  const pendingCertInvites = campaign.invitations.filter(
+    (invitation) => invitation.assignmentRole === AssignmentRole.CERT_TESTER,
   ).length;
 
   const crowdSlotsToFill = Math.max(
     0,
     campaign.crowdTesterCount - crowdAssignmentCount - pendingCrowdInvites,
   );
-  const developerSlotsToFill = Math.max(
+  const certSlotsToFill = Math.max(
     0,
-    campaign.developerTesterCount - developerAssignmentCount - pendingDeveloperInvites,
+    campaign.certTesterCount - certAssignmentCount - pendingCertInvites,
   );
 
-  if (crowdSlotsToFill > 0 || developerSlotsToFill > 0) {
+  if (crowdSlotsToFill > 0 || certSlotsToFill > 0) {
     const testers = await prisma.user.findMany({
       where: {
-        role: Role.TESTER,
+        role: { in: [Role.TESTER, Role.CERT_TESTER] },
         accountStatus: AccountStatus.ACTIVE,
-        country: selectedCountries.length > 0 ? { in: selectedCountries } : undefined,
+        country: targetCountries.length > 0 ? { in: targetCountries } : undefined,
       },
       include: {
         devices: true,
@@ -264,20 +262,21 @@ export async function inviteCampaignParticipants(campaignId: string) {
     const invitedRecipientIds = new Set<string>();
 
     const queueTesterInvites = (
-      kind: TesterKind,
+      certified: boolean,
       limit: number,
       requirePlatformMatch: boolean,
     ) => {
       let created = 0;
-      const assignmentRole =
-        kind === TesterKind.DEVELOPER ? AssignmentRole.DEVELOPER_TESTER : AssignmentRole.CROWD_TESTER;
+      const assignmentRole = certified
+        ? AssignmentRole.CERT_TESTER
+        : AssignmentRole.CROWD_TESTER;
 
       for (const tester of testers) {
         if (created >= limit) {
           break;
         }
 
-        if (tester.testerKind !== kind) {
+        if (tester.isCertified !== certified) {
           continue;
         }
 
@@ -290,10 +289,9 @@ export async function inviteCampaignParticipants(campaignId: string) {
         }
 
         if (requirePlatformMatch) {
-          const fits =
-            (tester.devices ?? []).some((device) =>
-              matchesPlatforms(device.deviceName, device.osVersion, selectedPlatforms),
-            );
+          const fits = (tester.devices ?? []).some((device) =>
+            matchesPlatforms(device.deviceName, device.osVersion, selectedPlatforms),
+          );
 
           if (!fits) {
             continue;
@@ -313,27 +311,22 @@ export async function inviteCampaignParticipants(campaignId: string) {
       return created;
     };
 
-    const invitedCrowdMatches = queueTesterInvites(TesterKind.CROWD, crowdSlotsToFill, true);
+    const invitedCrowdMatches = queueTesterInvites(false, crowdSlotsToFill, true);
     const crowdFallback = Math.max(0, crowdSlotsToFill - invitedCrowdMatches);
     if (crowdFallback > 0) {
-      queueTesterInvites(TesterKind.CROWD, crowdFallback, false);
+      queueTesterInvites(false, crowdFallback, false);
     }
 
-    const invitedDeveloperMatches = queueTesterInvites(
-      TesterKind.DEVELOPER,
-      developerSlotsToFill,
-      true,
-    );
-    const developerFallback = Math.max(0, developerSlotsToFill - invitedDeveloperMatches);
-    if (developerFallback > 0) {
-      queueTesterInvites(TesterKind.DEVELOPER, developerFallback, false);
+    const invitedCertMatches = queueTesterInvites(true, certSlotsToFill, true);
+    const certFallback = Math.max(0, certSlotsToFill - invitedCertMatches);
+    if (certFallback > 0) {
+      queueTesterInvites(true, certFallback, false);
     }
   }
 
   if (invitations.length > 0) {
     await prisma.campaignInvitation.createMany({
       data: invitations,
-      skipDuplicates: true,
     });
   }
 }
@@ -346,135 +339,123 @@ export async function acceptCampaignInvitation(
     return { status: "unavailable", campaignId: null, assignmentRole: null };
   }
 
-  return prisma.$transaction(
-    async (tx) => {
-      const invitation = await tx.campaignInvitation.findUnique({
-        where: { id: invitationId },
-        include: {
-          campaign: true,
-        },
-      });
+  return prisma.$transaction(async (tx) => {
+    const invitation = await tx.campaignInvitation.findUnique({
+      where: { id: invitationId },
+      include: {
+        campaign: true,
+      },
+    });
 
-      if (!invitation || invitation.recipientId !== session.id) {
-        return { status: "unavailable", campaignId: null, assignmentRole: null };
-      }
+    if (!invitation || invitation.recipientId !== session.id) {
+      return { status: "unavailable", campaignId: null, assignmentRole: null };
+    }
 
-      const assignmentRole = resolveInvitationAssignmentRole(
-        invitation.assignmentRole,
-        session,
-      );
+    const assignmentRole = resolveInvitationAssignmentRole(
+      invitation.assignmentRole,
+      session,
+    );
 
-      if (!canSessionAcceptInvitation(assignmentRole, session)) {
-        return {
-          status: "unavailable",
-          campaignId: invitation.campaignId,
-          assignmentRole,
-        };
-      }
-
-      if (invitation.status !== InvitationStatus.PENDING) {
-        return {
-          status: invitation.status === InvitationStatus.ACCEPTED ? "accepted" : "unavailable",
-          campaignId: invitation.campaignId,
-          assignmentRole,
-        };
-      }
-
-      const requiredSlots = getCampaignRequiredSlots(
-        invitation.campaign,
-        assignmentRole,
-      );
-
-      if (requiredSlots <= 0) {
-        await tx.campaignInvitation.update({
-          where: { id: invitation.id },
-          data: {
-            status: InvitationStatus.EXPIRED,
-            expiresAt: new Date(),
-          },
-        });
-
-        return {
-          status: "full",
-          campaignId: invitation.campaignId,
-          assignmentRole,
-        };
-      }
-
-      const acceptedCount = await tx.campaignAssignment.count({
-        where: {
-          campaignId: invitation.campaignId,
-          assignmentRole,
-        },
-      });
-
-      if (acceptedCount >= requiredSlots) {
-        await expirePendingCampaignInvitations(
-          tx,
-          invitation.campaignId,
-          assignmentRole,
-        );
-
-        return {
-          status: "full",
-          campaignId: invitation.campaignId,
-          assignmentRole,
-        };
-      }
-
-      const acceptedAt = new Date();
-      await tx.campaignInvitation.update({
-        where: { id: invitation.id },
-        data: {
-          status: InvitationStatus.ACCEPTED,
-          acceptedAt,
-          expiresAt: null,
-        },
-      });
-
-      await tx.campaignAssignment.upsert({
-        where: {
-          campaignId_userId_assignmentRole: {
-            campaignId: invitation.campaignId,
-            userId: session.id,
-            assignmentRole,
-          },
-        },
-        update: {
-          acceptedAt,
-        },
-        create: {
-          campaignId: invitation.campaignId,
-          userId: session.id,
-          assignmentRole,
-          acceptedAt,
-        },
-      });
-
-      if (assignmentRole === AssignmentRole.TEST_MANAGER) {
-        await tx.campaign.update({
-          where: { id: invitation.campaignId },
-          data: { testManagerId: session.id },
-        });
-      }
-
-      if (acceptedCount + 1 >= requiredSlots) {
-        await expirePendingCampaignInvitations(
-          tx,
-          invitation.campaignId,
-          assignmentRole,
-          invitation.id,
-        );
-      }
-
+    if (!canSessionAcceptInvitation(assignmentRole, session)) {
       return {
-        status: "accepted",
+        status: "unavailable",
         campaignId: invitation.campaignId,
         assignmentRole,
       };
-    },
-    {
-      isolationLevel: Prisma.TransactionIsolationLevel.Serializable,
-    },
-  );
+    }
+
+    if (invitation.status !== InvitationStatus.PENDING) {
+      return {
+        status: invitation.status === InvitationStatus.ACCEPTED ? "accepted" : "unavailable",
+        campaignId: invitation.campaignId,
+        assignmentRole,
+      };
+    }
+
+    const requiredSlots = getCampaignRequiredSlots(invitation.campaign, assignmentRole);
+
+    if (requiredSlots <= 0) {
+      await tx.campaignInvitation.update({
+        where: { id: invitation.id },
+        data: {
+          status: InvitationStatus.EXPIRED,
+          expiresAt: new Date(),
+        },
+      });
+
+      return {
+        status: "full",
+        campaignId: invitation.campaignId,
+        assignmentRole,
+      };
+    }
+
+    const acceptedCount = await tx.campaignAssignment.count({
+      where: {
+        campaignId: invitation.campaignId,
+        assignmentRole,
+      },
+    });
+
+    if (acceptedCount >= requiredSlots) {
+      await expirePendingCampaignInvitations(tx, invitation.campaignId, assignmentRole);
+
+      return {
+        status: "full",
+        campaignId: invitation.campaignId,
+        assignmentRole,
+      };
+    }
+
+    const acceptedAt = new Date();
+    await tx.campaignInvitation.update({
+      where: { id: invitation.id },
+      data: {
+        status: InvitationStatus.ACCEPTED,
+        acceptedAt,
+        expiresAt: null,
+      },
+    });
+
+    await tx.campaignAssignment.upsert({
+      where: {
+        campaignId_userId_assignmentRole: {
+          campaignId: invitation.campaignId,
+          userId: session.id,
+          assignmentRole,
+        },
+      },
+      update: {
+        acceptedAt,
+      },
+      create: {
+        campaignId: invitation.campaignId,
+        userId: session.id,
+        assignmentRole,
+        acceptedAt,
+      },
+    });
+
+    if (assignmentRole === AssignmentRole.TEST_MANAGER) {
+      await tx.campaign.update({
+        where: { id: invitation.campaignId },
+        data: { testManagerId: session.id },
+      });
+    }
+
+    if (acceptedCount + 1 >= requiredSlots) {
+      await expirePendingCampaignInvitations(
+        tx,
+        invitation.campaignId,
+        assignmentRole,
+        invitation.id,
+      );
+    }
+
+    return {
+      status: "accepted",
+      campaignId: invitation.campaignId,
+      assignmentRole,
+    };
+  });
 }

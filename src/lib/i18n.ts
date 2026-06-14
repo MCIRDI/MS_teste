@@ -1,4 +1,4 @@
-import type { AssignmentRole, CampaignStage, Role, TesterKind } from "@/generated/prisma/client";
+import type { AssignmentRole, CampaignStage, Role } from "@/generated/prisma";
 
 type Translate = (key: string) => string;
 
@@ -17,15 +17,9 @@ export function getRoleLabels(t: Translate): Record<Role, string> {
     ADMIN: t("roles.ADMIN"),
     CLIENT: t("roles.CLIENT"),
     TESTER: t("roles.TESTER"),
+    CERT_TESTER: t("roles.CERT_TESTER"),
     MODERATOR: t("roles.MODERATOR"),
     TEST_MANAGER: t("roles.TEST_MANAGER"),
-  };
-}
-
-export function getTesterKindLabels(t: Translate): Record<TesterKind, string> {
-  return {
-    CROWD: t("testerKinds.CROWD"),
-    DEVELOPER: t("testerKinds.DEVELOPER"),
   };
 }
 
@@ -37,13 +31,14 @@ export function getCampaignStageLabels(t: Translate): Record<CampaignStage, stri
     TESTING: t("campaignStages.TESTING"),
     BUG_REVIEW: t("campaignStages.BUG_REVIEW"),
     COMPLETED: t("campaignStages.COMPLETED"),
+    ARCHIVED: t("campaignStages.ARCHIVED"),
   };
 }
 
 export function getAssignmentRoleLabels(t: Translate): Record<AssignmentRole, string> {
   return {
     CROWD_TESTER: t("assignmentRoles.CROWD_TESTER"),
-    DEVELOPER_TESTER: t("assignmentRoles.DEVELOPER_TESTER"),
+    CERT_TESTER: t("assignmentRoles.CERT_TESTER"),
     MODERATOR: t("assignmentRoles.MODERATOR"),
     TEST_MANAGER: t("assignmentRoles.TEST_MANAGER"),
   };
@@ -67,12 +62,20 @@ export function getRoleNavigation(t: Translate): Record<Role, { href: string; la
     ],
     TESTER: [
       { href: "/tester/profile", label: t("roleNav.testerProfile") },
+      { href: "/tester/vetting", label: t("roleNav.testerVetting") },
+      { href: "/tester/setup", label: t("roleNav.testerSetup") },
+      { href: "/tester/campaigns", label: t("roleNav.testerCampaigns") },
+      { href: "/tester/bugs/new", label: t("roleNav.testerSubmitBug") },
+    ],
+    CERT_TESTER: [
+      { href: "/tester/profile", label: t("roleNav.testerProfile") },
       { href: "/tester/setup", label: t("roleNav.testerSetup") },
       { href: "/tester/campaigns", label: t("roleNav.testerCampaigns") },
       { href: "/tester/bugs/new", label: t("roleNav.testerSubmitBug") },
     ],
     MODERATOR: [
       { href: "/moderator/review-queue", label: t("roleNav.moderatorInbox") },
+      { href: "/moderator/disputes", label: t("roleNav.moderatorDisputes") },
       { href: "/moderator/campaigns", label: t("roleNav.moderatorCampaigns") },
       { href: "/moderator/reports/new", label: t("roleNav.moderatorSendReport") },
     ],
@@ -83,6 +86,7 @@ export function getRoleNavigation(t: Translate): Record<Role, { href: string; la
     ],
     ADMIN: [
       { href: "/admin/users", label: t("roleNav.adminUsers") },
+      { href: "/admin/disputes", label: t("roleNav.adminDisputes") },
       { href: "/admin/campaigns", label: t("roleNav.adminCampaigns") },
       { href: "/admin/settings", label: t("roleNav.adminSettings") },
     ],

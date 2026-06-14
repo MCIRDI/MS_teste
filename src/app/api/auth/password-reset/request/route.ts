@@ -1,4 +1,4 @@
-import { TokenType } from "@/generated/prisma/client";
+import { TokenType } from "@/generated/prisma";
 import { randomUUID } from "node:crypto";
 import { NextResponse } from "next/server";
 

@@ -105,7 +105,8 @@
     "emailPlaceholder": "name@company.com",
     "passwordPlaceholder": "Your password",
     "submit": "Login",
-    "pending": "Signing in..."
+    "pending": "Signing in...",
+    "pendingApprovalAfterVetting": "Vetting submitted successfully. Sign in again after an administrator activates your account."
   },
   "signup": {
     "eyebrow": "Create account",
@@ -120,12 +121,15 @@
   "shell": {
     "signedInAs": "Signed in as",
     "roleUpgrade": "Role upgrade",
-    "accept": "Accept"
+    "accept": "Accept",
+    "notifications": "Notifications",
+    "markRead": "Mark read"
   },
   "roles": {
     "ADMIN": "Admin",
     "CLIENT": "Client",
     "TESTER": "Tester",
+    "CERT_TESTER": "Certified tester",
     "MODERATOR": "Moderator",
     "TEST_MANAGER": "Test Manager"
   },
@@ -139,11 +143,12 @@
     "ACTIVE": "Active",
     "TESTING": "Testing phase",
     "BUG_REVIEW": "Bug review phase",
-    "COMPLETED": "Completed"
+    "COMPLETED": "Completed",
+    "ARCHIVED": "Archived"
   },
   "assignmentRoles": {
     "CROWD_TESTER": "Crowd tester",
-    "DEVELOPER_TESTER": "Developer tester",
+    "CERT_TESTER": "Certified tester",
     "MODERATOR": "Moderator",
     "TEST_MANAGER": "Test manager"
   },
@@ -158,16 +163,19 @@
     "clientCreateCampaign": "Create campaign",
     "clientReports": "Campaign reports",
     "testerProfile": "Profile",
+    "testerVetting": "Vetting quiz",
     "testerSetup": "Testing info",
     "testerCampaigns": "Available campaigns",
     "testerSubmitBug": "Submit bug",
     "moderatorInbox": "Inbox",
+    "moderatorDisputes": "Disputes",
     "moderatorCampaigns": "Campaigns",
     "moderatorSendReport": "Send report",
     "managerDashboard": "Project dashboard",
     "managerValidation": "Bug validation",
     "managerReports": "Final reports",
     "adminUsers": "User management",
+    "adminDisputes": "Escalated disputes",
     "adminCampaigns": "Campaign monitoring",
     "adminSettings": "System settings"
   },
@@ -216,11 +224,17 @@
         "none": "None",
         "pendingInvite": "Invitation already pending",
         "notEligible": "Not eligible",
+        "approve": "Approve account",
+        "reject": "Reject",
+        "certify": "Certify tester",
+        "awaitingVetting": "Vetting not completed — manual approval available",
+        "vettingPassed": "Vetting passed — ready for approval",
         "columns": {
           "name": "Name",
           "role": "Role",
           "status": "Status",
           "country": "Country",
+          "vetting": "Vetting score",
           "upgrade": "Pending upgrade",
           "action": "Action"
         }
@@ -241,8 +255,8 @@
         "description": "Matching invitations stay visible until required tester slots are filled.",
         "empty": "No pending invitations right now",
         "emptyHint": "Check back later or update your profile for better matches",
-        "developerSlot": "Developer tester slot",
         "crowdSlot": "Crowd tester slot",
+        "certSlot": "Certified tester slot",
         "new": "New",
         "accept": "Accept invitation"
       },

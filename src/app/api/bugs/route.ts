@@ -1,4 +1,4 @@
-import { AttachmentKind, BugSeverity, Role } from "@/generated/prisma/client";
+import { AttachmentKind, BugSeverity, Role } from "@/generated/prisma";
 import { NextResponse } from "next/server";
 
 import { getCurrentSession } from "@/lib/auth";

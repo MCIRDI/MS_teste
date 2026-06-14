@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 
-import { signSession, verifyPassword } from "@/lib/auth";
+import { signSession, verifyPassword, getTesterPendingLoginMessage, isTesterLoginBlocked, shouldAutoActivateOnLogin, getTesterOnboardingPath, needsTesterOnboarding } from "@/lib/auth";
+import { AccountStatus } from "@/generated/prisma";
 import { prisma } from "@/lib/prisma";
 import { consumeRateLimit } from "@/lib/rate-limit";
 import { loginSchema } from "@/lib/validation";
@@ -28,9 +29,27 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Invalid credentials." }, { status: 401 });
   }
 
+  if (isTesterLoginBlocked(user)) {
+    return NextResponse.json(
+      { error: getTesterPendingLoginMessage(user.vetingScore) },
+      { status: 403 },
+    );
+  }
+
+  if (user.accountStatus === "SUSPENDED" || user.accountStatus === "BANNED") {
+    return NextResponse.json({ error: "Account suspended." }, { status: 403 });
+  }
+
   const valid = await verifyPassword(parsed.data.password, user.passwordHash);
   if (!valid) {
     return NextResponse.json({ error: "Invalid credentials." }, { status: 401 });
+  }
+
+  if (shouldAutoActivateOnLogin(user)) {
+    await prisma.user.update({
+      where: { id: user.id },
+      data: { accountStatus: AccountStatus.ACTIVE },
+    });
   }
 
   const token = await signSession({
@@ -38,11 +57,14 @@ export async function POST(request: Request) {
     name: user.name,
     email: user.email,
     role: user.role,
-    testerKind: user.testerKind,
+    isCertified: user.isCertified,
   });
 
   const response = NextResponse.json({
     user: { id: user.id, role: user.role, email: user.email },
+    redirectTo: needsTesterOnboarding(user)
+      ? getTesterOnboardingPath(user)
+      : undefined,
   });
 
   response.cookies.set("ms-test-session", token, {

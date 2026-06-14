@@ -1,6 +1,6 @@
 import { getTranslations } from "next-intl/server";
 
-import { sendRoleUpgradeInvitationAction } from "@/app/actions/admin";
+import { sendRoleUpgradeInvitationAction, approvePendingAccountAction, rejectPendingAccountAction, certifyTesterAction } from "@/app/actions/admin";
 import { LiveRefresh } from "@/components/live-refresh";
 import { SectionHeading } from "@/components/sections/section-heading";
 import { StatGrid } from "@/components/sections/stat-grid";
@@ -83,6 +83,7 @@ export default async function AdminUsersPage() {
                     <th>{t("users.columns.role")}</th>
                     <th>{t("users.columns.status")}</th>
                     <th>{t("users.columns.country")}</th>
+                    <th>{t("users.columns.vetting")}</th>
                     <th>{t("users.columns.upgrade")}</th>
                     <th>{t("users.columns.action")}</th>
                   </tr>
@@ -110,12 +111,46 @@ export default async function AdminUsersPage() {
                         </span>
                       </td>
                       <td className="text-slate-600">{user.country ?? t("users.notSet")}</td>
+                      <td className="text-slate-600">
+                        {user.vetingScore != null ? `${user.vetingScore}%` : t("users.notSet")}
+                      </td>
                       <td>
                         {user.receivedRoleUpgradeInvitations[0]
                           ? roleLabels[user.receivedRoleUpgradeInvitations[0].targetRole]
                           : t("users.none")}
                       </td>
-                      <td>
+                      <td className="space-y-2">
+                        {user.accountStatus === "PENDING_APPROVAL" ? (
+                          <div className="space-y-2">
+                            {(user.vetingScore ?? 0) < 60 ? (
+                              <p className="text-xs text-amber-700">{t("users.awaitingVetting")}</p>
+                            ) : (
+                              <p className="text-xs text-emerald-700">{t("users.vettingPassed")}</p>
+                            )}
+                            <div className="flex flex-wrap gap-2">
+                              <form action={approvePendingAccountAction}>
+                                <input type="hidden" name="userId" value={user.id} />
+                                <Button type="submit" className="h-8 text-xs">
+                                  {t("users.approve")}
+                                </Button>
+                              </form>
+                              <form action={rejectPendingAccountAction}>
+                                <input type="hidden" name="userId" value={user.id} />
+                                <Button type="submit" variant="secondary" className="h-8 text-xs">
+                                  {t("users.reject")}
+                                </Button>
+                              </form>
+                            </div>
+                          </div>
+                        ) : null}
+                        {user.role === "TESTER" && user.accountStatus === "ACTIVE" ? (
+                          <form action={certifyTesterAction}>
+                            <input type="hidden" name="userId" value={user.id} />
+                            <Button type="submit" variant="secondary" className="h-8 text-xs">
+                              {t("users.certify")}
+                            </Button>
+                          </form>
+                        ) : null}
                         {getUpgradeLabel(user.role, t) &&
                         user.accountStatus === "ACTIVE" &&
                         !user.receivedRoleUpgradeInvitations[0] ? (

@@ -64,20 +64,16 @@ export function SignupForm() {
       {role === "TESTER" ? (
         <>
           <div className="grid gap-4 md:grid-cols-2">
-            <div className="space-y-2">
-              <label className="text-sm font-medium text-stone-700" htmlFor="testerKind">
-                Tester type
-              </label>
-              <Select id="testerKind" name="testerKind" defaultValue="CROWD">
-                <option value="CROWD">Crowd tester</option>
-                <option value="DEVELOPER">Developer tester</option>
-              </Select>
-            </div>
-            <div className="space-y-2">
-              <label className="text-sm font-medium text-stone-700" htmlFor="language">
-                Language
-              </label>
-              <Input id="language" name="language" placeholder="Language" defaultValue={typeof navigator !== "undefined" ? navigator.language : ""} required />
+            <div className="space-y-2 md:col-span-2">
+              <label className="text-sm font-medium text-stone-700">Languages</label>
+              <div className="flex flex-wrap gap-3">
+                {(["fr", "ar", "en"] as const).map((lang) => (
+                  <label key={lang} className="flex items-center gap-2 text-sm text-stone-700">
+                    <input type="checkbox" name="languages" value={lang} defaultChecked={lang === "fr"} />
+                    {lang.toUpperCase()}
+                  </label>
+                ))}
+              </div>
             </div>
           </div>
 

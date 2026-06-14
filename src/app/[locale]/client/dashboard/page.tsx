@@ -1,6 +1,8 @@
 import { requireSession } from "@/lib/auth";
 import { getClientDashboardData } from "@/lib/dashboard-data";
 import { formatCurrency } from "@/lib/utils";
+import { payCampaignAction } from "@/app/actions/payments";
+import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardSection } from "@/components/ui/card";
 import { SectionHeading } from "@/components/sections/section-heading";
 import { StatGrid } from "@/components/sections/stat-grid";
@@ -28,20 +30,42 @@ export default async function ClientDashboardPage() {
                 <thead>
                   <tr>
                     <th>Campaign</th>
+                    <th>Status</th>
                     <th>Testers</th>
                     <th>Bugs</th>
                     <th>Countries</th>
                     <th>Estimated cost</th>
+                    <th>Payment</th>
                   </tr>
                 </thead>
                 <tbody>
                   {data.campaigns.map((campaign) => (
                     <tr key={campaign.id}>
-                      <td className="font-medium text-slate-900">{campaign.name}</td>
+                      <td className="font-medium text-slate-900">
+                        {campaign.name}
+                        {campaign.isPremium ? (
+                          <span className="ml-2 rounded bg-amber-100 px-1.5 py-0.5 text-[10px] font-semibold uppercase text-amber-800">
+                            Premium
+                          </span>
+                        ) : null}
+                      </td>
+                      <td>{campaign.stage.replace(/_/g, " ")}</td>
                       <td>{campaign.testers}</td>
                       <td>{campaign.bugs}</td>
                       <td>{campaign.countries || "None"}</td>
                       <td>{formatCurrency(campaign.price)}</td>
+                      <td>
+                        {campaign.isPaid ? (
+                          <span className="text-sm text-emerald-700">Paid</span>
+                        ) : (
+                          <form action={payCampaignAction}>
+                            <input type="hidden" name="campaignId" value={campaign.id} />
+                            <Button type="submit" className="h-8 text-xs">
+                              Pay & launch
+                            </Button>
+                          </form>
+                        )}
+                      </td>
                     </tr>
                   ))}
                 </tbody>

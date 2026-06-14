@@ -1,29 +1,27 @@
 generator client {
-  provider = "prisma-client"
+  provider = "prisma-client-js"
   output   = "../src/generated/prisma"
 }
 
 datasource db {
-  provider = "mysql"
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
 }
 
 enum Role {
   ADMIN
   CLIENT
   TESTER
+  CERT_TESTER
   MODERATOR
   TEST_MANAGER
-}
-
-enum TesterKind {
-  CROWD
-  DEVELOPER
 }
 
 enum AccountStatus {
   PENDING_APPROVAL
   ACTIVE
   SUSPENDED
+  BANNED
 }
 
 enum CampaignStage {
@@ -33,6 +31,7 @@ enum CampaignStage {
   TESTING
   BUG_REVIEW
   COMPLETED
+  ARCHIVED
 }
 
 enum SoftwareType {
@@ -42,9 +41,15 @@ enum SoftwareType {
   DESKTOP_SOFTWARE
 }
 
+enum CampaignLanguage {
+  ar
+  fr
+  en
+}
+
 enum AssignmentRole {
   CROWD_TESTER
-  DEVELOPER_TESTER
+  CERT_TESTER
   MODERATOR
   TEST_MANAGER
 }
@@ -71,6 +76,14 @@ enum BugStatus {
   DUPLICATE
 }
 
+enum ReportType {
+  STANDARD
+  API
+  PERFORMANCE
+  SECURITY
+  DEVOPS
+}
+
 enum AttachmentKind {
   SCREENSHOT
   VIDEO
@@ -83,90 +96,162 @@ enum TokenType {
   PASSWORD_RESET
 }
 
+enum PaymentType {
+  CAMPAIGN_PAYMENT
+  TESTER_WITHDRAWAL
+  REFUND
+}
+
+enum PaymentStatus {
+  PENDING
+  COMPLETED
+  FAILED
+  CANCELLED
+}
+
+enum Currency {
+  DZD
+  USD
+  EUR
+  SAR
+  EGP
+}
+
+enum DisputeStatus {
+  OPEN
+  RESOLVED
+  ESCALATED
+}
+
+enum NotificationLanguage {
+  ar
+  fr
+  en
+}
+
 model User {
-  id                String               @id @default(cuid()) @db.VarChar(30)
-  name              String
-  email             String               @unique @db.VarChar(191)
-  passwordHash      String               @db.VarChar(255)
-  role              Role
-  testerKind        TesterKind?
-  accountStatus     AccountStatus        @default(PENDING_APPROVAL)
-  isEmailVerified   Boolean              @default(false)
-  country           String?
-  language          String?
-  testingExperience String?
-  createdAt         DateTime             @default(now())
-  updatedAt         DateTime             @updatedAt
-  devices           Device[]
-  clientCampaigns   Campaign[]           @relation("ClientCampaigns")
-  managerCampaigns  Campaign[]           @relation("ManagerCampaigns")
-  assignments       CampaignAssignment[]
-  campaignInvitations CampaignInvitation[] @relation("CampaignInvitationRecipient")
-  bugReports        BugReport[]          @relation("ReporterBugs")
-  moderatedReports  BugReport[]          @relation("ModeratorBugs")
+  id                  String        @id @default(auto()) @map("_id") @db.ObjectId
+  name                String
+  email               String        @unique
+  passwordHash        String
+  role                Role
+  accountStatus       AccountStatus @default(PENDING_APPROVAL)
+  isEmailVerified     Boolean       @default(false)
+
+  country             String?
+  languages           String[]
+
+  isCertified         Boolean       @default(false)
+  testingExperience   String?
+  vetingScore         Int?
+  vetingRetryDate     DateTime?
+
+  score               Int           @default(0)
+  badges              String[]
+
+  totalEarned         Float         @default(0)
+  currency            Currency      @default(DZD)
+
+  createdAt           DateTime      @default(now())
+  updatedAt           DateTime      @updatedAt
+
+  devices             Device[]
+  clientCampaigns     Campaign[]            @relation("ClientCampaigns")
+  managerCampaigns    Campaign[]            @relation("ManagerCampaigns")
+  assignments         CampaignAssignment[]
+  campaignInvitations CampaignInvitation[]  @relation("CampaignInvitationRecipient")
+  bugReports          BugReport[]           @relation("ReporterBugs")
+  moderatedReports    BugReport[]           @relation("ModeratorBugs")
   uploadedFinalReports FinalReport[]
-  auditLogs         AuditLog[]
-  emailTokens       EmailToken[]
+  payments            Payment[]
+  notifications       Notification[]
+  auditLogs           AuditLog[]
+  emailTokens         EmailToken[]
   receivedRoleUpgradeInvitations RoleUpgradeInvitation[] @relation("RoleUpgradeInvitationRecipient")
   sentRoleUpgradeInvitations     RoleUpgradeInvitation[] @relation("RoleUpgradeInvitationSender")
+  moderatedDisputes   Dispute[]             @relation("ModeratorDisputes")
+  resolvedDisputes    Dispute[]             @relation("AdminDisputes")
 }
 
 model Device {
-  id               String   @id @default(cuid()) @db.VarChar(30)
-  userId           String   @db.VarChar(30)
+  id               String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId           String   @db.ObjectId
   deviceName       String
   osVersion        String
-  browsers         Json
+  browsers         String[]
   screenResolution String
+  operator         String?
+  connectionType   String?
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
+
   user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
 }
 
 model Campaign {
-  id                   String               @id @default(cuid()) @db.VarChar(30)
-  clientId             String               @db.VarChar(30)
-  testManagerId        String?              @db.VarChar(30)
+  id                   String           @id @default(auto()) @map("_id") @db.ObjectId
+  clientId             String           @db.ObjectId
+  testManagerId        String?          @db.ObjectId
+
   projectName          String
   description          String
   softwareType         SoftwareType
   websiteUrl           String?
   downloadPath         String?
   testerCredentials    Json?
-  stage                CampaignStage        @default(DRAFT)
-  crowdTesterCount     Int                  @default(0)
-  developerTesterCount Int                  @default(0)
-  selectedCountries    Json
-  selectedPlatforms    Json
-  selectedBrowsers     Json
-  estimatedCost        Float                @default(0)
-  moderatorSlots       Int                  @default(0)
+
+  targetCountries      String[]
+  selectedPlatforms    String[]
+  selectedBrowsers     String[]
+
+  campaignLanguage     CampaignLanguage @default(fr)
+  isPremium            Boolean          @default(false)
+
+  crowdTesterCount     Int              @default(0)
+  certTesterCount      Int              @default(0)
+  moderatorSlots       Int              @default(0)
+
+  startDate            DateTime?
+  endDate              DateTime?
+
+  estimatedCost        Float            @default(0)
+  currency             Currency         @default(DZD)
+
+  stage                CampaignStage    @default(DRAFT)
   requirements         Json?
   analytics            Json?
-  createdAt            DateTime             @default(now())
-  updatedAt            DateTime             @updatedAt
-  client               User                 @relation("ClientCampaigns", fields: [clientId], references: [id], onDelete: Cascade)
-  testManager          User?                @relation("ManagerCampaigns", fields: [testManagerId], references: [id], onDelete: SetNull)
+
+  createdAt            DateTime         @default(now())
+  updatedAt            DateTime         @updatedAt
+
+  client               User             @relation("ClientCampaigns", fields: [clientId], references: [id], onDelete: Cascade)
+  testManager          User?            @relation("ManagerCampaigns", fields: [testManagerId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   assignments          CampaignAssignment[]
   invitations          CampaignInvitation[]
   tasks                TestingTask[]
   bugReports           BugReport[]
   finalReports         FinalReport[]
+  payments             Payment[]
   auditLogs            AuditLog[]
 
   @@index([clientId, stage])
   @@index([testManagerId])
+  @@index([targetCountries])
+  @@index([isPremium, stage])
 }
 
 model CampaignAssignment {
-  id             String         @id @default(cuid()) @db.VarChar(30)
-  campaignId     String         @db.VarChar(30)
-  userId         String         @db.VarChar(30)
+  id             String         @id @default(auto()) @map("_id") @db.ObjectId
+  campaignId     String         @db.ObjectId
+  userId         String         @db.ObjectId
   assignmentRole AssignmentRole
   acceptedAt     DateTime?
+  earnedAmount   Float          @default(0)
+  currency       Currency       @default(DZD)
   createdAt      DateTime       @default(now())
+
   campaign       Campaign       @relation(fields: [campaignId], references: [id], onDelete: Cascade)
   user           User           @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -175,16 +260,17 @@ model CampaignAssignment {
 }
 
 model CampaignInvitation {
-  id         String           @id @default(cuid()) @db.VarChar(30)
-  campaignId String           @db.VarChar(30)
-  recipientId String          @map("testerId") @db.VarChar(30)
+  id             String           @id @default(auto()) @map("_id") @db.ObjectId
+  campaignId     String           @db.ObjectId
+  recipientId    String           @db.ObjectId
   assignmentRole AssignmentRole   @default(CROWD_TESTER)
-  status     InvitationStatus @default(PENDING)
-  invitedAt  DateTime         @default(now())
-  acceptedAt DateTime?
-  expiresAt  DateTime?
-  campaign   Campaign         @relation(fields: [campaignId], references: [id], onDelete: Cascade)
-  recipient  User             @relation("CampaignInvitationRecipient", fields: [recipientId], references: [id], onDelete: Cascade)
+  status         InvitationStatus @default(PENDING)
+  invitedAt      DateTime         @default(now())
+  acceptedAt     DateTime?
+  expiresAt      DateTime?
+
+  campaign       Campaign         @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  recipient      User             @relation("CampaignInvitationRecipient", fields: [recipientId], references: [id], onDelete: Cascade)
 
   @@unique([campaignId, recipientId])
   @@index([recipientId, status])
@@ -192,71 +278,80 @@ model CampaignInvitation {
 }
 
 model RoleUpgradeInvitation {
-  id         String           @id @default(cuid()) @db.VarChar(30)
-  recipientId String          @db.VarChar(30)
-  invitedById String          @db.VarChar(30)
-  currentRole Role
-  targetRole Role
-  status     InvitationStatus @default(PENDING)
-  invitedAt  DateTime         @default(now())
-  respondedAt DateTime?
-  expiresAt  DateTime?
-  recipient  User             @relation("RoleUpgradeInvitationRecipient", fields: [recipientId], references: [id], onDelete: Cascade)
-  invitedBy  User             @relation("RoleUpgradeInvitationSender", fields: [invitedById], references: [id], onDelete: Cascade)
+  id           String           @id @default(auto()) @map("_id") @db.ObjectId
+  recipientId  String           @db.ObjectId
+  invitedById  String           @db.ObjectId
+  currentRole  Role
+  targetRole   Role
+  status       InvitationStatus @default(PENDING)
+  invitedAt    DateTime         @default(now())
+  respondedAt  DateTime?
+  expiresAt    DateTime?
+
+  recipient    User             @relation("RoleUpgradeInvitationRecipient", fields: [recipientId], references: [id], onDelete: Cascade)
+  invitedBy    User             @relation("RoleUpgradeInvitationSender", fields: [invitedById], references: [id], onDelete: Cascade)
 
   @@index([recipientId, status, invitedAt])
   @@index([invitedById, invitedAt])
 }
 
 model TestingTask {
-  id          String   @id @default(cuid()) @db.VarChar(30)
-  campaignId  String   @db.VarChar(30)
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  campaignId  String   @db.ObjectId
   title       String
   description String
   orderIndex  Int
   createdAt   DateTime @default(now())
+
   campaign    Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
 
   @@index([campaignId, orderIndex])
 }
 
 model BugReport {
-  id                String        @id @default(cuid()) @db.VarChar(30)
-  campaignId        String        @db.VarChar(30)
-  testerId          String        @db.VarChar(30)
-  moderatorId       String?       @db.VarChar(30)
+  id                String           @id @default(auto()) @map("_id") @db.ObjectId
+  campaignId        String           @db.ObjectId
+  testerId          String           @db.ObjectId
+  moderatorId       String?          @db.ObjectId
+
   title             String
-  groupKey          String        @default("") @db.VarChar(191)
+  groupKey          String           @default("")
   pageUrl           String?
-  feature           String?       @db.VarChar(191)
-  errorType         String?       @db.VarChar(191)
+  feature           String?
+  errorType         String?
   description       String
   reproductionSteps String
   expectedResult    String
   actualResult      String
   severity          BugSeverity
+
+  language          CampaignLanguage @default(fr)
+  reportType        ReportType       @default(STANDARD)
+
   environment       Json
-  status            BugStatus     @default(SUBMITTED)
+  status            BugStatus        @default(SUBMITTED)
   moderationNotes   String?
-  duplicateOfId     String?       @db.VarChar(30)
+  duplicateOfId     String?          @db.ObjectId
   moderatedAt       DateTime?
-  createdAt         DateTime      @default(now())
-  updatedAt         DateTime      @updatedAt
-  campaign          Campaign      @relation(fields: [campaignId], references: [id], onDelete: Cascade)
-  tester            User          @relation("ReporterBugs", fields: [testerId], references: [id], onDelete: Cascade)
-  moderator         User?         @relation("ModeratorBugs", fields: [moderatorId], references: [id], onDelete: SetNull)
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+
+  campaign          Campaign         @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  tester            User             @relation("ReporterBugs", fields: [testerId], references: [id], onDelete: Cascade)
+  moderator         User?            @relation("ModeratorBugs", fields: [moderatorId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   attachments       BugAttachment[]
+  dispute           Dispute?
 
   @@index([campaignId, status])
   @@index([testerId, severity])
   @@index([campaignId, feature])
-  @@index([campaignId, errorType])
+  @@index([campaignId, reportType])
   @@index([campaignId, groupKey])
 }
 
 model BugAttachment {
-  id           String         @id @default(cuid()) @db.VarChar(30)
-  bugReportId  String         @db.VarChar(30)
+  id           String         @id @default(auto()) @map("_id") @db.ObjectId
+  bugReportId  String         @db.ObjectId
   kind         AttachmentKind
   originalName String
   storedName   String
@@ -264,15 +359,75 @@ model BugAttachment {
   mimeType     String
   sizeBytes    Int
   createdAt    DateTime       @default(now())
+
   bugReport    BugReport      @relation(fields: [bugReportId], references: [id], onDelete: Cascade)
 
   @@index([bugReportId])
 }
 
+model Dispute {
+  id            String        @id @default(auto()) @map("_id") @db.ObjectId
+  bugReportId   String        @unique @db.ObjectId
+  clientId      String        @db.ObjectId
+  moderatorId   String?       @db.ObjectId
+  adminId       String?       @db.ObjectId
+  reason        String
+  status        DisputeStatus @default(OPEN)
+  resolution    String?
+  escalatedAt   DateTime?
+  resolvedAt    DateTime?
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  bugReport     BugReport     @relation(fields: [bugReportId], references: [id], onDelete: Cascade)
+  moderator     User?         @relation("ModeratorDisputes", fields: [moderatorId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  admin         User?         @relation("AdminDisputes", fields: [adminId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([status, createdAt])
+  @@index([moderatorId, status])
+}
+
+model Payment {
+  id          String        @id @default(auto()) @map("_id") @db.ObjectId
+  userId      String        @db.ObjectId
+  campaignId  String?       @db.ObjectId
+  type        PaymentType
+  amount      Float
+  currency    Currency      @default(DZD)
+  status      PaymentStatus @default(PENDING)
+  reference   String?       @unique
+  notes       String?
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  user        User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  campaign    Campaign?     @relation(fields: [campaignId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([userId, type, status])
+  @@index([campaignId, type])
+  @@index([status, createdAt])
+}
+
+model Notification {
+  id        String               @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String               @db.ObjectId
+  message   String
+  language  NotificationLanguage @default(fr)
+  type      String
+  isRead    Boolean              @default(false)
+  metadata  Json?
+  createdAt DateTime             @default(now())
+
+  user      User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, isRead, createdAt])
+  @@index([userId, type])
+}
+
 model FinalReport {
-  id           String   @id @default(cuid()) @db.VarChar(30)
-  campaignId   String   @db.VarChar(30)
-  uploadedById String   @db.VarChar(30)
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  campaignId   String   @db.ObjectId
+  uploadedById String   @db.ObjectId
   originalName String
   storedName   String
   relativePath String
@@ -288,29 +443,31 @@ model FinalReport {
 }
 
 model AuditLog {
-  id         String    @id @default(cuid()) @db.VarChar(30)
-  actorId    String?   @db.VarChar(30)
-  campaignId String?   @db.VarChar(30)
+  id         String    @id @default(auto()) @map("_id") @db.ObjectId
+  actorId    String?   @db.ObjectId
+  campaignId String?   @db.ObjectId
   action     String
   entityType String
-  entityId   String    @db.VarChar(30)
+  entityId   String
   metadata   Json?
   createdAt  DateTime  @default(now())
-  actor      User?     @relation(fields: [actorId], references: [id], onDelete: SetNull)
-  campaign   Campaign? @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+
+  actor      User?     @relation(fields: [actorId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  campaign   Campaign? @relation(fields: [campaignId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
   @@index([actorId, createdAt])
   @@index([campaignId, createdAt])
 }
 
 model EmailToken {
-  id        String    @id @default(cuid()) @db.VarChar(30)
-  userId    String    @db.VarChar(30)
-  token     String    @unique @db.VarChar(191)
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String    @db.ObjectId
+  token     String    @unique
   type      TokenType
   expiresAt DateTime
   usedAt    DateTime?
   createdAt DateTime  @default(now())
+
   user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId, type])

@@ -34,7 +34,7 @@ export default async function AdminSettingsPage() {
           </CardHeader>
           <CardSection className="space-y-2 text-sm text-slate-600">
             <p>Crowd tester base price: <span className="font-medium text-slate-900">{env.CROWD_TESTER_BASE_PRICE}</span></p>
-            <p>Developer tester base price: <span className="font-medium text-slate-900">{env.DEVELOPER_TESTER_BASE_PRICE}</span></p>
+            <p>Certified tester base price: <span className="font-medium text-slate-900">{env.CERT_TESTER_BASE_PRICE}</span></p>
           </CardSection>
         </Card>
       </div>

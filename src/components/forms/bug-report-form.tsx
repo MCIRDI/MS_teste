@@ -23,6 +23,7 @@ export function BugReportForm({ campaignId }: { campaignId: string }) {
     description: "Description",
     reproductionSteps: "Reproduction steps",
     severity: "Severity",
+    reportType: "Report type",
   };
 
   return (
@@ -88,6 +89,18 @@ export function BugReportForm({ campaignId }: { campaignId: string }) {
             <option value="HIGH">High</option>
             <option value="MEDIUM">Medium</option>
             <option value="LOW">Low</option>
+          </Select>
+        </div>
+        <div className="space-y-2">
+          <label className="text-sm font-medium text-slate-700" htmlFor="reportType">
+            Report type
+          </label>
+          <Select id="reportType" name="reportType" defaultValue="STANDARD">
+            <option value="STANDARD">Standard</option>
+            <option value="API">API</option>
+            <option value="PERFORMANCE">Performance</option>
+            <option value="SECURITY">Security</option>
+            <option value="DEVOPS">DevOps</option>
           </Select>
         </div>
         <div className="space-y-2 md:col-span-2">

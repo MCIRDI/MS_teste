@@ -1,6 +1,6 @@
 "use server";
 
-import { CampaignStage, Role, SoftwareType } from "@/generated/prisma/client";
+import { CampaignStage, Role, SoftwareType } from "@/generated/prisma";
 import { revalidatePath } from "next/cache";
 import { redirectTo } from "@/lib/redirect";
 
@@ -31,11 +31,12 @@ export async function createCampaignAction(
     testerLoginCredentials: formData.get("testerLoginCredentials"),
     selectedPlatforms: splitList(String(formData.get("selectedPlatforms") ?? "")),
     selectedBrowsers: splitList(String(formData.get("selectedBrowsers") ?? "")),
-    selectedCountries: splitList(String(formData.get("selectedCountries") ?? "")),
+    targetCountries: splitList(String(formData.get("targetCountries") ?? "")),
     crowdTesterCount: formData.get("crowdTesterCount"),
-    developerTesterCount: formData.get("developerTesterCount"),
+    certTesterCount: formData.get("certTesterCount"),
     tasks: splitList(String(formData.get("tasks") ?? "")),
     softwareFilePath: undefined,
+    isPremium: formData.get("isPremium") === "on",
   });
 
   if (!parsed.success) {
@@ -48,10 +49,11 @@ export async function createCampaignAction(
 
   const price = estimateCampaignPrice({
     crowdTesterCount: parsed.data.crowdTesterCount,
-    developerTesterCount: parsed.data.developerTesterCount,
-    countries: parsed.data.selectedCountries,
+    certTesterCount: parsed.data.certTesterCount,
+    countries: parsed.data.targetCountries,
     platforms: parsed.data.selectedPlatforms,
     browsers: parsed.data.selectedBrowsers,
+    isPremium: parsed.data.isPremium,
   });
 
   const uploaded = softwareFile ? await saveUpload(softwareFile, "attachments") : null;
@@ -67,10 +69,11 @@ export async function createCampaignAction(
       testerCredentials: parsed.data.testerLoginCredentials
         ? { value: parsed.data.testerLoginCredentials }
         : undefined,
-      stage: CampaignStage.ACTIVE,
+      stage: CampaignStage.PENDING_APPROVAL,
+      isPremium: parsed.data.isPremium ?? false,
       crowdTesterCount: parsed.data.crowdTesterCount,
-      developerTesterCount: parsed.data.developerTesterCount,
-      selectedCountries: parsed.data.selectedCountries,
+      certTesterCount: parsed.data.certTesterCount,
+      targetCountries: parsed.data.targetCountries,
       selectedPlatforms: parsed.data.selectedPlatforms,
       selectedBrowsers: parsed.data.selectedBrowsers,
       estimatedCost: price.estimatedCost,
@@ -97,12 +100,7 @@ export async function createCampaignAction(
     },
   });
 
-  await inviteCampaignParticipants(campaign.id);
-
   revalidatePath("/client/dashboard");
-  revalidatePath("/tester/campaigns");
-  revalidatePath("/manager/dashboard");
-  revalidatePath("/moderator/review-queue");
   revalidatePath("/admin/campaigns");
   return await redirectTo("/client/dashboard");
 }
@@ -110,6 +108,7 @@ export async function createCampaignAction(
 export async function acceptInvitationAction(formData: FormData) {
   const session = await requireSession([
     Role.TESTER,
+    Role.CERT_TESTER,
     Role.MODERATOR,
     Role.TEST_MANAGER,
   ]);

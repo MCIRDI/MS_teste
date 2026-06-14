@@ -54,8 +54,8 @@ export default async function AdminCampaignsPage() {
                 <CardMetaItem label={assignmentRoleLabels.CROWD_TESTER}>
                   {countByRole(campaign.assignments, "CROWD_TESTER")}/{campaign.crowdTesterCount}
                 </CardMetaItem>
-                <CardMetaItem label={assignmentRoleLabels.DEVELOPER_TESTER}>
-                  {countByRole(campaign.assignments, "DEVELOPER_TESTER")}/{campaign.developerTesterCount}
+                <CardMetaItem label={assignmentRoleLabels.CERT_TESTER}>
+                  {countByRole(campaign.assignments, "CERT_TESTER")}/{campaign.certTesterCount}
                 </CardMetaItem>
               </CardMeta>
             </CardSection>

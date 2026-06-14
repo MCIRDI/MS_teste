@@ -7,15 +7,39 @@ import { StatGrid } from "@/components/sections/stat-grid";
 import { Button } from "@/components/ui/button";
 import { Card, CardDescription, CardFooter, CardHeader, CardSection, CardTitle } from "@/components/ui/card";
 import { Link } from "@/i18n/routing";
-import { requireSession } from "@/lib/auth";
+import {
+  clearSession,
+  getTesterOnboardingPath,
+  isAwaitingAdminAfterVetting,
+  needsTesterOnboarding,
+  requireSession,
+} from "@/lib/auth";
+import { prisma } from "@/lib/prisma";
+import { redirectTo } from "@/lib/redirect";
 import { getTesterDashboardData } from "@/lib/dashboard-data";
 
 export default async function TesterCampaignsPage() {
-  const session = await requireSession(["TESTER"]);
+  const session = await requireSession(["TESTER", "CERT_TESTER"]);
+
+  if (session.role === "TESTER") {
+    const user = await prisma.user.findUniqueOrThrow({
+      where: { id: session.id },
+      select: { accountStatus: true, role: true, country: true, vetingScore: true },
+    });
+
+    if (isAwaitingAdminAfterVetting(user)) {
+      await clearSession();
+      return await redirectTo("/login?status=pending-approval");
+    }
+
+    if (needsTesterOnboarding(user)) {
+      return await redirectTo(getTesterOnboardingPath(user));
+    }
+  }
+
   const t = await getTranslations("tester.home");
   const data = await getTesterDashboardData(session.id);
-  const testerAssignmentRole =
-    session.testerKind === "DEVELOPER" ? "DEVELOPER_TESTER" : "CROWD_TESTER";
+  const testerAssignmentRole = session.isCertified ? "CERT_TESTER" : "CROWD_TESTER";
 
   return (
     <div className="space-y-6">
@@ -73,8 +97,8 @@ export default async function TesterCampaignsPage() {
                   <div>
                     <CardTitle className="text-lg">{invitation.campaign.projectName}</CardTitle>
                     <CardDescription className="mt-1">
-                      {session.testerKind === "DEVELOPER"
-                        ? t("invitations.developerSlot")
+                      {session.isCertified
+                        ? t("invitations.certSlot")
                         : t("invitations.crowdSlot")}
                     </CardDescription>
                   </div>
@@ -97,8 +121,8 @@ export default async function TesterCampaignsPage() {
                           ).length /
                             Math.max(
                               1,
-                              testerAssignmentRole === "DEVELOPER_TESTER"
-                                ? invitation.campaign.developerTesterCount
+                              testerAssignmentRole === "CERT_TESTER"
+                                ? invitation.campaign.certTesterCount
                                 : invitation.campaign.crowdTesterCount,
                             )) *
                             100,
@@ -111,8 +135,8 @@ export default async function TesterCampaignsPage() {
                       (item) => item.assignmentRole === testerAssignmentRole,
                     ).length}
                     /
-                    {testerAssignmentRole === "DEVELOPER_TESTER"
-                      ? invitation.campaign.developerTesterCount
+                    {testerAssignmentRole === "CERT_TESTER"
+                      ? invitation.campaign.certTesterCount
                       : invitation.campaign.crowdTesterCount}
                   </span>
                 </div>

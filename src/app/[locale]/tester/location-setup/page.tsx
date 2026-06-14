@@ -45,7 +45,7 @@ export default function TesterLocationSetupPage() {
           setStatus("saving");
           await saveCountryAction(country);
           setStatus("done");
-          router.push("/tester/campaigns");
+          router.push("/tester/vetting");
         } catch {
           setStatus("error");
           setMessage("Something went wrong while detecting your location.");

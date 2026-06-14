@@ -1,4 +1,4 @@
-import type { BugReport, BugSeverity, BugStatus } from "@/generated/prisma/client";
+import type { BugReport, BugSeverity, BugStatus } from "@/generated/prisma";
 
 export type BugGroup = {
   groupKey: string;

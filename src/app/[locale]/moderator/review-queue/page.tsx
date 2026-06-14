@@ -1,6 +1,6 @@
 import { Link } from "@/i18n/routing";
 
-import { BugStatus } from "@/generated/prisma/client";
+import { BugStatus } from "@/generated/prisma";
 import { acceptInvitationAction } from "@/app/actions/campaigns";
 import { markBugGroupDuplicatesAction, moderateBugGroupAction } from "@/app/actions/bugs";
 import { requireSession } from "@/lib/auth";

@@ -24,17 +24,19 @@ export function CampaignForm() {
   const softwareTypes = getSoftwareTypes(t);
   const [state, formAction] = useActionState(createCampaignAction, initialState);
   const [crowdTesterCount, setCrowdTesterCount] = useState(120);
-  const [developerTesterCount, setDeveloperTesterCount] = useState(10);
-  const [selectedPlatforms, setSelectedPlatforms] = useState<string[]>(["Windows", "iOS", "Android"]);
+  const [certTesterCount, setCertTesterCount] = useState(10);
+  const [selectedPlatforms, setSelectedPlatforms] = useState<string[]>(["Windows", "Android", "iOS"]);
   const [selectedBrowsers, setSelectedBrowsers] = useState<string[]>(["Chrome", "Firefox", "Safari"]);
-  const [selectedCountries, setSelectedCountries] = useState<string[]>(["United States", "Germany", "Poland"]);
+  const [targetCountries, setTargetCountries] = useState<string[]>(["Algeria", "Tunisia", "Morocco"]);
+  const [isPremium, setIsPremium] = useState(false);
 
   const preview = estimateCampaignPrice({
     crowdTesterCount,
-    developerTesterCount,
-    countries: selectedCountries,
+    certTesterCount,
+    countries: targetCountries,
     platforms: selectedPlatforms,
     browsers: selectedBrowsers,
+    isPremium,
   });
 
   function toggleValue(
@@ -155,9 +157,9 @@ export function CampaignForm() {
             </label>
             <MultiSelect
               options={countries}
-              selected={selectedCountries}
-              onChange={setSelectedCountries}
-              name="selectedCountries"
+              selected={targetCountries}
+              onChange={setTargetCountries}
+              name="targetCountries"
               placeholder="Search and select countries..."
             />
           </div>
@@ -175,17 +177,28 @@ export function CampaignForm() {
             />
           </div>
           <div className="space-y-2">
-            <label className="text-sm font-medium text-stone-700" htmlFor="developerTesterCount">
-              Developer testers
+            <label className="text-sm font-medium text-stone-700" htmlFor="certTesterCount">
+              Certified testers
             </label>
             <Input
-              id="developerTesterCount"
-              name="developerTesterCount"
+              id="certTesterCount"
+              name="certTesterCount"
               type="number"
               min="0"
-              value={developerTesterCount}
-              onChange={(event) => setDeveloperTesterCount(Number(event.currentTarget.value || 0))}
+              value={certTesterCount}
+              onChange={(event) => setCertTesterCount(Number(event.currentTarget.value || 0))}
             />
+          </div>
+          <div className="space-y-2 md:col-span-2">
+            <label className="flex items-center gap-2 text-sm font-medium text-stone-700">
+              <input
+                type="checkbox"
+                name="isPremium"
+                checked={isPremium}
+                onChange={(event) => setIsPremium(event.currentTarget.checked)}
+              />
+              Premium campaign (+30% pricing, priority matching)
+            </label>
           </div>
           <div className="space-y-2 md:col-span-2">
             <label className="text-sm font-medium text-stone-700" htmlFor="tasks">
@@ -206,7 +219,7 @@ export function CampaignForm() {
           </div>
         </div>
             {state.message ? <p className="text-sm text-red-700">{state.message}</p> : null}
-            <SubmitButton label="Launch campaign" pendingLabel="Launching campaign..." />
+            <SubmitButton label="Create campaign" pendingLabel="Creating campaign..." />
           </form>
         </CardSection>
       </Card>
@@ -228,8 +241,8 @@ export function CampaignForm() {
             <span>{formatCurrency(preview.crowdSubtotal)}</span>
           </div>
           <div className="flex items-center justify-between">
-            <span>Developer testers</span>
-            <span>{formatCurrency(preview.developerSubtotal)}</span>
+            <span>Certified testers</span>
+            <span>{formatCurrency(preview.certSubtotal)}</span>
           </div>
           <div className="flex items-center justify-between">
             <span>Country multiplier</span>
@@ -243,6 +256,10 @@ export function CampaignForm() {
             <span>Browser multiplier</span>
             <span>x{preview.browserMultiplier.toFixed(2)}</span>
           </div>
+          <div className="flex items-center justify-between">
+            <span>Premium multiplier</span>
+            <span>x{preview.premiumMultiplier.toFixed(2)}</span>
+          </div>
           <div className="flex items-center justify-between border-t border-slate-200 pt-3 font-semibold text-slate-900">
             <span>Moderator slots</span>
             <span>{preview.moderatorSlots}</span>
@@ -251,7 +268,7 @@ export function CampaignForm() {
         <div className="rounded-xl border border-dashed border-slate-300 bg-white/60 p-4 text-sm leading-6 text-slate-600">
           <p className="font-medium text-slate-900">Selected scope</p>
           <div className="mt-3 flex flex-wrap gap-2">
-            {selectedCountries.map((country) => (
+            {targetCountries.map((country) => (
               <Badge key={country}>{country}</Badge>
             ))}
             {selectedPlatforms.map((platform) => (

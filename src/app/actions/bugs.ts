@@ -1,6 +1,6 @@
 "use server";
 
-import { AttachmentKind, BugSeverity, BugStatus, Role } from "@/generated/prisma/client";
+import { AttachmentKind, BugSeverity, BugStatus, ReportType, Role } from "@/generated/prisma";
 import { revalidatePath } from "next/cache";
 import { redirectTo } from "@/lib/redirect";
 
@@ -10,6 +10,8 @@ import { prisma } from "@/lib/prisma";
 import { saveUpload } from "@/lib/upload";
 import { bugReportSchema } from "@/lib/validation";
 import { makeGroupKey } from "@/lib/moderation";
+import { createNotification } from "@/lib/notifications";
+import { getBugRewardAmount } from "@/lib/payments";
 
 function getAttachmentKind(file: File): AttachmentKind {
   if (file.type.startsWith("image/")) {
@@ -45,7 +47,7 @@ export async function submitBugReportAction(
   _prevState: ActionState,
   formData: FormData,
 ): Promise<ActionState> {
-  const session = await requireSession([Role.TESTER]);
+  const session = await requireSession([Role.TESTER, Role.CERT_TESTER]);
 
   const parsed = bugReportSchema.safeParse({
     campaignId: formData.get("campaignId"),
@@ -55,6 +57,7 @@ export async function submitBugReportAction(
     description: formData.get("description"),
     reproductionSteps: formData.get("reproductionSteps"),
     severity: formData.get("severity"),
+    reportType: formData.get("reportType") || "STANDARD",
   });
 
   if (!parsed.success) {
@@ -70,7 +73,7 @@ export async function submitBugReportAction(
       campaignId: parsed.data.campaignId,
       userId: session.id,
       assignmentRole: {
-        in: ["CROWD_TESTER", "DEVELOPER_TESTER"],
+        in: ["CROWD_TESTER", "CERT_TESTER"],
       },
     },
   });
@@ -147,6 +150,7 @@ export async function submitBugReportAction(
       expectedResult: "Not provided",
       actualResult: "Not provided",
       severity: parsed.data.severity as BugSeverity,
+      reportType: (parsed.data.reportType ?? "STANDARD") as ReportType,
       environment: {
         country: tester.country,
         device: device.deviceName,
@@ -181,6 +185,7 @@ export async function moderateBugReportAction(formData: FormData) {
 
   const bugReport = await prisma.bugReport.findUnique({
     where: { id: bugReportId },
+    include: { tester: true },
   });
 
   if (!bugReport) {
@@ -199,6 +204,8 @@ export async function moderateBugReportAction(formData: FormData) {
     return;
   }
 
+  const wasApproved = nextStatus === BugStatus.APPROVED && bugReport.status !== BugStatus.APPROVED;
+
   await prisma.bugReport.update({
     where: { id: bugReportId },
     data: {
@@ -209,6 +216,38 @@ export async function moderateBugReportAction(formData: FormData) {
       moderatedAt: new Date(),
     },
   });
+
+  if (wasApproved) {
+    const reward = getBugRewardAmount(bugReport.severity, bugReport.tester.isCertified);
+
+    await prisma.$transaction(async (tx) => {
+      await tx.user.update({
+        where: { id: bugReport.testerId },
+        data: {
+          totalEarned: { increment: reward },
+          score: { increment: 10 },
+        },
+      });
+
+      await tx.campaignAssignment.updateMany({
+        where: {
+          campaignId: bugReport.campaignId,
+          userId: bugReport.testerId,
+        },
+        data: {
+          earnedAmount: { increment: reward },
+        },
+      });
+    });
+
+    await createNotification({
+      userId: bugReport.testerId,
+      message: `Bug approved: "${bugReport.title}". ${reward} DZD credited to your earnings.`,
+      type: "bug_accepted",
+      language: (bugReport.tester.languages[0] as "fr" | "ar" | "en" | undefined) ?? "fr",
+      metadata: { bugReportId, reward },
+    });
+  }
 
   revalidatePath("/moderator/review-queue");
   revalidatePath(`/moderator/campaigns/${bugReport.campaignId}`);

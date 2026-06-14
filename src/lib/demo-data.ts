@@ -1,4 +1,4 @@
-import type { Role } from "@/generated/prisma/client";
+import type { Role } from "@/generated/prisma";
 
 export const publicStats = [
   { label: "Campaigns coordinated", value: "320+" },

@@ -1,4 +1,4 @@
-import { TokenType } from "@/generated/prisma/client";
+import { TokenType } from "@/generated/prisma";
 import { NextResponse } from "next/server";
 
 import { prisma } from "@/lib/prisma";

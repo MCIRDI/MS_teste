@@ -20,7 +20,7 @@ export default async function TesterWorkspacePage({
 }: {
   params: Promise<{ campaignId: string }>;
 }) {
-  const session = await requireSession(["TESTER"]);
+  const session = await requireSession(["TESTER", "CERT_TESTER"]);
   const { campaignId } = await params;
   const campaign = await prisma.campaign.findUniqueOrThrow({
     where: { id: campaignId },
@@ -77,7 +77,7 @@ export default async function TesterWorkspacePage({
             <p className="text-sm leading-relaxed text-slate-600">{campaign.description}</p>
             <CardMeta className="mt-5">
               <CardMetaItem label="Access URL">{campaign.websiteUrl ?? "Uploaded build only"}</CardMetaItem>
-              <CardMetaItem label="Countries">{toStringArray(campaign.selectedCountries).join(", ") || "None"}</CardMetaItem>
+              <CardMetaItem label="Countries">{campaign.targetCountries.join(", ") || "None"}</CardMetaItem>
             </CardMeta>
           </CardSection>
         </Card>

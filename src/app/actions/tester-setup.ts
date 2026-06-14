@@ -7,7 +7,7 @@ import { requireSession } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 
 export async function saveCountryAction(country: string) {
-  const session = await requireSession(["TESTER"]);
+  const session = await requireSession(["TESTER", "CERT_TESTER"]);
 
   await prisma.user.update({
     where: { id: session.id },
@@ -19,7 +19,7 @@ export async function saveCountryAction(country: string) {
 }
 
 export async function updateTesterInfoAction(formData: FormData) {
-  const session = await requireSession(["TESTER"]);
+  const session = await requireSession(["TESTER", "CERT_TESTER"]);
 
   const country = String(formData.get("country") ?? "").trim();
   const deviceName = String(formData.get("deviceName") ?? "").trim();
@@ -71,7 +71,7 @@ export async function updateTesterInfoAction(formData: FormData) {
 }
 
 export async function saveTesterSetupAction(formData: FormData) {
-  const session = await requireSession(["TESTER"]);
+  const session = await requireSession(["TESTER", "CERT_TESTER"]);
 
   const country = String(formData.get("country") ?? "").trim();
   const deviceName = String(formData.get("deviceName") ?? "").trim();

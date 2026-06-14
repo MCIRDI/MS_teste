@@ -4,8 +4,15 @@ import { LoginForm } from "@/components/forms/login-form";
 import { Card, CardDescription, CardHeader, CardSection, CardTitle } from "@/components/ui/card";
 import { Link } from "@/i18n/routing";
 
-export default async function LoginPage() {
+export default async function LoginPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ status?: string }>;
+}) {
   const t = await getTranslations("login");
+  const { status } = await searchParams;
+  const notice =
+    status === "pending-approval" ? t("pendingApprovalAfterVetting") : undefined;
 
   return (
     <main className="mx-auto flex w-full max-w-5xl items-center px-6 py-16">
@@ -21,7 +28,7 @@ export default async function LoginPage() {
             <CardDescription>{t("cardDescription")}</CardDescription>
           </CardHeader>
           <CardSection>
-            <LoginForm />
+            <LoginForm notice={notice} />
             <p className="mt-6 text-sm text-slate-600">
               {t("needAccount")}{" "}
               <Link href="/signup" className="font-semibold text-blue-700 hover:text-blue-800">

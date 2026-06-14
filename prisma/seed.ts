@@ -6,15 +6,11 @@ import {
   CampaignStage,
   Role,
   SoftwareType,
-  TesterKind,
-} from "../src/generated/prisma/client";
+} from "../src/generated/prisma";
 import bcrypt from "bcryptjs";
-import { PrismaMariaDb } from "@prisma/adapter-mariadb";
-import { PrismaClient } from "../src/generated/prisma/client";
+import { PrismaClient } from "../src/generated/prisma";
 
-const prisma = new PrismaClient({
-  adapter: new PrismaMariaDb(process.env.DATABASE_URL ?? ""),
-});
+const prisma = new PrismaClient();
 
 async function main() {
   const passwordHash = await bcrypt.hash("password123", 12);
@@ -29,8 +25,8 @@ async function main() {
       role: Role.ADMIN,
       accountStatus: AccountStatus.ACTIVE,
       isEmailVerified: true,
-      country: "Hungary",
-      language: "English",
+      country: "DZ",
+      languages: ["fr", "ar"],
     },
   });
 
@@ -44,8 +40,8 @@ async function main() {
       role: Role.CLIENT,
       accountStatus: AccountStatus.ACTIVE,
       isEmailVerified: true,
-      country: "Germany",
-      language: "English",
+      country: "DZ",
+      languages: ["fr"],
     },
   });
 
@@ -59,8 +55,8 @@ async function main() {
       role: Role.TEST_MANAGER,
       accountStatus: AccountStatus.ACTIVE,
       isEmailVerified: true,
-      country: "Poland",
-      language: "English",
+      country: "DZ",
+      languages: ["fr"],
     },
   });
 
@@ -74,8 +70,8 @@ async function main() {
       role: Role.MODERATOR,
       accountStatus: AccountStatus.ACTIVE,
       isEmailVerified: true,
-      country: "Brazil",
-      language: "English",
+      country: "DZ",
+      languages: ["fr", "ar"],
     },
   });
 
@@ -87,122 +83,150 @@ async function main() {
       email: "tester@mstest.local",
       passwordHash,
       role: Role.TESTER,
-      testerKind: TesterKind.CROWD,
       accountStatus: AccountStatus.ACTIVE,
       isEmailVerified: true,
-      country: "United States",
-      language: "English",
+      country: "DZ",
+      languages: ["fr", "ar"],
       testingExperience: "3 years of e-commerce and fintech exploratory testing.",
     },
   });
 
+  const certTester = await prisma.user.upsert({
+    where: { email: "cert@mstest.local" },
+    update: {},
+    create: {
+      name: "Certified Tester",
+      email: "cert@mstest.local",
+      passwordHash,
+      role: Role.CERT_TESTER,
+      isCertified: true,
+      accountStatus: AccountStatus.ACTIVE,
+      isEmailVerified: true,
+      country: "DZ",
+      languages: ["fr", "en"],
+      testingExperience: "API, performance and security testing specialist.",
+      badges: ["cert_api"],
+    },
+  });
+
   await prisma.device.deleteMany({
-    where: { userId: tester.id },
+    where: { userId: { in: [tester.id, certTester.id] } },
   });
 
   await prisma.device.createMany({
     data: [
       {
         userId: tester.id,
-        deviceName: "iPhone 15",
-        osVersion: "iOS 18",
-        browsers: ["Safari", "Chrome"],
-        screenResolution: "1179x2556",
+        deviceName: "Samsung Galaxy A54",
+        osVersion: "Android 14",
+        browsers: ["Chrome", "Firefox"],
+        screenResolution: "1080x2400",
+        operator: "Djezzy",
+        connectionType: "4G",
       },
       {
-        userId: tester.id,
+        userId: certTester.id,
         deviceName: "Lenovo ThinkPad",
         osVersion: "Windows 11",
         browsers: ["Chrome", "Firefox", "Edge"],
         screenResolution: "1920x1080",
+        connectionType: "WiFi",
       },
     ],
   });
 
-  await prisma.campaign.upsert({
-    where: { id: "seed-campaign" },
-    update: {},
-    create: {
-      id: "seed-campaign",
-      clientId: client.id,
-      testManagerId: manager.id,
-      projectName: "Checkout reliability sprint",
-      description: "Cross-device checkout and coupon validation for a retail web app.",
-      softwareType: SoftwareType.WEBSITE,
-      websiteUrl: "https://demo.mstest.local",
-      stage: CampaignStage.TESTING,
-      crowdTesterCount: 40,
-      developerTesterCount: 6,
-      selectedCountries: ["United States", "Germany", "Poland"],
-      selectedPlatforms: ["Windows", "macOS", "iOS", "Android"],
-      selectedBrowsers: ["Chrome", "Firefox", "Safari", "Edge"],
-      estimatedCost: 2160,
-      moderatorSlots: 1,
-      requirements: {
-        summary: "Focus on cart, checkout, discounts, failed cards, and account creation.",
-      },
-      analytics: {
-        totalBugs: 18,
-        critical: 2,
-        high: 4,
-        medium: 8,
-        low: 4,
-      },
-      tasks: {
-        create: [
-          {
-            title: "Create account",
-            description: "Register with a fresh email and verify the activation path.",
-            orderIndex: 1,
-          },
-          {
-            title: "Apply discount",
-            description: "Attempt valid and invalid coupon combinations during checkout.",
-            orderIndex: 2,
-          },
-          {
-            title: "Force edge cases",
-            description: "Use expired cards, refresh mid-flow, and retry failed checkout states.",
-            orderIndex: 3,
-          },
-        ],
-      },
-      assignments: {
-        create: [
-          {
-            userId: manager.id,
-            assignmentRole: AssignmentRole.TEST_MANAGER,
-            acceptedAt: new Date(),
-          },
-          {
-            userId: moderator.id,
-            assignmentRole: AssignmentRole.MODERATOR,
-            acceptedAt: new Date(),
-          },
-          {
-            userId: tester.id,
-            assignmentRole: AssignmentRole.CROWD_TESTER,
-            acceptedAt: new Date(),
-          },
-        ],
-      },
-    },
+  const existingCampaign = await prisma.campaign.findFirst({
+    where: { projectName: "Checkout reliability sprint" },
   });
+
+  const campaign =
+    existingCampaign ??
+    (await prisma.campaign.create({
+      data: {
+        clientId: client.id,
+        testManagerId: manager.id,
+        projectName: "Checkout reliability sprint",
+        description: "Cross-device checkout and coupon validation for a retail web app.",
+        softwareType: SoftwareType.WEBSITE,
+        websiteUrl: "https://demo.mstest.local",
+        stage: CampaignStage.TESTING,
+        crowdTesterCount: 40,
+        certTesterCount: 6,
+        targetCountries: ["DZ", "TN"],
+        selectedPlatforms: ["Windows", "Android", "iOS"],
+        selectedBrowsers: ["Chrome", "Firefox", "Safari"],
+        estimatedCost: 2160,
+        moderatorSlots: 1,
+        requirements: {
+          summary: "Focus on cart, checkout, discounts, failed cards, and account creation.",
+        },
+        analytics: {
+          totalBugs: 18,
+          critical: 2,
+          high: 4,
+          medium: 8,
+          low: 4,
+        },
+        tasks: {
+          create: [
+            {
+              title: "Create account",
+              description: "Register with a fresh email and verify the activation path.",
+              orderIndex: 1,
+            },
+            {
+              title: "Apply discount",
+              description: "Attempt valid and invalid coupon combinations during checkout.",
+              orderIndex: 2,
+            },
+            {
+              title: "Force edge cases",
+              description: "Use expired cards, refresh mid-flow, and retry failed checkout states.",
+              orderIndex: 3,
+            },
+          ],
+        },
+        assignments: {
+          create: [
+            {
+              userId: manager.id,
+              assignmentRole: AssignmentRole.TEST_MANAGER,
+              acceptedAt: new Date(),
+            },
+            {
+              userId: moderator.id,
+              assignmentRole: AssignmentRole.MODERATOR,
+              acceptedAt: new Date(),
+            },
+            {
+              userId: tester.id,
+              assignmentRole: AssignmentRole.CROWD_TESTER,
+              acceptedAt: new Date(),
+            },
+            {
+              userId: certTester.id,
+              assignmentRole: AssignmentRole.CERT_TESTER,
+              acceptedAt: new Date(),
+            },
+          ],
+        },
+      },
+    }));
 
   await prisma.auditLog.deleteMany({
     where: {
       action: "SEED_DATA_CREATED",
-      entityId: "seed-campaign",
+      entityId: campaign.id,
     },
   });
 
   await prisma.auditLog.create({
     data: {
       actorId: admin.id,
-      campaignId: "seed-campaign",
+      campaignId: campaign.id,
       action: "SEED_DATA_CREATED",
       entityType: "Campaign",
-      entityId: "seed-campaign",
+      entityId: campaign.id,
       metadata: { source: "prisma/seed.ts" },
     },
   });
