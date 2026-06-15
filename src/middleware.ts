@@ -47,7 +47,6 @@ function getDashboardPath(role: string) {
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // Always prefix missing locale before anything else (/ → /en, /login → /en/login)
   if (!hasLocalePrefix(pathname)) {
     const url = request.nextUrl.clone();
     url.pathname = localizedPath(routing.defaultLocale, pathname);
@@ -56,7 +55,6 @@ export async function middleware(request: NextRequest) {
 
   const intlResponse = intlMiddleware(request);
 
-  // Honor next-intl redirects (locale detection, alternate prefixes, etc.)
   if (intlResponse.headers.get("Location")) {
     return intlResponse;
   }
@@ -108,5 +106,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/((?!api|_next|_vercel|.*\\..*).*)"],
+  matcher: ["/", "/((?!api|_next|_vercel|.*\\..*).*)"],
 };
