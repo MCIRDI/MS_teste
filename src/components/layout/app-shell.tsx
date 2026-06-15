@@ -3,6 +3,7 @@ import { getTranslations } from "next-intl/server";
 
 import { acceptRoleUpgradeInvitationAction } from "@/app/actions/admin";
 import { markNotificationsReadAction } from "@/app/actions/notifications";
+import { CurrencySwitcher } from "@/components/layout/currency-switcher";
 import { LanguageSwitcher } from "@/components/layout/language-switcher";
 import { SidebarNav } from "@/components/layout/sidebar-nav";
 import { Button } from "@/components/ui/button";
@@ -47,7 +48,10 @@ export async function AppShell({ session, children, title, description }: AppShe
           <Link href="/" className="text-sm font-semibold text-slate-900">
             {t("brand.name")}
           </Link>
-          <LanguageSwitcher />
+          <div className="flex items-center gap-2">
+            <LanguageSwitcher />
+            <CurrencySwitcher />
+          </div>
         </div>
       </div>
 
@@ -125,6 +129,7 @@ export async function AppShell({ session, children, title, description }: AppShe
 
             <div className="mt-5 space-y-3 border-t border-slate-200/80 pt-4">
               <LanguageSwitcher />
+              <CurrencySwitcher />
               <form action={logoutAction}>
                 <Button variant="ghost" type="submit" className="h-9 w-full justify-start px-3 text-slate-600">
                   {t("nav.logOut")}

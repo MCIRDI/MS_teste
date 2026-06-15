@@ -12,6 +12,12 @@
     "fr": "Français",
     "ar": "العربية"
   },
+  "currency": {
+    "label": "Devise",
+    "DZD": "DZD — Dinar algérien",
+    "USD": "USD — Dollar américain",
+    "EUR": "EUR — Euro"
+  },
   "nav": {
     "home": "Accueil",
     "about": "À propos",

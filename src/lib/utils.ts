@@ -1,16 +1,15 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
+import { formatMoney, type DisplayCurrency } from "@/lib/currency";
+
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export function formatCurrency(value: number) {
-  return new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-    maximumFractionDigits: 0,
-  }).format(value);
+/** @deprecated Prefer formatMoney from @/lib/currency or useDisplayCurrency().format */
+export function formatCurrency(value: number, currency: DisplayCurrency = "USD", locale = "en-US") {
+  return formatMoney(value, currency, locale);
 }
 
 export function formatCount(value: number) {

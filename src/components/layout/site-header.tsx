@@ -1,6 +1,7 @@
 import { getTranslations } from "next-intl/server";
 
 import { LanguageSwitcher } from "@/components/layout/language-switcher";
+import { CurrencySwitcher } from "@/components/layout/currency-switcher";
 import { Button } from "@/components/ui/button";
 import { Link } from "@/i18n/routing";
 import { getCurrentSession, getDashboardPath } from "@/lib/auth";
@@ -37,6 +38,7 @@ export async function SiteHeader() {
 
         <div className="flex items-center gap-2 sm:gap-3">
           <LanguageSwitcher />
+          <CurrencySwitcher />
           {session ? (
             <Link href={getDashboardPath(session.role)}>
               <Button variant="secondary" className="hidden sm:inline-flex">

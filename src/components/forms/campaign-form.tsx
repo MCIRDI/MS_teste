@@ -9,7 +9,7 @@ import { browsers, countries, platforms } from "@/lib/constants";
 import { getSoftwareTypes } from "@/lib/i18n";
 import { useTranslations } from "next-intl";
 import { estimateCampaignPrice } from "@/lib/pricing";
-import { formatCurrency } from "@/lib/utils";
+import { useDisplayCurrency } from "@/hooks/use-display-currency";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { MultiSelect } from "@/components/ui/multi-select";
@@ -21,6 +21,7 @@ const initialState: ActionState = { success: false };
 
 export function CampaignForm() {
   const t = useTranslations();
+  const { format } = useDisplayCurrency();
   const softwareTypes = getSoftwareTypes(t);
   const [state, formAction] = useActionState(createCampaignAction, initialState);
   const [crowdTesterCount, setCrowdTesterCount] = useState(120);
@@ -231,18 +232,18 @@ export function CampaignForm() {
             Updates automatically from testers, countries, browsers, and device targets.
           </CardDescription>
           <p className="mt-3 text-3xl font-semibold tracking-tight text-slate-900 tabular-nums">
-            {formatCurrency(preview.estimatedCost)}
+            {format(preview.estimatedCost)}
           </p>
         </CardHeader>
         <CardSection className="space-y-5 border-t border-slate-100/90">
         <div className="space-y-3 rounded-xl border border-slate-200 bg-white p-4 text-sm text-slate-700">
           <div className="flex items-center justify-between">
             <span>Crowd testers</span>
-            <span>{formatCurrency(preview.crowdSubtotal)}</span>
+            <span>{format(preview.crowdSubtotal)}</span>
           </div>
           <div className="flex items-center justify-between">
             <span>Certified testers</span>
-            <span>{formatCurrency(preview.certSubtotal)}</span>
+            <span>{format(preview.certSubtotal)}</span>
           </div>
           <div className="flex items-center justify-between">
             <span>Country multiplier</span>

@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardSection } from "@/components/ui/card";
 import { SectionHeading } from "@/components/sections/section-heading";
 import { StatGrid } from "@/components/sections/stat-grid";
-import { formatCurrency } from "@/lib/utils";
+import { useDisplayCurrency } from "@/hooks/use-display-currency";
 import type { ApprovedBugPayload } from "@/lib/realtime/events";
 
 type DashboardCampaign = {
@@ -67,6 +67,7 @@ function applyApprovedBug(data: DashboardData, bug: ApprovedBugPayload): Dashboa
 }
 
 export function ClientDashboardLive({ initialData }: { initialData: DashboardData }) {
+  const { format } = useDisplayCurrency();
   const { recentApprovedBugs } = useClientRealtime();
   const [data, setData] = useState(initialData);
   const [highlightedCampaignIds, setHighlightedCampaignIds] = useState<string[]>([]);
@@ -157,7 +158,7 @@ export function ClientDashboardLive({ initialData }: { initialData: DashboardDat
                       <td>{campaign.testers}</td>
                       <td>{campaign.bugs}</td>
                       <td>{campaign.countries || "None"}</td>
-                      <td>{formatCurrency(campaign.price)}</td>
+                      <td>{format(campaign.price)}</td>
                       <td>
                         {campaign.isPaid ? (
                           <span className="text-sm text-emerald-700">Paid</span>
