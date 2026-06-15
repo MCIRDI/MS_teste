@@ -3,9 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "tsx scripts/dev-with-realtime.ts",
+    "dev:next": "next dev -p 3030",
+    "realtime": "tsx server/realtime-server.ts",
     "build": "next build --webpack",
-    "start": "next start",
+    "start": "tsx scripts/start-with-realtime.ts",
+    "start:next": "next start -p 3030",
     "lint": "eslint .",
     "db:generate": "prisma generate",
     "db:push": "prisma db push",
@@ -32,6 +35,7 @@
     "recharts": "^3.8.1",
     "tailwind-merge": "^3.5.0",
     "uuid": "^13.0.0",
+    "ws": "^8.21.0",
     "zod": "^4.3.6"
   },
   "devDependencies": {
@@ -39,6 +43,7 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/ws": "^8.18.1",
     "eslint": "^9",
     "eslint-config-next": "16.2.2",
     "tailwindcss": "^4",

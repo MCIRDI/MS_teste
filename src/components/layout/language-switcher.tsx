@@ -2,7 +2,7 @@
 
 import { useLocale, useTranslations } from "next-intl";
 import { usePathname, useRouter } from "@/i18n/routing";
-import { locales, type Locale } from "@/i18n/routing";
+import { locales, stripLocalePrefix, type Locale } from "@/i18n/routing";
 import { cn } from "@/lib/utils";
 
 const localeKeys: Record<Locale, "en" | "fr" | "ar"> = {
@@ -18,7 +18,13 @@ export function LanguageSwitcher({ className }: { className?: string }) {
   const router = useRouter();
 
   function onChange(nextLocale: Locale) {
-    router.replace(pathname, { locale: nextLocale });
+    if (nextLocale === locale) {
+      return;
+    }
+
+    // usePathname is locale-free, but guard against /fr/... leaking into the next URL
+    const pathWithoutLocale = stripLocalePrefix(pathname);
+    router.replace(pathWithoutLocale, { locale: nextLocale });
   }
 
   return (

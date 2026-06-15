@@ -6,7 +6,7 @@ const envSchema = z.object({
     .min(1)
     .default("mongodb://127.0.0.1:27017/ms_test"),
   JWT_SECRET: z.string().min(16).default("change-me-to-a-long-random-secret"),
-  APP_URL: z.string().default("http://localhost:3000"),
+  APP_URL: z.string().default("http://localhost:3030"),
   UPLOAD_DIR: z.string().default("uploads"),
   MAX_UPLOAD_MB: z.coerce.number().positive().default(50),
   CROWD_TESTER_BASE_PRICE: z.coerce.number().positive().default(35),

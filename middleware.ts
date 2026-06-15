@@ -2,7 +2,13 @@ import { jwtVerify } from "jose";
 import createIntlMiddleware from "next-intl/middleware";
 import { NextResponse, type NextRequest } from "next/server";
 
-import { routing } from "@/i18n/routing";
+import {
+  getLocaleFromPathname,
+  localizedPath,
+  routing,
+  stripLocalePrefix,
+  hasLocalePrefix,
+} from "@/i18n/routing";
 
 const SESSION_COOKIE = "ms-test-session";
 const protectedAreas = ["/client", "/tester", "/moderator", "/manager", "/admin"];
@@ -17,17 +23,6 @@ const rolePrefixes: Record<string, string[]> = {
 };
 
 const intlMiddleware = createIntlMiddleware(routing);
-
-function stripLocale(pathname: string) {
-  const match = pathname.match(/^\/(en|fr|ar)(?=\/|$)/);
-  if (!match) {
-    return { locale: routing.defaultLocale, pathname };
-  }
-
-  const locale = match[1]!;
-  const rest = pathname.slice(locale.length + 1) || "/";
-  return { locale, pathname: rest };
-}
 
 function isProtectedPath(pathname: string) {
   return protectedAreas.some((segment) => pathname.startsWith(segment));
@@ -49,16 +44,28 @@ function getDashboardPath(role: string) {
   }
 }
 
-function localizedPath(locale: string, path: string) {
-  return `/${locale}${path}`;
-}
-
 export async function middleware(request: NextRequest) {
+  const { pathname } = request.nextUrl;
+
+  // Always prefix missing locale before anything else (/ → /en, /login → /en/login)
+  if (!hasLocalePrefix(pathname)) {
+    const url = request.nextUrl.clone();
+    url.pathname = localizedPath(routing.defaultLocale, pathname);
+    return NextResponse.redirect(url);
+  }
+
   const intlResponse = intlMiddleware(request);
-  const { locale, pathname } = stripLocale(request.nextUrl.pathname);
+
+  // Honor next-intl redirects (locale detection, alternate prefixes, etc.)
+  if (intlResponse.headers.get("Location")) {
+    return intlResponse;
+  }
+
+  const locale = getLocaleFromPathname(pathname) ?? routing.defaultLocale;
+  const pathWithoutLocale = stripLocalePrefix(pathname);
   const token = request.cookies.get(SESSION_COOKIE)?.value;
 
-  if (authPages.includes(pathname) && token) {
+  if (authPages.includes(pathWithoutLocale) && token) {
     try {
       const secret = new TextEncoder().encode(
         process.env.JWT_SECRET ?? "change-me-to-a-long-random-secret",
@@ -72,7 +79,7 @@ export async function middleware(request: NextRequest) {
     }
   }
 
-  if (!isProtectedPath(pathname)) {
+  if (!isProtectedPath(pathWithoutLocale)) {
     return intlResponse;
   }
 
@@ -88,7 +95,7 @@ export async function middleware(request: NextRequest) {
     const role = String(payload.role);
     const allowedPrefixes = rolePrefixes[role] ?? [];
 
-    if (!allowedPrefixes.some((segment) => pathname.startsWith(segment))) {
+    if (!allowedPrefixes.some((segment) => pathWithoutLocale.startsWith(segment))) {
       return NextResponse.redirect(
         new URL(localizedPath(locale, getDashboardPath(role)), request.url),
       );

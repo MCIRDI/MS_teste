@@ -12,6 +12,7 @@ import { bugReportSchema } from "@/lib/validation";
 import { makeGroupKey } from "@/lib/moderation";
 import { createNotification } from "@/lib/notifications";
 import { getBugRewardAmount } from "@/lib/payments";
+import { notifyBugApproved, notifyBugsApproved } from "@/lib/realtime/publish";
 
 function getAttachmentKind(file: File): AttachmentKind {
   if (file.type.startsWith("image/")) {
@@ -247,10 +248,14 @@ export async function moderateBugReportAction(formData: FormData) {
       language: (bugReport.tester.languages[0] as "fr" | "ar" | "en" | undefined) ?? "fr",
       metadata: { bugReportId, reward },
     });
+
+    await notifyBugApproved(bugReportId);
   }
 
   revalidatePath("/moderator/review-queue");
   revalidatePath(`/moderator/campaigns/${bugReport.campaignId}`);
+  revalidatePath("/client/dashboard");
+  revalidatePath("/client/reports");
 }
 
 export async function moderateBugGroupAction(formData: FormData) {
@@ -276,6 +281,17 @@ export async function moderateBugGroupAction(formData: FormData) {
   }
 
   const nextStatus = decision as BugStatus;
+  const bugsToUpdate = await prisma.bugReport.findMany({
+    where: {
+      campaignId,
+      groupKey,
+      status: {
+        in: [BugStatus.SUBMITTED, BugStatus.NEEDS_INFO],
+      },
+    },
+    select: { id: true },
+  });
+
   await prisma.bugReport.updateMany({
     where: {
       campaignId,
@@ -292,8 +308,14 @@ export async function moderateBugGroupAction(formData: FormData) {
     },
   });
 
+  if (nextStatus === BugStatus.APPROVED) {
+    await notifyBugsApproved(bugsToUpdate.map((bug) => bug.id));
+  }
+
   revalidatePath("/moderator/review-queue");
   revalidatePath(`/moderator/campaigns/${campaignId}`);
+  revalidatePath("/client/dashboard");
+  revalidatePath("/client/reports");
 }
 
 export async function markBugGroupDuplicatesAction(formData: FormData) {
@@ -392,7 +414,7 @@ export async function submitModeratorBugReportAction(formData: FormData) {
     }),
   );
 
-  await prisma.bugReport.create({
+  const createdBug = await prisma.bugReport.create({
     data: {
       campaignId,
       testerId: session.id,
@@ -421,7 +443,11 @@ export async function submitModeratorBugReportAction(formData: FormData) {
     },
   });
 
+  await notifyBugApproved(createdBug.id);
+
   revalidatePath("/moderator/review-queue");
   revalidatePath(`/moderator/campaigns/${campaignId}`);
+  revalidatePath("/client/dashboard");
+  revalidatePath("/client/reports");
   return await redirectTo(`/moderator/campaigns/${campaignId}`);
 }
