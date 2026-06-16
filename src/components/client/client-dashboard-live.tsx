@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 
-import { useClientRealtime } from "@/components/client/client-realtime-provider";
+import { useAppRealtime } from "@/components/app-realtime-provider";
 import { payCampaignAction } from "@/app/actions/payments";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardSection } from "@/components/ui/card";
@@ -68,7 +68,7 @@ function applyApprovedBug(data: DashboardData, bug: ApprovedBugPayload): Dashboa
 
 export function ClientDashboardLive({ initialData }: { initialData: DashboardData }) {
   const { format } = useDisplayCurrency();
-  const { recentApprovedBugs } = useClientRealtime();
+  const { recentApprovedBugs } = useAppRealtime();
   const [data, setData] = useState(initialData);
   const [highlightedCampaignIds, setHighlightedCampaignIds] = useState<string[]>([]);
   const processedBugIdsRef = useRef(new Set<string>());

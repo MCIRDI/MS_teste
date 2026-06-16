@@ -1,3 +1,5 @@
+import type { Role } from "@/generated/prisma";
+
 export type BugSeverityLevel = "CRITICAL" | "HIGH" | "MEDIUM" | "LOW";
 
 export type ApprovedBugPayload = {
@@ -9,13 +11,16 @@ export type ApprovedBugPayload = {
   approvedAt: string;
 };
 
-export type RealtimeClientEvent = {
-  type: "bug_approved";
-  payload: ApprovedBugPayload;
+export type DataChangedPayload = {
+  scope?: string;
 };
 
+export type RealtimeClientEvent =
+  | { type: "bug_approved"; payload: ApprovedBugPayload }
+  | { type: "data_changed"; payload: DataChangedPayload };
+
 export type RealtimeServerMessage =
-  | { type: "connected"; clientId: string }
+  | { type: "connected"; userId: string; role: Role }
   | RealtimeClientEvent;
 
 export type RealtimeAuthMessage = {
@@ -24,6 +29,9 @@ export type RealtimeAuthMessage = {
 };
 
 export type RealtimeBroadcastRequest = {
-  clientId: string;
+  /** @deprecated use userIds */
+  clientId?: string;
+  userIds?: string[];
+  roles?: Role[];
   event: RealtimeClientEvent;
 };

@@ -1,4 +1,4 @@
-import { BugStatus } from "@/generated/prisma";
+import { BugStatus, Role } from "@/generated/prisma";
 
 import { env } from "@/lib/env";
 import { prisma } from "@/lib/prisma";
@@ -13,15 +13,7 @@ function getRealtimeSecret() {
   return process.env.REALTIME_SECRET ?? env.JWT_SECRET;
 }
 
-export async function publishBugApproved(clientId: string, payload: ApprovedBugPayload) {
-  const body: RealtimeBroadcastRequest = {
-    clientId,
-    event: {
-      type: "bug_approved",
-      payload,
-    },
-  };
-
+export async function publishRealtimeEvent(body: RealtimeBroadcastRequest) {
   try {
     const response = await fetch(getRealtimeHttpUrl(), {
       method: "POST",
@@ -38,6 +30,31 @@ export async function publishBugApproved(clientId: string, payload: ApprovedBugP
   } catch (error) {
     console.error("[realtime] broadcast failed:", error);
   }
+}
+
+export async function notifyDataChanged(options: {
+  userIds?: string[];
+  roles?: Role[];
+  scope?: string;
+}) {
+  await publishRealtimeEvent({
+    userIds: options.userIds,
+    roles: options.roles,
+    event: {
+      type: "data_changed",
+      payload: { scope: options.scope },
+    },
+  });
+}
+
+export async function publishBugApproved(clientId: string, payload: ApprovedBugPayload) {
+  await publishRealtimeEvent({
+    userIds: [clientId],
+    event: {
+      type: "bug_approved",
+      payload,
+    },
+  });
 }
 
 export async function notifyBugApproved(bugReportId: string) {
@@ -71,6 +88,11 @@ export async function notifyBugApproved(bugReportId: string) {
     title: bug.title,
     severity: bug.severity,
     approvedAt: (bug.moderatedAt ?? bug.createdAt).toISOString(),
+  });
+
+  await notifyDataChanged({
+    roles: [Role.MODERATOR, Role.TEST_MANAGER, Role.ADMIN],
+    scope: "bug_approved",
   });
 }
 

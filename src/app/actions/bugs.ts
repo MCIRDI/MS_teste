@@ -12,7 +12,7 @@ import { bugReportSchema } from "@/lib/validation";
 import { makeGroupKey } from "@/lib/moderation";
 import { createNotification } from "@/lib/notifications";
 import { getBugRewardAmount } from "@/lib/payments";
-import { notifyBugApproved, notifyBugsApproved } from "@/lib/realtime/publish";
+import { notifyBugApproved, notifyBugsApproved, notifyDataChanged } from "@/lib/realtime/publish";
 
 function getAttachmentKind(file: File): AttachmentKind {
   if (file.type.startsWith("image/")) {
@@ -168,6 +168,12 @@ export async function submitBugReportAction(
   revalidatePath("/tester/campaigns");
   revalidatePath("/moderator/review-queue");
   revalidatePath("/client/dashboard");
+
+  await notifyDataChanged({
+    roles: [Role.MODERATOR, Role.TEST_MANAGER, Role.ADMIN],
+    scope: "bug_submitted",
+  });
+
   return await redirectTo(`/tester/workspace/${parsed.data.campaignId}`);
 }
 

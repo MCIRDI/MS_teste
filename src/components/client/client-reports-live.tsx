@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 
 import { createDisputeAction } from "@/app/actions/disputes";
-import { useClientRealtime } from "@/components/client/client-realtime-provider";
+import { useAppRealtime } from "@/components/app-realtime-provider";
 import { Link } from "@/i18n/routing";
 import { Button } from "@/components/ui/button";
 import {
@@ -37,7 +37,7 @@ type ClientReport = {
 };
 
 export function ClientReportsLive({ initialReports }: { initialReports: ClientReport[] }) {
-  const { recentApprovedBugs } = useClientRealtime();
+  const { recentApprovedBugs } = useAppRealtime();
   const [reports, setReports] = useState(initialReports);
   const [highlightedBugIds, setHighlightedBugIds] = useState<string[]>([]);
   const processedBugIdsRef = useRef(new Set<string>());

@@ -1,7 +1,7 @@
 import { getTranslations } from "next-intl/server";
 
 import { acceptInvitationAction } from "@/app/actions/campaigns";
-import { LiveRefresh } from "@/components/live-refresh";
+import { RealtimeRefresh } from "@/components/realtime-refresh";
 import { SectionHeading } from "@/components/sections/section-heading";
 import { StatGrid } from "@/components/sections/stat-grid";
 import { Button } from "@/components/ui/button";
@@ -43,7 +43,7 @@ export default async function TesterCampaignsPage() {
 
   return (
     <div className="space-y-6">
-      <LiveRefresh />
+      <RealtimeRefresh />
 
       <div className="grid gap-3 sm:grid-cols-2">
         <Link

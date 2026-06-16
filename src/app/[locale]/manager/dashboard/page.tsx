@@ -13,7 +13,7 @@ import {
   CardSection,
   CardTitle,
 } from "@/components/ui/card";
-import { LiveRefresh } from "@/components/live-refresh";
+import { RealtimeRefresh } from "@/components/realtime-refresh";
 import { SectionHeading } from "@/components/sections/section-heading";
 import { StatGrid } from "@/components/sections/stat-grid";
 import { Button } from "@/components/ui/button";
@@ -24,7 +24,7 @@ export default async function ManagerDashboardPage() {
 
   return (
     <div className="space-y-6">
-      <LiveRefresh />
+      <RealtimeRefresh />
       <StatGrid items={data.stats} />
       <Card padding="none">
         <CardHeader>

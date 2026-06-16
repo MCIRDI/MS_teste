@@ -4,6 +4,7 @@ import { getTranslations } from "next-intl/server";
 import { acceptRoleUpgradeInvitationAction } from "@/app/actions/admin";
 import { markNotificationsReadAction } from "@/app/actions/notifications";
 import { CurrencySwitcher } from "@/components/layout/currency-switcher";
+import { AppShellRealtime } from "@/components/layout/app-shell-realtime";
 import { LanguageSwitcher } from "@/components/layout/language-switcher";
 import { SidebarNav } from "@/components/layout/sidebar-nav";
 import { Button } from "@/components/ui/button";
@@ -155,7 +156,7 @@ export async function AppShell({ session, children, title, description }: AppShe
               </div>
             </div>
           </section>
-          {children}
+          <AppShellRealtime>{children}</AppShellRealtime>
         </main>
       </div>
     </div>

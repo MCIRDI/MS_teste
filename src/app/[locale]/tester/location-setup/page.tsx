@@ -4,67 +4,59 @@ import { useState } from "react";
 import { useRouter } from "@/i18n/routing";
 
 import { saveCountryAction } from "@/app/actions/tester-setup";
+import { CountrySelect } from "@/components/forms/country-select";
 import { Button } from "@/components/ui/button";
 import { Card, CardDescription, CardHeader, CardSection, CardTitle } from "@/components/ui/card";
 import { SectionHeading } from "@/components/sections/section-heading";
+import { requestBrowserCountry } from "@/lib/geolocation-country";
+
+type Mode = "geo" | "manual";
 
 export default function TesterLocationSetupPage() {
   const router = useRouter();
-  const [status, setStatus] = useState<"idle" | "requesting" | "detecting" | "saving" | "done" | "error">("idle");
+  const [mode, setMode] = useState<Mode>("geo");
+  const [status, setStatus] = useState<"idle" | "requesting" | "detecting" | "saving" | "error">("idle");
   const [message, setMessage] = useState("");
+
+  async function saveCountry(country: string, countrySource: "GEOLOCATION" | "MANUAL") {
+    setStatus("saving");
+    setMessage("");
+
+    try {
+      await saveCountryAction({ country, countrySource });
+      router.push("/tester/vetting");
+    } catch {
+      setMessage("Could not save your country. Please try again.");
+      setStatus(mode === "manual" ? "idle" : "error");
+    }
+  }
 
   async function requestLocation() {
     setStatus("requesting");
     setMessage("");
 
-    if (!navigator.geolocation) {
+    try {
+      setStatus("detecting");
+      const country = await requestBrowserCountry();
+      await saveCountry(country, "GEOLOCATION");
+    } catch (error) {
       setStatus("error");
-      setMessage("Geolocation is not supported by your browser.");
+      setMessage(error instanceof Error ? error.message : "Could not detect your country.");
+    }
+  }
+
+  async function handleManualSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const country = String(formData.get("country") ?? "").trim();
+
+    if (!country) {
+      setStatus("error");
+      setMessage("Please select your country.");
       return;
     }
 
-    navigator.geolocation.getCurrentPosition(
-      async (position) => {
-        setStatus("detecting");
-        try {
-          const { latitude, longitude } = position.coords;
-          const res = await fetch(
-            `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=en`,
-            { signal: AbortSignal.timeout(8000) }
-          );
-          if (!res.ok) throw new Error("Reverse geocoding failed");
-          const data = await res.json();
-          const country = data.countryName || "";
-
-          if (!country) {
-            setStatus("error");
-            setMessage("Could not determine your country from location.");
-            return;
-          }
-
-          setStatus("saving");
-          await saveCountryAction(country);
-          setStatus("done");
-          router.push("/tester/vetting");
-        } catch {
-          setStatus("error");
-          setMessage("Something went wrong while detecting your location.");
-        }
-      },
-      (err) => {
-        setStatus("error");
-        if (err.code === 1) {
-          setMessage("Location permission was denied. Please enable it in your browser settings.");
-        } else if (err.code === 2) {
-          setMessage("Location information is unavailable.");
-        } else if (err.code === 3) {
-          setMessage("Location request timed out.");
-        } else {
-          setMessage("Could not retrieve your location.");
-        }
-      },
-      { timeout: 15000, enableHighAccuracy: false }
-    );
+    await saveCountry(country, "MANUAL");
   }
 
   return (
@@ -74,49 +66,70 @@ export default function TesterLocationSetupPage() {
           <SectionHeading
             eyebrow="One more step"
             title="Location required"
-            description="We need your country to send you campaigns that match your region. Your exact location is only used once to detect your country and is never stored."
+            description="We use your country to match you with relevant campaigns. Your exact coordinates are never stored."
             className="flex-col items-center text-center"
           />
         </div>
 
         <Card padding="none">
           <CardHeader>
-            <CardTitle>Enable location access</CardTitle>
+            <CardTitle>{mode === "geo" ? "Enable location access" : "Choose your country"}</CardTitle>
             <CardDescription>
-              Click the button below to allow your browser to detect your country. A browser popup will appear.
+              {mode === "geo"
+                ? "Allow your browser to detect your country. A permission popup will appear."
+                : "Select the country where you perform testing."}
             </CardDescription>
           </CardHeader>
-          <CardSection className="border-t border-slate-100/90 space-y-4">
-            {status === "idle" && (
-              <Button onClick={requestLocation} className="w-full">
-                Allow location access
-              </Button>
-            )}
-            {status === "requesting" && (
-              <Button disabled className="w-full">
-                Waiting for browser permission...
-              </Button>
-            )}
-            {status === "detecting" && (
-              <Button disabled className="w-full">
-                Detecting your country...
-              </Button>
-            )}
-            {status === "saving" && (
-              <Button disabled className="w-full">
-                Saving...
-              </Button>
-            )}
-            {status === "error" && (
-              <div className="space-y-3">
-                <p className="text-sm text-red-700">{message}</p>
-                <Button onClick={requestLocation} variant="secondary" className="w-full">
-                  Try again
+          <CardSection className="space-y-4 border-t border-slate-100/90">
+            {mode === "geo" ? (
+              <>
+                {status === "idle" || status === "error" ? (
+                  <Button onClick={requestLocation} className="w-full">
+                    Allow location access
+                  </Button>
+                ) : null}
+                {status === "requesting" ? (
+                  <Button disabled className="w-full">
+                    Waiting for browser permission...
+                  </Button>
+                ) : null}
+                {status === "detecting" || status === "saving" ? (
+                  <Button disabled className="w-full">
+                    {status === "saving" ? "Saving..." : "Detecting your country..."}
+                  </Button>
+                ) : null}
+                {status === "error" && message ? <p className="text-sm text-red-700">{message}</p> : null}
+                <button
+                  type="button"
+                  onClick={() => {
+                    setMode("manual");
+                    setStatus("idle");
+                    setMessage("");
+                  }}
+                  className="text-sm text-blue-700 underline-offset-2 hover:underline"
+                >
+                  Ignore and choose country manually
+                </button>
+              </>
+            ) : (
+              <form onSubmit={handleManualSubmit} className="space-y-4">
+                <CountrySelect id="country" required />
+                {message ? <p className="text-sm text-red-700">{message}</p> : null}
+                <Button type="submit" className="w-full" disabled={status === "saving"}>
+                  {status === "saving" ? "Saving..." : "Continue to vetting"}
                 </Button>
-              </div>
-            )}
-            {status === "done" && (
-              <p className="text-sm text-green-700">Country saved. Redirecting...</p>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setMode("geo");
+                    setStatus("idle");
+                    setMessage("");
+                  }}
+                  className="text-sm text-blue-700 underline-offset-2 hover:underline"
+                >
+                  Try automatic location instead
+                </button>
+              </form>
             )}
           </CardSection>
         </Card>

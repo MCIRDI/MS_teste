@@ -1,102 +1,185 @@
 "use client";
 
-import { useState } from "react";
+import { useActionState, useEffect, useState } from "react";
 import { useRouter } from "@/i18n/routing";
 
 import { updateTesterInfoAction } from "@/app/actions/tester-setup";
+import { CountrySelect } from "@/components/forms/country-select";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Modal } from "@/components/ui/modal";
+import { requestBrowserCountry } from "@/lib/geolocation-country";
 
-export function UpdateTesterInfoButton() {
+type TesterInfoDefaults = {
+  country: string;
+  deviceName: string;
+  osVersion: string;
+  browser: string;
+  screenResolution: string;
+};
+
+const initialState = { success: false, message: "" };
+
+export function UpdateTesterInfoButton({ defaults }: { defaults?: Partial<TesterInfoDefaults> }) {
   const router = useRouter();
-  const [status, setStatus] = useState<"idle" | "requesting" | "detecting" | "saving" | "done" | "error">("idle");
-  const [message, setMessage] = useState("");
+  const [open, setOpen] = useState(false);
+  const [state, formAction, pending] = useActionState(updateTesterInfoAction, initialState);
+  const [country, setCountry] = useState(defaults?.country ?? "");
+  const [countrySource, setCountrySource] = useState<"GEOLOCATION" | "MANUAL">("MANUAL");
+  const [geoMessage, setGeoMessage] = useState("");
+  const [detectingCountry, setDetectingCountry] = useState(false);
+  const [deviceFields, setDeviceFields] = useState({
+    deviceName: defaults?.deviceName ?? "",
+    osVersion: defaults?.osVersion ?? "",
+    browser: defaults?.browser ?? "",
+    screenResolution: defaults?.screenResolution ?? "",
+  });
 
-  async function handleClick() {
-    setStatus("requesting");
-    setMessage("");
-
-    if (!navigator.geolocation) {
-      setStatus("error");
-      setMessage("Geolocation is not supported by your browser.");
-      return;
+  useEffect(() => {
+    if (state.success) {
+      setOpen(false);
+      router.refresh();
     }
+  }, [router, state.success]);
 
-    navigator.geolocation.getCurrentPosition(
-      async (position) => {
-        setStatus("detecting");
-        try {
-          // Get country from geolocation
-          const { latitude, longitude } = position.coords;
-          const res = await fetch(
-            `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=en`,
-            { signal: AbortSignal.timeout(8000) }
-          );
-          const data = await res.json();
-          const country = data.countryName || "";
-
-          // Get device info from detection utility
-          const { detectDeviceInfo } = await import("@/lib/device-detection");
-          const info = detectDeviceInfo();
-
-          // Call server action
-          const formData = new FormData();
-          formData.set("country", country);
-          formData.set("deviceName", info.deviceName);
-          formData.set("osVersion", info.osVersion);
-          formData.set("browser", info.browser);
-          formData.set("screenResolution", info.screenResolution);
-
-          setStatus("saving");
-          const result = await updateTesterInfoAction(formData);
-          if (result.success) {
-            setStatus("done");
-            router.refresh();
-            setTimeout(() => setStatus("idle"), 2000);
-          } else {
-            setStatus("error");
-            setMessage(result.message || "Failed to update info.");
-          }
-        } catch {
-          setStatus("error");
-          setMessage("Something went wrong.");
-        }
-      },
-      (err) => {
-        setStatus("error");
-        if (err.code === 1) {
-          setMessage("Location permission denied. Please enable it in browser settings.");
-        } else if (err.code === 2) {
-          setMessage("Location unavailable.");
-        } else if (err.code === 3) {
-          setMessage("Location request timed out.");
-        } else {
-          setMessage("Could not retrieve your location.");
-        }
-      },
-      { timeout: 15000, enableHighAccuracy: false }
-    );
+  function detectDevice() {
+    void import("@/lib/device-detection").then(({ detectDeviceInfo }) => {
+      const info = detectDeviceInfo();
+      setDeviceFields(info);
+    });
   }
 
-  if (status === "requesting") {
-    return <Button disabled>Waiting for location permission...</Button>;
-  }
-  if (status === "detecting") {
-    return <Button disabled>Detecting info...</Button>;
-  }
-  if (status === "saving") {
-    return <Button disabled>Saving...</Button>;
-  }
-  if (status === "done") {
-    return <Button disabled variant="secondary">Updated successfully</Button>;
-  }
-  if (status === "error") {
-    return (
-      <div className="flex items-center gap-2">
-        <Button onClick={handleClick} variant="secondary">Update info</Button>
-        <span className="text-sm text-red-700">{message}</span>
-      </div>
-    );
+  async function detectCountry() {
+    setDetectingCountry(true);
+    setGeoMessage("");
+
+    try {
+      const detectedCountry = await requestBrowserCountry();
+      setCountry(detectedCountry);
+      setCountrySource("GEOLOCATION");
+    } catch (error) {
+      setGeoMessage(error instanceof Error ? error.message : "Could not detect country.");
+    } finally {
+      setDetectingCountry(false);
+    }
   }
 
-  return <Button onClick={handleClick}>Update info</Button>;
+  return (
+    <>
+      <Button type="button" onClick={() => setOpen(true)}>
+        Edit testing info
+      </Button>
+
+      <Modal open={open} onClose={() => setOpen(false)} title="Edit testing info">
+        <form action={formAction} className="space-y-4">
+          <input type="hidden" name="countrySource" value={countrySource} />
+
+          <div className="space-y-2">
+            <div className="flex items-center justify-between gap-2">
+              <label className="text-sm font-medium text-slate-700" htmlFor="tester-country">
+                Country
+              </label>
+              <Button
+                type="button"
+                variant="secondary"
+                className="h-8 text-xs"
+                onClick={detectCountry}
+                disabled={detectingCountry}
+              >
+                {detectingCountry ? "Detecting..." : "Detect from location"}
+              </Button>
+            </div>
+            <CountrySelect
+              id="tester-country"
+              name="country"
+              value={country}
+              onChange={(value) => {
+                setCountry(value);
+                setCountrySource("MANUAL");
+              }}
+              required
+            />
+            {geoMessage ? <p className="text-xs text-amber-700">{geoMessage}</p> : null}
+            <p className="text-xs text-slate-500">
+              Source: {countrySource === "GEOLOCATION" ? "Automatic (location)" : "Manual selection"}
+            </p>
+          </div>
+
+          <div className="flex items-center justify-between gap-2">
+            <p className="text-sm font-medium text-slate-700">Device details</p>
+            <Button type="button" variant="secondary" className="h-8 text-xs" onClick={detectDevice}>
+              Auto-detect device
+            </Button>
+          </div>
+
+          <div className="space-y-2">
+            <label className="text-sm font-medium text-slate-700" htmlFor="deviceName">
+              Device
+            </label>
+            <Input
+              id="deviceName"
+              name="deviceName"
+              value={deviceFields.deviceName}
+              onChange={(event) => setDeviceFields((current) => ({ ...current, deviceName: event.target.value }))}
+              required
+            />
+          </div>
+
+          <div className="space-y-2">
+            <label className="text-sm font-medium text-slate-700" htmlFor="osVersion">
+              OS version
+            </label>
+            <Input
+              id="osVersion"
+              name="osVersion"
+              value={deviceFields.osVersion}
+              onChange={(event) => setDeviceFields((current) => ({ ...current, osVersion: event.target.value }))}
+              required
+            />
+          </div>
+
+          <div className="space-y-2">
+            <label className="text-sm font-medium text-slate-700" htmlFor="browser">
+              Browser
+            </label>
+            <Input
+              id="browser"
+              name="browser"
+              value={deviceFields.browser}
+              onChange={(event) => setDeviceFields((current) => ({ ...current, browser: event.target.value }))}
+              required
+            />
+          </div>
+
+          <div className="space-y-2">
+            <label className="text-sm font-medium text-slate-700" htmlFor="screenResolution">
+              Screen resolution
+            </label>
+            <Input
+              id="screenResolution"
+              name="screenResolution"
+              value={deviceFields.screenResolution}
+              onChange={(event) =>
+                setDeviceFields((current) => ({ ...current, screenResolution: event.target.value }))
+              }
+              required
+            />
+          </div>
+
+          {state.message ? (
+            <p className={`text-sm ${state.success ? "text-emerald-700" : "text-red-700"}`}>{state.message}</p>
+          ) : null}
+
+          <div className="flex justify-end gap-2 pt-2">
+            <Button type="button" variant="secondary" onClick={() => setOpen(false)}>
+              Cancel
+            </Button>
+            <Button type="submit" disabled={pending}>
+              {pending ? "Saving..." : "Save"}
+            </Button>
+          </div>
+        </form>
+      </Modal>
+    </>
+  );
 }

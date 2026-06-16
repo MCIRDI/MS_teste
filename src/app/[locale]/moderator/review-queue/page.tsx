@@ -18,7 +18,7 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tabs } from "@/components/ui/tabs";
-import { LiveRefresh } from "@/components/live-refresh";
+import { RealtimeRefresh } from "@/components/realtime-refresh";
 import { SectionHeading } from "@/components/sections/section-heading";
 import { StatGrid } from "@/components/sections/stat-grid";
 
@@ -109,7 +109,7 @@ export default async function ModeratorReviewQueuePage({
 
   return (
     <div className="space-y-6">
-      <LiveRefresh />
+      <RealtimeRefresh />
       <StatGrid items={data.stats} />
 
       <Card padding="none">

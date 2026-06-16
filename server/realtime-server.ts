@@ -4,6 +4,7 @@ import { createServer, type IncomingMessage, type ServerResponse } from "node:ht
 
 import { WebSocket, WebSocketServer } from "ws";
 
+import type { Role } from "../src/generated/prisma";
 import type { RealtimeAuthMessage, RealtimeBroadcastRequest, RealtimeServerMessage } from "../src/lib/realtime/events";
 import { verifySessionToken } from "../src/lib/realtime/session-token";
 
@@ -11,36 +12,48 @@ const REALTIME_PORT = Number(process.env.REALTIME_PORT ?? 3031);
 const REALTIME_SECRET = process.env.REALTIME_SECRET ?? process.env.JWT_SECRET ?? "";
 
 type ClientSocket = WebSocket & {
-  clientId?: string;
+  userId?: string;
+  role?: Role;
   authenticated?: boolean;
+  rooms?: Set<string>;
 };
 
 const rooms = new Map<string, Set<ClientSocket>>();
 
-function addToRoom(clientId: string, socket: ClientSocket) {
-  const room = rooms.get(clientId) ?? new Set<ClientSocket>();
+function roomKey(kind: "user" | "role", id: string) {
+  return `${kind}:${id}`;
+}
+
+function addToRoom(key: string, socket: ClientSocket) {
+  const room = rooms.get(key) ?? new Set<ClientSocket>();
   room.add(socket);
-  rooms.set(clientId, room);
+  rooms.set(key, room);
+  socket.rooms ??= new Set();
+  socket.rooms.add(key);
 }
 
 function removeFromRoom(socket: ClientSocket) {
-  if (!socket.clientId) {
+  if (!socket.rooms) {
     return;
   }
 
-  const room = rooms.get(socket.clientId);
-  if (!room) {
-    return;
+  for (const key of socket.rooms) {
+    const room = rooms.get(key);
+    if (!room) {
+      continue;
+    }
+
+    room.delete(socket);
+    if (room.size === 0) {
+      rooms.delete(key);
+    }
   }
 
-  room.delete(socket);
-  if (room.size === 0) {
-    rooms.delete(socket.clientId);
-  }
+  socket.rooms.clear();
 }
 
-function broadcastToClient(clientId: string, event: RealtimeServerMessage) {
-  const room = rooms.get(clientId);
+function broadcastToRoom(key: string, event: RealtimeServerMessage) {
+  const room = rooms.get(key);
   if (!room) {
     return;
   }
@@ -51,6 +64,26 @@ function broadcastToClient(clientId: string, event: RealtimeServerMessage) {
     if (socket.readyState === WebSocket.OPEN) {
       socket.send(payload);
     }
+  }
+}
+
+function broadcastEvent(request: RealtimeBroadcastRequest) {
+  const userIds = new Set<string>();
+
+  if (request.clientId) {
+    userIds.add(request.clientId);
+  }
+
+  for (const userId of request.userIds ?? []) {
+    userIds.add(userId);
+  }
+
+  for (const userId of userIds) {
+    broadcastToRoom(roomKey("user", userId), request.event);
+  }
+
+  for (const role of request.roles ?? []) {
+    broadcastToRoom(roomKey("role", role), request.event);
   }
 }
 
@@ -78,6 +111,27 @@ function isAuthorized(request: IncomingMessage) {
   return Boolean(REALTIME_SECRET) && token === REALTIME_SECRET;
 }
 
+function isValidEvent(body: RealtimeBroadcastRequest | null): body is RealtimeBroadcastRequest {
+  if (!body?.event?.type) {
+    return false;
+  }
+
+  const hasTarget =
+    Boolean(body.clientId) ||
+    Boolean(body.userIds?.length) ||
+    Boolean(body.roles?.length);
+
+  if (!hasTarget) {
+    return false;
+  }
+
+  if (body.event.type === "bug_approved") {
+    return Boolean(body.event.payload?.id);
+  }
+
+  return body.event.type === "data_changed";
+}
+
 async function handleHttpRequest(request: IncomingMessage, response: ServerResponse) {
   if (request.method === "GET" && request.url === "/health") {
     response.writeHead(200, { "Content-Type": "application/json" });
@@ -94,13 +148,13 @@ async function handleHttpRequest(request: IncomingMessage, response: ServerRespo
 
     const body = await readJsonBody<RealtimeBroadcastRequest>(request);
 
-    if (!body?.clientId || body.event?.type !== "bug_approved" || !body.event.payload?.id) {
+    if (!isValidEvent(body)) {
       response.writeHead(400, { "Content-Type": "application/json" });
       response.end(JSON.stringify({ error: "Invalid broadcast payload." }));
       return;
     }
 
-    broadcastToClient(body.clientId, body.event);
+    broadcastEvent(body);
     response.writeHead(202, { "Content-Type": "application/json" });
     response.end(JSON.stringify({ ok: true }));
     return;
@@ -149,18 +203,21 @@ wss.on("connection", (socket: ClientSocket) => {
 
     const session = await verifySessionToken(message.token);
 
-    if (!session || session.role !== "CLIENT") {
-      socket.close(1008, "Client session required.");
+    if (!session) {
+      socket.close(1008, "Valid session required.");
       return;
     }
 
     socket.authenticated = true;
-    socket.clientId = session.id;
-    addToRoom(session.id, socket);
+    socket.userId = session.id;
+    socket.role = session.role;
+    addToRoom(roomKey("user", session.id), socket);
+    addToRoom(roomKey("role", session.role), socket);
 
     const connected: RealtimeServerMessage = {
       type: "connected",
-      clientId: session.id,
+      userId: session.id,
+      role: session.role,
     };
     socket.send(JSON.stringify(connected));
   });

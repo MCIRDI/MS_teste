@@ -1,10 +1,10 @@
 "use client";
 
-import { useClientRealtime } from "@/components/client/client-realtime-provider";
+import { useAppRealtime } from "@/components/app-realtime-provider";
 import { cn } from "@/lib/utils";
 
 export function ClientLiveIndicator({ className }: { className?: string }) {
-  const { connectionState } = useClientRealtime();
+  const { connectionState } = useAppRealtime();
 
   const label =
     connectionState === "connected"

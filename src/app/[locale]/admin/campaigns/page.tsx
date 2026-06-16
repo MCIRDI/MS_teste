@@ -9,7 +9,7 @@ import {
   CardSection,
   CardTitle,
 } from "@/components/ui/card";
-import { LiveRefresh } from "@/components/live-refresh";
+import { RealtimeRefresh } from "@/components/realtime-refresh";
 import { SectionHeading } from "@/components/sections/section-heading";
 
 function countByRole(
@@ -25,7 +25,7 @@ export default async function AdminCampaignsPage() {
 
   return (
     <div className="space-y-6">
-      <LiveRefresh />
+      <RealtimeRefresh />
       <SectionHeading
         eyebrow="Campaigns"
         title="Campaign monitoring"

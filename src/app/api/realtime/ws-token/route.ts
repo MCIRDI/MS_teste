@@ -5,7 +5,7 @@ import { getCurrentSession, signSession } from "@/lib/auth";
 export async function GET() {
   const session = await getCurrentSession();
 
-  if (!session || session.role !== "CLIENT") {
+  if (!session) {
     return NextResponse.json({ error: "Unauthorized." }, { status: 401 });
   }
 
@@ -15,6 +15,7 @@ export async function GET() {
   return NextResponse.json({
     token,
     wsUrl,
-    clientId: session.id,
+    userId: session.id,
+    role: session.role,
   });
 }

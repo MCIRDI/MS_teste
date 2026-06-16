@@ -1,0 +1,18 @@
+﻿# Prisma generated client (hundreds of thousands of lines)
+src/generated/prisma/
+
+# Dependencies and build output
+node_modules/
+.next/
+out/
+build/
+
+# Lock file (large, rarely needed in AI context)
+package-lock.json
+
+# User uploads
+uploads/
+
+# Local env and docs
+.env*
+PFE_Docs/

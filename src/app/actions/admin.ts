@@ -1,12 +1,14 @@
 "use server";
 
-import { AccountStatus, InvitationStatus, Role } from "@/generated/prisma";
+import { AccountStatus, CountrySource, InvitationStatus, Role } from "@/generated/prisma";
 import { revalidatePath } from "next/cache";
 import { redirectTo } from "@/lib/redirect";
+import { z } from "zod";
 
-import { getDashboardPath, requireSession, setSession } from "@/lib/auth";
+import { getDashboardPath, hashPassword, requireSession, setSession } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { createNotification } from "@/lib/notifications";
+import { notifyDataChanged } from "@/lib/realtime/publish";
 
 function getPromotionTarget(role: Role) {
   switch (role) {
@@ -70,6 +72,7 @@ export async function sendRoleUpgradeInvitationAction(formData: FormData) {
   revalidatePath("/moderator/review-queue");
   revalidatePath("/manager/dashboard");
   revalidatePath("/admin/campaigns");
+  await notifyDataChanged({ roles: [Role.ADMIN], userIds: [user.id], scope: "role_upgrade" });
 }
 
 export async function approvePendingAccountAction(formData: FormData) {
@@ -102,6 +105,7 @@ export async function approvePendingAccountAction(formData: FormData) {
   revalidatePath("/admin/users");
   revalidatePath("/tester/campaigns");
   revalidatePath("/tester/vetting");
+  await notifyDataChanged({ roles: [Role.ADMIN], userIds: [user.id], scope: "account_approved" });
 }
 
 export async function approveTesterAccountAction(formData: FormData) {
@@ -136,6 +140,7 @@ export async function rejectPendingAccountAction(formData: FormData) {
   });
 
   revalidatePath("/admin/users");
+  await notifyDataChanged({ roles: [Role.ADMIN], userIds: [user.id], scope: "account_rejected" });
 }
 
 export async function rejectTesterAccountAction(formData: FormData) {
@@ -177,6 +182,7 @@ export async function certifyTesterAction(formData: FormData) {
 
   revalidatePath("/admin/users");
   revalidatePath("/tester/profile");
+  await notifyDataChanged({ roles: [Role.ADMIN], userIds: [user.id], scope: "certified" });
 }
 
 export async function acceptRoleUpgradeInvitationAction(formData: FormData) {
@@ -261,4 +267,121 @@ export async function acceptRoleUpgradeInvitationAction(formData: FormData) {
   revalidatePath("/manager/dashboard");
   revalidatePath("/admin/campaigns");
   return await redirectTo(getDashboardPath(updatedUser.role));
+}
+
+const adminUserUpdateSchema = z.object({
+  userId: z.string().min(1),
+  name: z.string().min(2),
+  email: z.string().email(),
+  role: z.nativeEnum(Role),
+  accountStatus: z.nativeEnum(AccountStatus),
+  country: z.string().optional(),
+  languages: z.string().optional(),
+  isCertified: z.coerce.boolean(),
+  vetingScore: z.coerce.number().min(0).max(100).optional(),
+  score: z.coerce.number().min(0).optional(),
+  totalEarned: z.coerce.number().min(0).optional(),
+  testingExperience: z.string().optional(),
+  password: z.union([z.string().min(8), z.literal("")]).optional(),
+});
+
+export async function updateUserByAdminAction(
+  _prevState: { success: boolean; message: string },
+  formData: FormData,
+): Promise<{ success: boolean; message: string }> {
+  await requireSession([Role.ADMIN]);
+
+  const parsed = adminUserUpdateSchema.safeParse({
+    userId: formData.get("userId"),
+    name: formData.get("name"),
+    email: formData.get("email"),
+    role: formData.get("role"),
+    accountStatus: formData.get("accountStatus"),
+    country: formData.get("country") || undefined,
+    languages: formData.get("languages") || undefined,
+    isCertified: formData.get("isCertified") === "on" || formData.get("isCertified") === "true",
+    vetingScore: formData.get("vetingScore") || undefined,
+    score: formData.get("score") || undefined,
+    totalEarned: formData.get("totalEarned") || undefined,
+    testingExperience: formData.get("testingExperience") || undefined,
+    password: formData.get("password") || "",
+  });
+
+  if (!parsed.success) {
+    return { success: false, message: "Invalid user data." };
+  }
+
+  const data = parsed.data;
+  const languages = data.languages
+    ? data.languages.split(",").map((entry) => entry.trim()).filter(Boolean)
+    : undefined;
+
+  const existing = await prisma.user.findUnique({
+    where: { id: data.userId },
+    select: { country: true },
+  });
+
+  if (!existing) {
+    return { success: false, message: "User not found." };
+  }
+
+  const nextCountry = data.country?.trim() || null;
+
+  const updateData: Parameters<typeof prisma.user.update>[0]["data"] = {
+    name: data.name,
+    email: data.email,
+    role: data.role,
+    accountStatus: data.accountStatus,
+    country: nextCountry,
+    isCertified: data.isCertified,
+    testingExperience: data.testingExperience?.trim() || null,
+  };
+
+  if (nextCountry !== existing.country) {
+    updateData.countrySource = nextCountry ? CountrySource.ADMIN : null;
+  }
+
+  if (languages) {
+    updateData.languages = languages;
+  }
+
+  if (data.vetingScore !== undefined) {
+    updateData.vetingScore = data.vetingScore;
+  }
+
+  if (data.score !== undefined) {
+    updateData.score = data.score;
+  }
+
+  if (data.totalEarned !== undefined) {
+    updateData.totalEarned = data.totalEarned;
+  }
+
+  if (data.password) {
+    updateData.passwordHash = await hashPassword(data.password);
+  }
+
+  try {
+    const user = await prisma.user.update({
+      where: { id: data.userId },
+      data: updateData,
+    });
+
+    revalidatePath("/admin/users");
+    revalidatePath("/tester/profile");
+    revalidatePath("/tester/campaigns");
+    revalidatePath("/moderator/review-queue");
+    revalidatePath("/manager/dashboard");
+    revalidatePath("/client/dashboard");
+
+    await notifyDataChanged({
+      roles: [Role.ADMIN],
+      userIds: [user.id],
+      scope: "user_updated",
+    });
+
+    return { success: true, message: "User updated successfully." };
+  } catch {
+    return { success: false, message: "Could not update user. Check email uniqueness." };
+  }
 }
