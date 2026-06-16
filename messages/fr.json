@@ -25,6 +25,9 @@
     "login": "Connexion",
     "signup": "Inscription",
     "openDashboard": "Ouvrir le tableau de bord",
+    "dashboard": "Tableau de bord",
+    "profile": "Profil",
+    "settings": "Paramètres",
     "getStarted": "Commencer",
     "navigation": "Navigation",
     "logOut": "Déconnexion"

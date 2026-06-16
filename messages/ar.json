@@ -25,6 +25,9 @@
     "login": "تسجيل الدخول",
     "signup": "إنشاء حساب",
     "openDashboard": "فتح لوحة التحكم",
+    "dashboard": "لوحة التحكم",
+    "profile": "الملف الشخصي",
+    "settings": "الإعدادات",
     "getStarted": "ابدأ الآن",
     "navigation": "التنقل",
     "logOut": "تسجيل الخروج"

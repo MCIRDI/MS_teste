@@ -25,6 +25,9 @@
     "login": "Login",
     "signup": "Signup",
     "openDashboard": "Open dashboard",
+    "dashboard": "Dashboard",
+    "profile": "Profile",
+    "settings": "Settings",
     "getStarted": "Get started",
     "navigation": "Navigation",
     "logOut": "Log out"

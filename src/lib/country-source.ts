@@ -1,5 +1,11 @@
 import type { CountrySource } from "@/generated/prisma";
 
+import { countries } from "@/lib/constants";
+
+export function isKnownCountry(country: string) {
+  return (countries as readonly string[]).includes(country);
+}
+
 export function getCountrySourceLabel(source: CountrySource | null | undefined) {
   switch (source) {
     case "GEOLOCATION":

@@ -1,6 +1,7 @@
 import type { ChangeEvent } from "react";
 
 import { countries } from "@/lib/constants";
+import { isKnownCountry } from "@/lib/country-source";
 import { cn } from "@/lib/utils";
 
 export function CountrySelect({
@@ -20,10 +21,14 @@ export function CountrySelect({
   required?: boolean;
   className?: string;
 }) {
+  const safeDefault = defaultValue && isKnownCountry(defaultValue) ? defaultValue : "";
+  const safeValue =
+    value !== undefined ? (value && isKnownCountry(value) ? value : "") : undefined;
+
   const selectProps =
-    value !== undefined
-      ? { value, onChange: (event: ChangeEvent<HTMLSelectElement>) => onChange?.(event.target.value) }
-      : { defaultValue };
+    safeValue !== undefined
+      ? { value: safeValue, onChange: (event: ChangeEvent<HTMLSelectElement>) => onChange?.(event.target.value) }
+      : { defaultValue: safeDefault };
 
   return (
     <select

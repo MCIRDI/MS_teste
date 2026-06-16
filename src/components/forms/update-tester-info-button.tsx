@@ -42,6 +42,21 @@ export function UpdateTesterInfoButton({ defaults }: { defaults?: Partial<Tester
     }
   }, [router, state.success]);
 
+  useEffect(() => {
+    if (!open) {
+      return;
+    }
+
+    setCountry(defaults?.country ?? "");
+    setCountrySource("MANUAL");
+    setDeviceFields({
+      deviceName: defaults?.deviceName ?? "",
+      osVersion: defaults?.osVersion ?? "",
+      browser: defaults?.browser ?? "",
+      screenResolution: defaults?.screenResolution ?? "",
+    });
+  }, [open, defaults]);
+
   function detectDevice() {
     void import("@/lib/device-detection").then(({ detectDeviceInfo }) => {
       const info = detectDeviceInfo();
@@ -72,6 +87,7 @@ export function UpdateTesterInfoButton({ defaults }: { defaults?: Partial<Tester
 
       <Modal open={open} onClose={() => setOpen(false)} title="Edit testing info">
         <form action={formAction} className="space-y-4">
+          <input type="hidden" name="country" value={country} />
           <input type="hidden" name="countrySource" value={countrySource} />
 
           <div className="space-y-2">
@@ -91,7 +107,6 @@ export function UpdateTesterInfoButton({ defaults }: { defaults?: Partial<Tester
             </div>
             <CountrySelect
               id="tester-country"
-              name="country"
               value={country}
               onChange={(value) => {
                 setCountry(value);

@@ -1,10 +1,11 @@
 import { getTranslations } from "next-intl/server";
 
-import { LanguageSwitcher } from "@/components/layout/language-switcher";
 import { CurrencySwitcher } from "@/components/layout/currency-switcher";
+import { LanguageSwitcher } from "@/components/layout/language-switcher";
+import { ProfileMenu } from "@/components/layout/profile-menu";
 import { Button } from "@/components/ui/button";
 import { Link } from "@/i18n/routing";
-import { getCurrentSession, getDashboardPath } from "@/lib/auth";
+import { getCurrentSession, getDashboardPath, getProfilePath, getSettingsPath } from "@/lib/auth";
 import { getPublicNavigation } from "@/lib/i18n";
 
 export async function SiteHeader() {
@@ -40,11 +41,23 @@ export async function SiteHeader() {
           <LanguageSwitcher />
           <CurrencySwitcher />
           {session ? (
-            <Link href={getDashboardPath(session.role)}>
-              <Button variant="secondary" className="hidden sm:inline-flex">
-                {t("nav.openDashboard")}
-              </Button>
-            </Link>
+            <>
+              <Link
+                href={getDashboardPath(session.role)}
+                className="hidden rounded-lg px-3 py-2 text-sm font-medium text-slate-700 transition hover:bg-blue-100/80 hover:text-blue-800 sm:inline"
+              >
+                {t("nav.dashboard")}
+              </Link>
+              <ProfileMenu
+                name={session.name}
+                role={session.role}
+                profileHref={getProfilePath(session.role)}
+                settingsHref={getSettingsPath(session.role)}
+                profileLabel={t("nav.profile")}
+                settingsLabel={t("nav.settings")}
+                logoutLabel={t("nav.logOut")}
+              />
+            </>
           ) : (
             <>
               <Link

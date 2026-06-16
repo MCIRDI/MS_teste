@@ -59,7 +59,14 @@ export function AdminUsersTable({
   const t = useTranslations("admin.home");
   const router = useRouter();
   const [editingUser, setEditingUser] = useState<AdminUserRow | null>(null);
+  const [editCountry, setEditCountry] = useState("");
   const [editState, editAction, editPending] = useActionState(updateUserByAdminAction, editInitialState);
+
+  useEffect(() => {
+    if (editingUser) {
+      setEditCountry(editingUser.country ?? "");
+    }
+  }, [editingUser]);
 
   useEffect(() => {
     if (editState.success) {
@@ -261,7 +268,12 @@ export function AdminUsersTable({
               <label className="text-sm font-medium text-slate-700" htmlFor="edit-country">
                 Country
               </label>
-              <CountrySelect id="edit-country" defaultValue={editingUser.country ?? ""} />
+              <input type="hidden" name="country" value={editCountry} />
+              <CountrySelect
+                id="edit-country"
+                value={editCountry}
+                onChange={setEditCountry}
+              />
               {editingUser.country ? (
                 <p className="text-xs text-slate-500">
                   Current source: {getCountrySourceLabel(editingUser.countrySource)}

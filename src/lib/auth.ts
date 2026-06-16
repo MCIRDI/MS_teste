@@ -107,6 +107,22 @@ export function getDashboardPath(role: Role) {
   }
 }
 
+export function getProfilePath(role: Role) {
+  if (role === "TESTER" || role === "CERT_TESTER") {
+    return "/tester/profile";
+  }
+
+  return null;
+}
+
+export function getSettingsPath(role: Role) {
+  if (role === "ADMIN") {
+    return "/admin/settings";
+  }
+
+  return null;
+}
+
 export function getSignupAccountStatus(role: Role): AccountStatus {
   return role === "TESTER" ? "PENDING_APPROVAL" : "ACTIVE";
 }

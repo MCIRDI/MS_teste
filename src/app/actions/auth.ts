@@ -3,7 +3,19 @@
 import { randomUUID } from "node:crypto";
 import { redirectTo } from "@/lib/redirect";
 
-import { getDashboardPath, hashPassword, setSession, verifyPassword, getSignupAccountStatus, getTesterPendingLoginMessage, isTesterLoginBlocked, shouldAutoActivateOnLogin, getTesterOnboardingPath, needsTesterOnboarding } from "@/lib/auth";
+import {
+  clearSession,
+  getDashboardPath,
+  getSignupAccountStatus,
+  getTesterOnboardingPath,
+  getTesterPendingLoginMessage,
+  hashPassword,
+  isTesterLoginBlocked,
+  needsTesterOnboarding,
+  setSession,
+  shouldAutoActivateOnLogin,
+  verifyPassword,
+} from "@/lib/auth";
 import { AccountStatus, Role, TokenType } from "@/generated/prisma";
 import { prisma } from "@/lib/prisma";
 import { loginSchema, signupSchema } from "@/lib/validation";
@@ -176,6 +188,11 @@ export async function loginAction(
   }
 
   return await redirectTo(getDashboardPath(user.role));
+}
+
+export async function logoutAction() {
+  await clearSession();
+  return await redirectTo("/login");
 }
 
 function splitList(value: string) {
