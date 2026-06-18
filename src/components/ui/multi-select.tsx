@@ -4,12 +4,24 @@ import { useState, useRef, useEffect } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 
+type OptionItem = string | { value: string; label: string };
+
+function getValue(option: OptionItem): string {
+  return typeof option === "string" ? option : option.value;
+}
+
+function getLabel(option: OptionItem): string {
+  return typeof option === "string" ? option : option.label;
+}
+
 interface MultiSelectProps {
-  options: readonly string[];
+  options: readonly OptionItem[];
   selected: string[];
   onChange: (selected: string[]) => void;
   placeholder?: string;
   name?: string;
+  /** Optional: function to display a selected value as a label (for when options are codes) */
+  renderSelectedLabel?: (value: string) => string;
 }
 
 export function MultiSelect({
@@ -18,6 +30,7 @@ export function MultiSelect({
   onChange,
   placeholder = "Search and select...",
   name,
+  renderSelectedLabel,
 }: MultiSelectProps) {
   const [query, setQuery] = useState("");
   const [open, setOpen] = useState(false);
@@ -25,10 +38,10 @@ export function MultiSelect({
   const inputRef = useRef<HTMLInputElement>(null);
 
   const filtered = query.trim()
-    ? options.filter((o) => o.toLowerCase().includes(query.toLowerCase()))
+    ? options.filter((o) => getLabel(o).toLowerCase().includes(query.toLowerCase()))
     : options;
 
-  const unselected = filtered.filter((o) => !selected.includes(o));
+  const unselected = filtered.filter((o) => !selected.includes(getValue(o)));
 
   function add(value: string) {
     if (!selected.includes(value)) {
@@ -60,7 +73,7 @@ export function MultiSelect({
         <div className="flex flex-wrap items-center gap-1.5">
           {selected.map((value) => (
             <Badge key={value} className="flex items-center gap-1 pr-1">
-              {value}
+              {renderSelectedLabel ? renderSelectedLabel(value) : value}
               <button
                 type="button"
                 onClick={(e) => {
@@ -85,7 +98,7 @@ export function MultiSelect({
             onKeyDown={(e) => {
               if (e.key === "Enter" && unselected.length > 0) {
                 e.preventDefault();
-                add(unselected[0]);
+                add(getValue(unselected[0]));
               }
               if (e.key === "Backspace" && query === "" && selected.length > 0) {
                 remove(selected[selected.length - 1]);
@@ -99,17 +112,17 @@ export function MultiSelect({
 
       {open && unselected.length > 0 && (
         <div className="absolute z-50 mt-1 max-h-60 w-full overflow-auto rounded-lg border border-slate-200 bg-white py-1 shadow-lg">
-          {unselected.map((value) => (
+          {unselected.map((option) => (
             <button
-              key={value}
+              key={getValue(option)}
               type="button"
               onClick={() => {
-                add(value);
+                add(getValue(option));
                 inputRef.current?.focus();
               }}
               className="w-full px-3 py-2 text-left text-sm text-slate-700 hover:bg-blue-50 hover:text-blue-700"
             >
-              {value}
+              {getLabel(option)}
             </button>
           ))}
         </div>

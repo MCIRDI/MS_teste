@@ -1,8 +1,9 @@
 import type { ReactNode } from "react";
+import { headers } from "next/headers";
 import { getTranslations } from "next-intl/server";
 
 import { AppShell } from "@/components/layout/app-shell";
-import { clearSession, isAwaitingAdminAfterVetting, requireSession } from "@/lib/auth";
+import { isAwaitingAdminAfterVetting, requireSession } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { redirectTo } from "@/lib/redirect";
 
@@ -17,9 +18,13 @@ export default async function TesterLayout({ children }: { children: ReactNode }
       select: { role: true, accountStatus: true, vetingScore: true },
     });
 
-    if (isAwaitingAdminAfterVetting(user)) {
-      await clearSession();
-      return await redirectTo("/login?status=pending-approval");
+    // On laisse la page vetting s'afficher pour montrer le message avant déconnexion
+    const headersList = await headers();
+    const pathname = headersList.get("x-pathname") ?? headersList.get("referer") ?? "";
+    const isVettingPage = pathname.includes("/tester/vetting");
+
+    if (isAwaitingAdminAfterVetting(user) && !isVettingPage) {
+      return await redirectTo("/api/auth/pending-logout");
     }
   }
 

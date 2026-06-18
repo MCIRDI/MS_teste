@@ -251,6 +251,13 @@
     }
   },
   "tester": {
+    "vettingPassedModal": {
+      "title": "Evaluation passed",
+      "scoreLabel": "Your score",
+      "message": "Your account is now pending administrator approval. You will be able to sign in again once your account is activated.",
+      "confirm": "OK",
+      "confirming": "Signing out…"
+    },
     "home": {
       "quickActions": {
         "submitBug": "Submit a bug",

@@ -8,8 +8,8 @@ export async function resolveCountryFromCoords(latitude: number, longitude: numb
     throw new Error("Reverse geocoding failed");
   }
 
-  const data = (await response.json()) as { countryName?: string };
-  const country = data.countryName?.trim() ?? "";
+  const data = (await response.json()) as { countryCode?: string; countryName?: string };
+  const country = data.countryCode?.trim() ?? "";
 
   if (!country) {
     throw new Error("Country not found");

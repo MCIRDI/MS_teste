@@ -4,7 +4,7 @@ import { AccountStatus } from "@/generated/prisma";
 import { revalidatePath } from "next/cache";
 import { redirectTo } from "@/lib/redirect";
 
-import { clearSession, requireSession } from "@/lib/auth";
+import { requireSession } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { createNotification, notifyAdmins } from "@/lib/notifications";
 import {
@@ -61,8 +61,7 @@ export async function submitVettingAction(formData: FormData) {
 
     revalidatePath("/tester/vetting");
     revalidatePath("/admin/users");
-    await clearSession();
-    return await redirectTo("/login?status=pending-approval");
+    return await redirectTo(`/tester/vetting?result=passed&score=${score}`);
   }
 
   const retryDate = new Date();

@@ -1,6 +1,6 @@
 import type { ChangeEvent } from "react";
 
-import { countries } from "@/lib/constants";
+import { COUNTRY_LIST } from "@/lib/constants";
 import { isKnownCountry } from "@/lib/country-source";
 import { cn } from "@/lib/utils";
 
@@ -44,9 +44,9 @@ export function CountrySelect({
       <option value="" disabled>
         Select a country
       </option>
-      {countries.map((country) => (
-        <option key={country} value={country}>
-          {country}
+      {COUNTRY_LIST.map(({ code, name: label }) => (
+        <option key={code} value={code}>
+          {label}
         </option>
       ))}
     </select>

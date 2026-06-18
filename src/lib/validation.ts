@@ -56,6 +56,7 @@ export const bugReportSchema = z.object({
     "Localization / Language Issues",
     "Installation / Setup Issues",
     "Edge Case Bugs",
+    "Cultural Issues",
     "Other",
   ]),
   title: z.string().min(4),

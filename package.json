@@ -1,5 +1,5 @@
 {
-  "name": "ms-test",
+  "name": "DzTesters",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "@prisma/client": "6.19.0",
+    "@react-pdf/renderer": "^4.5.1",
     "bcryptjs": "^3.0.3",
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",

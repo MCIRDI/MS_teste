@@ -250,6 +250,13 @@
     }
   },
   "tester": {
+    "vettingPassedModal": {
+      "title": "اجتزت التقييم",
+      "scoreLabel": "نتيجتك",
+      "message": "حسابك الآن في انتظار موافقة المسؤول. ستتمكن من تسجيل الدخول مجدداً بعد تفعيل حسابك.",
+      "confirm": "حسناً",
+      "confirming": "جاري تسجيل الخروج…"
+    },
     "home": {
       "quickActions": {
         "submitBug": "إبلاغ عن خطأ",

@@ -70,10 +70,15 @@ export async function GET(
 
   const nodeStream = createReadStream(absolutePath);
   const webStream = Readable.toWeb(nodeStream) as ReadableStream<Uint8Array>;
+
+  const url = new URL(_req.url);
+  const forceDownload = url.searchParams.get("download") === "1";
+  const disposition = forceDownload ? "attachment" : "inline";
+
   return new Response(webStream, {
     headers: {
       "Content-Type": attachment.mimeType || "application/octet-stream",
-      "Content-Disposition": `inline; filename="${attachment.originalName.replace(/"/g, "")}"`,
+      "Content-Disposition": `${disposition}; filename="${attachment.originalName.replace(/"/g, "")}"`,
     },
   });
 }

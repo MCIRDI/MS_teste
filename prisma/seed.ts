@@ -16,11 +16,11 @@ async function main() {
   const passwordHash = await bcrypt.hash("password123", 12);
 
   const admin = await prisma.user.upsert({
-    where: { email: "admin@mstest.local" },
+    where: { email: "admin@dztesters.online" },
     update: {},
     create: {
       name: "Platform Admin",
-      email: "admin@mstest.local",
+      email: "admin@dztesters.online",
       passwordHash,
       role: Role.ADMIN,
       accountStatus: AccountStatus.ACTIVE,
@@ -31,11 +31,11 @@ async function main() {
   });
 
   const client = await prisma.user.upsert({
-    where: { email: "client@mstest.local" },
+    where: { email: "client@dztesters.online" },
     update: {},
     create: {
       name: "Acme Product Team",
-      email: "client@mstest.local",
+      email: "client@dztesters.online",
       passwordHash,
       role: Role.CLIENT,
       accountStatus: AccountStatus.ACTIVE,
@@ -46,11 +46,11 @@ async function main() {
   });
 
   const manager = await prisma.user.upsert({
-    where: { email: "manager@mstest.local" },
+    where: { email: "manager@dztesters.online" },
     update: {},
     create: {
       name: "Campaign Manager",
-      email: "manager@mstest.local",
+      email: "manager@dztesters.online",
       passwordHash,
       role: Role.TEST_MANAGER,
       accountStatus: AccountStatus.ACTIVE,
@@ -61,11 +61,11 @@ async function main() {
   });
 
   const moderator = await prisma.user.upsert({
-    where: { email: "moderator@mstest.local" },
+    where: { email: "moderator@dztesters.online" },
     update: {},
     create: {
       name: "Quality Moderator",
-      email: "moderator@mstest.local",
+      email: "moderator@dztesters.online",
       passwordHash,
       role: Role.MODERATOR,
       accountStatus: AccountStatus.ACTIVE,
@@ -76,11 +76,11 @@ async function main() {
   });
 
   const tester = await prisma.user.upsert({
-    where: { email: "tester@mstest.local" },
+    where: { email: "tester@dztesters.online" },
     update: {},
     create: {
       name: "Crowd Tester",
-      email: "tester@mstest.local",
+      email: "tester@dztesters.online",
       passwordHash,
       role: Role.TESTER,
       accountStatus: AccountStatus.ACTIVE,
@@ -92,11 +92,11 @@ async function main() {
   });
 
   const certTester = await prisma.user.upsert({
-    where: { email: "cert@mstest.local" },
+    where: { email: "cert@dztesters.online" },
     update: {},
     create: {
       name: "Certified Tester",
-      email: "cert@mstest.local",
+      email: "cert@dztesters.online",
       passwordHash,
       role: Role.CERT_TESTER,
       isCertified: true,
@@ -148,7 +148,7 @@ async function main() {
         projectName: "Checkout reliability sprint",
         description: "Cross-device checkout and coupon validation for a retail web app.",
         softwareType: SoftwareType.WEBSITE,
-        websiteUrl: "https://demo.mstest.local",
+        websiteUrl: "https://demo.dztesters.online",
         stage: CampaignStage.TESTING,
         crowdTesterCount: 40,
         certTesterCount: 6,

@@ -55,15 +55,22 @@ export function ProfileMenu({
       <button
         type="button"
         onClick={() => setOpen((current) => !current)}
-        className={cn(
-          "flex items-center justify-center rounded-full font-semibold transition hover:scale-105",
-          getProfileCircleClass(role),
-        )}
+        className="flex cursor-pointer items-center gap-2 rounded-full transition hover:opacity-80"
         aria-expanded={open}
         aria-haspopup="menu"
         aria-label={profileLabel}
       >
-        {userInitials(name)}
+        <span
+          className={cn(
+            "flex shrink-0 cursor-pointer items-center justify-center rounded-full font-semibold",
+            getProfileCircleClass(role),
+          )}
+        >
+          {userInitials(name)}
+        </span>
+        <span className="hidden max-w-[10rem] cursor-pointer truncate text-sm font-medium text-slate-700 sm:inline">
+          {name}
+        </span>
       </button>
 
       {open ? (

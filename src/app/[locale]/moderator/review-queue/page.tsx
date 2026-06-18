@@ -35,6 +35,7 @@ const bugTypes = [
   "Localization / Language Issues",
   "Installation / Setup Issues",
   "Edge Case Bugs",
+  "Cultural Issues",
   "Other",
 ] as const;
 

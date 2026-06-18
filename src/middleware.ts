@@ -99,7 +99,18 @@ export async function middleware(request: NextRequest) {
       );
     }
 
-    return intlResponse;
+    // Inject pathname so server components (layouts) can read it
+    const response = NextResponse.next({
+      request: {
+        headers: new Headers({
+          ...Object.fromEntries(request.headers),
+          "x-pathname": pathWithoutLocale,
+        }),
+      },
+    });
+    // Copy intl cookies/headers
+    intlResponse.headers.forEach((value, key) => response.headers.set(key, value));
+    return response;
   } catch {
     return NextResponse.redirect(new URL(localizedPath(locale, "/login"), request.url));
   }

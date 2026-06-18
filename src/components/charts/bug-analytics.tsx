@@ -16,6 +16,7 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
+import { codeToCountryName } from "@/lib/constants";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -120,7 +121,8 @@ export function BugAnalytics({ bugReports, campaignName }: BugAnalyticsProps) {
   // Process country data
   const countryData = bugReports.reduce((acc, bug) => {
     const env = bug.environment as BugEnvironment | null;
-    const country = env?.country || bug.tester?.country || "Unknown";
+    const code = env?.country || bug.tester?.country || "Unknown";
+    const country = code !== "Unknown" ? codeToCountryName(code) : "Unknown";
     acc[country] = (acc[country] || 0) + 1;
     return acc;
   }, {} as Record<string, number>);

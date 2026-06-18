@@ -11,6 +11,7 @@ import {
 import { prisma } from "@/lib/prisma";
 import { toStringArray } from "@/lib/utils";
 import { computePriorityScore, makeGroupKey, severityRank } from "@/lib/moderation";
+import { codeToCountryName } from "@/lib/constants";
 
 type BugEnvironment = {
   device?: string;
@@ -72,7 +73,7 @@ export async function getClientDashboardData(clientId: string) {
           assignment.assignmentRole === AssignmentRole.CERT_TESTER,
       ).length,
       bugs: campaign.bugReports.length,
-      countries: campaign.targetCountries.join(", "),
+      countries: campaign.targetCountries.map(codeToCountryName).join(", "),
       devices: toStringArray(campaign.selectedPlatforms).join(", "),
       price: campaign.estimatedCost,
       pendingInvitations: campaign.invitations.filter(

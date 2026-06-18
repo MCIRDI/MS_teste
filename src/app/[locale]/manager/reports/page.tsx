@@ -1,6 +1,6 @@
 import { Link } from "@/i18n/routing";
 
-import { uploadFinalReportAction } from "@/app/actions/final-reports";
+import { generateFinalReportAction, uploadFinalReportAction } from "@/app/actions/final-reports";
 import { requireSession } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { Button } from "@/components/ui/button";
@@ -92,9 +92,26 @@ export default async function ManagerReportsPage({
         <CardHeader>
           <SectionHeading
             density="panel"
+            eyebrow="Generate"
+            title={`Auto-generate report for ${selected.projectName}`}
+            description={`Builds a PDF from the ${nextValidatedCount} approved bug${nextValidatedCount !== 1 ? "s" : ""}, statistics, and tester data. Saves it immediately for the client.`}
+          />
+        </CardHeader>
+        <CardSection className="border-t border-slate-100/90">
+          <form action={generateFinalReportAction}>
+            <input type="hidden" name="campaignId" value={selected.id} />
+            <Button type="submit">Generate &amp; publish PDF report</Button>
+          </form>
+        </CardSection>
+      </Card>
+
+      <Card padding="none">
+        <CardHeader>
+          <SectionHeading
+            density="panel"
             eyebrow="Upload"
-            title={`PDF for ${selected.projectName}`}
-            description={`Approved bugs in this campaign: ${nextValidatedCount}.`}
+            title="Or upload a custom PDF"
+            description="Use this if you prepared the report manually outside the platform."
           />
         </CardHeader>
         <CardSection className="border-t border-slate-100/90">
@@ -128,13 +145,13 @@ export default async function ManagerReportsPage({
           ) : (
             <div className="grid gap-2">
               {selected.finalReports.map((report) => (
-                <Link
+                <a
                   key={report.id}
                   href={`/api/final-reports/${report.id}`}
-                  className="rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-medium text-slate-800 transition hover:border-slate-300 hover:bg-slate-100"
+                  className="rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-medium text-slate-800 transition hover:border-slate-300 hover:bg-slate-100 block"
                 >
                   {report.originalName} · {report.createdAt.toLocaleString()}
-                </Link>
+                </a>
               ))}
             </div>
           )}

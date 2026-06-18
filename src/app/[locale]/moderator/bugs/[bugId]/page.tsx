@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/card";
 import { Select } from "@/components/ui/select";
 import { SectionHeading } from "@/components/sections/section-heading";
+import { AttachmentList } from "@/components/bug/attachment-list";
 
 type BugEnvironment = {
   device?: string;
@@ -189,21 +190,7 @@ export default async function ModeratorBugDetailPage({
           <CardDescription>Screenshots, recordings, logs, and additional evidence.</CardDescription>
         </CardHeader>
         <CardSection>
-          {bug.attachments.length === 0 ? (
-            <p className="text-sm text-slate-600">No attachments were uploaded.</p>
-          ) : (
-            <div className="grid gap-2">
-              {bug.attachments.map((attachment) => (
-                <Link
-                  key={attachment.id}
-                  href={`/api/attachments/${attachment.id}`}
-                  className="rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-medium text-slate-800 transition hover:border-slate-300 hover:bg-slate-100"
-                >
-                  {attachment.originalName}
-                </Link>
-              ))}
-            </div>
-          )}
+          <AttachmentList attachments={bug.attachments} />
         </CardSection>
       </Card>
 

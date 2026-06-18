@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import { getTranslations } from "next-intl/server";
 
 import { acceptRoleUpgradeInvitationAction } from "@/app/actions/admin";
+import { logoutAction } from "@/app/actions/auth";
 import { markNotificationsReadAction } from "@/app/actions/notifications";
 import { AppShellRealtime } from "@/components/layout/app-shell-realtime";
 import { CurrencySwitcher } from "@/components/layout/currency-switcher";
@@ -111,6 +112,20 @@ export async function AppShell({ session, children, title, description }: AppShe
             <div className="mt-5 flex items-center gap-2 border-t border-slate-200/80 pt-4">
               <LanguageSwitcher menuPlacement="top" />
               <CurrencySwitcher menuPlacement="top" />
+              <form action={logoutAction} className="ms-auto">
+                <button
+                  type="submit"
+                  title={t("nav.logOut")}
+                  className="flex cursor-pointer items-center justify-center rounded-lg p-1.5 text-slate-400 transition hover:bg-red-50 hover:text-red-600"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                    <polyline points="16 17 21 12 16 7" />
+                    <line x1="21" y1="12" x2="9" y2="12" />
+                  </svg>
+                  <span className="sr-only">{t("nav.logOut")}</span>
+                </button>
+              </form>
             </div>
           </div>
         </aside>

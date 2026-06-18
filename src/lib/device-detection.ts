@@ -126,7 +126,7 @@ async function fetchCountryFromCoords(lat: number, lon: number): Promise<string>
     );
     if (!res.ok) return "";
     const data = await res.json();
-    return data.countryName || "";
+    return data.countryCode || "";
   } catch {
     return "";
   }
@@ -136,34 +136,37 @@ function detectCountryFromTimezone(): string {
   try {
     const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
     const tzMap: Record<string, string> = {
-      "America/New_York": "United States", "America/Chicago": "United States",
-      "America/Denver": "United States", "America/Los_Angeles": "United States",
-      "America/Phoenix": "United States", "America/Anchorage": "United States",
-      "America/Honolulu": "United States", "Europe/London": "United Kingdom",
-      "Europe/Paris": "France", "Europe/Berlin": "Germany", "Europe/Madrid": "Spain",
-      "Europe/Rome": "Italy", "Europe/Amsterdam": "Netherlands",
-      "Europe/Brussels": "Belgium", "Europe/Vienna": "Austria",
-      "Europe/Zurich": "Switzerland", "Europe/Stockholm": "Sweden",
-      "Europe/Oslo": "Norway", "Europe/Copenhagen": "Denmark",
-      "Europe/Helsinki": "Finland", "Europe/Warsaw": "Poland",
-      "Europe/Prague": "Czech Republic", "Europe/Budapest": "Hungary",
-      "Europe/Athens": "Greece", "Europe/Lisbon": "Portugal",
-      "Europe/Dublin": "Ireland", "Europe/Moscow": "Russia",
-      "Europe/Istanbul": "Turkey", "Europe/Kiev": "Ukraine",
-      "Europe/Bucharest": "Romania", "Europe/Sofia": "Bulgaria",
-      "Asia/Tokyo": "Japan", "Asia/Shanghai": "China",
-      "Asia/Hong_Kong": "Hong Kong", "Asia/Singapore": "Singapore",
-      "Asia/Seoul": "South Korea", "Asia/Taipei": "Taiwan",
-      "Asia/Bangkok": "Thailand", "Asia/Jakarta": "Indonesia",
-      "Asia/Manila": "Philippines", "Asia/Kuala_Lumpur": "Malaysia",
-      "Asia/Dubai": "United Arab Emirates", "Asia/Riyadh": "Saudi Arabia",
-      "Asia/Kolkata": "India", "Asia/Dhaka": "Bangladesh",
-      "Australia/Sydney": "Australia", "Pacific/Auckland": "New Zealand",
-      "America/Sao_Paulo": "Brazil", "America/Mexico_City": "Mexico",
-      "America/Bogota": "Colombia", "America/Lima": "Peru",
-      "America/Santiago": "Chile", "Africa/Cairo": "Egypt",
-      "Africa/Lagos": "Nigeria", "Africa/Johannesburg": "South Africa",
-      "Africa/Nairobi": "Kenya", "Africa/Casablanca": "Morocco",
+      "America/New_York": "US", "America/Chicago": "US",
+      "America/Denver": "US", "America/Los_Angeles": "US",
+      "America/Phoenix": "US", "America/Anchorage": "US",
+      "America/Honolulu": "US", "Europe/London": "GB",
+      "Europe/Paris": "FR", "Europe/Berlin": "DE", "Europe/Madrid": "ES",
+      "Europe/Rome": "IT", "Europe/Amsterdam": "NL",
+      "Europe/Brussels": "BE", "Europe/Vienna": "AT",
+      "Europe/Zurich": "CH", "Europe/Stockholm": "SE",
+      "Europe/Oslo": "NO", "Europe/Copenhagen": "DK",
+      "Europe/Helsinki": "FI", "Europe/Warsaw": "PL",
+      "Europe/Prague": "CZ", "Europe/Budapest": "HU",
+      "Europe/Athens": "GR", "Europe/Lisbon": "PT",
+      "Europe/Dublin": "IE", "Europe/Moscow": "RU",
+      "Europe/Istanbul": "TR", "Europe/Kiev": "UA",
+      "Europe/Bucharest": "RO", "Europe/Sofia": "BG",
+      "Asia/Tokyo": "JP", "Asia/Shanghai": "CN",
+      "Asia/Hong_Kong": "HK", "Asia/Singapore": "SG",
+      "Asia/Seoul": "KR", "Asia/Taipei": "TW",
+      "Asia/Bangkok": "TH", "Asia/Jakarta": "ID",
+      "Asia/Manila": "PH", "Asia/Kuala_Lumpur": "MY",
+      "Asia/Dubai": "AE", "Asia/Riyadh": "SA",
+      "Asia/Kolkata": "IN", "Asia/Dhaka": "BD",
+      "Australia/Sydney": "AU", "Pacific/Auckland": "NZ",
+      "America/Sao_Paulo": "BR", "America/Mexico_City": "MX",
+      "America/Bogota": "CO", "America/Lima": "PE",
+      "America/Santiago": "CL", "Africa/Cairo": "EG",
+      "Africa/Lagos": "NG", "Africa/Johannesburg": "ZA",
+      "Africa/Nairobi": "KE", "Africa/Casablanca": "MA",
+      "Africa/Algiers": "DZ", "Africa/Tunis": "TN",
+      "Africa/Tripoli": "LY", "Africa/Khartoum": "SD",
+      "Africa/Dakar": "SN", "Africa/Abidjan": "CI",
     };
     if (tzMap[timezone]) return tzMap[timezone];
     for (const [tz, country] of Object.entries(tzMap)) {

@@ -5,7 +5,7 @@ import { useActionState, useState } from "react";
 import { createCampaignAction } from "@/app/actions/campaigns";
 import type { ActionState } from "@/app/actions/auth";
 import { SubmitButton } from "@/components/forms/submit-button";
-import { browsers, countries, platforms } from "@/lib/constants";
+import { browsers, COUNTRY_LIST, codeToCountryName, platforms } from "@/lib/constants";
 import { getSoftwareTypes } from "@/lib/i18n";
 import { useTranslations } from "next-intl";
 import { estimateCampaignPrice } from "@/lib/pricing";
@@ -28,7 +28,7 @@ export function CampaignForm() {
   const [certTesterCount, setCertTesterCount] = useState(10);
   const [selectedPlatforms, setSelectedPlatforms] = useState<string[]>(["Windows", "Android", "iOS"]);
   const [selectedBrowsers, setSelectedBrowsers] = useState<string[]>(["Chrome", "Firefox", "Safari"]);
-  const [targetCountries, setTargetCountries] = useState<string[]>(["Algeria", "Tunisia", "Morocco"]);
+  const [targetCountries, setTargetCountries] = useState<string[]>(["DZ", "TN", "MA"]);
   const [isPremium, setIsPremium] = useState(false);
 
   const preview = estimateCampaignPrice({
@@ -157,11 +157,12 @@ export function CampaignForm() {
               Target countries
             </label>
             <MultiSelect
-              options={countries}
+              options={COUNTRY_LIST.map((c) => ({ value: c.code, label: c.name }))}
               selected={targetCountries}
               onChange={setTargetCountries}
               name="targetCountries"
               placeholder="Search and select countries..."
+              renderSelectedLabel={codeToCountryName}
             />
           </div>
           <div className="space-y-2">
@@ -270,7 +271,7 @@ export function CampaignForm() {
           <p className="font-medium text-slate-900">Selected scope</p>
           <div className="mt-3 flex flex-wrap gap-2">
             {targetCountries.map((country) => (
-              <Badge key={country}>{country}</Badge>
+              <Badge key={country}>{codeToCountryName(country)}</Badge>
             ))}
             {selectedPlatforms.map((platform) => (
               <Badge key={platform}>{platform}</Badge>

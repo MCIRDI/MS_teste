@@ -1,9 +1,13 @@
 import type { CountrySource } from "@/generated/prisma";
 
-import { countries } from "@/lib/constants";
+import { countries, COUNTRY_MAP } from "@/lib/constants";
 
-export function isKnownCountry(country: string) {
-  return (countries as readonly string[]).includes(country);
+export function isKnownCountry(code: string) {
+  return code in COUNTRY_MAP;
+}
+
+export function codeToCountryName(code: string): string {
+  return COUNTRY_MAP[code] ?? code;
 }
 
 export function getCountrySourceLabel(source: CountrySource | null | undefined) {

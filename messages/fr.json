@@ -251,6 +251,13 @@
     }
   },
   "tester": {
+    "vettingPassedModal": {
+      "title": "Évaluation réussie",
+      "scoreLabel": "Votre score",
+      "message": "Votre compte est désormais en attente d'approbation par un administrateur. Vous pourrez vous reconnecter une fois votre compte activé.",
+      "confirm": "OK",
+      "confirming": "Déconnexion…"
+    },
     "home": {
       "quickActions": {
         "submitBug": "Signaler un bug",

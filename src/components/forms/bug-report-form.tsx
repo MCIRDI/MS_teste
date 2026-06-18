@@ -53,6 +53,7 @@ export function BugReportForm({ campaignId }: { campaignId: string }) {
             <option value="Localization / Language Issues">Localization / Language Issues</option>
             <option value="Installation / Setup Issues">Installation / Setup Issues</option>
             <option value="Edge Case Bugs">Edge Case Bugs</option>
+            <option value="Cultural Issues">Cultural Issues</option>
             <option value="Other">Other</option>
           </Select>
         </div>

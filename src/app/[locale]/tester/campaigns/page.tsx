@@ -8,7 +8,6 @@ import { Button } from "@/components/ui/button";
 import { Card, CardDescription, CardFooter, CardHeader, CardSection, CardTitle } from "@/components/ui/card";
 import { Link } from "@/i18n/routing";
 import {
-  clearSession,
   getTesterOnboardingPath,
   isAwaitingAdminAfterVetting,
   needsTesterOnboarding,
@@ -28,8 +27,7 @@ export default async function TesterCampaignsPage() {
     });
 
     if (isAwaitingAdminAfterVetting(user)) {
-      await clearSession();
-      return await redirectTo("/login?status=pending-approval");
+      return await redirectTo("/api/auth/pending-logout");
     }
 
     if (needsTesterOnboarding(user)) {

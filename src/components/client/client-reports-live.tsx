@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import type { ApprovedBugPayload } from "@/lib/realtime/events";
+import { codeToCountryName } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 
 type ReportBug = {
@@ -88,9 +89,9 @@ export function ClientReportsLive({ initialReports }: { initialReports: ClientRe
               </CardDescription>
             </div>
             {report.finalReport ? (
-              <Link href={`/api/final-reports/${report.finalReport.id}`}>
+              <a href={`/api/final-reports/${report.finalReport.id}`}>
                 <Button>Download PDF</Button>
-              </Link>
+              </a>
             ) : (
               <Button disabled variant="secondary">
                 Final report pending
@@ -99,7 +100,7 @@ export function ClientReportsLive({ initialReports }: { initialReports: ClientRe
           </CardHeader>
           <CardSection className="space-y-4 border-t border-slate-100/90">
             <CardMeta className="sm:grid-cols-2">
-              <CardMetaItem label="Countries">{report.countries.join(", ") || "None"}</CardMetaItem>
+              <CardMetaItem label="Countries">{report.countries.map(codeToCountryName).join(", ") || "None"}</CardMetaItem>
               <CardMetaItem label="Devices">{report.devices.join(", ") || "None"}</CardMetaItem>
             </CardMeta>
 

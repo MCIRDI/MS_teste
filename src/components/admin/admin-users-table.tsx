@@ -17,7 +17,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Modal } from "@/components/ui/modal";
 import type { AccountStatus, CountrySource, Role } from "@/generated/prisma";
-import { getCountrySourceBadgeClass, getCountrySourceLabel } from "@/lib/country-source";
+import { getCountrySourceBadgeClass, getCountrySourceLabel, codeToCountryName } from "@/lib/country-source";
 
 type AdminUserRow = {
   id: string;
@@ -117,7 +117,7 @@ export function AdminUsersTable({
                     </span>
                   </td>
                   <td className="text-slate-600">
-                    <div>{user.country ?? t("users.notSet")}</div>
+                    <div>{user.country ? codeToCountryName(user.country) : t("users.notSet")}</div>
                   </td>
                   <td>
                     {user.country ? (

@@ -3,6 +3,7 @@ import { Link } from "@/i18n/routing";
 import { requireSession } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { toStringArray } from "@/lib/utils";
+import { codeToCountryName } from "@/lib/constants";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -77,7 +78,7 @@ export default async function TesterWorkspacePage({
             <p className="text-sm leading-relaxed text-slate-600">{campaign.description}</p>
             <CardMeta className="mt-5">
               <CardMetaItem label="Access URL">{campaign.websiteUrl ?? "Uploaded build only"}</CardMetaItem>
-              <CardMetaItem label="Countries">{campaign.targetCountries.join(", ") || "None"}</CardMetaItem>
+              <CardMetaItem label="Countries">{campaign.targetCountries.map(codeToCountryName).join(", ") || "None"}</CardMetaItem>
             </CardMeta>
           </CardSection>
         </Card>

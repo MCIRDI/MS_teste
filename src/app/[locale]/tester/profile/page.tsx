@@ -1,4 +1,4 @@
-import { getCountrySourceBadgeClass, getCountrySourceLabel } from "@/lib/country-source";
+import { getCountrySourceBadgeClass, getCountrySourceLabel, codeToCountryName } from "@/lib/country-source";
 import { requireSession } from "@/lib/auth";
 import { getTesterProfileData } from "@/lib/dashboard-data";
 import { requestWithdrawalAction } from "@/app/actions/payments";
@@ -45,7 +45,7 @@ export default async function TesterProfilePage() {
               <CardMetaItem label="Name">{tester.name}</CardMetaItem>
               <CardMetaItem label="Email">{tester.email}</CardMetaItem>
               <CardMetaItem label="Country">
-                <span>{tester.country ?? "Not set"}</span>
+                <span>{tester.country ? codeToCountryName(tester.country) : "Not set"}</span>
                 {tester.country && tester.countrySource ? (
                   <span
                     className={`ml-2 inline-flex rounded-md px-2 py-0.5 text-[10px] font-semibold uppercase ${getCountrySourceBadgeClass(tester.countrySource)}`}

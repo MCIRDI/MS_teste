@@ -1,5 +1,4 @@
 import {
-  clearSession,
   getTesterOnboardingPath,
   isAwaitingAdminAfterVetting,
   needsTesterOnboarding,
@@ -18,8 +17,7 @@ export default async function TesterSetupPage() {
     });
 
     if (isAwaitingAdminAfterVetting(user)) {
-      await clearSession();
-      return await redirectTo("/login?status=pending-approval");
+      return await redirectTo("/api/auth/pending-logout");
     }
 
     if (needsTesterOnboarding(user)) {
