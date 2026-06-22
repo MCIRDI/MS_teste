@@ -637,3 +637,34 @@ export async function getPendingRoleUpgradeInvitation(userId: string) {
     orderBy: { invitedAt: "desc" },
   });
 }
+
+export async function getCampaignStaffingData(campaignId: string) {
+  const [campaign, moderators, testers] = await Promise.all([
+    prisma.campaign.findUnique({
+      where: { id: campaignId },
+      include: {
+        assignments: { select: { userId: true, assignmentRole: true } },
+        invitations: {
+          where: { status: { in: [InvitationStatus.PENDING, InvitationStatus.ACCEPTED] } },
+          select: { recipientId: true, assignmentRole: true },
+        },
+      },
+    }),
+    prisma.user.findMany({
+      where: { role: Role.MODERATOR, accountStatus: "ACTIVE" },
+      select: { id: true, name: true, email: true, country: true },
+      orderBy: { name: "asc" },
+    }),
+    prisma.user.findMany({
+      where: {
+        role: { in: [Role.TESTER, Role.CERT_TESTER] },
+        accountStatus: "ACTIVE",
+        devices: { some: {} },
+      },
+      select: { id: true, name: true, email: true, country: true, isCertified: true, role: true },
+      orderBy: { name: "asc" },
+    }),
+  ]);
+
+  return { campaign, moderators, testers };
+}

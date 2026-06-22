@@ -170,6 +170,7 @@ model User {
   bugReports          BugReport[]           @relation("ReporterBugs")
   moderatedReports    BugReport[]           @relation("ModeratorBugs")
   uploadedFinalReports FinalReport[]
+  moderatorReports    ModeratorReport[]
   payments            Payment[]
   notifications       Notification[]
   auditLogs           AuditLog[]
@@ -240,6 +241,7 @@ model Campaign {
   tasks                TestingTask[]
   bugReports           BugReport[]
   finalReports         FinalReport[]
+  moderatorReports     ModeratorReport[]
   payments             Payment[]
   auditLogs            AuditLog[]
 
@@ -447,6 +449,29 @@ model FinalReport {
 
   @@index([campaignId, createdAt])
   @@index([uploadedById, createdAt])
+}
+
+model ModeratorReport {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  campaignId   String   @db.ObjectId
+  moderatorId  String   @db.ObjectId
+
+  summary      String
+  observations String
+  recommendations String
+  totalReviewed   Int    @default(0)
+  approved        Int    @default(0)
+  rejected        Int    @default(0)
+  duplicates      Int    @default(0)
+
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  campaign     Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  moderator    User     @relation(fields: [moderatorId], references: [id], onDelete: Cascade)
+
+  @@unique([campaignId, moderatorId])
+  @@index([campaignId, createdAt])
 }
 
 model AuditLog {

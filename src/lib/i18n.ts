@@ -59,6 +59,7 @@ export function getRoleNavigation(t: Translate): Record<Role, { href: string; la
       { href: "/client/dashboard", label: t("roleNav.clientDashboard") },
       { href: "/client/campaigns/new", label: t("roleNav.clientCreateCampaign") },
       { href: "/client/reports", label: t("roleNav.clientReports") },
+      { href: "/client/profile", label: t("roleNav.profile") },
     ],
     TESTER: [
       { href: "/tester/profile", label: t("roleNav.testerProfile") },
@@ -78,17 +79,20 @@ export function getRoleNavigation(t: Translate): Record<Role, { href: string; la
       { href: "/moderator/disputes", label: t("roleNav.moderatorDisputes") },
       { href: "/moderator/campaigns", label: t("roleNav.moderatorCampaigns") },
       { href: "/moderator/reports/new", label: t("roleNav.moderatorSendReport") },
+      { href: "/moderator/profile", label: t("roleNav.profile") },
     ],
     TEST_MANAGER: [
       { href: "/manager/dashboard", label: t("roleNav.managerDashboard") },
       { href: "/manager/validation", label: t("roleNav.managerValidation") },
       { href: "/manager/reports", label: t("roleNav.managerReports") },
+      { href: "/manager/profile", label: t("roleNav.profile") },
     ],
     ADMIN: [
       { href: "/admin/users", label: t("roleNav.adminUsers") },
       { href: "/admin/disputes", label: t("roleNav.adminDisputes") },
       { href: "/admin/campaigns", label: t("roleNav.adminCampaigns") },
       { href: "/admin/settings", label: t("roleNav.adminSettings") },
+      { href: "/admin/profile", label: t("roleNav.profile") },
     ],
   };
 }

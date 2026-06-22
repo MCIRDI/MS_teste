@@ -116,6 +116,13 @@ export async function generateFinalReportAction(formData: FormData) {
     testManager: campaign.testManager,
     testerCount,
     generatedAt: new Date(),
+    editable: {
+      reportTitle:      `Test Report — ${campaign.projectName}`,
+      executiveSummary: "",
+      scope:            `Platforms: ${campaign.selectedPlatforms.join(", ") || "All"}. Countries: ${campaign.targetCountries.join(", ") || "All"}.`,
+      conclusions:      "",
+      recommendations:  "",
+    },
     bugReports: campaign.bugReports.map((bug) => ({
       id: bug.id,
       title: bug.title,
@@ -141,6 +148,116 @@ export async function generateFinalReportAction(formData: FormData) {
     .toLowerCase();
   const originalName = `report_${safeProjectName}_${Date.now()}.pdf`;
   const storedName = `${randomUUID()}.pdf`;
+
+  await ensureUploadDirectories();
+  const absolutePath = path.join(process.cwd(), "uploads", "reports", storedName);
+  await writeFile(absolutePath, pdfBuffer);
+
+  await prisma.finalReport.create({
+    data: {
+      campaignId: campaign.id,
+      uploadedById: session.id,
+      originalName,
+      storedName,
+      relativePath: path.posix.join("uploads", "reports", storedName),
+      mimeType: "application/pdf",
+      sizeBytes: pdfBuffer.byteLength,
+    },
+  });
+
+  revalidatePath("/manager/reports");
+  revalidatePath("/client/reports");
+  revalidatePath("/client/dashboard");
+  return await redirectTo("/manager/reports");
+}
+
+/**
+ * Generates a PDF from the compose form (editable fields + auto data).
+ */
+export async function generateFinalReportFromFormAction(
+  _prevState: { success: boolean; message: string },
+  formData: FormData,
+): Promise<{ success: boolean; message: string }> {
+  const session = await requireSession(["TEST_MANAGER", "ADMIN"]);
+
+  const campaignId       = String(formData.get("campaignId") ?? "");
+  const reportTitle      = String(formData.get("reportTitle") ?? "").trim();
+  const executiveSummary = String(formData.get("executiveSummary") ?? "").trim();
+  const scope            = String(formData.get("scope") ?? "").trim();
+  const conclusions      = String(formData.get("conclusions") ?? "").trim();
+  const recommendations  = String(formData.get("recommendations") ?? "").trim();
+
+  if (!campaignId || !reportTitle) {
+    return { success: false, message: "Campaign and report title are required." };
+  }
+
+  const campaign = await prisma.campaign.findUnique({
+    where: { id: campaignId },
+    include: {
+      client:      { select: { id: true, name: true, email: true } },
+      testManager: { select: { id: true, name: true, email: true } },
+      assignments: { select: { userId: true, assignmentRole: true } },
+      bugReports: {
+        where: { status: BugStatus.APPROVED },
+        include: { tester: { select: { name: true, country: true, isCertified: true } } },
+        orderBy: [{ severity: "asc" }, { createdAt: "asc" }],
+      },
+    },
+  });
+
+  if (!campaign) return { success: false, message: "Campaign not found." };
+  if (session.role === "TEST_MANAGER" && campaign.testManagerId !== session.id) {
+    return { success: false, message: "Access denied." };
+  }
+
+  const testerCount = campaign.assignments.filter(
+    (a) => a.assignmentRole === "CROWD_TESTER" || a.assignmentRole === "CERT_TESTER",
+  ).length;
+
+  const reportData: CampaignReportData = {
+    id: campaign.id,
+    projectName: campaign.projectName,
+    description: campaign.description,
+    softwareType: campaign.softwareType,
+    websiteUrl: campaign.websiteUrl,
+    targetCountries: campaign.targetCountries,
+    selectedPlatforms: campaign.selectedPlatforms,
+    selectedBrowsers: campaign.selectedBrowsers,
+    stage: campaign.stage,
+    startDate: campaign.startDate,
+    endDate: campaign.endDate,
+    estimatedCost: campaign.estimatedCost,
+    currency: campaign.currency,
+    crowdTesterCount: campaign.crowdTesterCount,
+    certTesterCount: campaign.certTesterCount,
+    client: campaign.client,
+    testManager: campaign.testManager,
+    testerCount,
+    generatedAt: new Date(),
+    editable: { reportTitle, executiveSummary, scope, conclusions, recommendations },
+    bugReports: campaign.bugReports.map((bug) => ({
+      id: bug.id,
+      title: bug.title,
+      severity: bug.severity as "CRITICAL" | "HIGH" | "MEDIUM" | "LOW",
+      status: bug.status,
+      errorType: bug.errorType,
+      feature: bug.feature,
+      pageUrl: bug.pageUrl,
+      description: bug.description,
+      reproductionSteps: bug.reproductionSteps,
+      moderationNotes: bug.moderationNotes,
+      environment: (bug.environment as Record<string, string>) ?? {},
+      tester: bug.tester,
+      createdAt: bug.createdAt,
+    })),
+  };
+
+  const pdfBuffer = await generateCampaignReportPdf(reportData);
+
+  const safeProjectName = campaign.projectName
+    .replace(/[^a-z0-9]/gi, "_").replace(/_+/g, "_").toLowerCase();
+  const originalName = `${safeProjectName}_report_${Date.now()}.pdf`;
+  const storedName   = `${randomUUID()}.pdf`;
 
   await ensureUploadDirectories();
   const absolutePath = path.join(process.cwd(), "uploads", "reports", storedName);

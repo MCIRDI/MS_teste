@@ -125,7 +125,20 @@
     "cardTitle": "Create your account",
     "cardDescription": "Pick a role and complete the fields below.",
     "alreadyRegistered": "Already registered?",
-    "login": "Login"
+    "login": "Login",
+    "fields": {
+      "name": "Name",
+      "namePlaceholder": "Your full name",
+      "email": "Email",
+      "emailPlaceholder": "name@company.com",
+      "password": "Password",
+      "accountType": "Account type",
+      "languages": "Languages",
+      "roleClient": "Client",
+      "roleTester": "Tester"
+    },
+    "submit": "Create account",
+    "pending": "Creating account..."
   },
   "shell": {
     "signedInAs": "Signed in as",
@@ -186,7 +199,8 @@
     "adminUsers": "User management",
     "adminDisputes": "Escalated disputes",
     "adminCampaigns": "Campaign monitoring",
-    "adminSettings": "System settings"
+    "adminSettings": "System settings",
+    "profile": "My profile"
   },
   "workspace": {
     "client": {

@@ -101,6 +101,13 @@ export async function POST(
     testManager: campaign.testManager,
     testerCount,
     generatedAt: new Date(),
+    editable: {
+      reportTitle:      `Test Report — ${campaign.projectName}`,
+      executiveSummary: "",
+      scope:            `Platforms: ${campaign.selectedPlatforms.join(", ") || "All"}. Countries: ${campaign.targetCountries.join(", ") || "All"}.`,
+      conclusions:      "",
+      recommendations:  "",
+    },
     bugReports: campaign.bugReports.map((bug) => ({
       id: bug.id,
       title: bug.title,

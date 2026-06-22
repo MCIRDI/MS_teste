@@ -7,6 +7,7 @@ import { useRouter } from "@/i18n/routing";
 import {
   approvePendingAccountAction,
   certifyTesterAction,
+  createUserByAdminAction,
   rejectPendingAccountAction,
   sendRoleUpgradeInvitationAction,
   updateUserByAdminAction,
@@ -62,6 +63,10 @@ export function AdminUsersTable({
   const [editCountry, setEditCountry] = useState("");
   const [editState, editAction, editPending] = useActionState(updateUserByAdminAction, editInitialState);
 
+  const [createOpen, setCreateOpen] = useState(false);
+  const [createCountry, setCreateCountry] = useState("");
+  const [createState, createAction, createPending] = useActionState(createUserByAdminAction, editInitialState);
+
   useEffect(() => {
     if (editingUser) {
       setEditCountry(editingUser.country ?? "");
@@ -75,11 +80,24 @@ export function AdminUsersTable({
     }
   }, [editState.success, router]);
 
+  useEffect(() => {
+    if (createState.success) {
+      setCreateOpen(false);
+      setCreateCountry("");
+      router.refresh();
+    }
+  }, [createState.success, router]);
+
   return (
     <>
       <RealtimeRefresh />
 
       <div className="overflow-x-auto px-4 pb-4 md:px-5 md:pb-5">
+        <div className="mb-3 flex justify-end">
+          <Button type="button" onClick={() => setCreateOpen(true)}>
+            + Create user
+          </Button>
+        </div>
         <div className="overflow-hidden rounded-xl border border-slate-200/90 bg-white shadow-inner shadow-slate-100/50">
           <table className="saas-table">
             <thead>
@@ -375,6 +393,141 @@ export function AdminUsersTable({
             </div>
           </form>
         ) : null}
+      </Modal>
+
+      {/* Create user modal */}
+      <Modal
+        open={createOpen}
+        onClose={() => setCreateOpen(false)}
+        title="Create new user"
+        className="max-w-2xl"
+      >
+        <form action={createAction} className="grid gap-4 sm:grid-cols-2">
+          <div className="space-y-2 sm:col-span-2">
+            <label className="text-sm font-medium text-slate-700" htmlFor="create-name">
+              Name
+            </label>
+            <Input id="create-name" name="name" required />
+          </div>
+
+          <div className="space-y-2 sm:col-span-2">
+            <label className="text-sm font-medium text-slate-700" htmlFor="create-email">
+              Email
+            </label>
+            <Input id="create-email" name="email" type="email" required />
+          </div>
+
+          <div className="space-y-2 sm:col-span-2">
+            <label className="text-sm font-medium text-slate-700" htmlFor="create-password">
+              Password
+            </label>
+            <Input id="create-password" name="password" type="password" minLength={8} required />
+          </div>
+
+          <div className="space-y-2">
+            <label className="text-sm font-medium text-slate-700" htmlFor="create-role">
+              Role
+            </label>
+            <select
+              id="create-role"
+              name="role"
+              defaultValue="CLIENT"
+              className="h-10 w-full rounded-xl border border-slate-200 px-3 text-sm"
+            >
+              {Object.keys(roleLabels).map((role) => (
+                <option key={role} value={role}>
+                  {roleLabels[role]}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="space-y-2">
+            <label className="text-sm font-medium text-slate-700" htmlFor="create-status">
+              Status
+            </label>
+            <select
+              id="create-status"
+              name="accountStatus"
+              defaultValue="ACTIVE"
+              className="h-10 w-full rounded-xl border border-slate-200 px-3 text-sm"
+            >
+              <option value="PENDING_APPROVAL">PENDING_APPROVAL</option>
+              <option value="ACTIVE">ACTIVE</option>
+              <option value="SUSPENDED">SUSPENDED</option>
+              <option value="BANNED">BANNED</option>
+            </select>
+          </div>
+
+          <div className="space-y-2 sm:col-span-2">
+            <label className="text-sm font-medium text-slate-700" htmlFor="create-country">
+              Country
+            </label>
+            <input type="hidden" name="country" value={createCountry} />
+            <CountrySelect
+              id="create-country"
+              value={createCountry}
+              onChange={setCreateCountry}
+            />
+          </div>
+
+          <div className="space-y-2 sm:col-span-2">
+            <label className="text-sm font-medium text-slate-700" htmlFor="create-languages">
+              Languages (comma-separated)
+            </label>
+            <Input id="create-languages" name="languages" placeholder="fr, en, ar" />
+          </div>
+
+          <div className="space-y-2">
+            <label className="text-sm font-medium text-slate-700" htmlFor="create-veting">
+              Vetting score (%)
+            </label>
+            <Input id="create-veting" name="vetingScore" type="number" min={0} max={100} />
+          </div>
+
+          <div className="space-y-2">
+            <label className="text-sm font-medium text-slate-700" htmlFor="create-score">
+              Score
+            </label>
+            <Input id="create-score" name="score" type="number" min={0} defaultValue={0} />
+          </div>
+
+          <div className="space-y-2">
+            <label className="text-sm font-medium text-slate-700" htmlFor="create-earned">
+              Total earned
+            </label>
+            <Input id="create-earned" name="totalEarned" type="number" min={0} step="0.01" defaultValue={0} />
+          </div>
+
+          <div className="space-y-2">
+            <label className="flex items-center gap-2 text-sm font-medium text-slate-700">
+              <input type="checkbox" name="isCertified" className="rounded border-slate-300" />
+              Certified tester
+            </label>
+          </div>
+
+          <div className="space-y-2 sm:col-span-2">
+            <label className="text-sm font-medium text-slate-700" htmlFor="create-experience">
+              Testing experience
+            </label>
+            <Input id="create-experience" name="testingExperience" />
+          </div>
+
+          {createState.message ? (
+            <p className={`text-sm sm:col-span-2 ${createState.success ? "text-emerald-700" : "text-red-700"}`}>
+              {createState.message}
+            </p>
+          ) : null}
+
+          <div className="flex justify-end gap-2 sm:col-span-2">
+            <Button type="button" variant="secondary" onClick={() => setCreateOpen(false)}>
+              Cancel
+            </Button>
+            <Button type="submit" disabled={createPending}>
+              {createPending ? "Creating..." : "Create user"}
+            </Button>
+          </div>
+        </form>
       </Modal>
     </>
   );

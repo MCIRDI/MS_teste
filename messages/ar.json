@@ -125,7 +125,20 @@
     "cardTitle": "إنشاء حسابك",
     "cardDescription": "اختر دوراً وأكمل الحقول أدناه.",
     "alreadyRegistered": "مسجل مسبقاً؟",
-    "login": "تسجيل الدخول"
+    "login": "تسجيل الدخول",
+    "fields": {
+      "name": "الاسم",
+      "namePlaceholder": "اسمك الكامل",
+      "email": "البريد الإلكتروني",
+      "emailPlaceholder": "name@company.com",
+      "password": "كلمة المرور",
+      "accountType": "نوع الحساب",
+      "languages": "اللغات",
+      "roleClient": "عميل",
+      "roleTester": "مختبر"
+    },
+    "submit": "إنشاء الحساب",
+    "pending": "جاري إنشاء الحساب..."
   },
   "shell": {
     "signedInAs": "مسجل الدخول كـ",
@@ -152,7 +165,8 @@
     "ACTIVE": "نشطة",
     "TESTING": "مرحلة الاختبار",
     "BUG_REVIEW": "مرحلة مراجعة الأخطاء",
-    "COMPLETED": "مكتملة"
+    "COMPLETED": "مكتملة",
+    "ARCHIVED": "مؤرشفة"
   },
   "assignmentRoles": {
     "CROWD_TESTER": "مختبر جماعي",
@@ -185,7 +199,8 @@
     "adminUsers": "إدارة المستخدمين",
     "adminDisputes": "النزاعات المصعدة",
     "adminCampaigns": "مراقبة الحملات",
-    "adminSettings": "إعدادات النظام"
+    "adminSettings": "إعدادات النظام",
+    "profile": "ملفي الشخصي"
   },
   "workspace": {
     "client": {
@@ -270,8 +285,8 @@
         "description": "تبقى الدعوات ظاهرة حتى اكتمال الأماكن المطلوبة.",
         "empty": "لا توجد دعوات معلقة حالياً",
         "emptyHint": "عد لاحقاً أو حدّث ملفك لمطابقة أفضل",
-        "developerSlot": "مكان مختبر مطور",
         "crowdSlot": "مكان مختبر جماعي",
+        "certSlot": "مكان مختبر معتمد",
         "new": "جديد",
         "accept": "قبول الدعوة"
       },

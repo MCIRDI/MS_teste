@@ -5,6 +5,9 @@ import { requestWithdrawalAction } from "@/app/actions/payments";
 import { Card, CardDescription, CardHeader, CardMeta, CardMetaItem, CardSection, CardTitle } from "@/components/ui/card";
 import { SectionHeading } from "@/components/sections/section-heading";
 import { UpdateTesterInfoButton } from "@/components/forms/update-tester-info-button";
+import { AddDeviceButton } from "@/components/forms/add-device-button";
+import { DeleteDeviceButton } from "@/components/forms/delete-device-button";
+import { UpdateProfileForm } from "@/components/forms/update-profile-form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
@@ -12,9 +15,11 @@ export default async function TesterProfilePage() {
   const session = await requireSession(["TESTER", "CERT_TESTER"]);
   const { tester, withdrawnTotal, availableBalance } = await getTesterProfileData(session.id);
 
-  const device = tester.devices[0] ?? null;
-  const browser =
-    device && Array.isArray(device.browsers) ? String(device.browsers[0] ?? "") : "";
+  const primaryDevice = tester.devices[0] ?? null;
+  const primaryBrowser =
+    primaryDevice && Array.isArray(primaryDevice.browsers)
+      ? String(primaryDevice.browsers[0] ?? "")
+      : "";
 
   return (
     <div className="space-y-6">
@@ -26,15 +31,17 @@ export default async function TesterProfilePage() {
           <UpdateTesterInfoButton
             defaults={{
               country: tester.country ?? "",
-              deviceName: device?.deviceName ?? "",
-              osVersion: device?.osVersion ?? "",
-              browser,
-              screenResolution: device?.screenResolution ?? "",
+              deviceName: primaryDevice?.deviceName ?? "",
+              osVersion: primaryDevice?.osVersion ?? "",
+              browser: primaryBrowser,
+              screenResolution: primaryDevice?.screenResolution ?? "",
             }}
           />
         }
       />
+
       <div className="grid gap-4 lg:grid-cols-2">
+        {/* Account card */}
         <Card padding="none">
           <CardHeader>
             <CardTitle>Account</CardTitle>
@@ -62,26 +69,67 @@ export default async function TesterProfilePage() {
             </CardMeta>
           </CardSection>
         </Card>
+
+        {/* Update account card */}
         <Card padding="none">
           <CardHeader>
-            <CardTitle>Current device</CardTitle>
-            <CardDescription>Used for environment blocks on bug reports</CardDescription>
+            <CardTitle>Update account</CardTitle>
+            <CardDescription>Change your display name or password</CardDescription>
           </CardHeader>
           <CardSection className="border-t border-slate-100/90">
-            {device ? (
-              <CardMeta className="sm:grid-cols-1">
-                <CardMetaItem label="Device">{device.deviceName}</CardMetaItem>
-                <CardMetaItem label="OS">{device.osVersion}</CardMetaItem>
-                <CardMetaItem label="Browser">{browser || "Not set"}</CardMetaItem>
-                <CardMetaItem label="Resolution">{device.screenResolution}</CardMetaItem>
-              </CardMeta>
-            ) : (
-              <p className="text-sm text-slate-600">No device info yet. Use &quot;Edit testing info&quot;.</p>
-            )}
+            <UpdateProfileForm name={tester.name} />
           </CardSection>
         </Card>
       </div>
 
+      {/* Devices section */}
+      <Card padding="none">
+        <CardHeader className="flex flex-row items-center justify-between gap-4">
+          <div>
+            <CardTitle>Devices</CardTitle>
+            <CardDescription>All your registered test environments</CardDescription>
+          </div>
+          <AddDeviceButton />
+        </CardHeader>
+        <CardSection className="border-t border-slate-100/90">
+          {tester.devices.length > 0 ? (
+            <ul className="space-y-3">
+              {tester.devices.map((device) => {
+                const browser =
+                  Array.isArray(device.browsers) ? String(device.browsers[0] ?? "") : "";
+                return (
+                  <li
+                    key={device.id}
+                    className="flex items-start justify-between gap-4 rounded-xl border border-slate-200 bg-slate-50/60 px-4 py-3"
+                  >
+                    <div className="grid gap-y-0.5 text-sm text-slate-700">
+                      <span className="font-medium text-slate-900">{device.deviceName}</span>
+                      <span className="text-xs text-slate-500">OS: {device.osVersion}</span>
+                      {browser ? (
+                        <span className="text-xs text-slate-500">Browser: {browser}</span>
+                      ) : null}
+                      <span className="text-xs text-slate-500">Screen: {device.screenResolution}</span>
+                      {device.operator ? (
+                        <span className="text-xs text-slate-500">Operator: {device.operator}</span>
+                      ) : null}
+                      {device.connectionType ? (
+                        <span className="text-xs text-slate-500">Connection: {device.connectionType}</span>
+                      ) : null}
+                    </div>
+                    <DeleteDeviceButton deviceId={device.id} />
+                  </li>
+                );
+              })}
+            </ul>
+          ) : (
+            <p className="text-sm text-slate-600">
+              No devices yet. Use &quot;Edit testing info&quot; or &quot;Add device&quot; to add one.
+            </p>
+          )}
+        </CardSection>
+      </Card>
+
+      {/* Withdrawal */}
       <Card padding="none">
         <CardHeader>
           <CardTitle>Withdraw earnings</CardTitle>

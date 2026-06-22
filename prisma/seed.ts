@@ -3,7 +3,10 @@ import "dotenv/config";
 import {
   AccountStatus,
   AssignmentRole,
+  BugSeverity,
+  BugStatus,
   CampaignStage,
+  ReportType,
   Role,
   SoftwareType,
 } from "../src/generated/prisma";
@@ -213,6 +216,125 @@ async function main() {
       },
     }));
 
+  // ── Bug Reports ──────────────────────────────────────────────────────────
+  await prisma.bugReport.deleteMany({ where: { campaignId: campaign.id, groupKey: "seed" } });
+
+  await prisma.bugReport.createMany({
+    data: [
+      {
+        campaignId: campaign.id,
+        testerId: tester.id,
+        moderatorId: moderator.id,
+        groupKey: "seed",
+        title: "Coupon code not applied at checkout",
+        pageUrl: "https://demo.dztesters.online/checkout",
+        feature: "Checkout / Discounts",
+        errorType: "Functional",
+        description:
+          "When a valid coupon code is entered during checkout, the discount is not reflected in the order summary. The total remains unchanged.",
+        reproductionSteps:
+          "1. Add any item to cart.\n2. Proceed to checkout.\n3. Enter coupon code SUMMER20.\n4. Click 'Apply'.\n5. Observe that the order total does not change.",
+        expectedResult: "A 20% discount should be applied to the order total.",
+        actualResult: "Order total stays the same; no error message is shown.",
+        severity: BugSeverity.HIGH,
+        reportType: ReportType.STANDARD,
+        status: BugStatus.APPROVED,
+        moderationNotes: "Reproduced on Chrome and Firefox. Confirmed valid coupon logic is broken.",
+        moderatedAt: new Date(),
+        environment: {
+          device: "Samsung Galaxy A54",
+          os: "Android 14",
+          browser: "Chrome 124",
+          resolution: "1080x2400",
+          connection: "4G",
+        },
+        language: "fr",
+      },
+      {
+        campaignId: campaign.id,
+        testerId: certTester.id,
+        moderatorId: moderator.id,
+        groupKey: "seed",
+        title: "Payment fails with expired card — no user feedback",
+        pageUrl: "https://demo.dztesters.online/checkout/payment",
+        feature: "Checkout / Payment",
+        errorType: "UX / Error Handling",
+        description:
+          "Using an expired credit card during checkout causes a silent failure. The page reloads without any error message, leaving the user confused.",
+        reproductionSteps:
+          "1. Add an item to cart and proceed to checkout.\n2. Fill in expired card details (e.g., 12/22).\n3. Click 'Pay Now'.\n4. Observe the page behavior.",
+        expectedResult: "A clear error message should inform the user that the card is expired.",
+        actualResult: "Page reloads silently; cart remains full; no feedback given.",
+        severity: BugSeverity.CRITICAL,
+        reportType: ReportType.STANDARD,
+        status: BugStatus.APPROVED,
+        moderationNotes: "Critical UX issue. Reproduced consistently across all tested browsers.",
+        moderatedAt: new Date(),
+        environment: {
+          device: "Lenovo ThinkPad",
+          os: "Windows 11",
+          browser: "Firefox 125",
+          resolution: "1920x1080",
+          connection: "WiFi",
+        },
+        language: "fr",
+      },
+      {
+        campaignId: campaign.id,
+        testerId: tester.id,
+        groupKey: "seed",
+        title: "Account registration form accepts invalid email format",
+        pageUrl: "https://demo.dztesters.online/register",
+        feature: "Account Creation",
+        errorType: "Validation",
+        description:
+          "The registration form allows submission with a malformed email address (e.g., 'user@' or 'plaintext'). No client-side or server-side validation error is triggered.",
+        reproductionSteps:
+          "1. Navigate to /register.\n2. Enter 'test@' in the email field.\n3. Fill in the remaining fields with valid data.\n4. Click 'Register'.\n5. Observe that the form submits successfully.",
+        expectedResult: "Validation error: 'Please enter a valid email address.'",
+        actualResult: "Form submits and creates an account with an invalid email.",
+        severity: BugSeverity.MEDIUM,
+        reportType: ReportType.STANDARD,
+        status: BugStatus.SUBMITTED,
+        environment: {
+          device: "Samsung Galaxy A54",
+          os: "Android 14",
+          browser: "Chrome 124",
+          resolution: "1080x2400",
+          connection: "4G",
+        },
+        language: "fr",
+      },
+      {
+        campaignId: campaign.id,
+        testerId: certTester.id,
+        groupKey: "seed",
+        title: "Cart quantity update causes incorrect stock display",
+        pageUrl: "https://demo.dztesters.online/cart",
+        feature: "Cart",
+        errorType: "Data Integrity",
+        description:
+          "Updating item quantity in the cart via the '+'/'-' buttons updates the visual count but the stock indicator does not refresh accordingly, showing stale availability data.",
+        reproductionSteps:
+          "1. Add an item with limited stock (e.g., qty 3 available) to cart.\n2. Increase quantity to 3 using the '+' button.\n3. Observe the 'In stock' label — it still shows the original available quantity.",
+        expectedResult: "Stock indicator should update dynamically to reflect reserved quantity.",
+        actualResult: "Stock label remains unchanged after quantity update.",
+        severity: BugSeverity.LOW,
+        reportType: ReportType.STANDARD,
+        status: BugStatus.SUBMITTED,
+        environment: {
+          device: "Lenovo ThinkPad",
+          os: "Windows 11",
+          browser: "Edge 124",
+          resolution: "1920x1080",
+          connection: "WiFi",
+        },
+        language: "fr",
+      },
+    ],
+  });
+
+  // ── Audit Log ─────────────────────────────────────────────────────────────
   await prisma.auditLog.deleteMany({
     where: {
       action: "SEED_DATA_CREATED",

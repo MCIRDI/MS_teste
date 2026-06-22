@@ -46,14 +46,14 @@ export default async function TesterCampaignsPage() {
       <div className="grid gap-3 sm:grid-cols-2">
         <Link
           href="/tester/bugs/new"
-          className="bento-card group flex items-center gap-4 bg-gradient-to-br from-blue-600 to-indigo-600 p-5 text-white transition hover:shadow-lg hover:shadow-blue-600/25"
+          className="bento-card group flex items-center gap-4 p-5 transition hover:border-blue-200"
         >
-          <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-white/20 text-2xl backdrop-blur">
+          <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-blue-600 text-2xl text-white shadow-sm shadow-blue-600/30">
             +
           </span>
           <div>
-            <p className="font-semibold">{t("quickActions.submitBug")}</p>
-            <p className="mt-0.5 text-sm text-blue-100">{t("quickActions.submitBugDesc")}</p>
+            <p className="font-semibold text-slate-900">{t("quickActions.submitBug")}</p>
+            <p className="mt-0.5 text-sm text-blue-600">{t("quickActions.submitBugDesc")}</p>
           </div>
         </Link>
         <Link

@@ -226,6 +226,7 @@ export function CampaignForm() {
         </CardSection>
       </Card>
 
+      <div className="xl:sticky xl:top-6 xl:self-start">
       <Card padding="none" variant="muted">
         <CardHeader>
           <CardTitle>Pricing preview</CardTitle>
@@ -283,6 +284,7 @@ export function CampaignForm() {
         </div>
         </CardSection>
       </Card>
+      </div>
     </div>
   );
 }

@@ -152,10 +152,21 @@ export async function inviteCampaignParticipants(campaignId: string) {
     return;
   }
 
+  // Only invite for campaigns that are open for participation
+  if (!["ACTIVE", "TESTING", "PENDING_APPROVAL"].includes(campaign.stage)) {
+    return;
+  }
+
   const targetCountries = campaign.targetCountries;
   const selectedPlatforms = campaign.selectedPlatforms;
+
+  // Build sets of already-invited and already-assigned recipient+role pairs
   const invitationKeys = new Set(
-    campaign.invitations.map((invitation) => `${invitation.recipientId}:${invitation.assignmentRole}`),
+    campaign.invitations
+      .filter((inv) =>
+        inv.status === InvitationStatus.PENDING || inv.status === InvitationStatus.ACCEPTED,
+      )
+      .map((invitation) => `${invitation.recipientId}:${invitation.assignmentRole}`),
   );
   const assignmentKeys = new Set(
     campaign.assignments.map((assignment) => `${assignment.userId}:${assignment.assignmentRole}`),
@@ -252,6 +263,8 @@ export async function inviteCampaignParticipants(campaignId: string) {
         role: { in: [Role.TESTER, Role.CERT_TESTER] },
         accountStatus: AccountStatus.ACTIVE,
         country: targetCountries.length > 0 ? { in: targetCountries } : undefined,
+        // Must have at least one registered device
+        devices: { some: {} },
       },
       include: {
         devices: true,
@@ -284,11 +297,14 @@ export async function inviteCampaignParticipants(campaignId: string) {
           continue;
         }
 
-        if (assignmentKeys.has(`${tester.id}:${assignmentRole}`)) {
+        if (
+          invitationKeys.has(`${tester.id}:${assignmentRole}`) ||
+          assignmentKeys.has(`${tester.id}:${assignmentRole}`)
+        ) {
           continue;
         }
 
-        if (requirePlatformMatch) {
+        if (requirePlatformMatch && selectedPlatforms.length > 0) {
           const fits = (tester.devices ?? []).some((device) =>
             matchesPlatforms(device.deviceName, device.osVersion, selectedPlatforms),
           );
@@ -311,7 +327,9 @@ export async function inviteCampaignParticipants(campaignId: string) {
       return created;
     };
 
+    // First pass: only invite testers whose device matches the campaign platforms
     const invitedCrowdMatches = queueTesterInvites(false, crowdSlotsToFill, true);
+    // Second pass (fallback): platform-agnostic, but still requires a device and matching country
     const crowdFallback = Math.max(0, crowdSlotsToFill - invitedCrowdMatches);
     if (crowdFallback > 0) {
       queueTesterInvites(false, crowdFallback, false);

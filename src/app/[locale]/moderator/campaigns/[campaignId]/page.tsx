@@ -257,9 +257,14 @@ export default async function ModeratorCampaignPage({
         title={campaign.projectName}
         description="Inbox-style triage: handle pending items first, group similar reports, and use quick actions to keep the queue clean."
         action={
-          <Link href="/moderator/campaigns">
-            <Button variant="secondary">All campaigns</Button>
-          </Link>
+          <div className="flex gap-2">
+            <Link href={`/moderator/reports/${campaignId}`}>
+              <Button>Submit my report</Button>
+            </Link>
+            <Link href="/moderator/campaigns">
+              <Button variant="secondary">All campaigns</Button>
+            </Link>
+          </div>
         }
       />
       <Card padding="none">

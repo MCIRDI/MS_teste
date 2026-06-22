@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState, useEffect, useState } from "react";
+import { useTranslations } from "next-intl";
 
 import { signupAction, type ActionState } from "@/app/actions/auth";
 import { SubmitButton } from "@/components/forms/submit-button";
@@ -11,6 +12,7 @@ import { Select } from "@/components/ui/select";
 const initialState: ActionState = { success: false };
 
 export function SignupForm() {
+  const t = useTranslations("signup");
   const [state, formAction] = useActionState(signupAction, initialState);
   const [role, setRole] = useState<"CLIENT" | "TESTER">("CLIENT");
   const [deviceInfo, setDeviceInfo] = useState<DetectedDeviceInfo | null>(null);
@@ -29,27 +31,27 @@ export function SignupForm() {
       <div className="grid gap-4 md:grid-cols-2">
         <div className="space-y-2">
           <label className="text-sm font-medium text-stone-700" htmlFor="name">
-            Name
+            {t("fields.name")}
           </label>
-          <Input id="name" name="name" placeholder="Your full name" required />
+          <Input id="name" name="name" placeholder={t("fields.namePlaceholder")} required />
         </div>
         <div className="space-y-2">
           <label className="text-sm font-medium text-stone-700" htmlFor="email">
-            Email
+            {t("fields.email")}
           </label>
-          <Input id="email" name="email" type="email" placeholder="name@company.com" required />
+          <Input id="email" name="email" type="email" placeholder={t("fields.emailPlaceholder")} required />
         </div>
       </div>
       <div className="grid gap-4 md:grid-cols-2">
         <div className="space-y-2">
           <label className="text-sm font-medium text-stone-700" htmlFor="password">
-            Password
+            {t("fields.password")}
           </label>
           <Input id="password" name="password" type="password" required />
         </div>
         <div className="space-y-2">
           <label className="text-sm font-medium text-stone-700" htmlFor="role">
-            Account type
+            {t("fields.accountType")}
           </label>
           <Select
             id="role"
@@ -57,8 +59,8 @@ export function SignupForm() {
             value={role}
             onChange={(event) => setRole(event.currentTarget.value as "CLIENT" | "TESTER")}
           >
-            <option value="CLIENT">Client</option>
-            <option value="TESTER">Tester</option>
+            <option value="CLIENT">{t("fields.roleClient")}</option>
+            <option value="TESTER">{t("fields.roleTester")}</option>
           </Select>
         </div>
       </div>
@@ -66,7 +68,7 @@ export function SignupForm() {
         <>
           <div className="grid gap-4 md:grid-cols-2">
             <div className="space-y-2 md:col-span-2">
-              <label className="text-sm font-medium text-stone-700">Languages</label>
+              <label className="text-sm font-medium text-stone-700">{t("fields.languages")}</label>
               <div className="flex flex-wrap gap-3">
                 {(["ar", "fr", "en"] as const).map((lang) => (
                   <label key={lang} className="flex items-center gap-2 text-sm text-stone-700">
@@ -91,7 +93,7 @@ export function SignupForm() {
         </>
       ) : null}
       {state.message ? <p className="text-sm text-red-700">{state.message}</p> : null}
-      <SubmitButton label="Create account" pendingLabel="Creating account..." />
+      <SubmitButton label={t("submit")} pendingLabel={t("pending")} />
     </form>
   );
 }

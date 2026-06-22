@@ -6,6 +6,7 @@ import { useAppRealtime } from "@/components/app-realtime-provider";
 import { payCampaignAction } from "@/app/actions/payments";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardSection } from "@/components/ui/card";
+import { CampaignStageBadge } from "@/components/ui/campaign-stage-badge";
 import { SectionHeading } from "@/components/sections/section-heading";
 import { StatGrid } from "@/components/sections/stat-grid";
 import { useDisplayCurrency } from "@/hooks/use-display-currency";
@@ -154,7 +155,7 @@ export function ClientDashboardLive({ initialData }: { initialData: DashboardDat
                           </span>
                         ) : null}
                       </td>
-                      <td>{campaign.stage.replace(/_/g, " ")}</td>
+                      <td><CampaignStageBadge stage={campaign.stage} /></td>
                       <td>{campaign.testers}</td>
                       <td>{campaign.bugs}</td>
                       <td>{campaign.countries || "None"}</td>
@@ -162,6 +163,8 @@ export function ClientDashboardLive({ initialData }: { initialData: DashboardDat
                       <td>
                         {campaign.isPaid ? (
                           <span className="text-sm text-emerald-700">Paid</span>
+                        ) : ["COMPLETED", "ARCHIVED"].includes(campaign.stage) ? (
+                          <span className="text-sm text-slate-400">—</span>
                         ) : (
                           <form action={payCampaignAction}>
                             <input type="hidden" name="campaignId" value={campaign.id} />

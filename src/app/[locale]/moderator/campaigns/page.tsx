@@ -75,6 +75,9 @@ export default async function ModeratorCampaignsPage() {
                   <Link href={`/moderator/campaigns/${assignment.campaignId}`} className="shrink-0">
                     <Button>Open campaign</Button>
                   </Link>
+                  <Link href={`/moderator/reports/${assignment.campaignId}`} className="shrink-0">
+                    <Button variant="secondary">My report</Button>
+                  </Link>
                 </CardHeader>
                 <CardSection className="border-t border-slate-100/90 bg-white/40">
                   <CardMeta className="sm:grid-cols-5">

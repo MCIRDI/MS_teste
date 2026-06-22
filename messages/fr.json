@@ -125,7 +125,20 @@
     "cardTitle": "Créer votre compte",
     "cardDescription": "Choisissez un rôle et complétez les champs ci-dessous.",
     "alreadyRegistered": "Déjà inscrit ?",
-    "login": "Connexion"
+    "login": "Connexion",
+    "fields": {
+      "name": "Nom",
+      "namePlaceholder": "Votre nom complet",
+      "email": "E-mail",
+      "emailPlaceholder": "nom@entreprise.com",
+      "password": "Mot de passe",
+      "accountType": "Type de compte",
+      "languages": "Langues",
+      "roleClient": "Client",
+      "roleTester": "Testeur"
+    },
+    "submit": "Créer le compte",
+    "pending": "Création en cours..."
   },
   "shell": {
     "signedInAs": "Connecté en tant que",
@@ -186,7 +199,8 @@
     "adminUsers": "Gestion des utilisateurs",
     "adminDisputes": "Litiges escaladés",
     "adminCampaigns": "Suivi des campagnes",
-    "adminSettings": "Paramètres système"
+    "adminSettings": "Paramètres système",
+    "profile": "Mon profil"
   },
   "workspace": {
     "client": {

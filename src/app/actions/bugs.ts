@@ -165,9 +165,17 @@ export async function submitBugReportAction(
     },
   });
 
+  // Auto-transition: ACTIVE → BUG_REVIEW when the first bug is submitted.
+  await prisma.campaign.updateMany({
+    where: { id: parsed.data.campaignId, stage: "ACTIVE" },
+    data: { stage: "BUG_REVIEW" },
+  });
+
   revalidatePath("/tester/campaigns");
   revalidatePath("/moderator/review-queue");
   revalidatePath("/client/dashboard");
+  revalidatePath("/admin/campaigns");
+  revalidatePath("/manager/dashboard");
 
   await notifyDataChanged({
     roles: [Role.MODERATOR, Role.TEST_MANAGER, Role.ADMIN],

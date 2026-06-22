@@ -98,10 +98,15 @@ export default async function ManagerReportsPage({
           />
         </CardHeader>
         <CardSection className="border-t border-slate-100/90">
-          <form action={generateFinalReportAction}>
-            <input type="hidden" name="campaignId" value={selected.id} />
-            <Button type="submit">Generate &amp; publish PDF report</Button>
-          </form>
+          <div className="flex flex-wrap gap-3">
+            <Link href={`/manager/reports/compose/${selected.id}`}>
+              <Button>Compose &amp; generate PDF</Button>
+            </Link>
+            <form action={generateFinalReportAction}>
+              <input type="hidden" name="campaignId" value={selected.id} />
+              <Button type="submit" variant="secondary">Quick generate (no edit)</Button>
+            </form>
+          </div>
         </CardSection>
       </Card>
 

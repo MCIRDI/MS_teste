@@ -13,6 +13,7 @@ import {
   CardSection,
   CardTitle,
 } from "@/components/ui/card";
+import { CampaignStageBadge } from "@/components/ui/campaign-stage-badge";
 import { RealtimeRefresh } from "@/components/realtime-refresh";
 import { SectionHeading } from "@/components/sections/section-heading";
 import { StatGrid } from "@/components/sections/stat-grid";
@@ -78,7 +79,10 @@ export default async function ManagerDashboardPage() {
             data.campaigns.map((campaign) => (
               <Link key={campaign.id} href={`/manager/campaigns/${campaign.id}`} className="block">
                 <Card variant="muted" className="transition hover:ring-blue-200">
-                  <CardTitle className="text-base">{campaign.projectName}</CardTitle>
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <CardTitle className="text-base">{campaign.projectName}</CardTitle>
+                    <CampaignStageBadge stage={campaign.stage} />
+                  </div>
                   <CardMeta className="mt-4 text-xs sm:grid-cols-2 lg:grid-cols-3">
                     <CardMetaItem label="Moderators">
                       {campaign.assignments.filter((item) => item.assignmentRole === "MODERATOR").length}/
